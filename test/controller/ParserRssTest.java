@@ -2,17 +2,15 @@ package controller;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.MalformedURLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParserRssTest {
-    //@Test
+    @Test
     void articles_len_test() {
         try {
             assertEquals(15, new ParserRss().parse("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml").size());
-        } catch (MalformedURLException e) {
-            fail("Invalid URL");
+        } catch (Exception e) {
+            fail(e);
         }
     }
 
