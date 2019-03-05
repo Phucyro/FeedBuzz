@@ -10,12 +10,13 @@ public class Article {
     private String link;
     private String author;
     private String category;
+    private int days_to_save;
 
 
-    Article(){
+    public Article(){
     }
 
-    public Date get_published_date() {
+    private Date get_published_date() {
         return published_date;
     }
 
@@ -71,6 +72,10 @@ public class Article {
         this.category = category;
     }
 
+    private int get_days_to_save() {  return days_to_save;  }
+
+    void set_days_to_save(int days_to_save) { this.days_to_save = days_to_save; }
+
     public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author){
         published_date = _published_date;
         updated_date = _updated_date;
@@ -90,5 +95,11 @@ public class Article {
         res = res.concat("\nPublished: "+ published_date);
         res = res.concat("\nUpdated: "+ updated_date);
         return res;
+    }
+
+    boolean need_to_be_deleted(){
+        Date now = new Date();
+        Date delete_date = new Date(get_published_date().getTime() + get_days_to_save() * 24 * 60 * 60 * 1000);
+        return now.after(delete_date);
     }
 }
