@@ -8,7 +8,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.ViewSingleArticle">
     <Pane layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="572.0">
         <ScrollPane layoutX="14.0" layoutY="86.0" prefHeight="233.0" prefWidth="544.0">
-          <Text fx:id="article_text" strokeType="OUTSIDE" strokeWidth="0.0" text="c" wrappingWidth="480.0" />
+          <Text fx:id="article_text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="480.0" />
         </ScrollPane>
         <ImageView fitHeight="70.5" fitWidth="94.0" layoutX="15.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../pictures/Background_Presentation.jpg" />
