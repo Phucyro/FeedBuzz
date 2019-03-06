@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.ViewSingleArticle">
-    <Pane layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="572.0">
-        <ScrollPane layoutX="14.0" layoutY="86.0" prefHeight="233.0" prefWidth="544.0">
-          <Text fx:id="article_text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="480.0" />
-        </ScrollPane>
-        <ImageView fitHeight="70.5" fitWidth="94.0" layoutX="15.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="393.00010681152344" prefWidth="661.99977792969" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.ViewSingleArticle">
+  <GridPane alignment="CENTER" prefHeight="365.00010681152344" prefWidth="633.99977792969" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+    <children>
+      <ScrollPane prefHeight="122.0" prefWidth="633.999755859375" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+        <Text fx:id="article_text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="480.0" />
+      </ScrollPane>
+      <Label prefHeight="40.0" prefWidth="564.0" text="Tags:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="68.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <children>
+          <ImageView fitHeight="70.5" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../pictures/Background_Presentation.jpg" />
-        </ImageView>
-        <Button layoutX="492.0" layoutY="338.0" mnemonicParsing="false" text="Delete" />
-        <Label layoutX="15.0" layoutY="319.0" prefHeight="39.1328125" prefWidth="477.0" text="Tags:" />
-    </Pane>
+          </ImageView>
+          <Label fx:id="article_title" alignment="BOTTOM_LEFT" text="Ceci est un titre" textAlignment="LEFT">
+            <font>
+              <Font name="System Bold" size="13.0" />
+            </font>
+          </Label>
+        </children>
+      </HBox>
+    </children>
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="564.0" minWidth="10.0" prefWidth="564.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="70.0" />
+    </columnConstraints>
+    <rowConstraints>
+      <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="251.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+  </GridPane>
 </AnchorPane>
