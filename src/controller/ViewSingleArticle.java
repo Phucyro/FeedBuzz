@@ -14,9 +14,9 @@ import javafx.scene.text.Text;
 public class ViewSingleArticle extends Application{
     private Article article;
     @FXML
-    private Text article_text;
+    private Label article_label;
     @FXML
-    Label article_title;
+    private Label article_title;
 
 
     public ViewSingleArticle(){
@@ -46,7 +46,7 @@ public class ViewSingleArticle extends Application{
     }
 
     public void initialize(){
-        article_text.setText(article.get_description());
+        article_label.setText(article.get_description());
         article_title.setText(article.get_title());
     }
 }
