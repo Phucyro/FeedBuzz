@@ -11,36 +11,55 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 
 | Priorité/3 | N° | Description | Difficulté/3 | Risque/3 | Heures/? | Points |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| 1 | [1](#Histoire-A) | Histoire A | 7 | 2 | 49 | / |
-|   | 5 | Histoire D | 6 | 1 | 42 |  |
-| 2 | 2 | Histoire B | 5 | 1 | 40 |  |
-|   | 3 | Histoire F | 5 | 2 | 35 |  |
-| 3 | 4 | Histoire C | 5 | 3 | 50 | / |
-|   | 7 | Histoire E | 7 | 1 | 30 |  |
+| 1 | 1 | Visualisation des articles |  |  |  | 24 |
+|   | 3 | Récupération des articles à partir des sources extérieures |  |  |  | 30 |
+|   | 4 | Récupération des articles à partir de pages web |  |  |  | 34 |
+| 2 | 2 | Recherche et filtres sur les articles stockés localement |  |  |  | 24 |
+|   | 5 | Création d’un système de recommandation |  |  |  | 44 |
+|   | 7 | Intégrité des données |  |  |  | 16 |
+|   | 9 | Vérification de la fiabilité d’un article |  |  |  | 40 |
+|   |10 | Gestion des articles |  |  |  | 36 |
+|   |11 | Gestion de plusieurs utilisateurs |  |  |  | 20 |
+|   |12 | Support pour des médias différents (vidéo, images, etc.) |  |  |  | 40 |
+| 3 | 6 | Sécurité des données |  |  |  | 30 |
+|   | 8 | Intégration avec des réseaux sociaux |  |  |  | 54 |
+|   |13 | Continuous learning pour le système de recommandation |  |  |  | 50 |
+|   |14 | Filtrage des articles sur base de la rélevance géographique (sélection d’une région à l’aide d’une carte)|  |  |  | 60 |
+|   |15 | Section d’aide |  |  |  | 20 |
 
 ----------------------
 
 
 ## Description
 
-### Histoire A
+### Visualisation des articles
 
 **Instructions originales:**           
-- Afficher des "épingle" montrant la position des P.
-- Sélectionner une épingle pour afficher la date et l'heure où ce P. a été repéré.
-- Ajouter un P. sur la carte (via point-and-clic)
-- Possibilité de changer la date et heure de repérage du P. lors de l'ajout (ci-dessus)
-- Possibilité de Zoom/Dezoom
-- Les épingles les plus proches (qui se superposent) devront être fusionnée et n'indiquer que le
-nombre de P. représenté par cette épingle (fusionnée)
+- Fenêtre principale et affichage
+- Survol des articles
+- Fenêtre spécifique à l'article
 
-**Tâches en plus:**          
-- Système permettant de stoquer les P. sur la carte
+**Question:**       
 
-:question: **Question:**       
-- Que se passe t'il lorsqu'on clic sur une épingle "fusionnée" (qui regroupe d'autres épingle) ?
-    - On affiche tous les pokemons de cette épingle (possiblement grand :confused:)
-    - On ne fait rien (comme s'il n'y avait rien)
-    - On zoom pour montrer les différentes épingles
-    - Autre ?
+### Récupération des articles à partir des sources extérieures
 
+**Instructions originales:**           
+- Sauvegarde des fichiers selon les chiffres données par le GUI
+- Parsing du flux
+- Interface graphique pour choisir les sources et les dates limites/nombre d'articles à télécharger
+- Supprimer les articles
+
+**Instructions supplémentaires:**
+- Création de la base de donnée
+
+**Question:**       
+
+### Intégrité des données
+
+**Instructions originales:**       
+- Encryptage des données    
+- Faire le hash et la comparaison d'intégrité
+- Mettre à jour l'article si le hash n'est pas bon
+- Afficher si le fichier est intègre
+
+**Question:**       
