@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 public class ViewSingleArticle extends Application{
-    private Article article;
+    private controller.Article article;
     @FXML
     private Label article_label;
     @FXML

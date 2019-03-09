@@ -11,8 +11,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.event.EventHandler.*;
-import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -37,7 +35,7 @@ public class SourceMenu extends Application {
     @FXML
     private void set_number(ActionEvent event) {
         String input = ((MenuItem) event.getSource()).getText();
-        numberof_articles = new Integer(input);
+        numberof_articles = Integer.parseInt(input);
         sources_number.setText(input + " articles par source");
         event.consume();
     }
@@ -45,7 +43,7 @@ public class SourceMenu extends Application {
     @FXML
     private void set_lifespan(ActionEvent event){
         String input = ((MenuItem) event.getSource()).getText();
-        lifespanof_articles = new Integer(input);
+        lifespanof_articles = Integer.parseInt(input);
         sources_lifespan.setText("articles valables pendant "+ ((MenuItem) event.getSource()).getText() + " jour(s) ");
         event.consume();
     }
