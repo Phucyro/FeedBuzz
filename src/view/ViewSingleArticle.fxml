@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="393.00010681152344" prefWidth="661.99977792969" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.ViewSingleArticle">
   <GridPane alignment="CENTER" prefHeight="365.00010681152344" prefWidth="633.99977792969" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-    <ScrollPane fitToHeight="false" fitToWidth="true" pannable="false" prefHeight="122.0" prefWidth="633.999755859375" vbarPolicy="ALWAYS" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+    <ScrollPane fitToWidth="true" prefHeight="122.0" prefWidth="633.999755859375" vbarPolicy="ALWAYS" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
       <Label fx:id="article_label" text="Label" wrapText="true" />
     </ScrollPane>
-    <Label prefHeight="40.0" prefWidth="564.0" text="Tags:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <Button fx:id="delete_button" mnemonicParsing="false" prefHeight="40.0" prefWidth="68.0" text="Delete" GridPane.columnIndex="1" GridPane.rowIndex="2" />
     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <ImageView fitHeight="70.5" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../pictures/Background_Presentation.jpg" />
       </ImageView>
-      <Label fx:id="article_title" alignment="BOTTOM_LEFT" text="Ceci est un titre">
+      <Label fx:id="article_title" alignment="BOTTOM_LEFT" text="Ceci est un titre" wrapText="true">
         <font>
           <Font name="System Bold" size="13.0" />
         </font>
@@ -32,5 +32,10 @@
       <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="251.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
     </rowConstraints>
+    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+      <Circle fx:id="integrity_circle" fill="#00ff66" radius="8.5" stroke="BLACK" strokeType="INSIDE" />
+      <Label fx:id="integrity_label" style=" -fx-border-color:black; -fx-border-width: 0.1; -fx-border-style: solid;" text="Cet article est intègre." />
+      <Label fx:id="tags_label" text="Tags:" />
+    </HBox>
   </GridPane>
 </AnchorPane>
