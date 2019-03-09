@@ -1,11 +1,10 @@
 package controller;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -29,18 +28,24 @@ public class SourceMenu extends Application {
     private MenuButton number_button;
     @FXML
     private MenuButton lifespan_button;
+    @FXML
+    private Button apply_button;
+    @FXML
+    private Button cancel_button;
 
     private int numberof_articles = 5;
+    private int temporary_number ;
     private int lifespanof_articles = 5;
-    CheckBox[] checkboxes = new CheckBox[10];
-    Source[] all_sources = new Source[10];
+    private int temporary_lifespan ;
+    private CheckBox[] checkboxes = new CheckBox[10];
+    private Source[] all_sources = new Source[10];
     private List<Source> chosen_sources = new ArrayList<Source>();
 
 
     @FXML
     private void set_number(ActionEvent event) {
         String input = ((MenuItem) event.getSource()).getText();
-        numberof_articles = Integer.parseInt(input);
+        temporary_number = Integer.parseInt(input);
         number_button.setText(input + " articles par source");
         event.consume();
     }
@@ -48,11 +53,13 @@ public class SourceMenu extends Application {
     @FXML
     private void set_lifespan(ActionEvent event){
         String input = ((MenuItem) event.getSource()).getText();
-        lifespanof_articles = Integer.parseInt(input);
+        temporary_lifespan = Integer.parseInt(input);
         lifespan_button.setText("articles valables pendant "+ ((MenuItem) event.getSource()).getText() + " jour(s) ");
         event.consume();
     }
-    public List save_settings(ActionEvent event){
+    public void saveInformations(){
+        numberof_articles = temporary_number;
+        lifespanof_articles = temporary_lifespan;
         for (int i = 0; i < 10; i++){
             if (checkboxes[i].isSelected()){
                 if (!chosen_sources.contains(all_sources[i])){
@@ -65,13 +72,6 @@ public class SourceMenu extends Application {
                 }
             }
         }
-        return chosen_sources;
-    }
-
-    public void receiveinformations(Source[] sources,List<Source> selected_sources, int number, int lifespan){
-        chosen_sources = selected_sources;
-        numberof_articles = number;
-        lifespanof_articles = lifespan;
     }
     public void addSource(){
 
@@ -79,23 +79,23 @@ public class SourceMenu extends Application {
     public void removeSource(){
 
     }
-
-
+    public void cancel() {
+        Stage stage = (Stage) cancel_button.getScene().getWindow();
+        stage.close();
+    }
     public void start(Stage primaryStage)  {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/view/SourceMenu.fxml"));
         try {
-            AnchorPane conteneurPrincipal;
-            conteneurPrincipal = loader.load();
-            Scene scene = new Scene(conteneurPrincipal);
+            AnchorPane main_container;
+            main_container = loader.load();
+            Scene scene = new Scene(main_container);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
     public void setCheckboxes() {
         for (int i = 0; i < 10; i++) {
@@ -103,14 +103,8 @@ public class SourceMenu extends Application {
             checkboxes[i].setText(all_sources[i].getName());
             sources_list_vbox.getChildren().add(checkboxes[i]);
             if (chosen_sources.contains(all_sources[i])){
-            //if (Arrays.asList(chosen_sources).contains(all_sources[i])) {
                 checkboxes[i].setSelected(true);
             }
-            checkboxes[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                }
-            });
         }
     }
     public void setMenuButtons(){
@@ -134,7 +128,6 @@ public class SourceMenu extends Application {
         all_sources[7] = new Source("CNN");
         all_sources[8] = new Source("Buzzfeed");
         all_sources[9] = new Source("Science Daily");
-        System.out.println("all_sources " + all_sources);
     }
     public void createSelectedSources(){
         for (int i = 0; i<all_sources.length; i++){
