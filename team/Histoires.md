@@ -56,7 +56,8 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 
 ### Intégrité des données
 
-**Instructions originales:**           
+**Instructions originales:**       
+- Encryptage des données    
 - Faire le hash et la comparaison d'intégrité
 - Mettre à jour l'article si le hash n'est pas bon
 - Afficher si le fichier est intègre
