@@ -10,17 +10,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SourceMenu">
    <children>
-      <ScrollPane fx:id="source_panel" prefHeight="300.0" prefWidth="426.0">
+      <ScrollPane fx:id="source_panel" layoutY="60.0" prefHeight="280.0" prefWidth="457.0">
          <content>
             <VBox fx:id="sources_list_vbox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
          </content></ScrollPane>
-      <VBox layoutX="426.0" prefHeight="300.0" prefWidth="173.0" spacing="5.0">
+      <VBox layoutX="456.0" layoutY="60.0" prefHeight="280.0" prefWidth="150.0" spacing="5.0">
          <children>
             <Label prefHeight="60.0" prefWidth="170.0" text="  Nombre d'articles   (par source) :" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="15.0" />
                </font></Label>
-            <MenuButton fx:id="sources_number" alignment="CENTER" mnemonicParsing="false" onAction="#set_number" popupSide="RIGHT" prefHeight="49.0" prefWidth="173.0" text="5 articles" textAlignment="CENTER" wrapText="true">
+            <MenuButton fx:id="number_button" alignment="CENTER" mnemonicParsing="false" onAction="#set_number" popupSide="RIGHT" prefHeight="56.0" prefWidth="150.0" text="5 articles" textAlignment="CENTER" wrapText="true">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#set_number" text="1" />
                   <MenuItem mnemonicParsing="false" onAction="#set_number" text="2" />
@@ -33,7 +33,7 @@
                <font>
                   <Font size="15.0" />
                </font></Label>
-            <MenuButton fx:id="sources_lifespan" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" prefHeight="56.0" prefWidth="173.0" text="5 jours" textAlignment="CENTER" wrapText="true">
+            <MenuButton fx:id="lifespan_button" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" prefHeight="73.0" prefWidth="150.0" text="5 jours" textAlignment="CENTER" wrapText="true">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="1" />
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="2" />
@@ -44,12 +44,15 @@
             </MenuButton>
          </children>
       </VBox>
-      <HBox layoutY="300.0" prefHeight="100.0" prefWidth="606.0">
+      <HBox layoutY="340.0" prefHeight="60.0" prefWidth="606.0">
          <children>
-            <Button fx:id="cancel_button" mnemonicParsing="false" text="Annuler" />
-            <Button fx:id="okay_button" mnemonicParsing="false" text="Valider">
+            <Button fx:id="cancel_button" mnemonicParsing="false" onAction="#cancel" text="Annuler">
                <HBox.margin>
-                  <Insets left="400.0" />
+                  <Insets left="200.0" />
+               </HBox.margin></Button>
+            <Button fx:id="apply_button" mnemonicParsing="false" onAction="#saveInformations" text="Appliquer">
+               <HBox.margin>
+                  <Insets left="100.0" />
                </HBox.margin>
             </Button>
          </children>
@@ -57,5 +60,23 @@
             <Insets top="30.0" />
          </padding>
       </HBox>
+      <VBox prefHeight="60.0" prefWidth="457.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="461.0" text="Liste des sources :" underline="true" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="456.0" prefHeight="60.0" prefWidth="150.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="158.0" text="Paramètres de sauvegarde :" wrapText="true">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
