@@ -1,105 +1,37 @@
 package controller;
 
+import model.DatabaseArticle;
+
 import java.util.Date;
 
-public class Article {
-    private Date published_date;
-    private Date updated_date;
-    private String title;
-    private String description;
-    private String link;
-    private String author;
-    private String category;
-    private int days_to_save;
+public class Article extends DatabaseArticle {
 
-
-    public Article(){
-    }
-
-    private Date get_published_date() {
-        return published_date;
-    }
-
-    void set_published_date(Date published_date) {
-        this.published_date = published_date;
-    }
-
-    public Date get_updated_date() {
-        return updated_date;
-    }
-
-    void set_updated_date(Date updated_date) {
-        this.updated_date = updated_date;
-    }
-
-    public String get_title() {
-        return title;
-    }
-
-    void set_title(String title) {
-        this.title = title;
-    }
-
-    public String get_description() {
-        return description;
-    }
-
-    void set_description(String description) {
-        this.description = description;
-    }
-
-    public String get_link() {
-        return link;
-    }
-
-    void set_link(String link) {
-        this.link = link;
-    }
-
-    public String get_author() {
-        return author;
-    }
-
-    void set_author(String author) {
-        this.author = author;
-    }
-
-    public String get_category() {
-        return category;
-    }
-
-    void set_category(String category) {
-        this.category = category;
-    }
-
-    private int get_days_to_save() {  return days_to_save;  }
-
-    void set_days_to_save(int days_to_save) { this.days_to_save = days_to_save; }
+    public Article(){ super(); }
 
     public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author){
-        published_date = _published_date;
-        updated_date = _updated_date;
-        title = _title;
-        description = _description;
-        link = _link;
-        author = _author;
+        setPublished_date(_published_date);
+        setUpdated_date(_updated_date);
+        setTitle (_title);
+        setDescription(_description);
+        setLink(_link);
+        setAuthor(_author);
     }
 
     public String toString(){
         String res;
-        res = "Title: "+ title;
-        res = res.concat("\nAuthor: "+ author);
-        res = res.concat("\nDescription: "+ description);
-        res = res.concat("\nCategory: "+ category);
-        res = res.concat("\nLink: "+ link);
-        res = res.concat("\nPublished: "+ published_date);
-        res = res.concat("\nUpdated: "+ updated_date);
+        res = "Title: "+ getTitle();
+        res = res.concat("\nAuthor: "+ getAuthor());
+        res = res.concat("\nDescription: "+ getDescription());
+        res = res.concat("\nCategory: "+ getCategory());
+        res = res.concat("\nLink: "+ getLink());
+        res = res.concat("\nPublished: "+ getPublished_date());
+        res = res.concat("\nUpdated: "+ getUpdated_date());
         return res;
     }
 
     boolean need_to_be_deleted(){
         Date now = new Date();
-        Date delete_date = new Date(get_published_date().getTime() + get_days_to_save() * 24 * 60 * 60 * 1000);
+        Date delete_date = new Date(getPublished_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
         return now.after(delete_date);
     }
 }

@@ -90,9 +90,9 @@ public class ParserRss {
 
     private Article parse_article(Element entry) {
         Article article = new Article();
-        article.set_title(get_string(entry, "title"));
-        article.set_author(get_string(entry, "author"));
-        article.set_category(get_string(entry, "category"));
+        article.setTitle(get_string(entry, "title"));
+        article.setAuthor(get_string(entry, "author"));
+        article.setCategory(get_string(entry, "category"));
         if (atom) {
             parse_article_atom(entry, article);
         } else {
@@ -103,17 +103,17 @@ public class ParserRss {
     }
 
     private void parse_article_atom(Element entry, Article article) {
-        article.set_link(get_link_atom(entry));
-        article.set_description(get_string(entry, "content"));
-        article.set_published_date(get_date(get_string(entry, "published")));
-        article.set_updated_date(get_date(get_string(entry, "updated")));
+        article.setLink(get_link_atom(entry));
+        article.setDescription(get_string(entry, "content"));
+        article.setPublished_date(get_date(get_string(entry, "published")));
+        article.setUpdated_date(get_date(get_string(entry, "updated")));
     }
 
     private void parse_article_rss(Element item, Article article) {
-        article.set_link(get_string(item, "link"));
-        article.set_description(get_string(item, "description"));
-        article.set_published_date(get_date(get_string(item, "pubDate")));
-        article.set_updated_date(get_date(get_string(item, "lastBuildDate")));
+        article.setLink(get_string(item, "link"));
+        article.setDescription(get_string(item, "description"));
+        article.setPublished_date(get_date(get_string(item, "pubDate")));
+        article.setUpdated_date(get_date(get_string(item, "lastBuildDate")));
     }
 
     private Date get_date(String date) {

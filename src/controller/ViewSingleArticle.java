@@ -46,7 +46,7 @@ public class ViewSingleArticle extends Application{
     }
 
     public void initialize(){
-        article_label.setText(article.get_description());
-        article_title.setText(article.get_title());
+        article_label.setText(article.getDescription());
+        article_title.setText(article.getTitle());
     }
 }

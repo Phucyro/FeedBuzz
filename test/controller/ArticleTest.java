@@ -23,15 +23,15 @@ class ArticleTest {
 
     @Test
     void need_to_be_deleted_false() {
-        test_article.set_published_date(test_date);
-        test_article.set_days_to_save(3);
+        test_article.setPublished_date(test_date);
+        test_article.setDays_to_save(3);
         assertFalse(test_article.need_to_be_deleted());
     }
 
     @Test
     void need_to_be_deleted_true() {
-        test_article.set_published_date(test_date);
-        test_article.set_days_to_save(1);
+        test_article.setPublished_date(test_date);
+        test_article.setDays_to_save(1);
         assertTrue(test_article.need_to_be_deleted());
     }
 }
