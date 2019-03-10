@@ -98,7 +98,7 @@ public class ParserRss {
         } else {
             parse_article_rss(entry, article);
         }
-        System.out.println(article);
+        //System.out.println(article);
         return article;
     }
 

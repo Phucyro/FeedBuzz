@@ -68,8 +68,8 @@ public class ViewSingleArticle extends Application{
 
     public void initialize(){
         //Initialise le texte de l'article et son titre, et modifie la couleur du cercle d'integrite ainsi que le texte en fonction de l'integrite de l'article
-        article_label.setText(article.get_description());
-        article_title.setText(article.get_title());
+        article_label.setText(article.getDescription());
+        article_title.setText(article.getTitle());
         if (this.is_correct){
             integrity_label.setText("Cet article est intègre");
             //Rempli le cercle de couleur verte
