@@ -11,6 +11,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
@@ -46,13 +51,14 @@ public class ViewSingleArticle extends Application{
     private ImageView article_icon;
 
 
-    public ViewSingleArticle(){
+    public ViewSingleArticle(Article _article){
         article_manager = new ArticleManager("./test.db","abcdefgh");
         ParserRss my_parser = new ParserRss();
 
+        article = _article;
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
-        article = my_parser.parse("http://rss.cnn.com/rss/cnn_topstories.rss").get(0);
-        System.out.println(article);
+        //article = my_parser.parse("http://rss.cnn.com/rss/cnn_topstories.rss").get(0);
+        //System.out.println(article);
         set_integrity(true);
 
     }
@@ -89,7 +95,8 @@ public class ViewSingleArticle extends Application{
             integrity_label.setText("Non intègre!");
             integrity_circle.setFill(Color.RED);
         }
-        article_icon.setImage(new Image("/pictures/Background_Presentation.jpg"));
+        article_icon.setImage(new Image ("/pictures/Background_Presentation.jpg"));
+        //article_icon.setImage(new Image("https://l.facebook.com/l.php?u=https%3A%2F%2Fhelpx.adobe.com%2Fcontent%2Fdam%2Fhelp%2Fen%2Fstock%2Fhow-to%2Fvisual-reverse-image-search%2F_jcr_content%2Fmain-pars%2Fimage%2Fvisual-reverse-image-search-v2_1000x560.jpg%3Ffbclid%3DIwAR33t6CLYiXxRgEMz_ZO9L4oBa7X16W2z9-pC2QyIzKPl9eAJGB2bEAqwRA&h=AT13_ep7eqZ1l6RSGeZ2_nhGIdDy-tfZOcCcCuAPzcyQ6nFrZ-XunWzQEPK-7TndUHhu9Wh7P3HQuVCtEFkA-zoC9vyn8avJt6OoR0kLeZtyvXCv-0ZrJWi-mf9Lng"));
     }
 
     private boolean get_integrity() {
