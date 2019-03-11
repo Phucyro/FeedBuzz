@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.util.ArrayList;
+
 
 public class ArticleList extends Application{
 
@@ -37,12 +39,11 @@ public class ArticleList extends Application{
 
     public void initialize() {
         list_view_articles.setCellFactory(lv -> new ArticleCell());
-        Article test = new Article();
-        test.setLink("http://test.test");
-        test.setTitle("Article de test");
-        test.setDescription("Description de test");
-        showArticleImage(test);
-        showArticleImage(test);
+        ParserRss parser = new ParserRss();
+        ArrayList<Article> articles =  parser.parse("https://www.theverge.com/rss/index.xml");
+        for(Article item: articles) {
+            showArticleImage(item);
+        }
     }
 
     @FXML
