@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.web.WebView;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +22,7 @@ public class ArticleCell extends ListCell<Article> {
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
-    private final Label descriptionLabel = new Label();
+    private final WebView descriptionWebView = new WebView();
     private final Hyperlink linkLabel = new Hyperlink();
     private final AnchorPane content = new AnchorPane();
 
@@ -34,8 +35,8 @@ public class ArticleCell extends ListCell<Article> {
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         //
-        descriptionLabel.setStyle("-fx-font-size: 0.9em; -fx-font-style: italic; -fx-opacity: 0.5;");
-        GridPane.setConstraints(descriptionLabel, 2, 0, 1, 1);
+        descriptionWebView.setMaxSize(400, 100);
+        GridPane.setConstraints(descriptionWebView, 2, 0, 1, 1);
         //
         GridPane.setConstraints(linkLabel, 1, 1, 2, 1);
 
@@ -46,7 +47,7 @@ public class ArticleCell extends ListCell<Article> {
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
-        gridPane.getChildren().setAll(articleIcon, titleLabel, descriptionLabel, linkLabel);
+        gridPane.getChildren().setAll(articleIcon, titleLabel, descriptionWebView, linkLabel);
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
         AnchorPane.setBottomAnchor(gridPane, 0d);
@@ -63,7 +64,7 @@ public class ArticleCell extends ListCell<Article> {
         setContentDisplay(ContentDisplay.LEFT);
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
-            descriptionLabel.setText(item.getDescription());
+            descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {

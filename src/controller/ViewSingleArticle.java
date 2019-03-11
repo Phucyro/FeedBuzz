@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +30,6 @@ public class ViewSingleArticle extends Application{
     private ArticleManager article_manager;
 
     @FXML
-    //Label contenant le texte de l'article
-    private Label article_label;
-    @FXML
     //Label contenant le titre de l'article
     private Label article_title;
     @FXML
@@ -49,6 +47,8 @@ public class ViewSingleArticle extends Application{
     @FXML
     //Image de l'article
     private ImageView article_icon;
+    @FXML
+    private WebView article_view;
 
 
     public ViewSingleArticle(Article _article){
@@ -85,7 +85,11 @@ public class ViewSingleArticle extends Application{
 
     public void initialize(){
         //Initialise le texte de l'article et son titre, et modifie la couleur du cercle d'integrite ainsi que le texte en fonction de l'integrite de l'article
-        article_label.setText(article.getDescription());
+        try {
+            article_view.getEngine().loadContent(article.getDescription());
+        } catch (Exception e){
+            System.out.println(article.getDescription());
+        }
         article_title.setText(article.getTitle());
         if (this.is_correct){
             integrity_label.setText("Article intègre");
