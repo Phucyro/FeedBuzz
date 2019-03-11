@@ -29,7 +29,7 @@ public class ArticleCell extends ListCell<Article> {
         descriptionLabel.setStyle("-fx-font-size: 0.9em; -fx-font-style: italic; -fx-opacity: 0.5;");
         GridPane.setConstraints(descriptionLabel, 2, 0, 1, 1);
         //
-        GridPane.setConstraints(linkLabel, 1, 1);
+        GridPane.setConstraints(linkLabel, 1, 1, 2, 1);
 
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
