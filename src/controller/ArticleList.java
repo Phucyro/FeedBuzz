@@ -42,6 +42,7 @@ public class ArticleList extends Application{
         test.setTitle("Article de test");
         test.setDescription("Description de test");
         showArticleImage(test);
+        showArticleImage(test);
     }
 
     @FXML

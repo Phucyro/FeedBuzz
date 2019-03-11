@@ -1,7 +1,6 @@
 package model;
 
 import io.jsondb.InvalidJsonDbApiUsageException;
-import io.jsondb.JsonDBOperations;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
