@@ -51,4 +51,22 @@ public class ArticleList extends Application{
         list_view_articles.getItems().add(article);
         //image_test.setImage(image);
     }
+
+    @FXML
+    private void open_article_window(){
+        System.out.println("Ouverture de l'article");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewSingleArticle.fxml"));
+            ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
+            loader.setController(controller);
+            Parent root = (Parent) loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
