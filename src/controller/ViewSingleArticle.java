@@ -47,7 +47,7 @@ public class ViewSingleArticle extends Application{
 
 
     public ViewSingleArticle(){
-        //article_manager = new ArticleManager("/pictures");
+        article_manager = new ArticleManager("./test.db","abcdefgh");
         ParserRss my_parser = new ParserRss();
 
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
@@ -103,7 +103,7 @@ public class ViewSingleArticle extends Application{
     @FXML
     private void delete_button_pressed(){
         //Fonction appelee lorsque l'utilisateur appuie sur le bouton "delete"
-        //article_manager.delete_article(article);
+        article_manager.delete_article(article);
         System.out.println("Article supprime");
         //Ferme la page de l'article à la supression de celui_ci
         Stage stage = (Stage) delete_button.getScene().getWindow();
