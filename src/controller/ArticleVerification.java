@@ -17,9 +17,22 @@ public class ArticleVerification {
         source = source_url;
     }
 
+    public ArrayList<Article> get_articles_from_source(){
+        ParserRss parser = new ParserRss();
+        ArrayList<Article> articles = new ArrayList<>();
+        articles = parser.parse(source);
+        return articles;
+    }
+
+
+
     public static int hashCode(Object o) {
         return o != null ? o.hashCode() : 0;
     }
+
+
+
+
     public boolean is_equal(){
         Article a1 = article_to_verify;
         Article a2 = article_from_source;
@@ -35,19 +48,20 @@ public class ArticleVerification {
         else{
             return false;
         }
-
     }
+
+
 
     public void set_article(Article article){
         article_to_verify = article;
     }
 
+
+
     public boolean is_valid(){
         // verifie si l'article existe et est non modifié à partir de la source
-        System.out.println(source);
-        ParserRss parser = new ParserRss();
         ArrayList<Article> articles = new ArrayList<>();
-        articles = parser.parse(source);
+        articles = get_articles_from_source();
         boolean found = false;
         for(int i=0; i< articles.size(); i++){
             if(((article_to_verify.getTitle() == null && articles.get(i).getTitle() == null ) || (article_to_verify.getTitle() != null && articles.get(i).getTitle() != null )) && article_to_verify.getTitle().equals(articles.get(i).getTitle()) &&
@@ -67,9 +81,8 @@ public class ArticleVerification {
         exemple, les description des articles-> un des deux champs est null -> false  ,  les deux champs sont null -> false  ,  les deux champs sont non null et correspondent -> true
         false = pas de possibilité de corriger l'article avec le champs courant
         true = possibilité de corriger l'article à partir de la source grace a une correspondance des champs*/
-        ParserRss parser = new ParserRss();
         ArrayList<Article> articles = new ArrayList<>();
-        articles = parser.parse(source);
+        articles = get_articles_from_source();
 
         for(int i=0; i< articles.size(); i++){
             if(((article_to_verify.getLink() != null && articles.get(i).getLink() != null   )   &&   (   hashCode(article_to_verify.getLink()) == hashCode(articles.get(i).getLink()))) ||
@@ -83,6 +96,9 @@ public class ArticleVerification {
         return false;
     }
 
+
+
+
     public void correct_article(){
         if(is_correctable()){
             article_to_verify.setTitle(article_from_source.getTitle());
@@ -95,10 +111,11 @@ public class ArticleVerification {
         }
     }
 
+
+
     public Article get_article(){
         return article_to_verify;
     }
 
-    
 
 }

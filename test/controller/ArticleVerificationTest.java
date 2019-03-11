@@ -4,21 +4,23 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ArticleVerificationTest {
+
     private ArticleVerification test_verification;
     private Article false_article;
     private Article true_article;
     private Article repairable_article;
     private Article not_repairable_article;
 
-    private Article article;
     private String test_source;
 
     @BeforeAll
@@ -60,9 +62,6 @@ public class ArticleVerificationTest {
         repairable_article.setDescription(articles.get(0).getDescription());
 
 
-
-
-
         // on modifie le lien, la description, et le titre -> pas corrigible
         not_repairable_article = new Article();
         not_repairable_article.setAuthor(articles.get(0).getAuthor());
@@ -72,10 +71,6 @@ public class ArticleVerificationTest {
         not_repairable_article.setLink("link broken");
         not_repairable_article.setCategory("nocategory");
         not_repairable_article.setDescription("This article is broken");
-
-
-
-
 
     }
 
