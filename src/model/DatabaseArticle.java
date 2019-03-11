@@ -2,6 +2,7 @@ package model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
+import io.jsondb.annotation.Secret;
 
 import java.util.Date;
 
@@ -9,16 +10,20 @@ import java.util.Date;
 @Document(collection = "articles", schemaVersion= "1.0")
 public class DatabaseArticle {
     //This field will be used as a primary key, every POJO should have one
-    @Id
+    @Id @Secret
     private String link;
-
     private Date published_date;
     private Date updated_date;
+    @Secret
     private String title;
+    @Secret
     private String description;
+    @Secret
     private String author;
+    @Secret
     private String category;
     private int days_to_save;
+
 
     public DatabaseArticle() { }
 

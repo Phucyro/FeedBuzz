@@ -20,7 +20,7 @@ class ArticleManagerTest {
     void setup_before_article_manager() {
         this.dbpath = "./test.db";
 
-        this.manager = new ArticleManager(dbpath);
+        this.manager = new ArticleManager(dbpath, "test");
         this.article1 = new Article();
         this.article2 = new Article();
 
