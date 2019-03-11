@@ -1,12 +1,20 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class ArticleCell extends ListCell<Article> {
 
@@ -14,7 +22,7 @@ public class ArticleCell extends ListCell<Article> {
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
     private final Label descriptionLabel = new Label();
-    private final Label linkLabel = new Label();
+    private final Hyperlink linkLabel = new Hyperlink();
     private final AnchorPane content = new AnchorPane();
 
     public ArticleCell() {
@@ -58,6 +66,16 @@ public class ArticleCell extends ListCell<Article> {
             descriptionLabel.setText(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
+            linkLabel.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
+                    } catch (URISyntaxException | IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            });
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
