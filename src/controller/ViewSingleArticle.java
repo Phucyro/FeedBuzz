@@ -1,9 +1,12 @@
 package controller;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -11,11 +14,15 @@ import java.io.IOException;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
+import model.ArticleManager;
 
 public class ViewSingleArticle extends Application{
     private Article article;
     //Booleen qui sera a True ou False en fonction de l'integrite de l'article
     private boolean is_correct;
+    //Manager qui permettra de supprimer un article
+    private ArticleManager article_manager;
+
     @FXML
     //Label contenant le texte de l'article
     private Label article_label;
@@ -34,14 +41,17 @@ public class ViewSingleArticle extends Application{
     @FXML
     //Label contenant les tags de l'article
     private Label tags_label;
+    @FXML
+    //Image de l'article
+    private ImageView article_icon;
 
 
     public ViewSingleArticle(){
+        //article_manager = new ArticleManager("/pictures");
         ParserRss my_parser = new ParserRss();
 
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
         article = my_parser.parse("http://rss.cnn.com/rss/cnn_topstories.rss").get(0);
-        System.out.println("!!!!!!!!!!!!!!!!!!!");
         System.out.println(article);
         set_integrity(true);
 
@@ -71,14 +81,15 @@ public class ViewSingleArticle extends Application{
         article_label.setText(article.getDescription());
         article_title.setText(article.getTitle());
         if (this.is_correct){
-            integrity_label.setText("Cet article est intègre");
+            integrity_label.setText("Article intègre");
             //Rempli le cercle de couleur verte
             integrity_circle.setFill(Color.web("0x00FF66"));
         }
         else{
-            integrity_label.setText("Cet article n'est pas intègre!");
+            integrity_label.setText("Non intègre!");
             integrity_circle.setFill(Color.RED);
         }
+        article_icon.setImage(new Image("/pictures/Background_Presentation.jpg"));
     }
 
     private boolean get_integrity() {
@@ -87,5 +98,15 @@ public class ViewSingleArticle extends Application{
 
     private void set_integrity(boolean is_correct) {
         this.is_correct = is_correct;
+    }
+
+    @FXML
+    private void delete_button_pressed(){
+        //Fonction appelee lorsque l'utilisateur appuie sur le bouton "delete"
+        //article_manager.delete_article(article);
+        System.out.println("Article supprime");
+        //Ferme la page de l'article à la supression de celui_ci
+        Stage stage = (Stage) delete_button.getScene().getWindow();
+        stage.close();
     }
 }
