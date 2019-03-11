@@ -62,6 +62,7 @@ public class ViewSingleArticle extends Application{
         set_integrity(true);
 
     }
+
     //Fonction a supprimer quand une vraie classe main existe
     public static void main(String[] args) { launch(args); }
 
