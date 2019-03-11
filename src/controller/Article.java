@@ -1,20 +1,43 @@
 package controller;
 
+import javafx.scene.image.Image;
 import model.DatabaseArticle;
 
+import java.io.FileInputStream;
+import java.net.URL;
 import java.util.Date;
 
 public class Article extends DatabaseArticle {
 
     public Article(){ super(); }
 
-    public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author){
+    public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author) {
+        setPublished_date(_published_date);
+        setUpdated_date(_updated_date);
+        setTitle(_title);
+        setDescription(_description);
+        setLink(_link);
+        setAuthor(_author);
+    }
+
+    public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author,String _image_url, String _localisation, String _tags){
         setPublished_date(_published_date);
         setUpdated_date(_updated_date);
         setTitle (_title);
         setDescription(_description);
         setLink(_link);
         setAuthor(_author);
+
+        if (_image_url != null) {
+            Image image = new Image(_image_url);
+            setImage(image);
+        }
+        if (_localisation != null) {
+            setLocalisation(_localisation);
+        }
+        if (_tags != null){
+            setTags(_tags);
+        }
     }
 
     public String toString(){

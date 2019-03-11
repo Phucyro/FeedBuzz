@@ -3,6 +3,7 @@ package model;
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
 import io.jsondb.annotation.Secret;
+import javafx.scene.image.Image;
 
 import java.util.Date;
 
@@ -22,6 +23,12 @@ public class DatabaseArticle {
     private String author;
     @Secret
     private String category;
+    @Secret
+    private Image image;
+    @Secret
+    private String localisation;
+    @Secret
+    private String tags;
     private int days_to_save;
 
 
@@ -43,4 +50,10 @@ public class DatabaseArticle {
     public void setCategory(String category) { this.category = category; }
     public int getDays_to_save() { return days_to_save; }
     public void setDays_to_save(int days_to_save) { this.days_to_save = days_to_save; }
+    public Image getImage() { return image; }
+    public void setImage(Image image) { this.image = image; }
+    public String getLocalisation() { return localisation; }
+    public void setLocalisation(String localisation) { this.localisation = localisation; }
+    public String getTags() { return tags; }
+    public void setTags(String tags) { this.tags = tags; }
 }

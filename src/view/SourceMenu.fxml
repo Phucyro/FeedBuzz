@@ -1,39 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SourceMenu">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SourceMenu">
    <children>
-      <ScrollPane fx:id="source_panel" layoutY="60.0" prefHeight="280.0" prefWidth="457.0">
-         <content>
-            <VBox fx:id="sources_list_vbox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
-         </content></ScrollPane>
-      <VBox layoutX="456.0" layoutY="60.0" prefHeight="280.0" prefWidth="150.0" spacing="5.0">
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="ALWAYS" />
+        </rowConstraints>
          <children>
-            <Label prefHeight="60.0" prefWidth="170.0" text="  Nombre d'articles   (par source) :" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="cancel_button" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancel" text="Annuler" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin></Button>
+            <Button fx:id="apply_button" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#saveInformations" text="Appliquer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin></Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="362.0" text="Liste des sources :" underline="true" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="15.0" />
-               </font></Label>
-            <MenuButton fx:id="number_button" alignment="CENTER" mnemonicParsing="false" onAction="#set_number" popupSide="RIGHT" prefHeight="56.0" prefWidth="150.0" text="5 articles" textAlignment="CENTER" wrapText="true">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="1" />
-                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="2" />
-                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="5" />
-                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="10" />
-                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="20" />
-               </items>
-            </MenuButton>
-            <Label layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="170.0" text="  Durée de vie des articles (en jours) :" textAlignment="CENTER" wrapText="true">
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paramètres de sauvegarde :" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="15.0" />
-               </font></Label>
-            <MenuButton fx:id="lifespan_button" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" prefHeight="73.0" prefWidth="150.0" text="5 jours" textAlignment="CENTER" wrapText="true">
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Label>
+            <MenuButton fx:id="lifespan_button" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" popupSide="RIGHT" text="5 jours" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="1" />
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="2" />
@@ -41,42 +62,45 @@
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="10" />
                   <MenuItem mnemonicParsing="false" onAction="#set_lifespan" text="20" />
                </items>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
             </MenuButton>
-         </children>
-      </VBox>
-      <HBox layoutY="340.0" prefHeight="60.0" prefWidth="606.0">
-         <children>
-            <Button fx:id="cancel_button" mnemonicParsing="false" onAction="#cancel" text="Annuler">
-               <HBox.margin>
-                  <Insets left="200.0" />
-               </HBox.margin></Button>
-            <Button fx:id="apply_button" mnemonicParsing="false" onAction="#save_informations" text="Appliquer">
-               <HBox.margin>
-                  <Insets left="100.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets top="30.0" />
-         </padding>
-      </HBox>
-      <VBox prefHeight="60.0" prefWidth="457.0">
-         <children>
-            <Label alignment="CENTER" prefHeight="60.0" prefWidth="461.0" text="Liste des sources :" underline="true" wrapText="true">
+            <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="  Durée de vie des articles (en jours) :" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="18.0" />
+                  <Font size="15.0" />
                </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutX="456.0" prefHeight="60.0" prefWidth="150.0">
-         <children>
-            <Label alignment="CENTER" prefHeight="60.0" prefWidth="158.0" text="Paramètres de sauvegarde :" wrapText="true">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></Label>
+            <MenuButton fx:id="number_button" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#set_number" popupSide="RIGHT" text="5 articles" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="1" />
+                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="2" />
+                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="5" />
+                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="10" />
+                  <MenuItem mnemonicParsing="false" onAction="#set_number" text="20" />
+               </items>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </MenuButton>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="  Nombre d'articles   (par source) :" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="16.0" />
+                  <Font size="15.0" />
                </font>
-            </Label>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></Label>
+            <ScrollPane fx:id="source_panel" prefHeight="280.0" prefWidth="457.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="4">
+               <content>
+                  <VBox fx:id="sources_list_vbox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+               </content>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </ScrollPane>
          </children>
-      </VBox>
+      </GridPane>
    </children>
 </AnchorPane>

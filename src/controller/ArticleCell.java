@@ -20,23 +20,22 @@ public class ArticleCell extends ListCell<Article> {
     public ArticleCell() {
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
-        GridPane.setConstraints(articleIcon, 0, 0, 1, 3);
+        GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
         GridPane.setValignment(articleIcon, VPos.TOP);
         //
-        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1.5em;");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         //
         descriptionLabel.setStyle("-fx-font-size: 0.9em; -fx-font-style: italic; -fx-opacity: 0.5;");
-        GridPane.setConstraints(descriptionLabel, 2, 0);
+        GridPane.setConstraints(descriptionLabel, 2, 0, 1, 1);
         //
-        GridPane.setConstraints(linkLabel, 1, 1);
+        GridPane.setConstraints(linkLabel, 1, 1, 2, 1);
 
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.ALWAYS, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
         gridPane.getChildren().setAll(articleIcon, titleLabel, descriptionLabel, linkLabel);
