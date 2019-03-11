@@ -23,11 +23,11 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints minHeight="10.0" percentHeight="17.5" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="17.5" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="17.5" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" percentHeight="17.5" prefHeight="30.0" vgrow="ALWAYS" />
           <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="ALWAYS" />
-          <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <Button fx:id="cancel_button" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancel" text="Annuler" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
