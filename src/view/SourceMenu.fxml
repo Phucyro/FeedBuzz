@@ -50,7 +50,7 @@
                <HBox.margin>
                   <Insets left="200.0" />
                </HBox.margin></Button>
-            <Button fx:id="apply_button" mnemonicParsing="false" onAction="#saveInformations" text="Appliquer">
+            <Button fx:id="apply_button" mnemonicParsing="false" onAction="#save_informations" text="Appliquer">
                <HBox.margin>
                   <Insets left="100.0" />
                </HBox.margin>

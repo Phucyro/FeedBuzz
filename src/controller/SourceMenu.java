@@ -37,9 +37,9 @@ public class SourceMenu extends Application {
     private int temporary_number ;
     private int lifespanof_articles = 5;
     private int temporary_lifespan ;
-    private CheckBox[] checkboxes = new CheckBox[10];
-    private Source[] all_sources = new Source[10];
-    private List<Source> chosen_sources = new ArrayList<Source>();
+    private List<CheckBox> checkboxes = new ArrayList<>();
+    private List<Source> all_sources = new ArrayList<>();
+    private List<Source> chosen_sources = new ArrayList<>();
 
 
     @FXML
@@ -57,18 +57,18 @@ public class SourceMenu extends Application {
         lifespan_button.setText("articles valables pendant "+ ((MenuItem) event.getSource()).getText() + " jour(s) ");
         event.consume();
     }
-    public void saveInformations(){
+    public void save_informations(){
         numberof_articles = temporary_number;
         lifespanof_articles = temporary_lifespan;
         for (int i = 0; i < 10; i++){
-            if (checkboxes[i].isSelected()){
-                if (!chosen_sources.contains(all_sources[i])){
-                    chosen_sources.add(all_sources[i]);
+            if (checkboxes.get(i).isSelected()){
+                if (!chosen_sources.contains(all_sources.get(i))){
+                    chosen_sources.add(all_sources.get(i));
                 }
             }
-            else if (!checkboxes[i].isSelected()){
-                if (chosen_sources.contains(all_sources[i])){
-                    chosen_sources.remove(all_sources[i]);
+            else if (!checkboxes.get(i).isSelected()){
+                if (chosen_sources.contains(all_sources.get(i))){
+                    chosen_sources.remove(all_sources.get(i));
                 }
             }
         }
@@ -87,6 +87,7 @@ public class SourceMenu extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/view/SourceMenu.fxml"));
+        System.out.println(loader.getLocation());
         try {
             AnchorPane main_container;
             main_container = loader.load();
@@ -98,12 +99,12 @@ public class SourceMenu extends Application {
         }
     }
     public void setCheckboxes() {
-        for (int i = 0; i < 10; i++) {
-            checkboxes[i] = new CheckBox();
-            checkboxes[i].setText(all_sources[i].getName());
-            sources_list_vbox.getChildren().add(checkboxes[i]);
-            if (chosen_sources.contains(all_sources[i])){
-                checkboxes[i].setSelected(true);
+        for (int i = 0; i < all_sources.size(); i++) {
+            checkboxes.add(new CheckBox());
+            checkboxes.get(i).setText(all_sources.get(i).getName());
+            sources_list_vbox.getChildren().add(checkboxes.get(i));
+            if (chosen_sources.contains(all_sources.get(i))){
+                checkboxes.get(i).setSelected(true);
             }
         }
     }
@@ -118,23 +119,19 @@ public class SourceMenu extends Application {
         setMenuButtons();
     }
     public void createSources(){
-        all_sources[0] = new Source("Le Monde");
-        all_sources[1] = new Source("Le Soir");
-        all_sources[2] = new Source("7sur7");
-        all_sources[3] = new Source("l'avenir");
-        all_sources[4] = new Source("Vice");
-        all_sources[5] = new Source("The Huffington Post");
-        all_sources[6] = new Source("New York daily");
-        all_sources[7] = new Source("CNN");
-        all_sources[8] = new Source("Buzzfeed");
-        all_sources[9] = new Source("Science Daily");
+        all_sources.add(new Source("Le Monde", "https://www.lemonde.fr/rss/une.xml"));
+        all_sources.add(new Source("Le Soir", "https://www.lesoir.be/rss/81853/cible_principale_gratuit"));
+        all_sources.add(new Source("7sur7", "https://www.7sur7.be/rss.xml"));
+        all_sources.add(new Source("Vice", "https://www.vice.com/fr_be/rss"));
+        all_sources.add(new Source("The Huffington Post world news", "https://www.huffingtonpost.com/section/world-news/feed"));
+        all_sources.add(new Source("Buzzfeed", "https://www.buzzfeed.com/index.xml"));
+        all_sources.add(new Source("Science Daily", "https://www.sciencedaily.com/rss/all.xml"));
+        all_sources.add(new Source("The Verge", "https://www.theverge.com/rss/index.xml"));
+
     }
     public void createSelectedSources(){
-        for (int i = 0; i<all_sources.length; i++){
-            chosen_sources.add(all_sources[i]);
+        for (int i = 0; i<all_sources.size(); i++){
+            chosen_sources.add(all_sources.get(i));
         }
-        chosen_sources.remove(all_sources[4]);
-        chosen_sources.remove(all_sources[7]);
-        chosen_sources.remove(all_sources[2]);
     }
 }

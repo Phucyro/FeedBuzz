@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 public class Source {
     private String source_name ;
+    private String url;
     private boolean checked = true;
 
-    public Source(String name) {
+    public Source(String name, String _url) {
         source_name = name;
+        url = _url;
     }
 
     public boolean  isChecked() { return checked; }
@@ -19,7 +21,7 @@ public class Source {
         source_name = getName();
         ParserRss source = new ParserRss();
         ArticleManager articleManager = new ArticleManager("./test.db", "test");
-        ArrayList<Article> articles = source.parse(source_name);
+        ArrayList<Article> articles = source.parse(url);
         Article article_temp;
         for (int i = 0; i < number; i++) {
             article_temp = articles.get(i);
