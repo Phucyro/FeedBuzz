@@ -52,12 +52,15 @@ public class ArticleVerificationTest {
         // on modifie uniquement le titre, on peut recuperer l'article avec le lien ou la description
         repairable_article = new Article();
         repairable_article.setAuthor(articles.get(0).getAuthor());
-        repairable_article.setTitle(articles.get(0).getTitle());
+        repairable_article.setTitle("Modified Title");
         repairable_article.setPublished_date(articles.get(0).getPublished_date());
         repairable_article.setUpdated_date(articles.get(0).getUpdated_date());
         repairable_article.setLink(articles.get(0).getLink());
-        repairable_article.setCategory(articles.get(0).getCategory());
+        repairable_article.setCategory("nocategory");
         repairable_article.setDescription(articles.get(0).getDescription());
+
+
+
 
 
         // on modifie le lien, la description, et le titre -> pas corrigible
@@ -102,13 +105,27 @@ public class ArticleVerificationTest {
     @Test
     void correctable_True() {
         test_verification = new ArticleVerification(repairable_article, test_source);
-        repairable_article.setTitle("Modified Title");
         assertTrue(test_verification.is_correctable());
-        repairable_article.setLink("broken link");
-        assertTrue(test_verification.is_correctable());
-        repairable_article.setCategory("nocategory");
-        assertTrue(test_verification.is_correctable());
+
     }
+
+
+    @Test
+    void corrected_False() {
+        test_verification = new ArticleVerification(not_repairable_article, test_source);
+        test_verification.correct_article();
+        assertFalse(test_verification.is_valid());
+    }
+
+    @Test
+    void corrected_True() {
+        test_verification = new ArticleVerification(repairable_article, test_source);
+        test_verification.correct_article();
+        assertTrue(test_verification.is_valid());
+    }
+
+
+
 
 
 

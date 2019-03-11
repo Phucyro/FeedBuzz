@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 /*
     Prend en attribut un article et une url et fournit une méthode pour verifier la validité de l'article
+    Appeler les methodes dans cet ordre: pour verifier si un article est valide et à jour -> is_valid()
+    S'il n'est pas valide, appeler is_correctable, pour verifier s'il est corrigible, si ce n'est pas le cas, il faut se debarrasser de l'article
+    Si il est corrigible, on peut appeler correct_article, pour mettre à jour l'article
  */
 public class ArticleVerification {
     private Article article_to_verify;
@@ -73,11 +76,27 @@ public class ArticleVerification {
                     ((article_to_verify.getTitle() != null && articles.get(i).getTitle() != null ) && (  hashCode(article_to_verify.getTitle()) == hashCode(articles.get(i).getTitle())) &&
                     (article_to_verify.getAuthor() != null && articles.get(i).getAuthor() != null   ) && (  hashCode(article_to_verify.getAuthor()) == hashCode(articles.get(i).getAuthor()))) ||
                         ((article_to_verify.getDescription() != null && articles.get(i).getDescription() != null ) && (  hashCode(article_to_verify.getDescription()) == hashCode(articles.get(i).getDescription())))){
-
+                article_from_source = articles.get(i);
                 return true;
             }
         }
         return false;
+    }
+
+    public void correct_article(){
+        if(is_correctable()){
+            article_to_verify.setTitle(article_from_source.getTitle());
+            article_to_verify.setAuthor(article_from_source.getAuthor());
+            article_to_verify.setCategory(article_from_source.getCategory());
+            article_to_verify.setLink(article_from_source.getLink());
+            article_to_verify.setDescription(article_from_source.getDescription());
+            article_to_verify.setUpdated_date(article_from_source.getUpdated_date());
+            article_to_verify.setPublished_date(article_from_source.getPublished_date());
+        }
+    }
+
+    public Article get_article(){
+        return article_to_verify;
     }
 
     
