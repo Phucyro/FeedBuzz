@@ -7,11 +7,6 @@ import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 public class ArticleManager{
 
     private JsonDBTemplate jsonDBTemplate;
@@ -21,7 +16,7 @@ public class ArticleManager{
 
         try {
             String base64EncodedKey = CryptoUtil.generate128BitKey(password, password);
-            ICipher newCipher = newCipher = new DefaultAESCBCCipher(base64EncodedKey);
+            ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage, newCipher);
         } catch (Exception e){
             this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
