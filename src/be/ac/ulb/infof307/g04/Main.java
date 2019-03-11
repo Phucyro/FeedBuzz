@@ -1,10 +1,8 @@
 package be.ac.ulb.infof307.g04;
 
-import controller.Article;
-import controller.ArticleCell;
-import controller.ParserRss;
-import controller.ViewSingleArticle;
+import controller.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
-public class Main extends Application{
+public class Main extends Application {
 
     @FXML
     private ListView<Article> list_view_articles;
@@ -29,7 +27,7 @@ public class Main extends Application{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/ArticleList.fxml"));
         primaryStage.setTitle("Fenêtre principale");
 
@@ -44,8 +42,8 @@ public class Main extends Application{
     public void initialize() {
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         ParserRss parser = new ParserRss();
-        ArrayList<Article> articles =  parser.parse("https://www.theverge.com/rss/index.xml");
-        for(Article item: articles) {
+        ArrayList<Article> articles = parser.parse("https://www.theverge.com/rss/index.xml");
+        for (Article item : articles) {
             showArticleImage(item);
         }
     }
@@ -57,7 +55,7 @@ public class Main extends Application{
     }
 
     @FXML
-    private void open_article_window(){
+    private void open_article_window() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewSingleArticle.fxml"));
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
@@ -74,15 +72,29 @@ public class Main extends Application{
     }
 
     @FXML
-    private void copy_link_to_clipboard(){
-        try{
+    private void copy_link_to_clipboard() {
+        try {
             String myString = list_view_articles.getSelectionModel().getSelectedItem().getLink();
             StringSelection stringSelection = new StringSelection(myString);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Veuillez selectionner un article");
         }
     }
-}
+
+    public void open_source_window(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SourceMenu.fxml"));
+            SourceMenu controller = new SourceMenu();
+            loader.setController(controller);
+            Parent root = (Parent) loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+        }
+    }
+};
