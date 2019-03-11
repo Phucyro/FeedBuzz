@@ -41,6 +41,10 @@ public class SourceMenu extends Application {
     private List<Source> all_sources = new ArrayList<>();
     private List<Source> chosen_sources = new ArrayList<>();
 
+    public SourceMenu(){
+
+    }
+
 
     @FXML
     private void set_number(ActionEvent event) {
