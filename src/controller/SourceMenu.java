@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.glass.ui.View;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,13 +14,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import model.Source;
+import model.SourceModel;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class SourceMenu extends Application {
+
+    public SourceMenu() throws IOException {
+    }
 
     public static void main(String[] args) { launch(args); }
     @FXML
@@ -32,6 +40,8 @@ public class SourceMenu extends Application {
     private Button apply_button;
     @FXML
     private Button cancel_button;
+    @FXML
+    private Button ok_button;
 
     private int numberof_articles = 5;
     private int temporary_number ;
@@ -40,6 +50,8 @@ public class SourceMenu extends Application {
     private List<CheckBox> checkboxes = new ArrayList<>();
     private List<Source> all_sources = new ArrayList<>();
     private List<Source> chosen_sources = new ArrayList<>();
+    private SourceModel model = new SourceModel();
+    private List<String> chosen_numbers = new ArrayList<String>();
 
     public SourceMenu(){
 
@@ -50,7 +62,7 @@ public class SourceMenu extends Application {
     private void set_number(ActionEvent event) {
         String input = ((MenuItem) event.getSource()).getText();
         temporary_number = Integer.parseInt(input);
-        number_button.setText(input + " articles par source");
+        number_button.setText(input);
         event.consume();
     }
 
@@ -58,33 +70,76 @@ public class SourceMenu extends Application {
     private void set_lifespan(ActionEvent event){
         String input = ((MenuItem) event.getSource()).getText();
         temporary_lifespan = Integer.parseInt(input);
-        lifespan_button.setText("articles valables pendant "+ ((MenuItem) event.getSource()).getText() + " jour(s) ");
+        lifespan_button.setText(input);
         event.consume();
     }
-    public void save_informations(){
-        numberof_articles = temporary_number;
-        lifespanof_articles = temporary_lifespan;
-        for (int i = 0; i < 10; i++){
+
+    public void saveInformations() throws FileNotFoundException, UnsupportedEncodingException {
+        if (chosen_sources.size() != 0) {
+            chosen_sources.clear();
+            chosen_numbers.clear();
+        }
+        if (temporary_number != 0) {
+            numberof_articles = temporary_number;
+        }
+        if (temporary_lifespan != 0) {
+            lifespanof_articles = temporary_lifespan;
+        }
+        for (int i = 0; i < all_sources.size(); i++) {
             if (checkboxes.get(i).isSelected()){
-                if (!chosen_sources.contains(all_sources.get(i))){
+                if (!chosen_numbers.contains(i)) {
                     chosen_sources.add(all_sources.get(i));
+                    chosen_numbers.add(Integer.toString(i));
                 }
             }
             else if (!checkboxes.get(i).isSelected()){
-                if (chosen_sources.contains(all_sources.get(i))){
+                if (chosen_numbers.contains(i)) {
                     chosen_sources.remove(all_sources.get(i));
+                    chosen_numbers.remove(Integer.toString(i));
                 }
             }
         }
+        model.applySettings(numberof_articles, lifespanof_articles, chosen_numbers);
     }
+
+
     public void addSource(){
 
     }
     public void removeSource(){
 
     }
+
+    public void numbersToSources(List<String> numbers) {
+        if (numbers.size() == 0) {
+            System.out.println("here");
+            chosen_sources.addAll(all_sources);
+            chosen_numbers.add("0");
+            chosen_numbers.add("1");
+            chosen_numbers.add("2");
+            chosen_numbers.add("3");
+            chosen_numbers.add("4");
+            chosen_numbers.add("5");
+            chosen_numbers.add("6");
+            chosen_numbers.add("7");
+        } else {
+            for (int i = 0; i < all_sources.size(); i++) {
+                if (chosen_numbers.contains(Integer.toString(i))
+                        && !chosen_sources.contains((all_sources.get(i)))) {
+                    chosen_sources.add(all_sources.get((i)));
+                }
+            }
+        }
+    }
+
     public void cancel() {
-        Stage stage = (Stage) cancel_button.getScene().getWindow();
+        Stage stage = (Stage) ok_button.getScene().getWindow();
+        stage.close();
+    }
+
+    public void ok() throws FileNotFoundException, UnsupportedEncodingException {
+        saveInformations();
+        Stage stage = (Stage) ok_button.getScene().getWindow();
         stage.close();
     }
     public void start(Stage primaryStage)  {
@@ -107,18 +162,27 @@ public class SourceMenu extends Application {
             checkboxes.add(new CheckBox());
             checkboxes.get(i).setText(all_sources.get(i).getName());
             sources_list_vbox.getChildren().add(checkboxes.get(i));
-            if (chosen_sources.contains(all_sources.get(i))){
+            if (chosen_numbers.contains(Integer.toString(i))) {
                 checkboxes.get(i).setSelected(true);
+            } else {
+                checkboxes.get(i).setSelected(false);
             }
+            checkboxes.get(i).setPrefWidth(350.0);
+            checkboxes.get(i).setPrefHeight(30.0);
         }
     }
     public void setMenuButtons(){
-        number_button.setText(numberof_articles + " articles par source");
-        lifespan_button.setText("articles valables pendant " + lifespanof_articles +" jour(s)");
+        number_button.setText(String.valueOf(numberof_articles));
+        lifespan_button.setText(String.valueOf(lifespanof_articles));
     }
-    public void initialize() {
+
+    public void initialize() throws IOException {
         createSources();
-        createSelectedSources();
+        //createSelectedSources();
+        numberof_articles = model.get_articles_persource();
+        lifespanof_articles = model.get_articles_lifespan();
+        chosen_numbers = model.get_chosen_numbers();
+        numbersToSources(chosen_numbers);
         setCheckboxes();
         setMenuButtons();
     }
