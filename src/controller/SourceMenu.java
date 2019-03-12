@@ -53,6 +53,10 @@ public class SourceMenu extends Application {
     private SourceModel model = new SourceModel();
     private List<String> chosen_numbers = new ArrayList<String>();
 
+    public SourceMenu(){
+
+    }
+
 
     @FXML
     private void set_number(ActionEvent event) {
