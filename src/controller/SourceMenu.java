@@ -53,9 +53,6 @@ public class SourceMenu extends Application {
     private SourceModel model = new SourceModel();
     private List<String> chosen_numbers = new ArrayList<String>();
 
-    public SourceMenu(){
-
-    }
 
 
     @FXML
@@ -74,7 +71,7 @@ public class SourceMenu extends Application {
         event.consume();
     }
 
-    public void saveInformations() throws FileNotFoundException, UnsupportedEncodingException {
+    public void save_informations() throws FileNotFoundException, UnsupportedEncodingException {
         if (chosen_sources.size() != 0) {
             chosen_sources.clear();
             chosen_numbers.clear();
@@ -138,7 +135,7 @@ public class SourceMenu extends Application {
     }
 
     public void ok() throws FileNotFoundException, UnsupportedEncodingException {
-        saveInformations();
+        save_informations();
         Stage stage = (Stage) ok_button.getScene().getWindow();
         stage.close();
     }

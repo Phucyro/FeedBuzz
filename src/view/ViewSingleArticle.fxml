@@ -75,7 +75,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
                 </GridPane>
-            <WebView fx:id="article_view" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                <WebView fx:id="article_view" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             </children>
         </GridPane>
     </children>

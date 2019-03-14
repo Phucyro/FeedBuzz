@@ -2,12 +2,14 @@ package be.ac.ulb.infof307.g04;
 
 import controller.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
@@ -20,6 +22,9 @@ public class Main extends Application {
 
     @FXML
     private ListView<Article> list_view_articles;
+
+    @FXML
+    private MenuItem quit_button;
 
     public static void main(String[] args) {
 
@@ -41,6 +46,7 @@ public class Main extends Application {
     @FXML
     public void initialize() {
         list_view_articles.setCellFactory(lv -> new ArticleCell());
+        quit_button.setOnAction(e -> Platform.exit());
         ParserRss parser = new ParserRss();
         ArrayList<Article> articles = parser.parse("https://www.theverge.com/rss/index.xml");
         for (Article item : articles) {
@@ -67,7 +73,7 @@ public class Main extends Application {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            System.out.println("Veuillez selectionner un article");
+            System.out.println(e);
         }
     }
 
@@ -95,6 +101,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 };
