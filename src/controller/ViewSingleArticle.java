@@ -52,7 +52,7 @@ public class ViewSingleArticle extends Application{
 
 
     public ViewSingleArticle(Article _article){
-        article_manager = new ArticleManager("./test.db","abcdefgh");
+       // article_manager = new ArticleManager("./test.db","abcdefgh");
         ParserRss my_parser = new ParserRss();
 
         article = _article;

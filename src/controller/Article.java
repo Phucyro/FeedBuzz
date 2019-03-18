@@ -12,6 +12,7 @@ public class Article extends DatabaseArticle {
     public Article(){ super(); }
 
     public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author) {
+        super();
         setPublished_date(_published_date);
         setUpdated_date(_updated_date);
         setTitle(_title);
@@ -21,6 +22,7 @@ public class Article extends DatabaseArticle {
     }
 
     public Article(Date _published_date, Date _updated_date, String _title, String _description, String _link, String _author,String _image_url, String _localisation, String _tags){
+        super();
         setPublished_date(_published_date);
         setUpdated_date(_updated_date);
         setTitle (_title);
@@ -30,7 +32,7 @@ public class Article extends DatabaseArticle {
 
         if (_image_url != null) {
             Image image = new Image(_image_url);
-            setImage(image);
+            //setImage(image);
         }
         if (_localisation != null) {
             setLocalisation(_localisation);
@@ -38,6 +40,10 @@ public class Article extends DatabaseArticle {
         if (_tags != null){
             setTags(_tags);
         }
+    }
+
+    public Article(DatabaseArticle item) {
+        super(item);
     }
 
     public String toString(){
