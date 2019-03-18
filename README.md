@@ -12,17 +12,9 @@ TO DO: Informations sur la façon de compiler votre projet
 
 ## Démarrage 
 
-TO DO: Informations sur la façon d'éxecuter votre projet
+VM Options: --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
 
 # Configuration :
-
-## Serveur 
-
-TO DO: Informations sur la configuration du serveur
-
-## Client
-
-TO DO: Informations sur la configuration du client
 
 # Tests
 
