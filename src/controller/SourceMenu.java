@@ -74,11 +74,13 @@ public class SourceMenu extends Application {
         }
     }
 
+    @FXML
     public void cancel() {
         Stage stage = (Stage) cancel_button.getScene().getWindow();
         stage.close();
     }
 
+    @FXML
     public void ok() throws FileNotFoundException, UnsupportedEncodingException {
         //save_informations();
         Stage stage = (Stage) ok_button.getScene().getWindow();
