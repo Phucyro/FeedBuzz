@@ -60,15 +60,30 @@ class ArticleManagerTest {
     }
 
     @Test
-    void findArticle_null() {
+    void find_article_null() {
         assertNull(manager.findArticle(article1.getLink()));
     }
 
     @Test
-    void findArticle_ok() {
+    void find_article_ok() {
         manager.add_article(article1);
         manager.add_article(article2);
         assertEquals(manager.findArticle(article2.getLink()).getTitle(),article2.getTitle());
+    }
+
+    /*@Test
+    void load_all_articles_content(){
+        manager.add_article(article1);
+        manager.add_article(article2);
+        assertTrue(manager.load_all_articles().contains(article1) &&
+                manager.load_all_articles().contains(article2));
+    }*/
+
+    @Test
+    void load_articles_count(){
+        manager.add_article(article1);
+        manager.add_article(article2);
+        assertTrue(manager.load_articles().size() == 2);
     }
 
     void deleteDir(File file) {

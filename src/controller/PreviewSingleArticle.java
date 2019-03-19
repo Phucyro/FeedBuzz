@@ -22,7 +22,7 @@ public class PreviewSingleArticle extends Application {
     @FXML
     private Button show_article;
     @FXML
-    private Button open_linkl;
+    private Button open_link;
     @FXML
     private Button copy_link;
     @FXML

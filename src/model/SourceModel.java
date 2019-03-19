@@ -13,7 +13,7 @@ public class SourceModel implements Serializable {
     private Source[] sources = new Source[8];
     private int number_articles;
     private int lifespan_articles;
-    private List<Source> selected_sources = new ArrayList<Source>();
+    private List<Source> selected_sources = new ArrayList<>();
     private List<String> chosen_numbers = new ArrayList<>();
 
     public SourceModel() throws IOException {
@@ -32,8 +32,6 @@ public class SourceModel implements Serializable {
                     chosen_numbers.add(Character.toString((numbers.charAt(i))));
                 }
             }
-            System.out.println("retrieved" + chosen_numbers);
-            System.out.println(chosen_numbers.getClass());
         } else {
             number_articles = 5;
             lifespan_articles = 5;
@@ -76,14 +74,13 @@ public class SourceModel implements Serializable {
 
 
     public void applySettings(int number, int lifespan, List<String> numbers)
-            throws FileNotFoundException, UnsupportedEncodingException {
+            throws FileNotFoundException {
         number_articles = number;
         lifespan_articles = lifespan;
         chosen_numbers = numbers;
         PrintWriter writer = new PrintWriter("save_settings.txt");
         writer.println(number_articles);
         writer.println(lifespan_articles);
-        System.out.println(numbers);
         for (int i = 0; i < numbers.size(); i++) {
             writer.print(chosen_numbers.get(i));
         }

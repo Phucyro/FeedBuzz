@@ -5,13 +5,14 @@ import io.jsondb.annotation.Id;
 import io.jsondb.annotation.Secret;
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Document(collection = "articles", schemaVersion= "1.0")
-public class DatabaseArticle {
+public class DatabaseArticle implements Serializable {
     //This field will be used as a primary key, every POJO should have one
-    @Id @Secret
+    @Id
     private String link;
     private Date published_date;
     private Date updated_date;
@@ -23,8 +24,8 @@ public class DatabaseArticle {
     private String author;
     @Secret
     private String category;
-    @Secret
-    private Image image;
+
+    //private Image image;
     @Secret
     private String localisation;
     @Secret
@@ -33,6 +34,19 @@ public class DatabaseArticle {
 
 
     public DatabaseArticle() { }
+
+    public DatabaseArticle(DatabaseArticle item) {
+        this.setPublished_date(item.getPublished_date());
+        this.setUpdated_date(item.getUpdated_date());
+        this.setTitle(item.getTitle());
+        this.setDescription(item.getDescription());
+        this.setLink(item.getLink());
+        this.setAuthor(item.getAuthor());
+        this.setCategory(item.getCategory());
+        this.setDays_to_save(item.getDays_to_save());
+        this.setLocalisation(item.getLocalisation());
+        this.setTags(item.getTags());
+    }
 
     public Date getPublished_date() { return published_date; }
     public void setPublished_date(Date published_date) { this.published_date = published_date; }
@@ -50,8 +64,8 @@ public class DatabaseArticle {
     public void setCategory(String category) { this.category = category; }
     public int getDays_to_save() { return days_to_save; }
     public void setDays_to_save(int days_to_save) { this.days_to_save = days_to_save; }
-    public Image getImage() { return image; }
-    public void setImage(Image image) { this.image = image; }
+    //public Image getImage() { return image; }
+    //public void setImage(Image image) { this.image = image; }
     public String getLocalisation() { return localisation; }
     public void setLocalisation(String localisation) { this.localisation = localisation; }
     public String getTags() { return tags; }

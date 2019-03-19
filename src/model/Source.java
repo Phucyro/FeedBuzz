@@ -20,12 +20,12 @@ public class Source {
     public void download(int number,int lifespan){
         source_name = getName();
         ParserRss source = new ParserRss();
-        ArticleManager articleManager = new ArticleManager("./test.db", "test");
+        //ArticleManager articleManager = new ArticleManager("./test.db", "test");
         ArrayList<Article> articles = source.parse(url);
         Article article_temp;
         for (int i = 0; i < number; i++) {
             article_temp = articles.get(i);
-            articleManager.add_article(article_temp);
+            //articleManager.add_article(article_temp);
         }
 
     }
