@@ -14,7 +14,7 @@ public class SourceManager {
         String baseScanPackage = "model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
-        if (!this.jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
+        if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
             create_collection();
         }
     }
