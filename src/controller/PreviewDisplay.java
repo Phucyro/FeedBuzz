@@ -7,41 +7,41 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.IOException;
 
 
 public class PreviewDisplay{
 
-    //Fonction to preview an article. To update with actual article pane
-    public static void mouseOverArticle(GridPane articlePane, String resume) {
+    //Fonction to preview an article
+    public static void mouseOverArticle(GridPane articlePane, String summary) {
 
-        StackPane preview_pane = new StackPane();
-        preview_pane.setPrefSize(200, 200);
-        //stickyNotesPane.setStyle("-fx-background-color:  #20120F;");
+        //Pane that will contain the summary
+        StackPane previewPane = new StackPane();
+        previewPane.setPrefSize(250, 250);
 
-        TextArea summary = new TextArea(resume);
-        VBox vertical_layout = new VBox();
-        vertical_layout.setAlignment(Pos.CENTER);
+        //Layouts options
+        TextArea resume = new TextArea(summary);
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
 
-        summary.setWrapText(true);
-        summary.setEditable(false);
+        //Text area options
+        resume.setWrapText(true);
+        resume.setEditable(false);
 
-        vertical_layout.getChildren().addAll(summary);
-        preview_pane.getChildren().addAll(vertical_layout);
+        //Layout options
+        vBox.getChildren().addAll(resume);
+        previewPane.getChildren().addAll(vBox);
 
         Popup popup = new Popup();
-        popup.getContent().add(preview_pane);
+        popup.getContent().add(previewPane);
 
+        //Popup shows only when the mouse is over the article
         articlePane.hoverProperty().addListener((obs, oldVal, newValue) -> {
+
             if (newValue) {
-                Bounds bnds = articlePane.localToScreen(articlePane.getLayoutBounds());
-                double x = bnds.getMinX() - (preview_pane.getWidth() / 2) + (articlePane.getWidth() / 2);
-                double y = bnds.getMinY() - preview_pane.getHeight();
+                Bounds bounds = articlePane.localToScreen(articlePane.getLayoutBounds());
+                double x = bounds.getMinX() - (previewPane.getWidth() / 2) + (articlePane.getWidth() / 2);
+                double y = bounds.getMinY() - previewPane.getHeight();
                 popup.show(articlePane, x, y);
             } else {
                 popup.hide();
@@ -49,36 +49,6 @@ public class PreviewDisplay{
         });
     }
 
-    // Fonction qui permet de parser les brackets html et d'afficher un texte clean
-    public static String htmlToString(String texte)
-    {
-        return Jsoup.parse(texte).text();
-    }
-
-
-
-    // Fonction qui recupere l'url de la premiere image
-    public static String getFirstImage(String texte) throws IOException {
-
-        /**
-        Document document = Jsoup.connect(texte).get();
-
-        Elements element = document.select("img[src]");
-
-        String url_image = element.attr("src");
-         **/
-
-        String url_image = "";
-        Document doc = Jsoup.parse(texte);
-        Elements imgs = doc.getElementsByTag("img");
-
-        for (Element elem: imgs)
-        {
-            url_image = elem.absUrl("src");
-        }
-
-        return url_image;
-    }
 
 
 }

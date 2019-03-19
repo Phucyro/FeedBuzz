@@ -12,6 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URI;
@@ -70,30 +74,24 @@ public class ArticleCell extends ListCell<Article> {
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
 
-            System.out.println("START ARTICLE");
+            //Setup the preview popup over the article
+            String summaryText = htmlToPlain(item.getDescription());
+            PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
+            //Show the image icon
+            String imageUrl = null;
 
-
-            String preview = PreviewDisplay.htmlToString(item.getDescription());
-            PreviewDisplay.mouseOverArticle(gridPane, preview);
-
-
-
-            String image_url = null;
             try {
-                image_url = PreviewDisplay.getFirstImage(item.getDescription());
+
+                imageUrl = getIconUrl(item.getDescription());
+                Image icon = new Image(imageUrl);
+
+                articleIcon.setImage(icon);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            System.out.println("PREVIEW:");
-            System.out.println(item.getDescription());
-
-            System.out.println("IMAGE URL:");
-            System.out.println(image_url);
-
-            Image icon = new Image(image_url);
-            articleIcon.setImage(icon);
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -110,5 +108,33 @@ public class ArticleCell extends ListCell<Article> {
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
+    }
+
+    // Fonction to retrieve first icon url in html text
+    private String getIconUrl(String texte) throws IOException {
+
+        String imageUrl = null;
+        Document doc = Jsoup.parse(texte);
+        Elements imgs = doc.getElementsByTag("img");
+
+        boolean found = false;
+
+        for (Element elem: imgs)
+        {
+            if (!found)
+            {
+                imageUrl = elem.absUrl("src");
+
+                found = true;
+            }
+        }
+
+        return imageUrl;
+    }
+
+    // Fonction to get the plain text of a html string
+    private String htmlToPlain(String html)
+    {
+        return Jsoup.parse(html).text();
     }
 }
