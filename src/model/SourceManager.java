@@ -2,6 +2,9 @@ package model;
 
 import io.jsondb.JsonDBTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
@@ -16,6 +19,10 @@ public class SourceManager {
 
     private void create_collection() {
         jsonDBTemplate.createCollection(DatabaseSource.class);
+    }
+
+    public ArrayList<DatabaseSource> load_sources () {
+        return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
     public void download(int number,int lifespan){
