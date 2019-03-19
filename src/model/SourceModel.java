@@ -81,7 +81,6 @@ public class SourceModel implements Serializable {
         PrintWriter writer = new PrintWriter("save_settings.txt");
         writer.println(number_articles);
         writer.println(lifespan_articles);
-        System.out.println(numbers);
         for (int i = 0; i < numbers.size(); i++) {
             writer.print(chosen_numbers.get(i));
         }
