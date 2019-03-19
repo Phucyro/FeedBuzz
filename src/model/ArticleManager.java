@@ -23,6 +23,7 @@ public class ArticleManager{
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage, newCipher);
         } catch (Exception e){
+            System.out.println(e);
             this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
         }
 

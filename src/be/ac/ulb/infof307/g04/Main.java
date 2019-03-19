@@ -134,7 +134,7 @@ public class Main extends Application {
 
     @FXML
     public void open_source_window(ActionEvent actionEvent) {
-        try {
+        /*try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SourceMenu.fxml"));
             SourceMenu controller = new SourceMenu();
             loader.setController(controller);
@@ -146,7 +146,7 @@ public class Main extends Application {
 
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
     }
 
     @FXML

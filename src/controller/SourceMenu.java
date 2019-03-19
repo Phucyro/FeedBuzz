@@ -1,4 +1,4 @@
-package controller;
+/*package controller;
 
 import com.sun.glass.ui.View;
 import javafx.application.Application;
@@ -13,8 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import model.Source;
-import model.SourceModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,9 +46,9 @@ public class SourceMenu extends Application {
     private int lifespanof_articles = 5;
     private int temporary_lifespan ;
     private List<CheckBox> checkboxes = new ArrayList<>();
-    private List<Source> all_sources = new ArrayList<>();
-    private List<Source> chosen_sources = new ArrayList<>();
-    private SourceModel model = new SourceModel();
+    //private List<Source> all_sources = new ArrayList<>();
+    //private List<Source> chosen_sources = new ArrayList<>();
+    //private SourceModel model = new SourceModel();
     private List<String> chosen_numbers = new ArrayList<String>();
 
 
@@ -96,15 +94,7 @@ public class SourceMenu extends Application {
                 }
             }
         }
-        model.applySettings(numberof_articles, lifespanof_articles, chosen_numbers);
-    }
-
-
-    public void addSource(){
-
-    }
-    public void removeSource(){
-
+        //model.applySettings(numberof_articles, lifespanof_articles, chosen_numbers);
     }
 
     public void numbersToSources(List<String> numbers) {
@@ -157,7 +147,7 @@ public class SourceMenu extends Application {
     public void setCheckboxes() {
         for (int i = 0; i < all_sources.size(); i++) {
             checkboxes.add(new CheckBox());
-            checkboxes.get(i).setText(all_sources.get(i).getName());
+            checkboxes.get(i).setText(all_sources.get(i).getSource_name());
             sources_list_vbox.getChildren().add(checkboxes.get(i));
             if (chosen_numbers.contains(Integer.toString(i))) {
                 checkboxes.get(i).setSelected(true);
@@ -176,10 +166,10 @@ public class SourceMenu extends Application {
     public void initialize() throws IOException {
         createSources();
         //createSelectedSources();
-        numberof_articles = model.get_articles_persource();
+        /*numberof_articles = model.get_articles_persource();
         lifespanof_articles = model.get_articles_lifespan();
-        chosen_numbers = model.get_chosen_numbers();
-        numbersToSources(chosen_numbers);
+        chosen_numbers = model.get_chosen_numbers();*/
+        /*numbersToSources(chosen_numbers);
         setCheckboxes();
         setMenuButtons();
     }
@@ -199,4 +189,4 @@ public class SourceMenu extends Application {
             chosen_sources.add(all_sources.get(i));
         }
     }
-}
+}*/
