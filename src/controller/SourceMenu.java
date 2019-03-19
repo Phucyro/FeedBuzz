@@ -51,7 +51,7 @@ public class SourceMenu extends Application {
     private List<Source> all_sources = new ArrayList<>();
     private List<Source> chosen_sources = new ArrayList<>();
     private SourceModel model = new SourceModel();
-    private List<String> chosen_numbers = new ArrayList<String>();
+    private List<String> chosen_numbers = new ArrayList<>();
 
 
 
@@ -71,7 +71,7 @@ public class SourceMenu extends Application {
         event.consume();
     }
 
-    public void save_informations() throws FileNotFoundException, UnsupportedEncodingException {
+    private void saveInformations() throws FileNotFoundException, UnsupportedEncodingException {
         if (chosen_sources.size() != 0) {
             chosen_sources.clear();
             chosen_numbers.clear();
@@ -100,16 +100,9 @@ public class SourceMenu extends Application {
     }
 
 
-    public void addSource(){
 
-    }
-    public void removeSource(){
-
-    }
-
-    public void numbersToSources(List<String> numbers) {
+    private void numbersToSources(List<String> numbers) {
         if (numbers.size() == 0) {
-            System.out.println("here");
             chosen_sources.addAll(all_sources);
             chosen_numbers.add("0");
             chosen_numbers.add("1");
@@ -135,7 +128,7 @@ public class SourceMenu extends Application {
     }
 
     public void ok() throws FileNotFoundException, UnsupportedEncodingException {
-        save_informations();
+        saveInformations();
         Stage stage = (Stage) ok_button.getScene().getWindow();
         stage.close();
     }
@@ -154,7 +147,7 @@ public class SourceMenu extends Application {
             e.printStackTrace();
         }
     }
-    public void setCheckboxes() {
+    private void setCheckboxes() {
         for (int i = 0; i < all_sources.size(); i++) {
             checkboxes.add(new CheckBox());
             checkboxes.get(i).setText(all_sources.get(i).getName());
@@ -168,12 +161,12 @@ public class SourceMenu extends Application {
             checkboxes.get(i).setPrefHeight(30.0);
         }
     }
-    public void setMenuButtons(){
+    private void setMenuButtons(){
         number_button.setText(String.valueOf(numberof_articles));
         lifespan_button.setText(String.valueOf(lifespanof_articles));
     }
 
-    public void initialize() throws IOException {
+    public void initialize() {
         createSources();
         //createSelectedSources();
         numberof_articles = model.get_articles_persource();
@@ -183,7 +176,7 @@ public class SourceMenu extends Application {
         setCheckboxes();
         setMenuButtons();
     }
-    public void createSources(){
+    private void createSources(){
         all_sources.add(new Source("Le Monde", "https://www.lemonde.fr/rss/une.xml"));
         all_sources.add(new Source("Le Soir", "https://www.lesoir.be/rss/81853/cible_principale_gratuit"));
         all_sources.add(new Source("7sur7", "https://www.7sur7.be/rss.xml"));
@@ -193,10 +186,5 @@ public class SourceMenu extends Application {
         all_sources.add(new Source("Science Daily", "https://www.sciencedaily.com/rss/all.xml"));
         all_sources.add(new Source("The Verge", "https://www.theverge.com/rss/index.xml"));
 
-    }
-    public void createSelectedSources(){
-        for (int i = 0; i<all_sources.size(); i++){
-            chosen_sources.add(all_sources.get(i));
-        }
     }
 }
