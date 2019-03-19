@@ -8,6 +8,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+
 
 public class PreviewDisplay{
 
@@ -48,4 +54,31 @@ public class PreviewDisplay{
     {
         return Jsoup.parse(texte).text();
     }
+
+
+
+    // Fonction qui recupere l'url de la premiere image
+    public static String getFirstImage(String texte) throws IOException {
+
+        /**
+        Document document = Jsoup.connect(texte).get();
+
+        Elements element = document.select("img[src]");
+
+        String url_image = element.attr("src");
+         **/
+
+        String url_image = "";
+        Document doc = Jsoup.parse(texte);
+        Elements imgs = doc.getElementsByTag("img");
+
+        for (Element elem: imgs)
+        {
+            url_image = elem.absUrl("src");
+        }
+
+        return url_image;
+    }
+
+
 }

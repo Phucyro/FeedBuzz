@@ -8,6 +8,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
@@ -69,8 +70,30 @@ public class ArticleCell extends ListCell<Article> {
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
 
+            System.out.println("START ARTICLE");
+
+
+
             String preview = PreviewDisplay.htmlToString(item.getDescription());
-            PreviewDisplay.mouseOverArticle(gridPane, preview );
+            PreviewDisplay.mouseOverArticle(gridPane, preview);
+
+
+
+            String image_url = null;
+            try {
+                image_url = PreviewDisplay.getFirstImage(item.getDescription());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("PREVIEW:");
+            System.out.println(item.getDescription());
+
+            System.out.println("IMAGE URL:");
+            System.out.println(image_url);
+
+            Image icon = new Image(image_url);
+            articleIcon.setImage(icon);
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -82,6 +105,7 @@ public class ArticleCell extends ListCell<Article> {
                     }
                 }
             });
+            
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
