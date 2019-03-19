@@ -130,7 +130,7 @@ public class SourceMenu extends Application {
     }
 
     public void cancel() {
-        Stage stage = (Stage) ok_button.getScene().getWindow();
+        Stage stage = (Stage) cancel_button.getScene().getWindow();
         stage.close();
     }
 
