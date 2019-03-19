@@ -69,10 +69,7 @@ public class ArticleCell extends ListCell<Article> {
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
 
-            System.out.println("1");
-
             String preview = PreviewDisplay.htmlToString(item.getDescription());
-
             PreviewDisplay.mouseOverArticle(gridPane, preview );
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
