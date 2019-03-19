@@ -48,7 +48,7 @@ public class ArticleCell extends ListCell<Article> {
         gridPane.setHgap(6);
         gridPane.setVgap(6);
         gridPane.getChildren().setAll(articleIcon, titleLabel, linkLabel);
-        PreviewDisplay.mouseOverArticle(gridPane, titleLabel.getText(), "Description de l'article");
+
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
         AnchorPane.setBottomAnchor(gridPane, 0d);
@@ -68,6 +68,13 @@ public class ArticleCell extends ListCell<Article> {
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
+
+            System.out.println("1");
+
+            String preview = PreviewDisplay.htmlToString(item.getDescription());
+
+            PreviewDisplay.mouseOverArticle(gridPane, preview );
+
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {

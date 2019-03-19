@@ -1,26 +1,23 @@
 package controller;
 
-import javafx.application.Application;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import org.jsoup.Jsoup;
 
 public class PreviewDisplay{
 
-
     //Fonction to preview an article. To update with actual article pane
-    public static void mouseOverArticle(GridPane articlePane, String titre, String resume) {
+    public static void mouseOverArticle(GridPane articlePane, String resume) {
 
         StackPane preview_pane = new StackPane();
         preview_pane.setPrefSize(200, 200);
         //stickyNotesPane.setStyle("-fx-background-color:  #20120F;");
 
-        Label title = new Label(titre);
         TextArea summary = new TextArea(resume);
         VBox vertical_layout = new VBox();
         vertical_layout.setAlignment(Pos.CENTER);
@@ -28,7 +25,7 @@ public class PreviewDisplay{
         summary.setWrapText(true);
         summary.setEditable(false);
 
-        vertical_layout.getChildren().addAll(title, summary);
+        vertical_layout.getChildren().addAll(summary);
         preview_pane.getChildren().addAll(vertical_layout);
 
         Popup popup = new Popup();
@@ -44,5 +41,11 @@ public class PreviewDisplay{
                 popup.hide();
             }
         });
+    }
+
+    // Fonction qui permet de parser les brackets html et d'afficher un texte clean
+    public static String htmlToString(String texte)
+    {
+        return Jsoup.parse(texte).text();
     }
 }
