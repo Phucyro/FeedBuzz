@@ -31,7 +31,7 @@ public class Article extends DatabaseArticle {
         setAuthor(_author);
 
         if (_image_url != null) {
-            //Image image = new Image(_image_url);
+            Image image = new Image(_image_url);
             //setImage(image);
         }
         if (_localisation != null) {
@@ -58,9 +58,9 @@ public class Article extends DatabaseArticle {
         return res;
     }
 
-    public boolean need_to_be_deleted() {
+    boolean need_to_be_deleted(){
         Date now = new Date();
-        Date download_date = new Date(getDownload_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
-        return now.after(download_date);
+        Date delete_date = new Date(getPublished_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
+        return now.after(delete_date);
     }
 }

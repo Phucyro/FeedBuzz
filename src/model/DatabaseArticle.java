@@ -31,7 +31,6 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String tags;
     private int days_to_save;
-    private boolean deleted;
 
 
     public DatabaseArticle() { }
@@ -47,7 +46,6 @@ public class DatabaseArticle implements Serializable {
         this.setDays_to_save(item.getDays_to_save());
         this.setLocalisation(item.getLocalisation());
         this.setTags(item.getTags());
-        this.setDeleted(deleted);
     }
 
     public Date getPublished_date() { return published_date; }
@@ -72,12 +70,4 @@ public class DatabaseArticle implements Serializable {
     public void setLocalisation(String localisation) { this.localisation = localisation; }
     public String getTags() { return tags; }
     public void setTags(String tags) { this.tags = tags; }
-
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 }
