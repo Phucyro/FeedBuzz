@@ -18,6 +18,7 @@ public class PreviewDisplay{
         //Pane that will contain the summary
         StackPane previewPane = new StackPane();
         previewPane.setPrefSize(250, 250);
+        previewPane.setStyle("-fx-font-style: italic");
 
         //Layouts options
         TextArea resume = new TextArea(summary);
