@@ -11,6 +11,7 @@ public class DatabaseSource implements Serializable {
     private String url;
     private String source_name ;
     private boolean enabled;
+    private int number_to_download;
     private int lifeSpan_default;
     private String tag;
 
@@ -32,4 +33,6 @@ public class DatabaseSource implements Serializable {
     public void setLifeSpan_default(int lifeSpan_default) { this.lifeSpan_default = lifeSpan_default; }
     public String getTag() { return tag; }
     public void setTag(String tag) { this.tag = tag; }
+    public int getNumber_to_download() { return number_to_download; }
+    public void setNumber_to_download(int number_to_download) { this.number_to_download = number_to_download; }
 }

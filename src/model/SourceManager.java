@@ -36,6 +36,16 @@ public class SourceManager {
         }
     }
 
+    public boolean update_source(DatabaseSource source){
+        try{
+            jsonDBTemplate.upsert(source);
+            return true;
+        } catch (InvalidJsonDbApiUsageException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void download(int number,int lifespan){
         /*ParserRss source = new ParserRss();
         //ArticleManager articleManager = new ArticleManager("./test.db", "test");
