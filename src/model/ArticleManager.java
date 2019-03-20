@@ -30,17 +30,17 @@ public class ArticleManager{
             create_collection();
         }
         deleteExpired();
-
     }
 
     private void deleteExpired() {
         /* Fonction qui vérifie pour chaque article si sa durée de vie est dépassée
          * et qui le supprime de la database si tel est le cas */
-
-        ArrayList<Article> articles = load_articles();
-        for (Article article : articles) {
-            if (article.need_to_be_deleted()) {
-                delete_article(article);
+        if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
+            ArrayList<Article> articles = load_articles();
+            for (Article article : articles) {
+                if (article.need_to_be_deleted()) {
+                    delete_article(article);
+                }
             }
         }
     }
@@ -62,7 +62,7 @@ public class ArticleManager{
         try {
             DatabaseArticle to_replace = new DatabaseArticle();
             to_replace.setLink(article.getLink());
-            to_replace.setDeleted();
+            to_replace.setDeleted(true);
             this.jsonDBTemplate.remove(article, DatabaseArticle.class);
             this.jsonDBTemplate.insert(to_replace);
             return true;
@@ -95,8 +95,10 @@ public class ArticleManager{
     public ArrayList<Article> load_articles(String title_contains) {
         ArrayList<Article> result = new ArrayList<Article>();
         for (DatabaseArticle item : jsonDBTemplate.findAll(DatabaseArticle.class)) {
-            if (item.getTitle().toLowerCase().contains(title_contains.toLowerCase())) {
-                result.add(new Article(item));
+            if (!item.getDeleted()) {
+                if (item.getTitle().toLowerCase().contains(title_contains.toLowerCase())) {
+                    result.add(new Article(item));
+                }
             }
         }
         return (result);

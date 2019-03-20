@@ -117,7 +117,8 @@ public class ViewSingleArticle extends Application{
     }
 
     private void set_integrity(boolean is_correct) {
-        this.is_correct = is_correct;
+        ArticleVerification verif = new ArticleVerification(article, article.getSource_url());
+        this.is_correct = verif.is_valid();
     }
 
     @FXML
