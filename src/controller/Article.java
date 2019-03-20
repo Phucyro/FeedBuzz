@@ -58,7 +58,7 @@ public class Article extends DatabaseArticle {
         return res;
     }
 
-    boolean need_to_be_deleted(){
+    public boolean need_to_be_deleted() {
         Date now = new Date();
         Date delete_date = new Date(getPublished_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
         return now.after(delete_date);

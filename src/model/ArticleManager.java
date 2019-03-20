@@ -29,8 +29,22 @@ public class ArticleManager{
         if (!this.jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             create_collection();
         }
+        deleteExpired();
 
     }
+
+    private void deleteExpired() {
+        if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
+            ArrayList<Article> articles = load_articles();
+            for (Article article : articles) {
+                if (article.need_to_be_deleted()) {
+                    delete_article(article);
+                }
+            }
+        }
+
+    }
+
 
     public ArticleManager(String database_path) {
         this(database_path, "password");
@@ -42,26 +56,24 @@ public class ArticleManager{
     }
 
     public boolean delete_article(Article article) {
-        DatabaseArticle dbarticle = article;
         try {
-            this.jsonDBTemplate.remove(dbarticle, DatabaseArticle.class);
+            this.jsonDBTemplate.remove(article, DatabaseArticle.class);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
     }
 
-    public boolean add_article(Article article) {
-        DatabaseArticle dbArticle = article;
+    boolean add_article(Article article) {
         try {
-            jsonDBTemplate.insert(dbArticle);
+            jsonDBTemplate.insert(article);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
             return false;
         }
     }
 
-    public DatabaseArticle findArticle(String link){
+    DatabaseArticle findArticle(String link) {
         try {
             return jsonDBTemplate.findById(link, DatabaseArticle.class);
         } catch (Exception e) {
