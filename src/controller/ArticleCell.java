@@ -84,9 +84,12 @@ public class ArticleCell extends ListCell<Article> {
             try {
 
                 imageUrl = getIconUrl(item.getDescription());
-                Image icon = new Image(imageUrl);
 
-                articleIcon.setImage(icon);
+                if (imageUrl != null)
+                {
+                    Image icon = new Image(imageUrl);
+                    articleIcon.setImage(icon);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
