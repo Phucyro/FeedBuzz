@@ -20,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ArticleManager;
 import model.DatabaseArticle;
-
 import java.util.Date;
 
 
@@ -94,15 +93,12 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
-        Date now = new Date();
-        Date test_date = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
-        Date test_date2 = new Date(now.getTime());
-
         display_articles(article_manager.load_articles());
     }
 
     @FXML
     public void display_articles(ArrayList<Article> articles) {
+        // La fonction raffraîchit la fenêtre principale (articles supprimés/ rajoutés)
         list_view_articles.getItems().clear();
         for (Article item : articles) {
             list_view_articles.getItems().add(item);

@@ -34,16 +34,17 @@ public class ArticleManager{
     }
 
     private void deleteExpired() {
-        if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
-            ArrayList<Article> articles = load_articles();
-            for (Article article : articles) {
-                if (article.need_to_be_deleted()) {
-                    delete_article(article);
-                }
+        /* Fonction qui vérifie pour chaque article si sa durée de vie est dépassée
+         * et qui le supprime de la database si tel est le cas */
+
+        ArrayList<Article> articles = load_articles();
+        for (Article article : articles) {
+            if (article.need_to_be_deleted()) {
+                delete_article(article);
             }
         }
-
     }
+
 
 
     public ArticleManager(String database_path) {
@@ -56,15 +57,21 @@ public class ArticleManager{
     }
 
     public boolean delete_article(Article article) {
+        /* Pour chaque article supprimé on garde uniquement son url qui sert de clé primaire.
+         * Ainsi, les articles supprimés ne seront pas retéléchargés dans la DB*/
         try {
+            DatabaseArticle to_replace = new DatabaseArticle();
+            to_replace.setLink(article.getLink());
+            to_replace.setDeleted();
             this.jsonDBTemplate.remove(article, DatabaseArticle.class);
+            this.jsonDBTemplate.insert(to_replace);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
     }
 
-    boolean add_article(Article article) {
+    public boolean add_article(Article article) {
         try {
             jsonDBTemplate.insert(article);
             return true;
