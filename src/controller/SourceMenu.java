@@ -66,9 +66,8 @@ public class SourceMenu extends Application {
 
     @FXML
     public void confirm(){
-        System.out.println("------------------");
         ObservableList<DatabaseSource> items_list = list_view_sources.getItems();
-        System.out.println(items_list);
+        //System.out.println(items_list);
         for (int i = 0; i < items_list.size(); i++) {
             source_manager.update_source(items_list.get(i));
         }

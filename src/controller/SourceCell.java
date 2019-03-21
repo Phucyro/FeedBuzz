@@ -27,6 +27,9 @@ public class SourceCell extends ListCell<DatabaseSource>{
     public SourceCell() {
         //
         title_label.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
+        source_lifespan.setMaxWidth(Double.MAX_VALUE);
+        source_number_of_articles.setMaxWidth(Double.MAX_VALUE);
+        source_tag.setMaxWidth(Double.MAX_VALUE);
         GridPane.setConstraints(title_label, 1, 0);
         GridPane.setConstraints(url_label, 2, 0);
         GridPane.setConstraints(source_enabled, 0, 0);
@@ -35,12 +38,16 @@ public class SourceCell extends ListCell<DatabaseSource>{
         GridPane.setConstraints(source_tag, 5, 0);
 
 
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
+        ColumnConstraints checkbox_constraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        checkbox_constraint.setPercentWidth(5);
+        ColumnConstraints default_constraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        default_constraint.setPercentWidth(19);
+        gridPane.getColumnConstraints().add(checkbox_constraint);
+        gridPane.getColumnConstraints().add(default_constraint);
+        gridPane.getColumnConstraints().add(default_constraint);
+        gridPane.getColumnConstraints().add(default_constraint);
+        gridPane.getColumnConstraints().add(default_constraint);
+        gridPane.getColumnConstraints().add(default_constraint);
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
@@ -71,7 +78,7 @@ public class SourceCell extends ListCell<DatabaseSource>{
             title_label.setText(item.getSource_name());
             url_label.setText(item.getUrl());
             source_enabled.setSelected(item.isEnabled());
-            System.out.println(item.getSource_name());
+            //System.out.println(item.getSource_name());
             //System.out.println(item.getLifeSpan_default());
             SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumber_to_download());
             source_number_of_articles.setValueFactory(valueFactoryNumber);
