@@ -63,10 +63,10 @@ public class SourceCell extends ListCell<DatabaseSource>{
                 item.setEnabled(source_enabled.isSelected()));
         //Listener qui reagit quand la valeur du spinner de gauche, qui definit le nombre d'articles a telecharger est modifiee
         source_number_of_articles.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setNumber_to_download(source_number_of_articles.getValue()));//System.out.println("New value: "+newValue));
+                item.setNumber_to_download(source_number_of_articles.getValue()));
         //Listener qui reagit quand la valeur du spinner de droite, qui definit la duree de vie des articles est modifiee
         source_lifespan.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setLifeSpan_default(source_lifespan.getValue()));//System.out.println("New value: "+newValue));
+                item.setLifeSpan_default(source_lifespan.getValue()));
 
     }
 
