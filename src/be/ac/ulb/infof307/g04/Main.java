@@ -145,7 +145,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
