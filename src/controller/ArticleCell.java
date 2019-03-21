@@ -75,7 +75,10 @@ public class ArticleCell extends ListCell<Article> {
             linkLabel.setText(item.getLink());
 
             //Setup the preview popup over the article
-            String summaryText = htmlToPlain(item.getDescription());
+            String summaryText = "";
+            if (item.getDescription() != null) {
+                htmlToPlain(item.getDescription());
+            }
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
             //Show the image icon
@@ -83,7 +86,10 @@ public class ArticleCell extends ListCell<Article> {
 
             try {
 
-                imageUrl = getIconUrl(item.getDescription());
+                imageUrl = null;
+                if (item.getDescription() != null) {
+                    getIconUrl(item.getDescription());
+                }
 
                 if (imageUrl != null)
                 {
