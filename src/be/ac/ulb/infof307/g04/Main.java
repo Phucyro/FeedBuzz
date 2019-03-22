@@ -19,6 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ArticleManager;
+import model.DatabaseSource;
+import model.SourceManager;
 
 
 import java.awt.*;
@@ -91,7 +93,15 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
-
+        DatabaseSource database_source = new DatabaseSource();
+        database_source.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
+        database_source.setEnabled(true);
+        database_source.setLifeSpan_default(2);
+        database_source.setNumber_to_download(5);
+        database_source.setSource_name("Reddit");
+        SourceManager source = new SourceManager("./article_db");
+        source.add_source(database_source);
+        source.download();
         display_articles(article_manager.load_articles());
     }
 
