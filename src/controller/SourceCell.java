@@ -58,12 +58,15 @@ public class SourceCell extends ListCell<DatabaseSource>{
         AnchorPane.setRightAnchor(gridPane, 0d);
         content.getChildren().add(gridPane);
 
+        //Listener qui reagit quand la valeur de la checkbox de selection des sources est modifie
         source_enabled.selectedProperty().addListener((obs, oldValue, newValue) ->
-                item.setEnabled(source_enabled.isSelected()));//System.out.println(source_enabled.isSelected()));
+                item.setEnabled(source_enabled.isSelected()));
+        //Listener qui reagit quand la valeur du spinner de gauche, qui definit le nombre d'articles a telecharger est modifiee
         source_number_of_articles.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setNumber_to_download(source_number_of_articles.getValue()));//System.out.println("New value: "+newValue));
+                item.setNumber_to_download(source_number_of_articles.getValue()));
+        //Listener qui reagit quand la valeur du spinner de droite, qui definit la duree de vie des articles est modifiee
         source_lifespan.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setLifeSpan_default(source_lifespan.getValue()));//System.out.println("New value: "+newValue));
+                item.setLifeSpan_default(source_lifespan.getValue()));
 
     }
 
