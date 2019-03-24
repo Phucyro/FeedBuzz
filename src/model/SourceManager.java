@@ -47,18 +47,14 @@ public class SourceManager {
         }
     }
 
-    public void download() {
+    public void download(ArticleManager articleManager) {
         ParserRss source_parser = new ParserRss();
-        ArticleManager articleManager = new ArticleManager("articles.json", "password");
         ArrayList<DatabaseSource> sources = load_sources();
-        System.out.println("HEY");
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                System.out.println("HO");
                 ArrayList<Article> articles = source_parser.parse(source.getUrl());
                 for (int i = 0; i < source.getNumber_to_download(); i++) {
                     Article article_to_save = articles.get(i);
-                    System.out.println(article_to_save);
                     article_to_save.setDays_to_save(source.getLifeSpan_default());
                     articleManager.add_article(article_to_save);
                 }

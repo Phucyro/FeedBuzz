@@ -41,6 +41,7 @@ public class Main extends Application {
     private  GridPane grid_pane;
 
     private static ArticleManager article_manager;
+    private static SourceManager source;
 
     private ToolBar search_bar;
     private Button close_search_button;
@@ -49,6 +50,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         article_manager = new ArticleManager("./article_db", "password");
+        source = new SourceManager("./article_db");
         launch(args);
     }
 
@@ -93,15 +95,16 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
+
+        //TO DELETE
         DatabaseSource database_source = new DatabaseSource();
         database_source.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
         database_source.setEnabled(true);
-        database_source.setLifeSpan_default(2);
         database_source.setNumber_to_download(5);
-        database_source.setSource_name("Reddit");
-        SourceManager source = new SourceManager("./article_db");
         source.add_source(database_source);
-        source.download();
+
+
+        source.download(article_manager);
         display_articles(article_manager.load_articles());
     }
 
