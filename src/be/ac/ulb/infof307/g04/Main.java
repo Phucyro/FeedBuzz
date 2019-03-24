@@ -19,6 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ArticleManager;
+import model.DatabaseArticle;
+import java.util.Date;
 
 
 import java.awt.*;
@@ -91,15 +93,39 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
+        Date now = new Date();
+        Date test_date = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
 
+        Article add_article = new Article();
+        add_article.setAuthor("Karim J");
+        add_article.setCategory("sport");
+        add_article.setDays_to_save(3);
+        add_article.setDescription("description");
+        add_article.setLink("example4.com");
+        add_article.setLocalisation("");
+        add_article.setPublished_date(test_date);
+        add_article.setTags("");
+        add_article.setTitle("titre");
+        add_article.setSource_url("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
+        add_article.setDownload_date(now);
+
+        //ParserRss parser = new ParserRss();
+        //ArrayList<Article> articles = parser.parse("https://www.7sur7.be/rss.xml");
+        //ArticleVerification verif = new ArticleVerification(add_article, add_article.getSource_url());
+
+
+        //articles.get(3).setDownload_date(new Date());
+        article_manager.add_article(add_article);
         display_articles(article_manager.load_articles());
     }
 
     @FXML
     public void display_articles(ArrayList<Article> articles) {
+        // La fonction rafraîchit la fenêtre principale (articles supprimés/ rajoutés)
         list_view_articles.getItems().clear();
         for (Article item : articles) {
             list_view_articles.getItems().add(item);
+            System.out.println(item.toString());
         }
     }
 
@@ -108,15 +134,15 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewSingleArticle.fxml"));
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
+            controller.set_articles_windows(this);
             System.out.println("Ouverture de l'article");
             loader.setController(controller);
             Parent root = (Parent) loader.load();
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Aucun article n'a été sélectionné");
         }
     }
 
@@ -145,7 +171,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
@@ -159,4 +185,4 @@ public class Main extends Application {
             display_articles(article_manager.load_articles());
         }
     }
-};
+}
