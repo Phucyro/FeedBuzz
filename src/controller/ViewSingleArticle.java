@@ -17,6 +17,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import be.ac.ulb.infof307.g04.Main;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
@@ -27,7 +29,7 @@ public class ViewSingleArticle extends Application{
     //Booleen qui sera a True ou False en fonction de l'integrite de l'article
     private boolean is_correct;
     //Manager qui permettra de supprimer un article
-    private ArticleManager article_manager;
+    private ArticleManager article_manager = new ArticleManager("./article_db");
 
     @FXML
     //Label contenant le titre de l'article
@@ -49,6 +51,7 @@ public class ViewSingleArticle extends Application{
     private ImageView article_icon;
     @FXML
     private WebView article_view;
+    private Main articles_window;
 
 
     public ViewSingleArticle(Article _article){
@@ -62,6 +65,12 @@ public class ViewSingleArticle extends Application{
         set_integrity(true);
 
     }
+
+    public void set_articles_windows(Main articles_window_) {
+        articles_window = articles_window_;
+
+    }
+
 
     //Fonction a supprimer quand une vraie classe main existe
     public static void main(String[] args) { launch(args); }
@@ -109,13 +118,15 @@ public class ViewSingleArticle extends Application{
     }
 
     private void set_integrity(boolean is_correct) {
-        this.is_correct = is_correct;
+        ArticleVerification verif = new ArticleVerification(article, article.getSource_url());
+        this.is_correct = verif.is_valid();
     }
 
     @FXML
     private void delete_button_pressed(){
         //Fonction appelee lorsque l'utilisateur appuie sur le bouton "delete"
         article_manager.delete_article(article);
+        articles_window.display_articles(article_manager.load_articles());
         System.out.println("Article supprime");
         //Ferme la page de l'article à la supression de celui_ci
         Stage stage = (Stage) delete_button.getScene().getWindow();
