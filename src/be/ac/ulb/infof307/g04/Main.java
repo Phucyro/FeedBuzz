@@ -19,8 +19,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ArticleManager;
-import model.DatabaseSource;
 import model.SourceManager;
+import model.DatabaseSource;
+import model.DatabaseArticle;
+import java.util.Date;
 
 
 import java.awt.*;
@@ -110,9 +112,11 @@ public class Main extends Application {
 
     @FXML
     public void display_articles(ArrayList<Article> articles) {
+        // La fonction rafraîchit la fenêtre principale (articles supprimés/ rajoutés)
         list_view_articles.getItems().clear();
         for (Article item : articles) {
             list_view_articles.getItems().add(item);
+            System.out.println(item.toString());
         }
     }
 
@@ -123,13 +127,13 @@ public class Main extends Application {
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
             System.out.println("Ouverture de l'article");
             loader.setController(controller);
+            controller.set_articles_windows(this);
             Parent root = (Parent) loader.load();
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Aucun article n'a été sélectionné");
         }
     }
 
@@ -158,7 +162,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
@@ -172,4 +176,4 @@ public class Main extends Application {
             display_articles(article_manager.load_articles());
         }
     }
-};
+}

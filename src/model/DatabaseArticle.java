@@ -3,7 +3,6 @@ package model;
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
 import io.jsondb.annotation.Secret;
-import javafx.scene.image.Image;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +30,9 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String tags;
     private int days_to_save;
+    private boolean deleted;
+    private String source_url;
+    private Date download_date;
 
 
     public DatabaseArticle() { }
@@ -46,6 +48,9 @@ public class DatabaseArticle implements Serializable {
         this.setDays_to_save(item.getDays_to_save());
         this.setLocalisation(item.getLocalisation());
         this.setTags(item.getTags());
+        this.setDeleted(item.getDeleted());
+        this.setSource_url(item.getSource_url());
+        this.setDownload_date(item.getDownload_date());
     }
 
     public Date getPublished_date() { return published_date; }
@@ -70,4 +75,10 @@ public class DatabaseArticle implements Serializable {
     public void setLocalisation(String localisation) { this.localisation = localisation; }
     public String getTags() { return tags; }
     public void setTags(String tags) { this.tags = tags; }
+    public boolean getDeleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public String getSource_url() {return source_url;}
+    public void setSource_url(String url){source_url = url;}
+    public Date getDownload_date() { return download_date;}
+    public void setDownload_date(Date now) { download_date = now;}
 }
