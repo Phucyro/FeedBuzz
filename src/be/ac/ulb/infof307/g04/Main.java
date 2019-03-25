@@ -97,15 +97,6 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
-
-        //TO DELETE
-        DatabaseSource database_source = new DatabaseSource();
-        database_source.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
-        database_source.setEnabled(true);
-        database_source.setNumber_to_download(5);
-        source.add_source(database_source);
-
-
         source.download(article_manager);
         display_articles(article_manager.load_articles());
     }
