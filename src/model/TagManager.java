@@ -6,6 +6,8 @@ import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 
+import java.util.ArrayList;
+
 public class TagManager {
     private JsonDBTemplate jsonDBTemplate;
 
@@ -46,5 +48,9 @@ public class TagManager {
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
+    }
+
+    public ArrayList<DatabaseTag> get_all() {
+        return (ArrayList<DatabaseTag>) jsonDBTemplate.findAll(DatabaseTag.class);
     }
 }

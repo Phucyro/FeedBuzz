@@ -19,6 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.ArticleManager;
+import model.DatabaseTag;
+import model.TagManager;
 
 
 import java.awt.*;
@@ -47,8 +49,11 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         article_manager = new ArticleManager("./article_db", "password");
+        init_db();
         launch(args);
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -159,4 +164,24 @@ public class Main extends Application {
             display_articles(article_manager.load_articles());
         }
     }
+
+    private static void init_db() {
+        init_tags();
+        init_sources();
+    }
+
+    private static void init_tags() {
+        String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
+        TagManager tagManager = new TagManager("./article_db", "password");
+        DatabaseTag tag = new DatabaseTag();
+        for(int i = 0; i < tags.length; i++){
+            tag.setName(tags[i]);
+            tagManager.add_tag(tag);
+        }
+    }
+
+    private static void init_sources() {
+
+    }
+
 };

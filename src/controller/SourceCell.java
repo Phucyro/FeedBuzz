@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +10,7 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import model.DatabaseSource;
+import model.TagManager;
 
 
 public class SourceCell extends ListCell<DatabaseSource>{
@@ -67,6 +69,9 @@ public class SourceCell extends ListCell<DatabaseSource>{
         //Listener qui reagit quand la valeur du spinner de droite, qui definit la duree de vie des articles est modifiee
         source_lifespan.valueProperty().addListener((obs, oldValue, newValue) ->
                 item.setLifeSpan_default(source_lifespan.getValue()));
+        //Listener qui reagit quand la valeur de la combobox (tag) est modifiée
+        source_tag.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setTag(source_tag.getValue()));
 
     }
 
@@ -87,11 +92,27 @@ public class SourceCell extends ListCell<DatabaseSource>{
             source_number_of_articles.setValueFactory(valueFactoryNumber);
             SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpan_default());
             source_lifespan.setValueFactory(valueFactoryLifespan);
-            source_tag.setValue(item.getTag());
+
+            initTag();
 
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+
+
+        }
+    }
+
+    private void initTag() {
+        TagManager tagManager = new TagManager("./article_db", "password");
+        ObservableList<String> tags = FXCollections.observableArrayList();
+        tagManager.get_all().forEach(tag -> tags.add(tag.getName()));
+        source_tag.setItems(tags);
+
+        if(item.getTag() != null) {
+            source_tag.setValue(item.getTag());
+        } else {
+            source_tag.setValue("Default");
         }
     }
 }
