@@ -1,3 +1,4 @@
 .idea/*
 *.iml
 out/*
+*article_db/*
