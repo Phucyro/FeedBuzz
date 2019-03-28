@@ -97,7 +97,7 @@ public class ViewSingleArticle extends Application{
         try {
             article_view.getEngine().loadContent(article.getDescription());
         } catch (Exception e){
-            System.out.println(article.getDescription());
+            //System.out.println(article.getDescription());
         }
         article_title.setText(article.getTitle());
         if (this.is_correct){

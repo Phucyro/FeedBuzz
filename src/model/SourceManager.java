@@ -6,6 +6,7 @@ import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SourceManager {
@@ -56,6 +57,8 @@ public class SourceManager {
                 for (int i = 0; i < source.getNumber_to_download(); i++) {
                     Article article_to_save = articles.get(i);
                     article_to_save.setDays_to_save(source.getLifeSpan_default());
+                    article_to_save.setCategory(source.getTag());
+                    article_to_save.setDownload_date(new Date());
                     articleManager.add_article(article_to_save);
                 }
 

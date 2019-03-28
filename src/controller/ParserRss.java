@@ -21,7 +21,7 @@ import java.util.Locale;
 public class ParserRss {
     private Document document;
     private boolean atom;
-
+    private String updated;
 
     public ParserRss() {
     }
@@ -43,6 +43,15 @@ public class ParserRss {
         }
 
         return new ArrayList<>();
+    }
+
+    private void get_updated(Element element) {
+        if(atom) {
+            updated = element.getElementsByTagName("updated").item(0).getTextContent().trim();
+        }
+        else {
+            updated = element.getElementsByTagName("lastBuildDate").item(0).getTextContent().trim();
+        }
     }
 
     private void get_xml_file(URL url){
@@ -84,6 +93,7 @@ public class ParserRss {
     private NodeList get_node_list(String feed_name, String entry_name) {
         NodeList nodes = document.getElementsByTagName(feed_name);
         Element element = (Element) nodes.item(0);
+        get_updated(element);
         return element.getElementsByTagName(entry_name);
     }
 
@@ -118,16 +128,19 @@ public class ParserRss {
 
     private Date get_date(String date) {
         Date res = null;
-        if (date != null) {
-            try {
-                if (atom) {
-                    res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
-                } else {
-                    res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+        if (date == null){
+            date = updated;
+        }
+        try {
+            if (atom) {
+                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
+            } else {
+                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
             }
+            if (res == null){
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return res;
     }
