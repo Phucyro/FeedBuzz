@@ -1,6 +1,7 @@
 package model;
 
 import controller.Article;
+import controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 
@@ -46,16 +47,19 @@ public class SourceManager {
         }
     }
 
-    public void download(int number,int lifespan){
-        /*ParserRss source = new ParserRss();
-        //ArticleManager articleManager = new ArticleManager("./test.db", "test");
-        ArrayList<Article> articles = source.parse(this.getUrl());
-        Article article_temp;
-        for (int i = 0; i < number; i++) {
-            article_temp = articles.get(i);
-            //articleManager.add_article(article_temp);
-        }*/
+    public void download(ArticleManager articleManager) {
+        ParserRss source_parser = new ParserRss();
+        ArrayList<DatabaseSource> sources = load_sources();
+        for (DatabaseSource source : sources) {
+            if (source.isEnabled()) {
+                ArrayList<Article> articles = source_parser.parse(source.getUrl());
+                for (int i = 0; i < source.getNumber_to_download(); i++) {
+                    Article article_to_save = articles.get(i);
+                    article_to_save.setDays_to_save(source.getLifeSpan_default());
+                    articleManager.add_article(article_to_save);
+                }
 
+            }
+        }
     }
-
 }

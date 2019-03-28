@@ -19,6 +19,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.*;
+import model.SourceManager;
+import model.DatabaseSource;
+import model.DatabaseArticle;
+import java.util.Date;
 
 
 import java.awt.*;
@@ -39,6 +43,7 @@ public class Main extends Application {
     private  GridPane grid_pane;
 
     private static ArticleManager article_manager;
+    private static SourceManager source;
 
     private ToolBar search_bar;
     private Button close_search_button;
@@ -48,10 +53,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         article_manager = new ArticleManager("./article_db", "password");
         init_db();
+        source = new SourceManager("./article_db");
         launch(args);
     }
-
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -94,15 +98,17 @@ public class Main extends Application {
 
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
-
+        source.download(article_manager);
         display_articles(article_manager.load_articles());
     }
 
     @FXML
     public void display_articles(ArrayList<Article> articles) {
+        // La fonction rafraîchit la fenêtre principale (articles supprimés/ rajoutés)
         list_view_articles.getItems().clear();
         for (Article item : articles) {
             list_view_articles.getItems().add(item);
+            System.out.println(item.toString());
         }
     }
 
@@ -113,13 +119,13 @@ public class Main extends Application {
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
             System.out.println("Ouverture de l'article");
             loader.setController(controller);
+            controller.set_articles_windows(this);
             Parent root = (Parent) loader.load();
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Aucun article n'a été sélectionné");
         }
     }
 

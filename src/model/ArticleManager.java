@@ -30,6 +30,7 @@ public class ArticleManager{
         if (!this.jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             create_collection();
         }
+        deleteExpired();
 
     }
 
@@ -43,24 +44,30 @@ public class ArticleManager{
     }
 
     public boolean delete_article(Article article) {
-        DatabaseArticle dbarticle = article;
+        /* Pour chaque article supprimé on garde uniquement son url qui sert de clé primaire.
+         * Ainsi, les articles supprimés ne seront pas retéléchargés dans la DB*/
         try {
-            this.jsonDBTemplate.remove(dbarticle, DatabaseArticle.class);
+            DatabaseArticle to_replace = new DatabaseArticle();
+            to_replace.setLink(article.getLink());
+            to_replace.setDeleted(true);
+            this.jsonDBTemplate.remove(article, DatabaseArticle.class);
+            this.jsonDBTemplate.insert(to_replace);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
     }
 
+
     public boolean add_article(Article article) {
-        DatabaseArticle dbArticle = article;
         try {
-            jsonDBTemplate.insert(dbArticle);
+            jsonDBTemplate.insert(article);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
             return false;
         }
     }
+
 
     public DatabaseArticle findArticle(String link){
         try {
@@ -77,10 +84,23 @@ public class ArticleManager{
     public ArrayList<Article> load_articles(String title_contains) {
         ArrayList<Article> result = new ArrayList<Article>();
         for (DatabaseArticle item : jsonDBTemplate.findAll(DatabaseArticle.class)) {
-            if (item.getTitle().toLowerCase().contains(title_contains.toLowerCase())) {
-                result.add(new Article(item));
+            if (!item.getDeleted()) {
+                if (item.getTitle().toLowerCase().contains(title_contains.toLowerCase())) {
+                    result.add(new Article(item));
+                }
             }
         }
         return (result);
+    }
+
+    private void deleteExpired() {
+        if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
+            ArrayList<Article> articles = load_articles();
+            for (Article article : articles) {
+                if (article.need_to_be_deleted()) {
+                    delete_article(article);
+                }
+            }
+        }
     }
 }
