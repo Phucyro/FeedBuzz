@@ -18,9 +18,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.ArticleManager;
-import model.DatabaseTag;
-import model.TagManager;
+import model.*;
 
 
 import java.awt.*;
@@ -181,7 +179,11 @@ public class Main extends Application {
     }
 
     private static void init_sources() {
-
+        SourceManager sourceManager = new SourceManager("./article_db");
+        ArrayList<DatabaseSource> sources = new ArrayList<>();
+        sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
+        sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
+        sources.forEach(sourceManager::add_source);
     }
 
 };

@@ -17,6 +17,19 @@ public class DatabaseSource implements Serializable {
 
     public DatabaseSource() { }
 
+    public DatabaseSource(String _source_name, String _url, String _tag){
+        source_name = _source_name;
+        url = _url;
+        enabled = true;
+        number_to_download = 10;
+        lifeSpan_default = 7;
+        tag = _tag;
+    }
+
+    public DatabaseSource(String source_name, String url){
+        this(source_name, url, "Default");
+    }
+
     public DatabaseSource(DatabaseSource item) {
         this.url = item.url;
         this.source_name = item.source_name;
