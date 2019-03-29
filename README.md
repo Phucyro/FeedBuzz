@@ -1,18 +1,33 @@
 # FeedBuzz : Projet de génie logiciel et gestion de projet (INFO-F-307)
 
-TO DO: Description du projet
+Logiciel de traitement et de sauvegarde d'articles à partir de flux RSS  
+La fenêtre principale du logiciel affiche une liste d'article. Il est possible de sélectionner un article et de le lire, ce qui ouvre une fenêtre secondaire qui affiche l'article.  
+Ce logiciel permet de télécharger des articles à partir de différentes sources, il est possible de choisir à partir de quelle sources est-ce que l'on veut télécharger un article.  
+Il est également possible de définir différents paramètres, tels que la durée de vie d'un article (la durée du stockage de celui-ci) ou le nombre d'articles que l'on veut télécharger.  
+
 
 # Utilisation
 
-TO DO: Informations sur le système de build et la version du Java/Librairies utilisés dans l'implementation.
+Version de Java utilisée: Java version 11.0.2  
+Version de JavaFX: JavaFX 11  
+Librairies utilisées:  
+ -Apache.commons.io 2.4  
+ -JSonDB 1.0.85  
+ -JUnit 5.  
+ -JSoup 1.11.3  
+ -SLF4J 1.6.1  
+
+<!--TO DO: Informations sur le système de build et la version du Java/Librairies utilisés dans l'implementation.-->
 
 ## Compilation
 
-TO DO: Informations sur la façon de compiler votre projet 
+Pour compiler, il faut utiliser les options de compilation suivantes:  
+ --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
 
 ## Démarrage 
 
-VM Options: --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
+Exécuter le fichier JAR g04-iteration-2.jar dans le dossier dist
+<!-- TO DO: Informations sur le démarrage -->
 
 # Configuration :
 
@@ -23,6 +38,17 @@ TO DO: Informations sur la façon d'executer les tests
 # Misc
 
 ## Développement
+
+Ce logiciel a été développé à 8 personnes avec la méthodologie de l'Extreme Programming.  
+Ce groupe est composé de:  
+ -Nathan Wolper  
+ -Florian Baudry  
+ -Mashini Ndele-A-Mulenghe  
+ -Hong Phuc Pham  
+ -Anass El Zherouni  
+ -Sonia Malki  
+ -Karim Temp  
+ -Mael Panouillot  
 
 ## Screenshot
 
