@@ -77,7 +77,7 @@ public class ArticleCell extends ListCell<Article> {
             //Setup the preview popup over the article
             String summaryText = "";
             if (item.getDescription() != null) {
-                htmlToPlain(item.getDescription());
+                summaryText = htmlToPlain(item.getDescription());
             }
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
@@ -88,7 +88,7 @@ public class ArticleCell extends ListCell<Article> {
 
                 imageUrl = null;
                 if (item.getDescription() != null) {
-                    getIconUrl(item.getDescription());
+                    imageUrl = getIconUrl(item.getDescription());
                 }
 
                 if (imageUrl != null)
