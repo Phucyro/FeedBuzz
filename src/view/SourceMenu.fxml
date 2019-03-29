@@ -39,11 +39,11 @@
         <ListView fx:id="list_view_sources" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
         <GridPane maxHeight="-Infinity" prefHeight="16.0" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
           <children>
-            <Label text="Nom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Url" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <Label text="Nombre d'articles" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-            <Label text="Durée de vie" GridPane.columnIndex="4" GridPane.rowIndex="0" />
-            <Label text="Tag" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+            <Label text="Nom" translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Url" translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label text="Nombre d'articles" translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <Label text="Durée de vie" translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Label text="Tag" translateX="5.0" GridPane.columnIndex="5" GridPane.rowIndex="0" />
           </children>
           <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
