@@ -192,4 +192,19 @@ public class Main extends Application {
         sources.forEach(sourceManager::add_source);
     }
 
+    public void open_tag_window(ActionEvent actionEvent) {
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TagMenu.fxml"));
+        TagMenu controller = new TagMenu();
+        loader.setController(controller);
+        Parent root = (Parent) loader.load();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
 };

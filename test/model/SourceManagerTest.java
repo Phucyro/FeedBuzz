@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.apache.commons.io.FileUtils;
+//import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,14 +28,14 @@ class SourceManagerTest {
 
     }
 
-    @AfterEach
+  /*  @AfterEach
     void tearDown(){
         try {
             FileUtils.deleteDirectory(new File("./article_test_db"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Test
     void download() {

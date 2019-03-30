@@ -25,6 +25,7 @@
           <Menu mnemonicParsing="false" text="Source">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#open_source_window" text="Configure Sources" />
+                  <MenuItem mnemonicParsing="false" onAction="#open_tag_window" text="Configure Tags" />
               </items>
           </Menu>
       </menus>

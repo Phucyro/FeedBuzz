@@ -5,6 +5,7 @@ import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
+import io.jsondb.query.Update;
 
 import java.util.ArrayList;
 
@@ -44,10 +45,29 @@ public class TagManager {
     public boolean delete_tag(DatabaseTag tag){
         try {
             jsonDBTemplate.remove(tag, DatabaseTag.class);
+            update("tag", tag.getName(), "Default", DatabaseSource.class);
+            update("category", tag.getName(), "Default", DatabaseArticle.class);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
+    }
+
+    public boolean modify_tag(DatabaseTag tag, DatabaseTag newTag){
+        try {
+            update("name", tag.getName(), newTag.getName(), DatabaseTag.class);
+            update("tag", tag.getName(), newTag.getName(), DatabaseSource.class);
+            update("category", tag.getName(), newTag.getName(), DatabaseArticle.class);
+            return true;
+        } catch(InvalidJsonDbApiUsageException e){
+            return false;
+        }
+    }
+    public boolean update(String key, String oldValue, String newValue, Class entityClass){
+        Update update = Update.update(key, newValue);
+        String jxQuery = String.format("/.[%s='%s']", key, oldValue);
+        System.out.println(jsonDBTemplate.findAllAndModify(jxQuery, update, entityClass).size());
+        return true;
     }
 
     public ArrayList<DatabaseTag> get_all() {
