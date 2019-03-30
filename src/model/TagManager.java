@@ -58,6 +58,7 @@ public class TagManager {
             update("name", tag.getName(), newTag.getName(), DatabaseTag.class);
             update("tag", tag.getName(), newTag.getName(), DatabaseSource.class);
             update("category", tag.getName(), newTag.getName(), DatabaseArticle.class);
+            delete_tag(tag);
             return true;
         } catch(InvalidJsonDbApiUsageException e){
             return false;
@@ -66,7 +67,7 @@ public class TagManager {
     public boolean update(String key, String oldValue, String newValue, Class entityClass){
         Update update = Update.update(key, newValue);
         String jxQuery = String.format("/.[%s='%s']", key, oldValue);
-        System.out.println(jsonDBTemplate.findAllAndModify(jxQuery, update, entityClass).size());
+        jsonDBTemplate.findAllAndModify(jxQuery, update, entityClass);
         return true;
     }
 

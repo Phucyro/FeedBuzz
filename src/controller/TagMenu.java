@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.DatabaseSource;
@@ -19,6 +16,7 @@ import model.TagManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TagMenu  extends Application{
     private TagManager tag_manager = new TagManager("./article_db", "password");
@@ -78,6 +76,20 @@ public class TagMenu  extends Application{
 
     @FXML
     public void modify(){
+        TextInputDialog dialog = new TextInputDialog((String) combo_tags.getValue());
+        DatabaseTag oldTag = new DatabaseTag();
+        DatabaseTag newTag = new DatabaseTag();
+        oldTag.setName((String) combo_tags.getValue());
+
+        dialog.setHeaderText("Enter the new tagname:");
+        dialog.setContentText("Tag name:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            newTag.setName(name);
+            tag_manager.modify_tag(oldTag, newTag);
+        });
+        init_combo();
 
     }
     @FXML
