@@ -1,6 +1,7 @@
 package model;
 
 import controller.Article;
+import controller.ArticleVerification;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
@@ -46,18 +47,42 @@ public class ArticleManager{
     public boolean delete_article(Article article) {
         /* Pour chaque article supprimé on garde uniquement son url qui sert de clé primaire.
          * Ainsi, les articles supprimés ne seront pas retéléchargés dans la DB*/
-        try {
             DatabaseArticle to_replace = new DatabaseArticle();
             to_replace.setLink(article.getLink());
             to_replace.setDeleted(true);
+            return replace_article(article,to_replace);
+    }
+
+
+    public boolean replace_article(Article article, DatabaseArticle article2) {
+        /* On remplace un article dans la database par un second article*/
+        try {
             this.jsonDBTemplate.remove(article, DatabaseArticle.class);
-            this.jsonDBTemplate.insert(to_replace);
+            this.jsonDBTemplate.insert(article2);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
         }
     }
 
+
+    public void verify_articles() {
+        /* procede à la verification d'un article, s'il n'est pas valide (car modifié) on tente de le corriger, si cela est possible on remplace l'article corrigé, sinon on supprime l'article*/
+        ArrayList<Article> articles = load_articles();
+        for(Article article : articles){
+            ArticleVerification article_verification = new ArticleVerification(article,article.getSource_url());
+            if(!article_verification.is_valid()){
+                if(article_verification.is_correctable()){
+                    article_verification.correct_article();
+                    replace_article(article, article_verification.get_article());
+                }
+                else{
+                    delete_article(article);
+                }
+            }
+
+        }
+    }
 
     public boolean add_article(Article article) {
         try {
@@ -103,4 +128,6 @@ public class ArticleManager{
             }
         }
     }
+
+
 }

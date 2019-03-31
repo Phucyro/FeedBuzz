@@ -59,6 +59,7 @@ public class SourceManager {
                     article_to_save.setDays_to_save(source.getLifeSpan_default());
                     article_to_save.setCategory(source.getTag());
                     article_to_save.setDownload_date(new Date());
+                    article_to_save.setSource_url(source.getUrl());
                     articleManager.add_article(article_to_save);
                 }
 

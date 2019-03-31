@@ -99,6 +99,8 @@ public class Main extends Application {
         list_view_articles.setCellFactory(lv -> new ArticleCell());
         quit_button.setOnAction(e -> Platform.exit());
         source.download(article_manager);
+        article_manager.verify_articles();
+
         display_articles(article_manager.load_articles());
     }
 
@@ -111,6 +113,8 @@ public class Main extends Application {
             System.out.println(item.toString());
         }
     }
+
+
 
     @FXML
     private void open_article_window() {
@@ -207,4 +211,5 @@ public class Main extends Application {
         e.printStackTrace();
     }
     }
+
 };

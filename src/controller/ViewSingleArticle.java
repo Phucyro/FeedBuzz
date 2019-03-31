@@ -62,7 +62,8 @@ public class ViewSingleArticle extends Application{
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
         //article = my_parser.parse("http://rss.cnn.com/rss/cnn_topstories.rss").get(0);
         //System.out.println(article);
-        set_integrity(true);
+        ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
+        set_integrity(verification.is_valid());
 
     }
 

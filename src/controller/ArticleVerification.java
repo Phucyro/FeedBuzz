@@ -19,7 +19,7 @@ public class ArticleVerification {
 
     public ArrayList<Article> get_articles_from_source(){
         ParserRss parser = new ParserRss();
-        ArrayList<Article> articles = new ArrayList<>();
+        ArrayList<Article> articles;
         articles = parser.parse(source);
         return articles;
     }
@@ -38,11 +38,11 @@ public class ArticleVerification {
         Article a2 = article_from_source;
 
         // condition de la forme, soit les deux champs sont nuls, soit aucun des deux n'est nul et les hash correspondent
-        if(((a1.getDescription() == null && a2.getDescription() == null ) || ((a1.getDescription() != null && a2.getDescription() != null ) && hashCode(a1.getDescription()) == hashCode(a2.getDescription()))) &&
-                ((a1.getCategory() == null && a2.getCategory() == null ) || ((a1.getCategory() != null && a2.getCategory() != null ) && hashCode(a1.getCategory()) == hashCode(a2.getCategory()))) &&
-                    ((a1.getLink() == null && a2.getLink() == null ) || ((a1.getLink() != null && a2.getLink() != null ) && hashCode(a1.getLink()) == hashCode(a2.getLink()))) &&
-                        ((a1.getPublished_date() == null && a2.getPublished_date() == null ) || ((a1.getPublished_date() != null && a2.getPublished_date() != null ) && hashCode(a1.getPublished_date()) == hashCode(a2.getPublished_date()))) &&
-                            ((a1.getUpdated_date() == null && a2.getUpdated_date() == null ) || ((a1.getUpdated_date() != null && a2.getUpdated_date() != null ) && hashCode(a1.getUpdated_date()) == hashCode(a2.getUpdated_date())))){
+        if((((a1.getDescription() == null && a2.getDescription() == null ) || (a1.getDescription() != null && a2.getDescription() != null )) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
+                /*(((a1.getCategory() == null && a2.getCategory() == null ) || (a1.getCategory() != null && a2.getCategory() != null )) && hashCode(a1.getCategory()) == hashCode(a2.getCategory())) &&*/
+                    (((a1.getLink() == null && a2.getLink() == null ) || (a1.getLink() != null && a2.getLink() != null )) && hashCode(a1.getLink()) == hashCode(a2.getLink())) &&
+                        (((a1.getPublished_date() == null && a2.getPublished_date() == null ) || (a1.getPublished_date() != null && a2.getPublished_date() != null )) && hashCode(a1.getPublished_date()) == hashCode(a2.getPublished_date())) &&
+                            (((a1.getUpdated_date() == null && a2.getUpdated_date() == null ) || (a1.getUpdated_date() != null && a2.getUpdated_date() != null )) && hashCode(a1.getUpdated_date()) == hashCode(a2.getUpdated_date()))){
             return true;
         }
         else{

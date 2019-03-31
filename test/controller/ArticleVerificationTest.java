@@ -26,7 +26,7 @@ public class ArticleVerificationTest {
     @BeforeAll
     void setup_before_article_verification() {
         // On recupere la liste d'article de la source
-        test_source = new String("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
+        test_source = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
         ParserRss parser = new ParserRss();
         ArrayList<Article> articles = parser.parse(test_source);
 
@@ -39,7 +39,7 @@ public class ArticleVerificationTest {
         true_article.setLink(articles.get(0).getLink());
         true_article.setCategory(articles.get(0).getCategory());
         true_article.setDescription(articles.get(0).getDescription());
-
+        true_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
         // On altere un article de la source
         false_article = new Article();
         false_article.setAuthor(articles.get(0).getAuthor());
@@ -49,7 +49,7 @@ public class ArticleVerificationTest {
         false_article.setLink(articles.get(0).getLink());
         false_article.setCategory(articles.get(0).getCategory());
         false_article.setDescription(articles.get(0).getDescription());
-
+        false_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie uniquement le titre, on peut recuperer l'article avec le lien ou la description
         repairable_article = new Article();
@@ -60,7 +60,7 @@ public class ArticleVerificationTest {
         repairable_article.setLink(articles.get(0).getLink());
         repairable_article.setCategory("nocategory");
         repairable_article.setDescription(articles.get(0).getDescription());
-
+        repairable_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie le lien, la description, et le titre -> pas corrigible
         not_repairable_article = new Article();
@@ -71,7 +71,7 @@ public class ArticleVerificationTest {
         not_repairable_article.setLink("link broken");
         not_repairable_article.setCategory("nocategory");
         not_repairable_article.setDescription("This article is broken");
-
+        not_repairable_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
     }
 
     @Test
