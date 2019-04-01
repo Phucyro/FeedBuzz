@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * define an article cell
+ */
 public class ArticleCell extends ListCell<Article> {
 
     private final GridPane gridPane = new GridPane();
@@ -60,6 +63,9 @@ public class ArticleCell extends ListCell<Article> {
     }
 
 
+    /**
+     * function called when an item is modify
+     */
     @Override
     protected void updateItem(Article item, boolean empty) {
         super.updateItem(item, empty);
@@ -77,6 +83,7 @@ public class ArticleCell extends ListCell<Article> {
             if (item.getDescription() != null) {
                 summaryText = htmlToPlain(item.getDescription());
             }
+
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
             //Show the image icon
@@ -117,7 +124,11 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    // Fonction to retrieve first icon url in html text
+    /**
+     * retrieve first icon url in html text
+     * @param texte html file to parse
+     * @return url to an image
+     */
     private String getIconUrl(String texte) throws IOException {
 
         String imageUrl = null;
@@ -139,7 +150,10 @@ public class ArticleCell extends ListCell<Article> {
         return imageUrl;
     }
 
-    // Fonction to get the plain text of a html string
+    /**
+     * get the plain text of a html string
+     * @param html html file
+     */
     private String htmlToPlain(String html)
     {
         return Jsoup.parse(html).text();

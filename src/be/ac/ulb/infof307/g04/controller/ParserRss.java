@@ -26,6 +26,11 @@ public class ParserRss {
     public ParserRss() {
     }
 
+    /**
+     * parse an rss feed
+     * @param url_name url of the rss feed
+     * @return a list of articles
+     */
     public ArrayList<Article> parse(String url_name) {
         atom = false;
 
@@ -45,6 +50,10 @@ public class ParserRss {
         return new ArrayList<>();
     }
 
+    /**
+     * get the updated field of an entry
+     * @param element the entry
+     */
     private void get_updated(Element element) {
         if(atom) {
             updated = element.getElementsByTagName("updated").item(0).getTextContent().trim();
@@ -54,6 +63,10 @@ public class ParserRss {
         }
     }
 
+    /**
+     * download the xml file of the rss feed
+     * @param url url of the feed
+     */
     private void get_xml_file(URL url){
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -68,12 +81,18 @@ public class ParserRss {
 
     }
 
+    /**
+     * check if the feed is an atom feed or a rss2.0 feed
+     */
     private void check_atom() {
         if (document.getElementsByTagName("feed").getLength() == 1) {
             atom = true;
         }
     }
 
+    /**
+     * @return list of the articles
+     */
     private ArrayList<Article> parse_articles() {
         NodeList entryList;
         ArrayList<Article> articles = new ArrayList<>();
@@ -90,6 +109,12 @@ public class ParserRss {
         return articles;
     }
 
+    /**
+     * get all the entries of the feed
+     * @param feed_name name of the principal entry (feed of channel)
+     * @param entry_name name of the articles entries (entry of item)
+     * @return xml nodes
+     */
     private NodeList get_node_list(String feed_name, String entry_name) {
         NodeList nodes = document.getElementsByTagName(feed_name);
         Element element = (Element) nodes.item(0);
@@ -97,7 +122,10 @@ public class ParserRss {
         return element.getElementsByTagName(entry_name);
     }
 
-
+    /**
+     * parse a specific article
+     * @param entry xml article entry
+     */
     private Article parse_article(Element entry) {
         Article article = new Article();
         article.setTitle(get_string(entry, "title"));
@@ -108,10 +136,14 @@ public class ParserRss {
         } else {
             parse_article_rss(entry, article);
         }
-        //System.out.println(article);
         return article;
     }
 
+    /**
+     * specific parse for atom feeds
+     * @param entry xml article entry
+     * @param article article that is being built
+     */
     private void parse_article_atom(Element entry, Article article) {
         article.setLink(get_link_atom(entry));
         article.setDescription(get_string(entry, "content"));
@@ -119,6 +151,11 @@ public class ParserRss {
         article.setUpdated_date(get_date(get_string(entry, "updated")));
     }
 
+    /**
+     * specific parse for rss2.0 feeds
+     * @param item xml article item
+     * @param article article that is being built
+     */
     private void parse_article_rss(Element item, Article article) {
         article.setLink(get_string(item, "link"));
         article.setDescription(get_string(item, "description"));
@@ -126,6 +163,11 @@ public class ParserRss {
         article.setUpdated_date(get_date(get_string(item, "lastBuildDate")));
     }
 
+    /**
+     * get a date from a string
+     * @param date string containing the date
+     * @return date object
+     */
     private Date get_date(String date) {
         Date res = null;
         if (date == null){
@@ -145,6 +187,11 @@ public class ParserRss {
         return res;
     }
 
+    /**
+     * get the link of an atom feed
+     * @param entry xml article entry
+     * @return
+     */
     private String get_link_atom(Element entry) {
         NodeList tag_node = entry.getElementsByTagName("link");
         if (tag_node.getLength() > 0) {
@@ -154,6 +201,12 @@ public class ParserRss {
         }
     }
 
+    /**
+     * get the string of a tag of an entry
+     * @param entry xml articl entry
+     * @param tag tag of the xml entry
+     * @return text of the specific tag
+     */
     private String get_string(Element entry, String tag) {
         NodeList tag_node = entry.getElementsByTagName(tag);
         if(tag_node.getLength() > 0) {

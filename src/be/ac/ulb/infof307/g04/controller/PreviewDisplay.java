@@ -12,7 +12,10 @@ import javafx.stage.Popup;
 
 public class PreviewDisplay{
 
-    //Fonction to preview an article
+    /**
+     * Fonction to preview an article
+     * @param summary the summary of the article
+     */
     public static void mouseOverArticle(GridPane articlePane, String summary) {
 
         //Pane that will contain the summary

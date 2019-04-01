@@ -14,6 +14,10 @@ public class ArticleManager{
 
     private JsonDBTemplate jsonDBTemplate;
 
+    /**
+     * @param database_path path to the database
+     * @param password password of the database
+     */
     public ArticleManager(String database_path, String password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
@@ -43,6 +47,10 @@ public class ArticleManager{
         jsonDBTemplate.createCollection(DatabaseArticle.class);
     }
 
+    /**
+     * @param article article to delete
+     * @return inform if the article has been deleted
+     */
     public boolean delete_article(Article article) {
         /* Pour chaque article supprimé on garde uniquement son url qui sert de clé primaire.
          * Ainsi, les articles supprimés ne seront pas retéléchargés dans la DB*/
@@ -53,6 +61,12 @@ public class ArticleManager{
     }
 
 
+    /**
+     * replace an article by another
+     * @param article article that will be removed
+     * @param article2 article that will replaced the first
+     * @return inform if the article has been replaced
+     */
     public boolean replace_article(Article article, DatabaseArticle article2) {
         /* On remplace un article dans la database par un second article*/
         try {
@@ -65,6 +79,9 @@ public class ArticleManager{
     }
 
 
+    /**
+     * check the integrity of all articles
+     */
     public void verify_articles() {
         /* procede à la verification d'un article, s'il n'est pas valide (car modifié) on tente de le corriger, si cela est possible on remplace l'article corrigé, sinon on supprime l'article*/
         ArrayList<Article> articles = load_articles();
@@ -83,6 +100,10 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * @param article article the will be added
+     * @return informt if the article has been added
+     */
     public boolean add_article(Article article) {
         DatabaseArticle dbArticle = article;
         try {
@@ -94,6 +115,11 @@ public class ArticleManager{
     }
 
 
+    /**
+     * search an article in the database
+     * @param link the link of the article
+     * @return found article
+     */
     public DatabaseArticle findArticle(String link){
         try {
             return jsonDBTemplate.findById(link, DatabaseArticle.class);
@@ -102,10 +128,18 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * @return list containing all the articles
+     */
     public ArrayList<Article> load_articles() {
         return this.load_articles("");
     }
 
+    /**
+     * search an article by with the title
+     * @param title_contains title of the article
+     * @return list containing all the articles with a specific title
+     */
     public ArrayList<Article> load_articles(String title_contains) {
         ArrayList<Article> result = new ArrayList<Article>();
         for (DatabaseArticle item : jsonDBTemplate.findAll(DatabaseArticle.class)) {
@@ -118,6 +152,9 @@ public class ArticleManager{
         return (result);
     }
 
+    /**
+     * delete the expired articles
+     */
     private void deleteExpired() {
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             ArrayList<Article> articles = load_articles();

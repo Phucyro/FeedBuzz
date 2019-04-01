@@ -11,6 +11,9 @@ import java.util.Date;
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
+    /**
+     * @param database_path path to the database
+     */
     public SourceManager(String database_path) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
@@ -24,10 +27,17 @@ public class SourceManager {
         jsonDBTemplate.createCollection(DatabaseSource.class);
     }
 
+    /**
+     * @return a list that contained all the sources
+     */
     public ArrayList<DatabaseSource> load_sources () {
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
+    /**
+     * @param source source that will be added
+     * @return boolean to inform if the source has been added
+     */
     public boolean add_source(DatabaseSource source) {
         try {
             jsonDBTemplate.insert(source);
@@ -37,6 +47,10 @@ public class SourceManager {
         }
     }
 
+    /**
+     * @param source source to update
+     * @return boolean to inform if the sources has been updated
+     */
     public boolean update_source(DatabaseSource source){
         try{
             jsonDBTemplate.upsert(source);
@@ -47,6 +61,9 @@ public class SourceManager {
         }
     }
 
+    /**
+     * download the articles
+     */
     public void download(ArticleManager articleManager) {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = load_sources();
