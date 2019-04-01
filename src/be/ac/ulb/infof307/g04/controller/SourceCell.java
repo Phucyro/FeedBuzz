@@ -100,6 +100,9 @@ public class SourceCell extends ListCell<DatabaseSource>{
         }
     }
 
+    /**
+     * Initiate the tags in the comboBox
+     */
     private void initTag() {
         TagManager tagManager = new TagManager("./article_db", "password");
         ObservableList<String> tags = FXCollections.observableArrayList();

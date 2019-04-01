@@ -74,6 +74,9 @@ public class TagMenu  extends Application{
         combo_tags.setValue(tags.get(0));
     }
 
+    /**
+     * Create a dialog window to modify the name of the tag selected
+     */
     @FXML
     public void modify(){
         TextInputDialog dialog = new TextInputDialog((String) combo_tags.getValue());

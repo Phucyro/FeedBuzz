@@ -1,4 +1,4 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import org.junit.jupiter.api.Test;

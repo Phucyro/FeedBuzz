@@ -1,8 +1,5 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.model.ArticleManager;
-import be.ac.ulb.infof307.g04.model.DatabaseSource;
-import be.ac.ulb.infof307.g04.model.SourceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

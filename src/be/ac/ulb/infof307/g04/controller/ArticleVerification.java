@@ -17,6 +17,10 @@ public class ArticleVerification {
         source = source_url;
     }
 
+    /**
+     * get all the articles from a source
+     * @return
+     */
     public ArrayList<Article> get_articles_from_source(){
         ParserRss parser = new ParserRss();
         ArrayList<Article> articles;
@@ -31,8 +35,9 @@ public class ArticleVerification {
     }
 
 
-
-
+    /**
+     * test if an article is equal to another
+     */
     public boolean is_equal(){
         Article a1 = article_to_verify;
         Article a2 = article_from_source;
@@ -57,7 +62,9 @@ public class ArticleVerification {
     }
 
 
-
+    /**
+     * check if an article is valid
+     */
     public boolean is_valid(){
         // verifie si l'article existe et est non modifié à partir de la source
         ArrayList<Article> articles = new ArrayList<>();
@@ -74,7 +81,9 @@ public class ArticleVerification {
     }
 
 
-
+    /**
+     * check if an article is correctable
+     */
     public boolean is_correctable(){
         /* Champs Unique (clé) ->  description , (title+ author), link -> si le champ de l'article broken correspond avec un champ d'un article d'une source on peut mettre à jour un article
         Champs non unique -> dates, categories, author, title -> à partir de ces champs on ne peut pas reconstruire un article (plusieurs articles peuvent avoir le meme titre ou le meme auteur, mais probablement pas le meme titre et le meme auteur)
@@ -97,8 +106,9 @@ public class ArticleVerification {
     }
 
 
-
-
+    /**
+     * correct an article if it is possible
+     */
     public void correct_article(){
         if(is_correctable()){
             article_to_verify.setTitle(article_from_source.getTitle());

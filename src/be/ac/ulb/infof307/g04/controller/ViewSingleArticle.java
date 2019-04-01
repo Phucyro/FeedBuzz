@@ -66,12 +66,11 @@ public class ViewSingleArticle extends Application{
 
     }
 
-
-    //Fonction a supprimer quand une vraie classe main existe
-    public static void main(String[] args) { launch(args); }
-
+    /**
+     * Start javafx window
+     * @param primaryStage
+     */
     @Override
-    //Demarre la fenetre javafx
     public void start(Stage primaryStage) {
         //Loader qui permet de charger le fichier fxml a l'emplacement donne
         FXMLLoader loader = new FXMLLoader();
@@ -87,10 +86,13 @@ public class ViewSingleArticle extends Application{
         }
     }
 
+    /**
+     * Initialize the text and the title of the article
+     * Modify the integrity circle and text
+     */
     public void initialize(){
-        //Initialise le texte de l'article et son titre, et modifie la couleur du cercle d'integrite ainsi que le texte en fonction de l'integrite de l'article
         try {
-            article_view.getEngine().loadContent(article.getDescription());
+            article_view.getEngine().load(article.getLink());
         } catch (Exception e){
             //System.out.println(article.getDescription());
         }
@@ -117,9 +119,11 @@ public class ViewSingleArticle extends Application{
         this.is_correct = verif.is_valid();
     }
 
+    /**
+     * function called when the delete button is pressed
+     */
     @FXML
     private void delete_button_pressed(){
-        //Fonction appelee lorsque l'utilisateur appuie sur le bouton "delete"
         article_manager.delete_article(article);
         articles_window.display_articles(article_manager.load_articles());
         System.out.println("Article supprime");
