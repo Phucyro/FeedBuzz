@@ -21,7 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * define an article cell
+ * Define an article cell
  */
 public class ArticleCell extends ListCell<Article> {
 
@@ -64,7 +64,7 @@ public class ArticleCell extends ListCell<Article> {
 
 
     /**
-     * function called when an item is modify
+     * Function called when an item is modified
      */
     @Override
     protected void updateItem(Article item, boolean empty) {
@@ -125,7 +125,8 @@ public class ArticleCell extends ListCell<Article> {
     }
 
     /**
-     * retrieve first icon url in html text
+     * Retrieve first icon url in html text
+     *
      * @param texte html file to parse
      * @return url to an image
      */

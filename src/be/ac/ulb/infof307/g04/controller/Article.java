@@ -45,6 +45,12 @@ public class Article extends DatabaseArticle {
 
 
     public String toString(){
+        /**
+         * Returns a textual representation of an article
+         *
+         * @return A String representation of the article
+         * @see         String
+         */
         String res;
         res = "Title: "+ getTitle();
         res = res.concat("\nAuthor: "+ getAuthor());
@@ -57,6 +63,12 @@ public class Article extends DatabaseArticle {
     }
 
     public boolean need_to_be_deleted() {
+        /**
+         * Tests if an article is outdated (based on his donwload date and the days to save the article)
+         *
+         * @return Un booléen représantant la nécessité de supprimer l'article
+         * @see         boolean
+         */
         Date now = new Date();
         Date delete_date = new Date(getDownload_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
         return now.after(delete_date);

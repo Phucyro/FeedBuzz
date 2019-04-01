@@ -10,8 +10,7 @@ Il est également possible de définir différents paramètres, tels que la dur�
 
 Version de Java utilisée: Java version 11.0.2  
 Version de JavaFX: JavaFX 11  
-Librairies utilisées:  
- -Apache.commons.io 2.4  
+Librairies utilisées:
  -JSonDB 1.0.85  
  -JUnit 5.  
  -JSoup 1.11.3  
@@ -27,7 +26,8 @@ Pour compiler, il faut utiliser les options de compilation suivantes:
 ## Démarrage 
 
 Exécuter le fichier JAR g04-iteration-2.jar dans le dossier dist
-<!-- TO DO: Informations sur le démarrage -->
+Le fichier doit être exécuté avec les vm options suivantes:
+--add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
 
 # Configuration :
 

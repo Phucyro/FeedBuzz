@@ -1,12 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 import java.util.ArrayList;
 
-/*
-    Prend en attribut un article et une url et fournit une méthode pour verifier la validité de l'article
-    Appeler les methodes dans cet ordre: pour verifier si un article est valide et à jour -> is_valid()
-    S'il n'est pas valide, appeler is_correctable, pour verifier s'il est corrigible, si ce n'est pas le cas, il faut se debarrasser de l'article
-    Si il est corrigible, on peut appeler correct_article, pour mettre à jour l'article
- */
 public class ArticleVerification {
     private Article article_to_verify;
     private Article article_from_source;
@@ -18,8 +12,8 @@ public class ArticleVerification {
     }
 
     /**
-     * get all the articles from a source
-     * @return
+     * Get all the articles from a source
+     * @return An ArrayList of articles
      */
     public ArrayList<Article> get_articles_from_source(){
         ParserRss parser = new ParserRss();
@@ -36,7 +30,8 @@ public class ArticleVerification {
 
 
     /**
-     * test if an article is equal to another
+     * Test if an article is equal to another
+     * @return 
      */
     public boolean is_equal(){
         Article a1 = article_to_verify;
@@ -63,7 +58,7 @@ public class ArticleVerification {
 
 
     /**
-     * check if an article is valid
+     * Check if an article is valid
      */
     public boolean is_valid(){
         // verifie si l'article existe et est non modifié à partir de la source
