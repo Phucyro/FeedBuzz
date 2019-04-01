@@ -1,7 +1,6 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
 import be.ac.ulb.infof307.g04.controller.Article;
-import be.ac.ulb.infof307.g04.model.ArticleManager;
 import org.junit.jupiter.api.*;
 
 import java.io.File;

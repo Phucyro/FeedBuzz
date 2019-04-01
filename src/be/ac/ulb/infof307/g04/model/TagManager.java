@@ -61,10 +61,11 @@ public class TagManager {
             delete_tag(tag);
             return true;
         } catch(InvalidJsonDbApiUsageException e){
+            delete_tag(tag);
             return false;
         }
     }
-    public boolean update(String key, String oldValue, String newValue, Class entityClass){
+    private boolean update(String key, String oldValue, String newValue, Class entityClass){
         Update update = Update.update(key, newValue);
         String jxQuery = String.format("/.[%s='%s']", key, oldValue);
         jsonDBTemplate.findAllAndModify(jxQuery, update, entityClass);
@@ -73,5 +74,10 @@ public class TagManager {
 
     public ArrayList<DatabaseTag> get_all() {
         return (ArrayList<DatabaseTag>) jsonDBTemplate.findAll(DatabaseTag.class);
+    }
+
+    public void delete_all(){
+        ArrayList<DatabaseTag> tags = get_all();
+        tags.forEach(tag -> delete_tag(tag));
     }
 }
