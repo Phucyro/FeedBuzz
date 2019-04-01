@@ -31,7 +31,7 @@ public class ArticleVerification {
 
     /**
      * Test if an article is equal to another
-     * @return 
+     * @return
      */
     public boolean is_equal(){
         Article a1 = article_to_verify;
