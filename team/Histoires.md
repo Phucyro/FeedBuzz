@@ -70,7 +70,7 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 ### Support pour des médias différents (vidéo, images, etc.)
 
 **Instructions originales:**       
-- A faire
+- Permettre l'affichage de différents types de médias
 
 **Question:** 
-- Affichage des médias sous quelle forme ? 
+- Comment gérer le téléchargement?
