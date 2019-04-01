@@ -1,6 +1,7 @@
 package model;
 
-import controller.Article;
+import be.ac.ulb.infof307.g04.controller.Article;
+import be.ac.ulb.infof307.g04.model.ArticleManager;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -100,6 +101,6 @@ class ArticleManagerTest {
 
     @AfterAll
     void delete_databse_files() {
-       deleteDir(new File(dbpath));
+        deleteDir(new File(dbpath));
     }
 }

@@ -1,7 +1,7 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
-import controller.Article;
-import controller.ArticleVerification;
+import be.ac.ulb.infof307.g04.controller.Article;
+import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
@@ -9,14 +9,13 @@ import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArticleManager{
 
     private JsonDBTemplate jsonDBTemplate;
 
     public ArticleManager(String database_path, String password) {
-        String baseScanPackage = "model";
+        String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
         try {
@@ -85,8 +84,9 @@ public class ArticleManager{
     }
 
     public boolean add_article(Article article) {
+        DatabaseArticle dbArticle = article;
         try {
-            jsonDBTemplate.insert(article);
+            jsonDBTemplate.insert(dbArticle);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
             return false;

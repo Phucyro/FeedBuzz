@@ -1,4 +1,4 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;

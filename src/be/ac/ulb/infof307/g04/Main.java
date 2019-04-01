@@ -1,6 +1,8 @@
 package be.ac.ulb.infof307.g04;
 
-import controller.*;
+
+import be.ac.ulb.infof307.g04.controller.*;
+import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -11,19 +13,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.*;
-import model.SourceManager;
-import model.DatabaseSource;
-import model.DatabaseArticle;
-import java.util.Date;
-
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -59,7 +55,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ArticleList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
 
         primaryStage.setTitle("Fenêtre principale");
 
@@ -119,7 +115,7 @@ public class Main extends Application {
     @FXML
     private void open_article_window() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewSingleArticle.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
             System.out.println("Ouverture de l'article");
             loader.setController(controller);
@@ -148,7 +144,7 @@ public class Main extends Application {
     @FXML
     public void open_source_window(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SourceMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
             SourceMenu controller = new SourceMenu();
             loader.setController(controller);
             Parent root = (Parent) loader.load();
@@ -198,7 +194,7 @@ public class Main extends Application {
 
     public void open_tag_window(ActionEvent actionEvent) {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TagMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
         TagMenu controller = new TagMenu();
         loader.setController(controller);
         Parent root = (Parent) loader.load();

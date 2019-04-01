@@ -1,26 +1,19 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
-import com.sun.glass.ui.View;
+import be.ac.ulb.infof307.g04.model.DatabaseSource;
+import be.ac.ulb.infof307.g04.model.SourceManager;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.util.Callback;
-import model.DatabaseSource;
-import model.SourceManager;
 
-import javax.xml.transform.Source;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class SourceMenu extends Application {
@@ -46,7 +39,7 @@ public class SourceMenu extends Application {
     public void start(Stage primaryStage)  {
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SourceMenu.class.getResource("/view/SourceMenu.fxml"));
+        loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
         try {
             AnchorPane main_container;
             main_container = loader.load();

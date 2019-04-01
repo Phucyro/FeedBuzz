@@ -1,15 +1,12 @@
 package model;
 
-import org.junit.jupiter.api.AfterEach;
+import be.ac.ulb.infof307.g04.model.ArticleManager;
+import be.ac.ulb.infof307.g04.model.DatabaseSource;
+import be.ac.ulb.infof307.g04.model.SourceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-//import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SourceManagerTest {
 

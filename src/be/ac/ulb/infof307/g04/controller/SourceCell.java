@@ -1,16 +1,13 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
-import javafx.beans.Observable;
+import be.ac.ulb.infof307.g04.model.DatabaseSource;
+import be.ac.ulb.infof307.g04.model.TagManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import model.DatabaseSource;
-import model.TagManager;
 
 
 public class SourceCell extends ListCell<DatabaseSource>{

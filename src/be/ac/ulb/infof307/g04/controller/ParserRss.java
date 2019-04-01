@@ -1,4 +1,4 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

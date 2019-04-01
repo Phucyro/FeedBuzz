@@ -1,4 +1,4 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +11,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.web.WebView;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +19,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 public class ArticleCell extends ListCell<Article> {
 

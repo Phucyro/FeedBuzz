@@ -1,4 +1,4 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;

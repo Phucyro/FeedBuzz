@@ -1,4 +1,4 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
@@ -13,7 +13,7 @@ public class TagManager {
     private JsonDBTemplate jsonDBTemplate;
 
     public TagManager(String database_path, String password) {
-        String baseScanPackage = "model";
+        String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
         try {

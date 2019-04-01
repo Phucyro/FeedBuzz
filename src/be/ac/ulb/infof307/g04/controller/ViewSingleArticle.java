@@ -1,28 +1,22 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
+import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.model.ArticleManager;
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import be.ac.ulb.infof307.g04.Main;
-
-import javafx.scene.layout.AnchorPane;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.FXML;
-import model.ArticleManager;
 
 public class ViewSingleArticle extends Application{
     private Article article;
@@ -81,7 +75,7 @@ public class ViewSingleArticle extends Application{
     public void start(Stage primaryStage) {
         //Loader qui permet de charger le fichier fxml a l'emplacement donne
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ViewSingleArticle.class.getResource("/view/ViewSingleArticle.fxml"));
+        loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
         try {
             AnchorPane conteneurPrincipal;
             conteneurPrincipal = loader.load();
@@ -110,7 +104,7 @@ public class ViewSingleArticle extends Application{
             integrity_label.setText("Non intègre!");
             integrity_circle.setFill(Color.RED);
         }
-        article_icon.setImage(new Image ("/pictures/Background_Presentation.jpg"));
+        article_icon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
         //article_icon.setImage(new Image("https://l.facebook.com/l.php?u=https%3A%2F%2Fhelpx.adobe.com%2Fcontent%2Fdam%2Fhelp%2Fen%2Fstock%2Fhow-to%2Fvisual-reverse-image-search%2F_jcr_content%2Fmain-pars%2Fimage%2Fvisual-reverse-image-search-v2_1000x560.jpg%3Ffbclid%3DIwAR33t6CLYiXxRgEMz_ZO9L4oBa7X16W2z9-pC2QyIzKPl9eAJGB2bEAqwRA&h=AT13_ep7eqZ1l6RSGeZ2_nhGIdDy-tfZOcCcCuAPzcyQ6nFrZ-XunWzQEPK-7TndUHhu9Wh7P3HQuVCtEFkA-zoC9vyn8avJt6OoR0kLeZtyvXCv-0ZrJWi-mf9Lng"));
     }
 

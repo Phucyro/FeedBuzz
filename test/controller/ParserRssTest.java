@@ -1,5 +1,6 @@
 package controller;
 
+import be.ac.ulb.infof307.g04.controller.ParserRss;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

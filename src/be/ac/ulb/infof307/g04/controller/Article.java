@@ -1,10 +1,7 @@
-package controller;
+package be.ac.ulb.infof307.g04.controller;
 
-import javafx.scene.image.Image;
-import model.DatabaseArticle;
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 
-import java.io.FileInputStream;
-import java.net.URL;
 import java.util.Date;
 
 public class Article extends DatabaseArticle {
@@ -61,8 +58,8 @@ public class Article extends DatabaseArticle {
 
     public boolean need_to_be_deleted() {
         Date now = new Date();
-        Date download_date = new Date(getDownload_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
-        return now.after(download_date);
+        Date delete_date = new Date(getDownload_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
+        return now.after(delete_date);
     }
 }
 

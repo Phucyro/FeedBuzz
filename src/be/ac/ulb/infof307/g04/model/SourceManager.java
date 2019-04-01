@@ -1,19 +1,18 @@
-package model;
+package be.ac.ulb.infof307.g04.model;
 
-import controller.Article;
-import controller.ParserRss;
+import be.ac.ulb.infof307.g04.controller.Article;
+import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
     public SourceManager(String database_path) {
-        String baseScanPackage = "model";
+        String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
