@@ -9,6 +9,7 @@
  - Choix des différentes sources
  - Choix de la durée de vie d'un article
  - Choix du nombre d'articles à télécharger
+ - Choix et modification des tags liés aux sources
 
 
  - Récupération d'articles à partir de leur flux rss

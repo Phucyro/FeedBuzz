@@ -54,6 +54,7 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 
 **Instructions supplémentaires:**
 - Création de la base de donnée
+- Interface graphique pour chois les tags
 
 **Question:**       
 
