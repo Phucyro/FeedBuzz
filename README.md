@@ -47,7 +47,7 @@ Ce groupe est composé de:
  -Hong Phuc Pham  
  -Anass El Zherouni  
  -Sonia Malki  
- -Karim Temp  
+ -Karim Jastrzebski 
  -Mael Panouillot  
 
 ## Screenshot
