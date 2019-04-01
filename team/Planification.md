@@ -22,6 +22,7 @@
  
  - Affichage des images
  
+ 
 
 ##Motivation des choix:
  - Choix d'utiliser le programme Scene Builder pour faciliter la création des différentes interfaces graphiques pour afficher la liste d'articles et lire ceux-ci.

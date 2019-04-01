@@ -40,6 +40,7 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 - Fenêtre spécifique à l'article
 - Interface graphique pour les tags
 
+
 **Question:**       
 
 ### Récupération des articles à partir des sources extérieures
