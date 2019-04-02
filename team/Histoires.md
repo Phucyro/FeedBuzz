@@ -13,17 +13,17 @@ Un point correspond à une heure de travail par binôme (approximatif).  Par it�
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
 | 1 | 1 | Visualisation des articles | 2 | 3 | 40 | 24 |
 |   | 3 | Récupération des articles à partir des sources extérieures |  |  |  | 30 |
-|   | 4 | Récupération des articles à partir de pages web |  |  |  | 34 |
+|   | 4 | Récupération des articles à partir de pages web |  |  |  | 25 |
 | 2 | 2 | Recherche et filtres sur les articles stockés localement | 3 | 3 | 25 | 24 |
-|   | 5 | Création d’un système de recommandation |  |  |  | 44 + 6 |
+|   | 5 | Création d’un système de recommandation |  |  |  | 50 |
 |   | 7 | Intégrité des données |  |  |  | 16 |
-|   | 9 | Vérification de la fiabilité d’un article |  |  |  | 40 |
-|   |10 | Gestion des articles |  |  |  | 36 + 19 |
+|   | 9 | Vérification de la fiabilité d’un article |  |  |  | 60 |
+|   |10 | Gestion des articles |  |  |  | 55 |
 |   |11 | Gestion de plusieurs utilisateurs |  |  |  | 20 |
 | 3  |12 | Support pour des médias différents (vidéo, images, etc.) | 1 | 2 | / | 40 |
-| 3 | 6 | Sécurité des données | 1 | 2 | ? | 30 |
+| 3 | 6 | Sécurité des données | 1 | 2 | ? | 15 |
 |   | 8 | Intégration avec des réseaux sociaux |  |  |  | 54 |
-|   |13 | Continuous learning pour le système de recommandation |  |  |  | 50 + 30 |
+|   |13 | Continuous learning pour le système de recommandation |  |  |  | 65 |
 |   |14 | Filtrage des articles sur base de la rélevance géographique (sélection d’une région à l’aide d’une carte)|  |  |  | 60 |
 |   |15 | Section d’aide |  |  |  | 20 |
 
