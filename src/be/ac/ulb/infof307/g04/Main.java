@@ -59,7 +59,7 @@ public class Main extends Application {
         Parent loginroot = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
-        stage.showAndWait();
+        stage.show();
 
     }
 

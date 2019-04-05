@@ -110,20 +110,18 @@ public class ViewLoginRegister extends Application{
             user_agreement_view.show();
         });
 
-
-
-
-
-
     }
 
 
+
+
+    /**
+     * Make a directory to contain the user database (articles,sources and tags)
+     * @param username article the name of the folder to make
+     */
     public void make_user_directory(String username){
         File file = new File(DB_ROOT + username);
-
-        if (file.exists()) {
-            file.delete();
-        }
+        if (file.exists()) { file.delete();}
 
         if (file.mkdir()) {
             System.out.println("Successfully made folder" + file.getAbsolutePath());
@@ -133,6 +131,12 @@ public class ViewLoginRegister extends Application{
     }
 
 
+
+
+    /**
+     * Make a json file and write the header
+     * @param path the path to the user folder database (contain the json filename)
+     */
     public void make_json_file(String path) throws java.io.IOException{
         File file = new File(path);
         if(file.exists()) {
@@ -145,27 +149,46 @@ public class ViewLoginRegister extends Application{
 
 
 
+    /**
+     * Update the label to inform the user the input are not valid in the login or register form
+     * @param label_warning the label used to display the warning
+     * @param warning the message warning
+     */
     public void set_warning_and_display(Label label_warning, String warning){
         label_warning.setText(warning);
         label_warning.setVisible(true);
     }
 
 
+
+
+    /**
+     * check the validity of the textfield inputs in the login form
+     * @param username_str the username
+     * @param password_str the password
+     */
     public boolean login_inputs_valids(String username_str, String password_str) {
         if (!username_str.isEmpty() && !password_str.isEmpty()) {
             return true;
         }
         else{
             set_warning_and_display(login_warning, "Les champs ne peuvent etre vides");
-            return false;
+            //return false;
+            return true;
         }
     }
 
 
-
+    /**
+     * check the validity of the inputs in the register form
+     * @param username_str the username
+     * @param password_str the password
+     * @param confirm_password_str the confirmation password
+     */
     public boolean register_inputs_valids(String username_str, String password_str, String confirm_password_str) {
-        if(username_str.length() >= 5 && username_str.length() <=17){
-            if(password_str.length() >= 5 && password_str.length() <= 17){
+        // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
+        if(username_str.length() >= 0 && username_str.length() <=17){
+            if(password_str.length() >= 0 && password_str.length() <= 17){
                 if(password_str.equals(confirm_password_str)){
                     if(user_agreement_checkbox.isSelected()){
                         return true;
@@ -184,19 +207,18 @@ public class ViewLoginRegister extends Application{
 
 
 
-
-
+    /**
+     * Try to connect the user
+     */
     public void connect_button_pressed() throws java.io.IOException {
         login_warning.setVisible(false);
         String username_str = login_username.getText();
         String password_str = login_password.getText();
 
-
         if (login_inputs_valids(username_str,password_str)) {
             if (user_manager.existUser(username_str, password_str)) {
                 launch_main_app(DB_ROOT+username_str);
             }
-
             else{
                 set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide");
             }
@@ -205,6 +227,10 @@ public class ViewLoginRegister extends Application{
 
 
 
+
+    /**
+     * Try to register the user
+     */
     public void register_button_pressed() throws java.io.IOException{
         register_warning.setVisible(false);
         String username_str = register_username.getText();
@@ -226,6 +252,12 @@ public class ViewLoginRegister extends Application{
     }
 
 
+
+
+    /**
+     * launch the main menu of the app with the path to the connected user's database
+     * @param db_path the path to the user database
+     */
     public void launch_main_app(String db_path) throws java.io.IOException{
         Window current_window = login_warning.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
@@ -234,9 +266,11 @@ public class ViewLoginRegister extends Application{
         Parent loginroot = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
-        stage.show();
 
+        stage.show();
         current_window.hide();
+
+
 
     }
 }

@@ -207,17 +207,17 @@ public class ViewListArticles extends Application {
     public void open_tag_window(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-        TagMenu controller = new TagMenu(db_path);
-        loader.setController(controller);
-        Parent root = (Parent) loader.load();
+            TagMenu controller = new TagMenu(db_path);
+            loader.setController(controller);
+            Parent root = (Parent) loader.load();
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 };
