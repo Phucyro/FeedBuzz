@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class ArticleManager{
 
+
     private JsonDBTemplate jsonDBTemplate;
 
     /**

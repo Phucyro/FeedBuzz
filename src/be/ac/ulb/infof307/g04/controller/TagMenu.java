@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class TagMenu  extends Application{
-    private TagManager tag_manager = new TagManager("./article_db", "password");
+    private TagManager tag_manager;
     @FXML
     private Button add_button;
     @FXML
@@ -31,7 +31,8 @@ public class TagMenu  extends Application{
     @FXML
     private ComboBox combo_tags;
 
-    public TagMenu() throws IOException {
+    public TagMenu(String db_path) throws IOException {
+        tag_manager = new TagManager(db_path, "password");
     }
 
     public void initialize() throws IOException {

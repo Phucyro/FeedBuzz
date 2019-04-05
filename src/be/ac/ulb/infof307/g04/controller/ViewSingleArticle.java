@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class ViewSingleArticle extends Application{
     //Booleen qui sera a True ou False en fonction de l'integrite de l'article
     private boolean is_correct;
     //Manager qui permettra de supprimer un article
-    private ArticleManager article_manager = new ArticleManager("./article_db");
+    private ArticleManager article_manager;
 
     @FXML
     //Label contenant le titre de l'article
@@ -45,12 +46,14 @@ public class ViewSingleArticle extends Application{
     private ImageView article_icon;
     @FXML
     private WebView article_view;
-    private Main articles_window;
+    private ViewListArticles articles_window;
 
 
-    public ViewSingleArticle(Article _article){
+
+    public ViewSingleArticle(Article _article, String db_path){
        // article_manager = new ArticleManager("./test.db","abcdefgh");
         ParserRss my_parser = new ParserRss();
+        article_manager = new ArticleManager(db_path);
 
         article = _article;
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
@@ -61,7 +64,7 @@ public class ViewSingleArticle extends Application{
 
     }
 
-    public void set_articles_windows(Main articles_window_) {
+    public void set_articles_windows(ViewListArticles articles_window_) {
         articles_window = articles_window_;
 
     }

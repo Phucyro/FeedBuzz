@@ -17,20 +17,22 @@ import java.util.ArrayList;
 
 
 public class SourceMenu extends Application {
-    private SourceManager source_manager = new SourceManager("./article_db");
+    private SourceManager source_manager;
     @FXML
     private Button cancel_button;
     @FXML
     private Button confirm_button;
     @FXML
     private ListView list_view_sources;
+    private String db_path;
 
-    public SourceMenu() throws IOException {
+    public SourceMenu(String path_database) throws IOException {
+        source_manager = new SourceManager(path_database);
+        db_path = path_database;
     }
 
     public void initialize() throws IOException {
-        list_view_sources.setCellFactory(lv -> new SourceCell());
-        SourceManager source_manager = new SourceManager("./article_db");
+        list_view_sources.setCellFactory(lv -> new SourceCell(db_path));
         display_sources(source_manager.load_sources());
     }
 

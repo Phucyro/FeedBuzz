@@ -6,30 +6,44 @@ import io.jsondb.annotation.Secret;
 
 import java.io.Serializable;
 
-@Document(collection = "tags", schemaVersion = "1.0")
-class DatabaseUser implements Serializable {
+@Document(collection = "users", schemaVersion = "1.0")
+public class DatabaseUser implements Serializable {
     @Id
     @Secret
     private String username;
     @Secret
-    private String password;
+    private int hashed_password;
 
     public DatabaseUser() {
+    }
+
+    public DatabaseUser(String _username, String password) {
+        this.username = _username;
+        this.hashed_password = password.hashCode();
+    }
+
+
+    public DatabaseUser(DatabaseUser user) {
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String _username) {
+        this.username = _username;
     }
 
-    public String getPassword() {
-        return password;
+    public int getPassword() {
+        return hashed_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String _password) {
+        this.hashed_password = _password.hashCode();
+    }
+    public void setPassword(int _password) {
+        this.hashed_password = _password;
     }
 }

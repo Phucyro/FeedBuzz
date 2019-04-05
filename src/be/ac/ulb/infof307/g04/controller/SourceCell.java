@@ -22,9 +22,11 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private final Spinner<Integer> source_number_of_articles = new Spinner<>();
     private final ComboBox<String> source_tag = new ComboBox<>();
     private DatabaseSource item;
+    private String db_path;
 
-    public SourceCell() {
+    public SourceCell(String path_to_db) {
         //
+        db_path = path_to_db;
         title_label.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         source_lifespan.setMaxWidth(Double.MAX_VALUE);
         source_number_of_articles.setMaxWidth(Double.MAX_VALUE);
@@ -104,7 +106,7 @@ public class SourceCell extends ListCell<DatabaseSource>{
      * Initiate the tags in the comboBox
      */
     private void initTag() {
-        TagManager tagManager = new TagManager("./article_db", "password");
+        TagManager tagManager = new TagManager(db_path, "password");
         ObservableList<String> tags = FXCollections.observableArrayList();
         tagManager.get_all().forEach(tag -> tags.add(tag.getName()));
         source_tag.setItems(tags);
