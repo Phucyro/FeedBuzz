@@ -40,8 +40,8 @@ public class UserManager {
      * @param username
      * @return inform if the user has been deleted
      */
-    public boolean delete_user(String username, String password) {
-        DatabaseUser user = findUser(username,password);
+    public boolean delete_user(String username) {
+        DatabaseUser user = findUser_by_username(username);
 
         try {
             this.jsonDBTemplate.remove(user, DatabaseUser.class);
@@ -59,8 +59,6 @@ public class UserManager {
     public boolean add_user(String username, String password) {
         try {
 
-
-
             DatabaseUser user = new DatabaseUser();
             user.setPassword(password);
             user.setUsername(username);
@@ -73,11 +71,37 @@ public class UserManager {
             return false;
         }
     }
-    public static int hashCode(Object o) {
-        return o != null ? o.hashCode() : 0;
+
+    public boolean add_user(DatabaseUser user) {
+        try {
+            jsonDBTemplate.insert(user);
+            return true;
+        } catch (InvalidJsonDbApiUsageException e) {
+            System.out.println(e);
+            return false;
+        }
     }
 
 
+
+
+
+
+
+
+    /**
+     * search an user in the database
+     * @param username
+     * @return found user
+     */
+    public DatabaseUser findUser_by_username(String username){
+        try {
+            DatabaseUser user = jsonDBTemplate.findById(username, DatabaseUser.class);
+            return user;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     /**
      * search an user in the database
      * @param username
