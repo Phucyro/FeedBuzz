@@ -1,3 +1,4 @@
+
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.ViewListArticles;
@@ -49,6 +50,7 @@ public class ViewLoginRegister extends Application{
     @FXML
     private Hyperlink user_agreement_link;
 
+    private String DB_ROOT;
 
 
 
@@ -70,6 +72,7 @@ public class ViewLoginRegister extends Application{
      *
      */
     public void initialize(){
+        DB_ROOT = "./article_db/";
         Stage user_agreement_view = new Stage();
         // set title for the stage
         user_agreement_view.setTitle("Contrat de license");
@@ -109,26 +112,34 @@ public class ViewLoginRegister extends Application{
 
 
 
-    }
 
 
-    public void launch_main_app(String username){
 
     }
 
-    public void make_user_directory(File file){
+
+    public void make_user_directory(String username){
+        File file = new File(DB_ROOT + username);
+
+        if (file.exists()) {
+            file.delete();
+        }
+
         if (file.mkdir()) {
-            System.out.println("Successfully created " + file.getAbsolutePath());
+            System.out.println("Successfully made folder" + file.getAbsolutePath());
         } else {
-            System.out.println("Failed creating " + file.getAbsolutePath());
+            System.out.println("Failed making the folder " + file.getAbsolutePath());
         }
     }
 
 
-    public void make_json_file(File file) throws java.io.IOException{
+    public void make_json_file(String path) throws java.io.IOException{
+        File file = new File(path);
+        if(file.exists()) {
+            file.delete();
+        }
         FileWriter fwriter = new FileWriter(file);
         fwriter.write("{\"schemaVersion\":\"1.0\"}");
-
         fwriter.close();
     }
 
@@ -140,85 +151,24 @@ public class ViewLoginRegister extends Application{
     }
 
 
-    public void connect_button_pressed() throws java.io.IOException{
-        login_warning.setVisible(false);
-        String username_str = login_username.getText();
-        String password_str = login_password.getText();
-
-
-        if(!username_str.isEmpty() && !password_str.isEmpty()){
-            if(user_manager.existUser(username_str,password_str)){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-                ViewListArticles controller = new ViewListArticles("./article_db/"+username_str);
-                loader.setController(controller);
-                Parent loginroot = (Parent) loader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(loginroot));
-                stage.show();
-            }
-
-            else{ set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide"); }
-
+    public boolean login_inputs_valids(String username_str, String password_str) {
+        if (!username_str.isEmpty() && !password_str.isEmpty()) {
+            return true;
         }
-        else{  set_warning_and_display(login_warning, "Les champs ne peuvent etre vides"); }
+        else{
+            set_warning_and_display(login_warning, "Les champs ne peuvent etre vides");
+            return false;
+        }
     }
 
 
 
-
-    public void register_button_pressed() throws java.io.IOException{
-
-
-
-        register_warning.setVisible(false);
-
-        String username_str = register_username.getText();
-        String password_str = register_password.getText();
-        String confirm_password_str = register_confirm_password.getText();
-
-
+    public boolean register_inputs_valids(String username_str, String password_str, String confirm_password_str) {
         if(username_str.length() >= 5 && username_str.length() <=17){
             if(password_str.length() >= 5 && password_str.length() <= 17){
                 if(password_str.equals(confirm_password_str)){
                     if(user_agreement_checkbox.isSelected()){
-                        if(!user_manager.existUsername(username_str)){
-                            System.out.println("we can add user");
-
-                            user_manager.add_user(username_str,password_str);
-                            File file = new File("./article_db/"+username_str);
-                            if(file.exists()) {
-                                file.delete();
-                            }
-                            make_user_directory(file);
-                            file = new File("./article_db/"+username_str+"/articles.json");
-                            if(file.exists()) {
-                                file.delete();
-                            }
-                            make_json_file(file);
-                            file = new File("./article_db/"+username_str+"/tags.json");
-                            if(file.exists()) {
-                                file.delete();
-                            }
-                            make_json_file(file);
-                            file = new File("./article_db/"+username_str+"/sources.json");
-                            if(file.exists()) {
-                                file.delete();
-                            }
-                            make_json_file(file);
-
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-                            ViewListArticles controller = new ViewListArticles("./article_db/"+username_str);
-                            loader.setController(controller);
-                            Parent loginroot = (Parent) loader.load();
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(loginroot));
-                            stage.show();
-                            login_username.getScene().getWindow().hide();
-
-
-
-                        }
-                        else{set_warning_and_display(register_warning,"Nom d'utilisateur déja pris"); }
+                        return true;
                     }
                     else{set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire"); }
                 }
@@ -228,8 +178,65 @@ public class ViewLoginRegister extends Application{
         }
         else{set_warning_and_display(register_warning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
 
+        return false;
 
     }
 
 
+
+
+
+    public void connect_button_pressed() throws java.io.IOException {
+        login_warning.setVisible(false);
+        String username_str = login_username.getText();
+        String password_str = login_password.getText();
+
+
+        if (login_inputs_valids(username_str,password_str)) {
+            if (user_manager.existUser(username_str, password_str)) {
+                launch_main_app(DB_ROOT+username_str);
+            }
+
+            else{
+                set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide");
+            }
+        }
+    }
+
+
+
+    public void register_button_pressed() throws java.io.IOException{
+        register_warning.setVisible(false);
+        String username_str = register_username.getText();
+        String password_str = register_password.getText();
+        String confirm_password_str = register_confirm_password.getText();
+
+        if(register_inputs_valids(username_str,password_str,confirm_password_str)) {
+            if (!user_manager.existUsername(username_str)) {
+                user_manager.add_user(username_str, password_str);
+                String db_user_path = DB_ROOT + username_str;
+
+                make_user_directory(username_str);
+                make_json_file(db_user_path + "/articles.json");
+                make_json_file(db_user_path + "/tags.json");
+                make_json_file(db_user_path + "/sources.json");
+                launch_main_app(db_user_path);
+            }
+        }
+    }
+
+
+    public void launch_main_app(String db_path) throws java.io.IOException{
+        Window current_window = login_warning.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
+        ViewListArticles controller = new ViewListArticles(db_path);
+        loader.setController(controller);
+        Parent loginroot = (Parent) loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loginroot));
+        stage.show();
+
+        current_window.hide();
+
+    }
 }
