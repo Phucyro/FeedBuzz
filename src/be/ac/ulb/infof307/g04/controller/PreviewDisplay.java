@@ -8,15 +8,20 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 
+/**
+ * Class PreviewDisplay where a preview of the description and the image are shown in the article cell
+ */
 
 
 public class PreviewDisplay{
 
-    /**
-     * Fonction to preview an article
-     * @param summary the summary of the article
-     */
+
     public static void mouseOverArticle(GridPane articlePane, String summary) {
+        /**
+         * Method to preview an article
+         * @param summary
+         *              the summary of the article
+         */
 
         //Pane that will contain the summary
         StackPane previewPane = new StackPane();

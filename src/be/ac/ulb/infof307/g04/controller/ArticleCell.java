@@ -21,18 +21,29 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * define an article cell
+ * Define an article cell on the main window
  */
 public class ArticleCell extends ListCell<Article> {
 
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
+    private final Label tagLabel = new Label();
     private final Hyperlink linkLabel = new Hyperlink();
     private final AnchorPane content = new AnchorPane();
 
 
     public ArticleCell() {
+        /**
+         * Constructor of the article cell
+         *
+         * @version 3.0
+         * @see GridPane
+         * @see ImageView
+         * @see Label
+         * @see Hyperlink
+         * @see AnchorPane
+         */
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
@@ -40,6 +51,8 @@ public class ArticleCell extends ListCell<Article> {
         //
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
+        tagLabel.setStyle("-fx-font-size: 0.9em;");
+        GridPane.setConstraints(tagLabel, 2, 0);
         //
         //descriptionWebView.setMaxSize(400, 100);
         //GridPane.setConstraints(descriptionWebView, 2, 0, 1, 1);
@@ -49,11 +62,12 @@ public class ArticleCell extends ListCell<Article> {
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
+        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
-        gridPane.getChildren().setAll(articleIcon, titleLabel, linkLabel);
+        gridPane.getChildren().setAll(articleIcon, titleLabel, tagLabel, linkLabel);
 
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
@@ -62,18 +76,23 @@ public class ArticleCell extends ListCell<Article> {
         content.getChildren().add(gridPane);
     }
 
-
-    /**
-     * function called when an item is modify
-     */
     @Override
     protected void updateItem(Article item, boolean empty) {
+        /**
+         * Function called when an item is modified
+         *
+         * @throws IOException : if there's no picture found for the cell
+         * @throws URISyntaxException : if the link doesn't work
+         */
         super.updateItem(item, empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
+            tagLabel.setText("Tags: "+ item.getTags()); // show tags
+            System.out.println("_________");
+            System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
@@ -84,13 +103,13 @@ public class ArticleCell extends ListCell<Article> {
                 summaryText = htmlToPlain(item.getDescription());
             }
 
+            //show a preview of the article description
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
             //Show the image icon
             String imageUrl = null;
 
             try {
-
                 imageUrl = null;
                 if (item.getDescription() != null) {
                     imageUrl = getIconUrl(item.getDescription());
@@ -101,7 +120,6 @@ public class ArticleCell extends ListCell<Article> {
                     Image icon = new Image(imageUrl);
                     articleIcon.setImage(icon);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -124,12 +142,16 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    /**
-     * retrieve first icon url in html text
-     * @param texte html file to parse
-     * @return url to an image
-     */
     private String getIconUrl(String texte) throws IOException {
+
+        /**
+         * Retrieve first icon url in html text
+         *
+         * @param texte
+         *          html file to parse
+         * @return url to an image
+         * @throws IOException : if there's no url to the icon
+         */
 
         String imageUrl = null;
         Document doc = Jsoup.parse(texte);
@@ -152,7 +174,10 @@ public class ArticleCell extends ListCell<Article> {
 
     /**
      * get the plain text of a html string
-     * @param html html file
+     * @param html
+     *          html file
+     * @return the text of an html string
+     *
      */
     private String htmlToPlain(String html)
     {

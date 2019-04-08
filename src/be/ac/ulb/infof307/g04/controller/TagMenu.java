@@ -18,6 +18,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Class TagMenu when all the tags are displayed. We can assign tag to a certain source
+ * @see TagManager
+ */
+
 public class TagMenu  extends Application{
     private TagManager tag_manager = new TagManager("./article_db", "password");
     @FXML
@@ -35,6 +40,9 @@ public class TagMenu  extends Application{
     }
 
     public void initialize() throws IOException {
+        /**
+         * @see init_combo()
+         */
         init_combo();
     }
 
@@ -57,6 +65,9 @@ public class TagMenu  extends Application{
 
     @FXML
     public void add(){
+        /*
+        Add a tag to the list of tags
+         */
         DatabaseTag tag = new DatabaseTag();
         tag.setName(text_add.getText());
         tag_manager.add_tag(tag);
@@ -64,6 +75,9 @@ public class TagMenu  extends Application{
     }
 
     private void init_combo() {
+        /*
+        Initialisize the combo box of all the tags
+         */
         ObservableList<String> tags = FXCollections.observableArrayList();
         for (DatabaseTag tag : tag_manager.get_all()){
             if (!tag.getName().equals("Default")) {
@@ -74,11 +88,12 @@ public class TagMenu  extends Application{
         combo_tags.setValue(tags.get(0));
     }
 
-    /**
-     * Create a dialog window to modify the name of the tag selected
-     */
+
     @FXML
     public void modify(){
+        /*
+         * Create a dialog window to modify the name of the tag selected
+         */
         TextInputDialog dialog = new TextInputDialog((String) combo_tags.getValue());
         DatabaseTag oldTag = new DatabaseTag();
         DatabaseTag newTag = new DatabaseTag();
@@ -97,6 +112,9 @@ public class TagMenu  extends Application{
     }
     @FXML
     public void delete(){
+        /*
+        Delete a tag that was previously created
+         */
         DatabaseTag tag = new DatabaseTag();
         tag.setName((String) combo_tags.getValue());
         tag_manager.delete_tag(tag);
