@@ -77,9 +77,9 @@ public class TagMenu  extends Application {
     public void add() {
 
         TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("Ninja");
-        dialog.setHeaderText("Ninja!");
-        dialog.setContentText("Please Ninja?");
+        dialog.setTitle("Ajout");
+        dialog.setHeaderText("Ajout d'un tag");
+        dialog.setContentText("Veuillez entrer le tag à ajouter: ");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
@@ -105,9 +105,9 @@ public class TagMenu  extends Application {
 
 
             TextInputDialog dialog = new TextInputDialog("");
-            dialog.setTitle("Ninja");
-            dialog.setHeaderText("Ninja!");
-            dialog.setContentText("Modify Ninja?");
+            dialog.setTitle("Modification");
+            dialog.setHeaderText("Modification d'un tag");
+            dialog.setContentText("En quoi voulez-vous modifier le tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\"? ");
 
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
@@ -126,17 +126,15 @@ public class TagMenu  extends Application {
         else {
             DatabaseTag tag = new DatabaseTag();
             tag.setName(tags_listview.getSelectionModel().getSelectedItem());
-            //tag.setName((String) tags_listview.;
             tag_manager.delete_tag(tag);
             init_list();
         }
     }
 
     private void display_error_window(){
-        System.out.println("Alert displayed");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Erreur!");
-        //alert.setHeaderText("Look, an Information Dialog");
+        alert.setHeaderText("Erreur de sélection!");
         alert.setContentText("Vous n'avez pas selectionné de tag!");
         alert.showAndWait();
     }
