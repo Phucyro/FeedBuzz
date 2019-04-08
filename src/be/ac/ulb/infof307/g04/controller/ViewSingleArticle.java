@@ -68,7 +68,7 @@ public class ViewSingleArticle extends Application{
 
     /**
      * Start javafx window
-     * @param primaryStage
+     * @param primaryStage Stage qui affiche la fenetre
      */
     @Override
     public void start(Stage primaryStage) {
@@ -106,6 +106,7 @@ public class ViewSingleArticle extends Application{
             integrity_label.setText("Non intègre!");
             integrity_circle.setFill(Color.RED);
         }
+        tags_label.setText("Tags: "+article.getTags());
         article_icon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
         //article_icon.setImage(new Image("https://l.facebook.com/l.php?u=https%3A%2F%2Fhelpx.adobe.com%2Fcontent%2Fdam%2Fhelp%2Fen%2Fstock%2Fhow-to%2Fvisual-reverse-image-search%2F_jcr_content%2Fmain-pars%2Fimage%2Fvisual-reverse-image-search-v2_1000x560.jpg%3Ffbclid%3DIwAR33t6CLYiXxRgEMz_ZO9L4oBa7X16W2z9-pC2QyIzKPl9eAJGB2bEAqwRA&h=AT13_ep7eqZ1l6RSGeZ2_nhGIdDy-tfZOcCcCuAPzcyQ6nFrZ-XunWzQEPK-7TndUHhu9Wh7P3HQuVCtEFkA-zoC9vyn8avJt6OoR0kLeZtyvXCv-0ZrJWi-mf9Lng"));
     }
