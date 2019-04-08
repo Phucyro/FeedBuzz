@@ -8,17 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
 
-public class TagMenu  extends Application{
+public class TagMenu  extends Application {
     private TagManager tag_manager = new TagManager("./article_db", "password");
     @FXML
     private Button add_button;
@@ -31,16 +28,23 @@ public class TagMenu  extends Application{
     @FXML
     private ComboBox combo_tags;
 
+
+    @FXML
+    private ListView<String> tags_listview;
+
+
     public TagMenu() throws IOException {
     }
 
     public void initialize() throws IOException {
-        init_combo();
+        init_list();
     }
 
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-    public void start(Stage primaryStage)  {
+    public void start(Stage primaryStage) {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
@@ -55,30 +59,47 @@ public class TagMenu  extends Application{
         }
     }
 
-    @FXML
-    public void add(){
-        DatabaseTag tag = new DatabaseTag();
-        tag.setName(text_add.getText());
-        tag_manager.add_tag(tag);
-        init_combo();
-    }
-
-    private void init_combo() {
+    private void init_list() {
         ObservableList<String> tags = FXCollections.observableArrayList();
-        for (DatabaseTag tag : tag_manager.get_all()){
+        for (DatabaseTag tag : tag_manager.get_all()) {
             if (!tag.getName().equals("Default")) {
                 tags.add(tag.getName());
             }
         }
-        combo_tags.setItems(tags);
-        combo_tags.setValue(tags.get(0));
+        tags_listview.setItems(tags);
+    }
+
+
+    /**
+     * Create a dialog window to add a new tag
+     */
+    @FXML
+    public void add() {
+
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Ninja");
+        dialog.setHeaderText("Ninja!");
+        dialog.setContentText("Please Ninja?");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            System.out.println("Your Ninja: " + result.get());
+        }
+
+
+
+
+        /*DatabaseTag tag = new DatabaseTag();
+        tag.setName();
+        tag_manager.add_tag(tag);*/
+        init_list();
     }
 
     /**
      * Create a dialog window to modify the name of the tag selected
      */
     @FXML
-    public void modify(){
+    public void modify() {
         TextInputDialog dialog = new TextInputDialog((String) combo_tags.getValue());
         DatabaseTag oldTag = new DatabaseTag();
         DatabaseTag newTag = new DatabaseTag();
@@ -92,17 +113,28 @@ public class TagMenu  extends Application{
             newTag.setName(name);
             tag_manager.modify_tag(oldTag, newTag);
         });
-        init_combo();
+        init_list();
 
     }
+
     @FXML
-    public void delete(){
+    public void delete() {
         DatabaseTag tag = new DatabaseTag();
-        tag.setName((String) combo_tags.getValue());
+        tag.setName(tags_listview.getSelectionModel().getSelectedItem());
+        //tag.setName((String) tags_listview.;
         tag_manager.delete_tag(tag);
-        init_combo();
+        init_list();
     }
 
 
-
+    /*private void init_combo() {
+        ObservableList<String> tags = FXCollections.observableArrayList();
+        for (DatabaseTag tag : tag_manager.get_all()){
+            if (!tag.getName().equals("Default")) {
+                tags.add(tag.getName());
+            }
+        }
+        combo_tags.setItems(tags);
+        combo_tags.setValue(tags.get(0));
+    }*/
 }
