@@ -76,6 +76,7 @@ public class SourceManager {
                     article_to_save.setCategory(source.getTag());
                     article_to_save.setDownload_date(new Date());
                     article_to_save.setSource_url(source.getUrl());
+                    article_to_save.setTags(source.getTag());
                     articleManager.add_article(article_to_save);
                 }
 

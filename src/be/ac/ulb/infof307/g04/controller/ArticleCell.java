@@ -28,6 +28,7 @@ public class ArticleCell extends ListCell<Article> {
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
+    private final Label tagLabel = new Label();
     private final Hyperlink linkLabel = new Hyperlink();
     private final AnchorPane content = new AnchorPane();
 
@@ -40,6 +41,8 @@ public class ArticleCell extends ListCell<Article> {
         //
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
+        tagLabel.setStyle("-fx-font-size: 0.9em;");
+        GridPane.setConstraints(tagLabel, 2, 0);
         //
         //descriptionWebView.setMaxSize(400, 100);
         //GridPane.setConstraints(descriptionWebView, 2, 0, 1, 1);
@@ -49,11 +52,12 @@ public class ArticleCell extends ListCell<Article> {
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
+        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
-        gridPane.getChildren().setAll(articleIcon, titleLabel, linkLabel);
+        gridPane.getChildren().setAll(articleIcon, titleLabel, tagLabel, linkLabel);
 
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
@@ -74,6 +78,9 @@ public class ArticleCell extends ListCell<Article> {
         setContentDisplay(ContentDisplay.LEFT);
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
+            tagLabel.setText("Tags: "+ item.getTags());
+            System.out.println("_________");
+            System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
