@@ -11,9 +11,9 @@
       <ListView fx:id="tags_listview" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2147483647" />
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2147483647">
         <children>
-          <Button fx:id="delete_button" mnemonicParsing="false" onAction="#delete" text="Delete" />
-          <Button fx:id="add_button" maxWidth="-1.0" mnemonicParsing="false" onAction="#add" prefWidth="65.00009999999747" text="Add" />
-          <Button fx:id="modify_button" mnemonicParsing="false" onAction="#modify" prefWidth="66.0" text="Modify" />
+          <Button fx:id="delete_button" mnemonicParsing="false" onAction="#delete" prefWidth="78.0" text="Delete" />
+          <Button fx:id="add_button" maxWidth="-1.0" mnemonicParsing="false" onAction="#add" prefWidth="78.0" text="Add" />
+          <Button fx:id="modify_button" mnemonicParsing="false" onAction="#modify" prefWidth="78.0" text="Modify" />
         </children>
         <padding>
           <Insets top="4.0" />
@@ -21,8 +21,8 @@
       </VBox>
     </children>
     <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="419.0" />
-      <ColumnConstraints halignment="CENTER" maxWidth="81.0" minWidth="10.0" prefWidth="81.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="409.0" />
+      <ColumnConstraints halignment="CENTER" maxWidth="91.0" minWidth="10.0" prefWidth="91.0" />
     </columnConstraints>
     <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

@@ -79,7 +79,7 @@ public class TagMenu  extends Application {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Ajout");
         dialog.setHeaderText("Ajout d'un tag");
-        dialog.setContentText("Veuillez entrer le tag à ajouter: ");
+        dialog.setContentText("Veuillez entrer le tag à ajouter");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
