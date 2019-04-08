@@ -83,15 +83,10 @@ public class TagMenu  extends Application {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
-            System.out.println("Your Ninja: " + result.get());
+            DatabaseTag tag = new DatabaseTag();
+            tag.setName(result.get());
+            tag_manager.add_tag(tag);
         }
-
-
-
-
-        /*DatabaseTag tag = new DatabaseTag();
-        tag.setName();
-        tag_manager.add_tag(tag);*/
         init_list();
     }
 
@@ -100,33 +95,51 @@ public class TagMenu  extends Application {
      */
     @FXML
     public void modify() {
-        TextInputDialog dialog = new TextInputDialog((String) combo_tags.getValue());
-        DatabaseTag oldTag = new DatabaseTag();
-        DatabaseTag newTag = new DatabaseTag();
-        oldTag.setName((String) combo_tags.getValue());
+        if(tags_listview.getSelectionModel().getSelectedItem() == null){
+            display_error_window();
+        }
+        else {
+            DatabaseTag oldTag = new DatabaseTag();
+            DatabaseTag newTag = new DatabaseTag();
+            oldTag.setName(tags_listview.getSelectionModel().getSelectedItem());
 
-        dialog.setHeaderText("Enter the new tagname:");
-        dialog.setContentText("Tag name:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> {
-            newTag.setName(name);
-            tag_manager.modify_tag(oldTag, newTag);
-        });
-        init_list();
+            TextInputDialog dialog = new TextInputDialog("");
+            dialog.setTitle("Ninja");
+            dialog.setHeaderText("Ninja!");
+            dialog.setContentText("Modify Ninja?");
 
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                newTag.setName(result.get());
+                tag_manager.modify_tag(oldTag, newTag);
+            }
+            init_list();
+        }
     }
 
     @FXML
     public void delete() {
-        DatabaseTag tag = new DatabaseTag();
-        tag.setName(tags_listview.getSelectionModel().getSelectedItem());
-        //tag.setName((String) tags_listview.;
-        tag_manager.delete_tag(tag);
-        init_list();
+        if(tags_listview.getSelectionModel().getSelectedItem() == null){
+            display_error_window();
+        }
+        else {
+            DatabaseTag tag = new DatabaseTag();
+            tag.setName(tags_listview.getSelectionModel().getSelectedItem());
+            //tag.setName((String) tags_listview.;
+            tag_manager.delete_tag(tag);
+            init_list();
+        }
     }
 
-
+    private void display_error_window(){
+        System.out.println("Alert displayed");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Erreur!");
+        //alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText("Vous n'avez pas selectionné de tag!");
+        alert.showAndWait();
+    }
     /*private void init_combo() {
         ObservableList<String> tags = FXCollections.observableArrayList();
         for (DatabaseTag tag : tag_manager.get_all()){
