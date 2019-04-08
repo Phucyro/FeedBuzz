@@ -15,6 +15,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class SourceMenu where all the sources are displayed
+ * @see SourceManager
+ */
+
 
 public class SourceMenu extends Application {
     private SourceManager source_manager = new SourceManager("./article_db");
@@ -29,6 +34,10 @@ public class SourceMenu extends Application {
     }
 
     public void initialize() throws IOException {
+        /**
+         * Constructor of the Menu
+         * @throws IOException : if there's no source
+         */
         list_view_sources.setCellFactory(lv -> new SourceCell());
         SourceManager source_manager = new SourceManager("./article_db");
         display_sources(source_manager.load_sources());
@@ -37,7 +46,9 @@ public class SourceMenu extends Application {
     public static void main(String[] args) { launch(args); }
 
     public void start(Stage primaryStage)  {
-
+        /*
+        Set the window of the source menu
+         */
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
         try {
@@ -53,12 +64,18 @@ public class SourceMenu extends Application {
 
     @FXML
     public void cancel() {
+        /*
+        cancel button of the menu
+         */
         Stage stage = (Stage) cancel_button.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     public void confirm(){
+        /*
+        confirm button on the menu when adding sources,...
+         */
         ObservableList<DatabaseSource> items_list = list_view_sources.getItems();
         //System.out.println(items_list);
         for (int i = 0; i < items_list.size(); i++) {
@@ -69,6 +86,9 @@ public class SourceMenu extends Application {
     }
 
     public void display_sources(ArrayList<DatabaseSource> sources) {
+        /*
+        show all the sources
+         */
         for (DatabaseSource item : sources) {
             list_view_sources.getItems().add(item);
         }
