@@ -9,6 +9,10 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * Class SourceCell where a source cell is created
+ * @see DatabaseSource
+ */
 
 public class SourceCell extends ListCell<DatabaseSource>{
 
@@ -24,7 +28,9 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private DatabaseSource item;
 
     public SourceCell() {
-        //
+        /*
+        Constructor of the source cell
+         */
         title_label.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         source_lifespan.setMaxWidth(Double.MAX_VALUE);
         source_number_of_articles.setMaxWidth(Double.MAX_VALUE);
@@ -57,16 +63,16 @@ public class SourceCell extends ListCell<DatabaseSource>{
         AnchorPane.setRightAnchor(gridPane, 0d);
         content.getChildren().add(gridPane);
 
-        //Listener qui reagit quand la valeur de la checkbox de selection des sources est modifie
+        //listener that reacts when the checkbox value is modified
         source_enabled.selectedProperty().addListener((obs, oldValue, newValue) ->
                 item.setEnabled(source_enabled.isSelected()));
-        //Listener qui reagit quand la valeur du spinner de gauche, qui definit le nombre d'articles a telecharger est modifiee
+        //listener that reacts when the left spinner value (number of articles to load) is modified
         source_number_of_articles.valueProperty().addListener((obs, oldValue, newValue) ->
                 item.setNumber_to_download(source_number_of_articles.getValue()));
-        //Listener qui reagit quand la valeur du spinner de droite, qui definit la duree de vie des articles est modifiee
+        //listener that reacts when the right spinner value (lifespan of an article) is modified
         source_lifespan.valueProperty().addListener((obs, oldValue, newValue) ->
                 item.setLifeSpan_default(source_lifespan.getValue()));
-        //Listener qui reagit quand la valeur de la combobox (tag) est modifiée
+        //listener that reacts when the combobox value (tags) is modified
         source_tag.valueProperty().addListener((obs, oldValue, newValue) ->
                 item.setTag(source_tag.getValue()));
 
@@ -74,6 +80,14 @@ public class SourceCell extends ListCell<DatabaseSource>{
 
     @Override
     protected void updateItem(DatabaseSource _item, boolean empty) {
+        /**
+         * update the sources
+         * @see DatabaseSource
+         * @param _item
+         *          source that has to be modified
+         * @param empty
+         *          check if the source is empty or not
+         */
         item = _item;
         super.updateItem(item, empty);
         setGraphic(null);
@@ -100,10 +114,12 @@ public class SourceCell extends ListCell<DatabaseSource>{
         }
     }
 
-    /**
-     * Initiate the tags in the comboBox
-     */
     private void initTag() {
+        /**
+         * Initialize the tags in the comboBox
+         * @see TagManager
+         * @throws java.io.IOException : if an article doesn't have a tag -> default
+         */
         TagManager tagManager = new TagManager("./article_db", "password");
         ObservableList<String> tags = FXCollections.observableArrayList();
         tagManager.get_all().forEach(tag -> tags.add(tag.getName()));

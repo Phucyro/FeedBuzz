@@ -1,12 +1,27 @@
 package be.ac.ulb.infof307.g04.controller;
 import java.util.ArrayList;
 
+/**
+ * Class ArticleVerification, where articles are analyzed on different to see their integrity or their equilaty
+ *
+ * @version 2.0
+ *
+ */
+
 public class ArticleVerification {
     private Article article_to_verify;
     private Article article_from_source;
     private String source;
 
     public ArticleVerification(Article article, String source_url){
+        /**
+         * Constructor of the Article verification
+         *
+         * @param article
+         *              get the article that needs to be verified
+         * @param source_url
+         *              get the url of the article
+         */
         article_to_verify = article;
         source = source_url;
     }
@@ -23,17 +38,20 @@ public class ArticleVerification {
     }
 
 
-
     public static int hashCode(Object o) {
+        /*
+        Method used to generate a hash
+         */
         return o != null ? o.hashCode() : 0;
     }
 
-
-    /**
-     * Test if an article is equal to another
-     * @return
-     */
     public boolean is_equal(){
+        /**
+         * Test if an article is equal to another
+         * @return boolean
+         * @throws
+         */
+
         Article a1 = article_to_verify;
         Article a2 = article_from_source;
 
@@ -53,15 +71,20 @@ public class ArticleVerification {
 
 
     public void set_article(Article article){
+        /*
+        Set an article
+         */
         article_to_verify = article;
     }
 
 
-    /**
-     * Check if an article is valid
-     */
     public boolean is_valid(){
-        // verifie si l'article existe et est non modifié à partir de la source
+        /**
+         * Check if an article exists and wasn't modified from the source
+         *
+         * @return boolean
+         * @see is_equal()
+         */
         ArrayList<Article> articles = new ArrayList<>();
         articles = get_articles_from_source();
         boolean found = false;
@@ -76,10 +99,12 @@ public class ArticleVerification {
     }
 
 
-    /**
-     * check if an article is correctable
-     */
     public boolean is_correctable(){
+        /**
+         * check if an article can be corrected
+         * @see Article
+         */
+
         /* Champs Unique (clé) ->  description , (title+ author), link -> si le champ de l'article broken correspond avec un champ d'un article d'une source on peut mettre à jour un article
         Champs non unique -> dates, categories, author, title -> à partir de ces champs on ne peut pas reconstruire un article (plusieurs articles peuvent avoir le meme titre ou le meme auteur, mais probablement pas le meme titre et le meme auteur)
         exemple, les description des articles-> un des deux champs est null -> false  ,  les deux champs sont null -> false  ,  les deux champs sont non null et correspondent -> true
@@ -101,10 +126,10 @@ public class ArticleVerification {
     }
 
 
-    /**
-     * correct an article if it is possible
-     */
     public void correct_article(){
+        /*
+         * correct an article if it is possible
+         */
         if(is_correctable()){
             article_to_verify.setTitle(article_from_source.getTitle());
             article_to_verify.setAuthor(article_from_source.getAuthor());
@@ -119,6 +144,9 @@ public class ArticleVerification {
 
 
     public Article get_article(){
+        /*
+        Get the article that has to be verified
+         */
         return article_to_verify;
     }
 

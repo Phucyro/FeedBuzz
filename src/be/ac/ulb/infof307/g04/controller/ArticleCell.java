@@ -21,7 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Define an article cell
+ * Define an article cell on the main window
  */
 public class ArticleCell extends ListCell<Article> {
 
@@ -34,6 +34,16 @@ public class ArticleCell extends ListCell<Article> {
 
 
     public ArticleCell() {
+        /**
+         * Constructor of the article cell
+         *
+         * @version 3.0
+         * @see GridPane
+         * @see ImageView
+         * @see Label
+         * @see Hyperlink
+         * @see AnchorPane
+         */
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
@@ -66,19 +76,21 @@ public class ArticleCell extends ListCell<Article> {
         content.getChildren().add(gridPane);
     }
 
-
-    /**
-     * Function called when an item is modified
-     */
     @Override
     protected void updateItem(Article item, boolean empty) {
+        /**
+         * Function called when an item is modified
+         *
+         * @throws IOException : if there's no picture found for the cell
+         * @throws URISyntaxException : if the link doesn't work
+         */
         super.updateItem(item, empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
-            tagLabel.setText("Tags: "+ item.getTags());
+            tagLabel.setText("Tags: "+ item.getTags()); // show tags
             System.out.println("_________");
             System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
@@ -91,13 +103,13 @@ public class ArticleCell extends ListCell<Article> {
                 summaryText = htmlToPlain(item.getDescription());
             }
 
+            //show a preview of the article description
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
             //Show the image icon
             String imageUrl = null;
 
             try {
-
                 imageUrl = null;
                 if (item.getDescription() != null) {
                     imageUrl = getIconUrl(item.getDescription());
@@ -108,7 +120,6 @@ public class ArticleCell extends ListCell<Article> {
                     Image icon = new Image(imageUrl);
                     articleIcon.setImage(icon);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -131,13 +142,16 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    /**
-     * Retrieve first icon url in html text
-     *
-     * @param texte html file to parse
-     * @return url to an image
-     */
     private String getIconUrl(String texte) throws IOException {
+
+        /**
+         * Retrieve first icon url in html text
+         *
+         * @param texte
+         *          html file to parse
+         * @return url to an image
+         * @throws IOException : if there's no url to the icon
+         */
 
         String imageUrl = null;
         Document doc = Jsoup.parse(texte);
@@ -160,7 +174,10 @@ public class ArticleCell extends ListCell<Article> {
 
     /**
      * get the plain text of a html string
-     * @param html html file
+     * @param html
+     *          html file
+     * @return the text of an html string
+     *
      */
     private String htmlToPlain(String html)
     {
