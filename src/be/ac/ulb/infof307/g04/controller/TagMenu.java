@@ -16,6 +16,12 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
+/**
+ * Class TagMenu when all the tags are displayed. We can assign tag to a certain source
+ * @see TagManager
+ */
+
+
 public class TagMenu  extends Application {
     private TagManager tag_manager = new TagManager("./article_db", "password");
     @FXML
@@ -38,6 +44,10 @@ public class TagMenu  extends Application {
     }
 
     public void initialize() throws IOException {
+        /**
+         * @see init_list()
+         */
+
         init_list();
     }
 
@@ -71,12 +81,11 @@ public class TagMenu  extends Application {
     }
 
 
-    /**
-     * Create a dialog window to add a new tag
-     */
     @FXML
     public void add() {
-
+        /*
+         * Create a dialog window to add a new tag
+         */
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Ajout");
         dialog.setHeaderText("Ajout d'un tag");
@@ -91,11 +100,13 @@ public class TagMenu  extends Application {
         init_list();
     }
 
-    /**
-     * Create a dialog window to modify the name of the tag selected
-     */
+
     @FXML
     public void modify() {
+        /*
+         * Create a dialog window to modify the name of the tag selected
+         */
+
         if(tags_listview.getSelectionModel().getSelectedItem() == null){
             display_error_window();
         }
@@ -121,6 +132,9 @@ public class TagMenu  extends Application {
 
     @FXML
     public void delete() {
+        /*
+         * Create a dialog window to delete the name of the tag selected
+         */
         if(tags_listview.getSelectionModel().getSelectedItem() == null){
             display_error_window();
         }
@@ -133,6 +147,10 @@ public class TagMenu  extends Application {
     }
 
     private void display_error_window(){
+        /**
+         * Cases where there might be an error
+         * @see Alert
+         */
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Erreur!");
         alert.setHeaderText("Erreur de sélection!");
