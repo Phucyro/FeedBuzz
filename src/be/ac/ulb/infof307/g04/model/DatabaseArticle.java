@@ -7,7 +7,10 @@ import io.jsondb.annotation.Secret;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/**
+ * Class DatabaseArtcle where all the articles are stored
+ * @see be.ac.ulb.infof307.g04.controller.Article
+ */
 @Document(collection = "articles", schemaVersion= "1.0")
 public class DatabaseArticle implements Serializable {
     //This field will be used as a primary key, every POJO should have one
@@ -52,6 +55,10 @@ public class DatabaseArticle implements Serializable {
         this.setSource_url(item.getSource_url());
         this.setDownload_date(item.getDownload_date());
     }
+
+    /*
+    All the methods to get/set infos from an article
+     */
 
     public Date getPublished_date() { return published_date; }
     public void setPublished_date(Date published_date) { this.published_date = published_date; }
