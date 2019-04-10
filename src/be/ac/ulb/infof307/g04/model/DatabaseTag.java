@@ -5,6 +5,11 @@ import io.jsondb.annotation.Id;
 
 import java.io.Serializable;
 
+/**
+ * Class DatabaseTag where all tags are stored
+ * @see TagManager
+ */
+
 @Document(collection = "tags", schemaVersion= "1.0")
 public class DatabaseTag implements Serializable {
     @Id
