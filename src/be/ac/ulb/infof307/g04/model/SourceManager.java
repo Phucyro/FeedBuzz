@@ -8,13 +8,20 @@ import io.jsondb.JsonDBTemplate;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Class SourceManager where we can handle all the sources
+ * @see DatabaseSource
+ */
+
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
-    /**
-     * @param database_path path to the database
-     */
+
     public SourceManager(String database_path) {
+        /**
+         * @param database_path
+         *                  path to the database
+         */
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
@@ -27,18 +34,21 @@ public class SourceManager {
         jsonDBTemplate.createCollection(DatabaseSource.class);
     }
 
-    /**
-     * @return a list that contained all the sources
-     */
+
     public ArrayList<DatabaseSource> load_sources () {
+        /**
+         * @return a list that contained all the sources
+         */
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
-    /**
-     * @param source source that will be added
-     * @return boolean to inform if the source has been added
-     */
+
     public boolean add_source(DatabaseSource source) {
+        /**
+         * @param source
+         *          source that will be added
+         * @return boolean to inform if the source has been added
+         */
         try {
             jsonDBTemplate.insert(source);
             return true;
@@ -47,11 +57,14 @@ public class SourceManager {
         }
     }
 
-    /**
-     * @param source source to update
-     * @return boolean to inform if the sources has been updated
-     */
+
     public boolean update_source(DatabaseSource source){
+        /**
+         * @param source
+         *             source to update
+         * @return boolean to inform if the sources has been updated
+         * @throws InvalidJsonDbApiUsageException
+         */
         try{
             jsonDBTemplate.upsert(source);
             return true;
@@ -61,10 +74,16 @@ public class SourceManager {
         }
     }
 
-    /**
-     * download the articles
-     */
+
     public void download(ArticleManager articleManager) {
+        /**
+         * Download the articles
+         * @see ArticleManager
+         * @see Article
+         * @see ParserRss
+         * @param articleManager
+         *                  article manager to see what articles can we load
+         */
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = load_sources();
         for (DatabaseSource source : sources) {
