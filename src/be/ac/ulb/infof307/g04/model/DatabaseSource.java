@@ -5,6 +5,10 @@ import io.jsondb.annotation.Id;
 
 import java.io.Serializable;
 
+/**
+ * Class DatabaseSource where all the sources are stored
+ * @see SourceManager
+ */
 @Document(collection = "sources", schemaVersion= "1.0")
 public class DatabaseSource implements Serializable {
     @Id
@@ -18,6 +22,15 @@ public class DatabaseSource implements Serializable {
     public DatabaseSource() { }
 
     public DatabaseSource(String _source_name, String _url, String _tag){
+        /**
+         * Constructor of a source
+         * @param _source_name
+         *                  name of the source
+         * @param _url
+         *                  url of the source
+         * @param _tag
+         *                  tag of the source
+         */
         source_name = _source_name;
         url = _url;
         enabled = true;
@@ -27,6 +40,9 @@ public class DatabaseSource implements Serializable {
     }
 
     public DatabaseSource(String source_name, String url){
+        /*
+        Same constructor as above, except if there's no precise tag -> set as "Default"
+         */
         this(source_name, url, "Default");
     }
 
@@ -35,6 +51,10 @@ public class DatabaseSource implements Serializable {
         this.source_name = item.source_name;
         this.enabled = item.enabled;
     }
+
+    /*
+    Methods to get/set infos from sources
+     */
 
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
