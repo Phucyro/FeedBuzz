@@ -18,12 +18,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -46,6 +48,9 @@ public class Main extends Application {
     private TextField search_field;
     private Label match_count;
 
+    private Stage main_stage;
+
+
     public static void main(String[] args) {
         article_manager = new ArticleManager("./article_db", "password");
         init_db();
@@ -56,6 +61,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
+
+        main_stage = primaryStage;
 
         primaryStage.setTitle("Fenêtre principale");
 
@@ -152,6 +159,19 @@ public class Main extends Application {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void open_help_window(ActionEvent actionEvent) throws IOException {
+        try {
+
+            ArrayList<Article> articles = new ArrayList<>();
+            display_articles(articles);
+
 
         } catch (Exception e) {
             e.printStackTrace();

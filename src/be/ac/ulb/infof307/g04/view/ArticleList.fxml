@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.ulb.infof307.g04.Main">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.ulb.infof307.g04.Main">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -16,6 +26,52 @@
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#open_source_window" text="Configure Sources" />
                   <MenuItem mnemonicParsing="false" onAction="#open_tag_window" text="Configure Tags" />
+              </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+              <items>
+                  <Menu mnemonicParsing="false" text="Article">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Read an article">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Lire cet article&quot;" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Get an article's link">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Click on the article and then &quot;Copier le lien de l'article&quot;" />
+                          </items>
+                        </Menu>
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Search an article">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Search by title&quot;" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Quit the application">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Exit&quot;" />
+                          </items>
+                        </Menu>
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Source">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Configure sources">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Sources&quot;" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Configure tags">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then &quot;Configure Tags&quot;" />
+                           </items>
+                        </Menu>
+                     </items>
+                  </Menu>
               </items>
           </Menu>
       </menus>
