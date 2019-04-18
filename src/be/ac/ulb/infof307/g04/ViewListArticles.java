@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ViewListArticles extends Application {
@@ -46,6 +47,8 @@ public class ViewListArticles extends Application {
     private TextField search_field;
     private Label match_count;
     private String db_path;
+    private Stage the_stage;
+    private List<Stage> stage_list;
     public ViewListArticles(String path_to_db){
         // article_manager = new ArticleManager("./test.db","abcdefgh");
         db_path = new String(path_to_db);
@@ -66,11 +69,7 @@ public class ViewListArticles extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
-
-
-
+        primaryStage.setOnCloseRequest(e -> Platform.exit());
     }
 
     @FXML
@@ -109,9 +108,22 @@ public class ViewListArticles extends Application {
         source.download(article_manager);
         article_manager.verify_articles();
 
+
         display_articles(article_manager.load_articles());
     }
 
+
+    @FXML
+    public void disconnect() {
+        Platform.exit();
+    }
+
+    @FXML
+    public void relaunch() throws Exception {
+        Main mymain = new Main();
+        mymain.start(new Stage());
+
+    }
     @FXML
     public void display_articles(ArrayList<Article> articles) {
         // La fonction rafraîchit la fenêtre principale (articles supprimés/ rajoutés)
@@ -136,6 +148,7 @@ public class ViewListArticles extends Application {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+
         } catch (Exception e) {
             System.out.println("Aucun article n'a été sélectionné");
         }
@@ -160,7 +173,6 @@ public class ViewListArticles extends Application {
             SourceMenu controller = new SourceMenu(db_path);
             loader.setController(controller);
             Parent root = (Parent) loader.load();
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();

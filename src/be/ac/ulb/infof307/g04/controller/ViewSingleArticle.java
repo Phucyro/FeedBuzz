@@ -126,6 +126,11 @@ public class ViewSingleArticle extends Application{
      * function called when the delete button is pressed
      */
     @FXML
+    public void app_Closed() {
+        Stage stage = (Stage) delete_button.getScene().getWindow();
+        stage.close();
+    }
+    @FXML
     private void delete_button_pressed(){
         article_manager.delete_article(article);
         articles_window.display_articles(article_manager.load_articles());
