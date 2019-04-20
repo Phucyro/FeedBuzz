@@ -126,7 +126,7 @@ public class TagMenu  extends Application {
             TextInputDialog dialog = new TextInputDialog("");
             dialog.setTitle("Modify tag");
             dialog.setHeaderText("Modification of a tag name");
-            dialog.setContentText("Change the tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\"to: ");
+            dialog.setContentText("Change the tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\" to: ");
 
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
