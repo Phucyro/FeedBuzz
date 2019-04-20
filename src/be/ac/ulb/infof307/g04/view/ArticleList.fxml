@@ -57,7 +57,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit the application">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; then &quot;Exit&quot; or Click on &quot;the red circle with an x top right corner&quot;" />
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Exit&quot;" />
                     </items>
                   </Menu>
                </items>
