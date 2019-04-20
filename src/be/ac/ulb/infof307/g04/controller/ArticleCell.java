@@ -258,6 +258,7 @@ public class ArticleCell extends ListCell<Article> {
          * Function called to create the previewPane
          * @return Stackpane
          */
+        
         StackPane previewPane = new StackPane();
         previewPane.setPrefSize(200, 200);
         previewPane.setStyle("-fx-font-style: italic");
