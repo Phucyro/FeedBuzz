@@ -29,50 +29,33 @@
               </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
-              <items>
-                  <Menu mnemonicParsing="false" text="Article">
-                     <items>
-                        <Menu mnemonicParsing="false" text="Read an article">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Lire cet article&quot;" />
-                          </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Get an article's link">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Click on the article and then &quot;Copier le lien de l'article&quot;" />
-                          </items>
-                        </Menu>
-                     </items>
+               <items>
+                  <Menu mnemonicParsing="false" text="Read an article">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Read the article&quot;" />
+                    </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="File">
-                     <items>
-                        <Menu mnemonicParsing="false" text="Search an article">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Search by title&quot;" />
-                          </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Quit the application">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Exit&quot;" />
-                          </items>
-                        </Menu>
-                     </items>
+                  <Menu mnemonicParsing="false" text="Search an article by name">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Search by title&quot;" />
+                    </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Source">
-                     <items>
-                        <Menu mnemonicParsing="false" text="Configure sources">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Sources&quot;" />
-                          </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Configure tags">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then &quot;Configure Tags&quot;" />
-                           </items>
-                        </Menu>
-                     </items>
+                  <Menu mnemonicParsing="false" text="Configure sources">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; then &quot;Configure Sources&quot;" />
+                    </items>
                   </Menu>
-              </items>
+                  <Menu mnemonicParsing="false" text="Configure tags">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; then &quot;Configure Tags&quot;" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Exit the application">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; then &quot;Exit&quot; or click on &quot;the red circle with an x top right corner&quot;" />
+                    </items>
+                  </Menu>
+               </items>
           </Menu>
       </menus>
     </MenuBar>
@@ -83,8 +66,8 @@
             <ListView fx:id="list_view_articles" prefHeight="241.0" prefWidth="640.0" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
               <children>
-                <Button fx:id="read_article" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#open_article_window" text="Lire cet article" />
-                <Button mnemonicParsing="false" onAction="#copy_link_to_clipboard" text="Copier le lien de l'article" />
+                <Button fx:id="read_article" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#open_article_window" text="Read the article" />
+                <Button mnemonicParsing="false" onAction="#copy_link_to_clipboard" text="Copy article's link" />
               </children>
             </HBox>
           </children>
