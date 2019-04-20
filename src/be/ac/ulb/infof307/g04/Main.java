@@ -18,8 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -49,6 +51,9 @@ public class Main extends Application {
     private Button close_search_button;
     private TextField search_field;
     private Label match_count;
+
+    @FXML
+    private MenuItem read_menu_item;
 
     public static void main(String[] args) {
         article_manager = new ArticleManager("./article_db", "password");
@@ -105,6 +110,15 @@ public class Main extends Application {
         article_manager.verify_articles();
 
         display_articles(article_manager.load_articles());
+
+        setMenuBarImages();
+    }
+
+    private void setMenuBarImages() {
+        ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/read.png"));
+        readIcon.setFitHeight(450);
+        readIcon.setFitWidth(500);
+        read_menu_item.setGraphic(readIcon);
     }
 
     @FXML
