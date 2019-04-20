@@ -25,7 +25,8 @@ public class HTMLArticleDownloader {
 
     public static void main(String[] args) {
         try{
-            ArticleLocalifier("https://www.bbc.co.uk/news/world-asia-india-47114401");
+            //ArticleLocalifier("https://www.bbc.co.uk/news/world-asia-india-47114401");
+            ArticleLocalifier("https://www.theverge.com/2019/4/19/18508009/leica-china-censored-ad-tiananmen-square-protests-weibo");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +63,7 @@ public class HTMLArticleDownloader {
         replaceLinksHref(links,"#");
         replaceLinksSrc(media, foldername);
         replaceImportsHref(imports, foldername);
-        //System.out.println(doc);
+        System.out.println(doc);
         return ("Ninja");
     }
 
@@ -113,7 +114,7 @@ public class HTMLArticleDownloader {
         InputStream in = new URL(url).openStream();
         String filename = getFilename(in, url);
         String complete_path = "./media/" + foldername + "/" + filename;
-        Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);)
+        Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
         //System.out.println(url);
         //System.out.println(Paths.get(filename).toString());
         System.out.println(complete_path);
