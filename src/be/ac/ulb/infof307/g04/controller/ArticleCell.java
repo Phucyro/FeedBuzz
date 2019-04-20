@@ -91,8 +91,6 @@ public class ArticleCell extends ListCell<Article> {
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
-            System.out.println("_________");
-            System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());

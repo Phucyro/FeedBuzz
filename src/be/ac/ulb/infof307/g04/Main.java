@@ -117,7 +117,6 @@ public class Main extends Application {
         list_view_articles.getItems().clear();
         for (Article item : articles) {
             list_view_articles.getItems().add(item);
-            System.out.println(item.toString());
         }
     }
 
