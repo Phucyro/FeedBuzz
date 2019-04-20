@@ -60,9 +60,9 @@ public class ViewSingleArticle extends Application{
 
     public ViewSingleArticle(Article _article){
         /**
-         Constructor of the view of a single article
+        Constructor of the view of a single article
          @param _article
-         article that has to be reviewd
+                    article that has to be reviewd
          */
         article = _article;
         ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
