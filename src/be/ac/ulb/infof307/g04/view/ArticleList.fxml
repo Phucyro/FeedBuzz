@@ -37,22 +37,27 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Search an article by name">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then &quot;Search by title&quot;" />
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Search by title&quot;" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Copy article link to clipboard">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Copy article link&quot;" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure sources">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; then &quot;Configure Sources&quot;" />
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Sources&quot;" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure tags">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; then &quot;Configure Tags&quot;" />
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Tags&quot;" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit the application">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; then &quot;Exit&quot; or click on &quot;the red circle with an x top right corner&quot;" />
+                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; then &quot;Exit&quot; or Click on &quot;the red circle with an x top right corner&quot;" />
                     </items>
                   </Menu>
                </items>
@@ -67,7 +72,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
               <children>
                 <Button fx:id="read_article" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#open_article_window" text="Read the article" />
-                <Button mnemonicParsing="false" onAction="#copy_link_to_clipboard" text="Copy article's link" />
+                <Button mnemonicParsing="false" onAction="#copy_link_to_clipboard" text="Copy article link" />
               </children>
             </HBox>
           </children>

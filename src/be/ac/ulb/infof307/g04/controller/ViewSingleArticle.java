@@ -6,7 +6,9 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Class ViewSingleArticle, show what an article looks like when you click on it in the article cell
@@ -30,7 +33,7 @@ public class ViewSingleArticle extends Application{
     private Article article;
 
     //Boolean fot the validity of the article
-    private boolean is_correct;
+    private boolean is_valid;
 
     //Manager that could allow to delete an article
     private ArticleManager article_manager = new ArticleManager("./article_db");
@@ -52,17 +55,18 @@ public class ViewSingleArticle extends Application{
 
     private Main articles_window; //window that contains the article
 
+    private ArticleVerification verification;
+
 
     public ViewSingleArticle(Article _article){
         /**
-        Constructor of the view of a single article
+         Constructor of the view of a single article
          @param _article
-                    article that has to be reviewd
+         article that has to be reviewd
          */
-        ParserRss my_parser = new ParserRss();
         article = _article;
         ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
-        set_integrity(verification.is_valid());
+        check_Integrity(verification.is_valid());
 
     }
 
@@ -102,32 +106,43 @@ public class ViewSingleArticle extends Application{
         } catch (Exception e) {
             //System.out.println(article.getDescription());
         }
+        set_Fields();
+    }
+
+    private void set_Fields() {
         article_title.setText(article.getTitle());
+        handle_Integrity();
+        tags_label.setText("Tags: " + article.getTags());
+        article_icon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
+
+    }
+
+    private void handle_Integrity() {
         //if article is integer -> green ; else -> red
-        if (this.is_correct) {
+        if (this.is_valid) {
             integrity_label.setText("Article intègre");
             integrity_circle.setFill(Color.web("0x00FF66"));
         } else {
             integrity_label.setText("Non intègre!");
             integrity_circle.setFill(Color.RED);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Erreur intégrité");
+            alert.setHeaderText("L'article n'est pas intègre!");
+            alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                verification.correct_article();
+            }
         }
-        tags_label.setText("Tags: "+article.getTags());
-        article_icon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
     }
 
-    private boolean get_integrity() {
+    private void check_Integrity(boolean is_correct) {
         /*
         validity of the article
          */
-        return is_correct;
-    }
-
-    private void set_integrity(boolean is_correct) {
-        /*
-        validity of the article
-         */
-        ArticleVerification verif = new ArticleVerification(article, article.getSource_url());
-        this.is_correct = verif.is_valid();
+        ArticleVerification verification = new ArticleVerification(article, article.getSource_url());
+        this.is_valid = verification.is_valid();
     }
 
 
