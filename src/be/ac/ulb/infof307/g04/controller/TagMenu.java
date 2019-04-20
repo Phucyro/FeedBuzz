@@ -56,7 +56,6 @@ public class TagMenu  extends Application {
     }
 
     public void start(Stage primaryStage) {
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
         try {
@@ -87,15 +86,23 @@ public class TagMenu  extends Application {
          * Create a dialog window to add a new tag
          */
         TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("Ajout");
-        dialog.setHeaderText("Ajout d'un tag");
-        dialog.setContentText("Veuillez entrer le tag à ajouter");
+        dialog.setTitle("Add");
+        dialog.setHeaderText("Add a tag");
+        dialog.setContentText("Please enter the name of the new tag");
 
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
+        if (result.isPresent() && !result.get().isEmpty()){
             DatabaseTag tag = new DatabaseTag();
             tag.setName(result.get());
             tag_manager.add_tag(tag);
+        }
+        else{
+            System.out.println("Pop up");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error!");
+            alert.setHeaderText("New tag name empty");
+            alert.setContentText("Please enter a name for the new tag");
+            alert.showAndWait();
         }
         init_list();
     }
@@ -117,14 +124,22 @@ public class TagMenu  extends Application {
 
 
             TextInputDialog dialog = new TextInputDialog("");
-            dialog.setTitle("Modification");
-            dialog.setHeaderText("Modification d'un tag");
-            dialog.setContentText("En quoi voulez-vous modifier le tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\"? ");
+            dialog.setTitle("Modify tag");
+            dialog.setHeaderText("Modification of a tag name");
+            dialog.setContentText("Change the tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\"to: ");
 
             Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
+            if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());
                 tag_manager.modify_tag(oldTag, newTag);
+            }
+            else{
+                System.out.println("Pop up");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error!");
+                alert.setHeaderText("New tag name empty");
+                alert.setContentText("Please enter a name for the new tag");
+                alert.showAndWait();
             }
             init_list();
         }

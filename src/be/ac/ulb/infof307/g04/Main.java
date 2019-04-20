@@ -61,7 +61,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
 
-        primaryStage.setTitle("Fenêtre principale");
+        primaryStage.setTitle("Article List");
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -135,6 +135,7 @@ public class Main extends Application {
             controller.set_articles_windows(this);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
+            stage.setTitle("Article Reading");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
@@ -171,6 +172,7 @@ public class Main extends Application {
             Parent root = (Parent) loader.load();
 
             Stage stage = new Stage();
+            stage.setTitle("Choose sources");
             stage.setScene(new Scene(root));
             stage.show();
 
@@ -236,6 +238,7 @@ public class Main extends Application {
             Parent root = (Parent) loader.load();
 
             Stage stage = new Stage();
+            stage.setTitle("Manage tags");
             stage.setScene(new Scene(root));
             stage.show();
 

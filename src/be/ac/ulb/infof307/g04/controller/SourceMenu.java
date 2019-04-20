@@ -54,6 +54,7 @@ public class SourceMenu extends Application {
         try {
             AnchorPane main_container;
             main_container = loader.load();
+            primaryStage.setTitle("Source Menu");
             Scene scene = new Scene(main_container);
             primaryStage.setScene(scene);
             primaryStage.show();
