@@ -83,7 +83,7 @@ public class ArticleManager{
      * check the integrity of all articles
      */
     public void verify_articles() {
-        /* procede à la verification d'un article, s'il n'est pas valide (car modifié) on tente de le corriger, si cela est possible on remplace l'article corrigé, sinon on supprime l'article*/
+        /* procede à la verification d'un article, s'il n'est pas valide (car modifié) on tente de le corriger, si cela est possible on remplace l'article corrigé, sinon on supprime l'article
         ArrayList<Article> articles = load_articles();
         for(Article article : articles){
             ArticleVerification article_verification = new ArticleVerification(article,article.getSource_url());
@@ -97,7 +97,7 @@ public class ArticleManager{
                 }
             }
 
-        }
+        }*/
     }
 
     /**
@@ -121,11 +121,7 @@ public class ArticleManager{
      * @return found article
      */
     public DatabaseArticle findArticle(String link){
-        try {
-            return jsonDBTemplate.findById(link, DatabaseArticle.class);
-        } catch (Exception e) {
-            return null;
-        }
+        return jsonDBTemplate.findById(link, DatabaseArticle.class);
     }
 
     /**

@@ -47,7 +47,7 @@ public class Main extends Application {
     private Label match_count;
 
     public static void main(String[] args) {
-        article_manager = new ArticleManager("./article_db", "password");
+        article_manager = new ArticleManager("./article_db");
         init_db();
         source = new SourceManager("./article_db");
         launch(args);

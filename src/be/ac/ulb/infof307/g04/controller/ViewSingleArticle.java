@@ -56,9 +56,12 @@ public class ViewSingleArticle extends Application{
         //Enlever tout ca quand le check d'integrite sera mis en place. Appeler la fonction set_integrity avec le  bon booleen et la couleur changera automatiquement
         //article = my_parser.parse("http://rss.cnn.com/rss/cnn_topstories.rss").get(0);
         //System.out.println(article);
-        ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
-        set_integrity(verification.is_valid());
 
+
+        //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
+        //set_integrity(verification.is_valid());
+
+        //TODO article verification (propre)
     }
 
     public void set_articles_windows(Main articles_window_) {
@@ -92,7 +95,7 @@ public class ViewSingleArticle extends Application{
      */
     public void initialize(){
         try {
-            article_view.getEngine().load(article.getLink());
+            article_view.getEngine().loadContent(article.getHtmlContent());
         } catch (Exception e){
             //System.out.println(article.getDescription());
         }
