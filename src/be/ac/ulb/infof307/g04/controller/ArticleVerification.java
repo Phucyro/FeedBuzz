@@ -70,14 +70,6 @@ public class ArticleVerification {
 
 
 
-    public void set_article(Article article){
-        /*
-        Set an article
-         */
-        article_to_verify = article;
-    }
-
-
     public boolean is_valid(){
         /**
          * Check if an article exists and wasn't modified from the source
