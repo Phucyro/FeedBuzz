@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.Article;
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
@@ -8,7 +7,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,7 +82,7 @@ public class SourceManager {
         /**
          * Download the articles
          * @see ArticleManager
-         * @see Article
+         * @see DatabaseArticle
          * @see ParserRss
          * @param articleManager
          *                  article manager to see what articles can we load
@@ -93,9 +91,9 @@ public class SourceManager {
         ArrayList<DatabaseSource> sources = load_sources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                ArrayList<Article> articles = source_parser.parse(source.getUrl());
+                ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                 for (int i = 0; i < source.getNumber_to_download(); i++) {
-                    Article article_to_save = articles.get(i);
+                    DatabaseArticle article_to_save = articles.get(i);
                     article_to_save.setDays_to_save(source.getLifeSpan_default());
                     article_to_save.setCategory(source.getTag());
                     article_to_save.setDownload_date(new Date());

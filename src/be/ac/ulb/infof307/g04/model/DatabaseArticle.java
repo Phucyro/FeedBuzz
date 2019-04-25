@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * Class DatabaseArtcle where all the articles are stored
- * @see be.ac.ulb.infof307.g04.controller.Article
+ * @see be.ac.ulb.infof307.g04.controller.DatabaseArticle
  */
 @Document(collection = "articles", schemaVersion= "1.0")
 public class DatabaseArticle implements Serializable {
@@ -86,4 +86,16 @@ public class DatabaseArticle implements Serializable {
     public void setSource_url(String url){source_url = url;}
     public Date getDownload_date() { return download_date;}
     public void setDownload_date(Date now) { download_date = now;}
+
+    public boolean need_to_be_deleted() {
+        /**
+         * Tests if an article is outdated (based on his download date and the days to save the article)
+         *
+         * @return boolean if an article has to be deleted
+         * @see Date
+         */
+        Date now = new Date();
+        Date delete_date = new Date(getDownload_date().getTime() + getDays_to_save() * 24 * 60 * 60 * 1000);
+        return now.after(delete_date);
+    }
 }

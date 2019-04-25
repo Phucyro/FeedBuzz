@@ -29,7 +29,6 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     @FXML
-    private ListView<Article> list_view_articles;
+    private ListView<DatabaseArticle> list_view_articles;
 
     @FXML
     private MenuItem quit_button;
@@ -71,7 +70,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
 
-        primaryStage.setTitle("Article List");
+        primaryStage.setTitle("DatabaseArticle List");
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -101,7 +100,7 @@ public class Main extends Application {
                 public void changed(ObservableValue<? extends String> observable,
                                     String oldValue, String newValue) {
 
-                    ArrayList<Article> articles = article_manager.load_articles(newValue);
+                    ArrayList<DatabaseArticle> articles = article_manager.load_articles(newValue);
                     display_articles(articles);
                     match_count.setText(articles.size() + " matches");
                 }
@@ -127,14 +126,14 @@ public class Main extends Application {
     }
 
     @FXML
-    public void display_articles(ArrayList<Article> articles) {
+    public void display_articles(ArrayList<DatabaseArticle> articles) {
         /**
          * Display all the valid articles in the window
          * @param articles
          *              articles that haven't been deleted in the DB
          */
         list_view_articles.getItems().clear();
-        for (Article item : articles) {
+        for (DatabaseArticle item : articles) {
             list_view_articles.getItems().add(item);
         }
     }
@@ -152,7 +151,7 @@ public class Main extends Application {
             controller.set_articles_windows(this);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Article Reading");
+            stage.setTitle("DatabaseArticle Reading");
             stage.setScene(new Scene(root));
             stage.show();
 

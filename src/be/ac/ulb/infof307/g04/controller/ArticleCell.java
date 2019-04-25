@@ -1,5 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
+
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -23,7 +25,7 @@ import java.net.URISyntaxException;
 /**
  * Define an article cell on the main window
  */
-public class ArticleCell extends ListCell<Article> {
+public class ArticleCell extends ListCell<DatabaseArticle> {
 
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
@@ -74,7 +76,7 @@ public class ArticleCell extends ListCell<Article> {
     }
 
     @Override
-    protected void updateItem(Article item, boolean empty){
+    protected void updateItem(DatabaseArticle item, boolean empty){
         /**
          * Function called when an item is modified
          *
@@ -115,7 +117,7 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    private void showImageIcon(Article item) throws IOException {
+    private void showImageIcon(DatabaseArticle item) throws IOException {
         /**
          * Function called to show the image icon in the list view
          * @param article item
@@ -135,7 +137,7 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    private void popupOverArticle(Article item) {
+    private void popupOverArticle(DatabaseArticle item) {
         /**
          * Function called to create a popup that only shows when the mouse is over
          * @param article item

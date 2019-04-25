@@ -1,9 +1,9 @@
 package be.ac.ulb.infof307.g04.controller;
 import org.xml.sax.SAXException;
 
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
 
 public class ArticleVerification {
-    private Article article_to_verify;
-    private Article article_from_source;
+    private DatabaseArticle article_to_verify;
+    private DatabaseArticle article_from_source;
     private String source;
 
-    public ArticleVerification(Article article, String source_url){
+    public ArticleVerification(DatabaseArticle article, String source_url){
         /**
-         * Constructor of the Article verification
+         * Constructor of the DatabaseArticle verification
          *
          * @param article
          *              get the article that needs to be verified
@@ -36,9 +36,9 @@ public class ArticleVerification {
      * Get all the articles from a source
      * @return An ArrayList of articles
      */
-    public ArrayList<Article> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ArrayList<DatabaseArticle> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException, ParseException {
         ParserRss parser = new ParserRss();
-        ArrayList<Article> articles;
+        ArrayList<DatabaseArticle> articles;
         articles = parser.parse(source);
         return articles;
     }
@@ -58,8 +58,8 @@ public class ArticleVerification {
          * @throws
          */
 
-        Article a1 = article_to_verify;
-        Article a2 = article_from_source;
+        DatabaseArticle a1 = article_to_verify;
+        DatabaseArticle a2 = article_from_source;
 
         // condition de la forme, soit les deux champs sont nuls, soit aucun des deux n'est nul et les hash correspondent
         if((((a1.getDescription() == null && a2.getDescription() == null ) || (a1.getDescription() != null && a2.getDescription() != null )) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
@@ -82,7 +82,7 @@ public class ArticleVerification {
          * @return boolean
          * @see is_equal()
          */
-        ArrayList<Article> articles = new ArrayList<>();
+        ArrayList<DatabaseArticle> articles = new ArrayList<>();
         articles = get_articles_from_source();
         boolean found = false;
         for(int i=0; i< articles.size(); i++){
@@ -99,10 +99,10 @@ public class ArticleVerification {
     public boolean is_correctable() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * check if an article can be corrected
-         * @see Article
+         * @see DatabaseArticle
          */
 
-        ArrayList<Article> articles = new ArrayList<>();
+        ArrayList<DatabaseArticle> articles = new ArrayList<>();
         articles = get_articles_from_source();
 
         for(int i=0; i< articles.size(); i++){
@@ -135,7 +135,7 @@ public class ArticleVerification {
 
 
 
-    public Article get_article(){
+    public DatabaseArticle get_article(){
         /*
         Get the article that has to be verified
          */

@@ -5,6 +5,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,12 +32,12 @@ public class ParserRss {
     public ParserRss() {
     }
 
-    public ArrayList<Article> parse(String url_name) throws IOException, SAXException, ParserConfigurationException, ParseException {
+    public ArrayList<DatabaseArticle> parse(String url_name) throws IOException, SAXException, ParserConfigurationException, ParseException {
         /**
          * parse an rss feed
          * @param url_name
          *              url of the rss feed
-         * @see Article
+         * @see DatabaseArticle
          * @throws MalformedURLException : if the url is not valid
          * @return a list of articles
          */
@@ -101,14 +103,14 @@ public class ParserRss {
     }
 
 
-    private ArrayList<Article> parse_articles() throws ParseException {
+    private ArrayList<DatabaseArticle> parse_articles() throws ParseException {
         /**
          * Parse a load of articles
-         * @see Article
+         * @see DatabaseArticle
          * @return list of the articles
          */
         NodeList entryList;
-        ArrayList<Article> articles = new ArrayList<>();
+        ArrayList<DatabaseArticle> articles = new ArrayList<>();
 
         if (atom) {
             entryList = get_node_list("feed", "entry");
@@ -139,15 +141,15 @@ public class ParserRss {
     }
 
 
-    private Article parse_article(Element entry) throws ParseException {
+    private DatabaseArticle parse_article(Element entry) throws ParseException {
         /**
          * parse a specific article
-         * @see Article
+         * @see DatabaseArticle
          * @param entry
          *            xml article entry
          * @return an article
          */
-        Article article = new Article();
+        DatabaseArticle article = new DatabaseArticle();
         article.setTitle(get_string(entry, "title"));
         article.setAuthor(get_string(entry, "author"));
         article.setCategory(get_string(entry, "category"));
@@ -159,7 +161,7 @@ public class ParserRss {
         return article;
     }
 
-    private void parse_article_atom(Element entry, Article article) throws ParseException {
+    private void parse_article_atom(Element entry, DatabaseArticle article) throws ParseException {
         /**
          * specific parse for atom feeds
          * @param entry
@@ -173,7 +175,7 @@ public class ParserRss {
         article.setUpdated_date(get_date(get_string(entry, "updated")));
     }
 
-    private void parse_article_rss(Element item, Article article) throws ParseException {
+    private void parse_article_rss(Element item, DatabaseArticle article) throws ParseException {
         /**
          * specific parse for rss2.0 feeds
          * @param item

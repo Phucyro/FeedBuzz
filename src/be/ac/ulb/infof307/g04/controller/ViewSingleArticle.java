@@ -1,5 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
+
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import javafx.application.Application;
@@ -21,20 +23,19 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.Optional;
 
 /**
  * Class ViewSingleArticle, show what an article looks like when you click on it in the article cell
- * @see Article
+ * @see DatabaseArticle
  * @see ArticleManager
  * @see ArticleVerification
  * @version 4.0
  */
 
 public class ViewSingleArticle extends Application{
-    private Article article;
+    private DatabaseArticle article;
 
     //Boolean fot the validity of the article
     private boolean is_valid;
@@ -62,7 +63,7 @@ public class ViewSingleArticle extends Application{
     private ArticleVerification verification;
 
 
-    public ViewSingleArticle(Article _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
         Constructor of the view of a single article
          @param _article
@@ -120,7 +121,7 @@ public class ViewSingleArticle extends Application{
     private void handle_Integrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //if article is integer -> green ; else -> red
         if (this.is_valid) {
-            integrity_label.setText("Article intègre");
+            integrity_label.setText("DatabaseArticle intègre");
             integrity_circle.setFill(Color.web("0x00FF66"));
         } else {
             integrity_label.setText("Non intègre!");
@@ -153,7 +154,7 @@ public class ViewSingleArticle extends Application{
          */
         article_manager.delete_article(article);
         articles_window.display_articles(article_manager.load_articles());
-        System.out.println("Article supprimé");
+        System.out.println("DatabaseArticle supprimé");
         //close the article page when deleted
         Stage stage = (Stage) delete_button.getScene().getWindow();
         stage.close();

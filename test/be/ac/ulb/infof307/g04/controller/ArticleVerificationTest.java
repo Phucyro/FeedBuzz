@@ -1,8 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
-import be.ac.ulb.infof307.g04.controller.Article;
-import be.ac.ulb.infof307.g04.controller.ArticleVerification;
-import be.ac.ulb.infof307.g04.controller.ParserRss;
+
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,7 +9,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -22,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ArticleVerificationTest {
 
     private ArticleVerification test_verification;
-    private Article false_article;
-    private Article true_article;
-    private Article repairable_article;
-    private Article not_repairable_article;
+    private DatabaseArticle false_article;
+    private DatabaseArticle true_article;
+    private DatabaseArticle repairable_article;
+    private DatabaseArticle not_repairable_article;
 
     private String test_source;
 
@@ -34,10 +32,10 @@ public class ArticleVerificationTest {
         // On recupere la liste d'article de la source
         test_source = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
         ParserRss parser = new ParserRss();
-        ArrayList<Article> articles = parser.parse(test_source);
+        ArrayList<DatabaseArticle> articles = parser.parse(test_source);
 
         // Un article pris de la source sans aucune modification
-        true_article = new Article();
+        true_article = new DatabaseArticle();
         true_article.setAuthor(articles.get(0).getAuthor());
         true_article.setTitle(articles.get(0).getTitle());
         true_article.setPublished_date(articles.get(0).getPublished_date());
@@ -47,7 +45,7 @@ public class ArticleVerificationTest {
         true_article.setDescription(articles.get(0).getDescription());
         true_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
         // On altere un article de la source
-        false_article = new Article();
+        false_article = new DatabaseArticle();
         false_article.setAuthor(articles.get(0).getAuthor());
         false_article.setTitle("Modified Title");
         false_article.setPublished_date(articles.get(0).getPublished_date());
@@ -58,7 +56,7 @@ public class ArticleVerificationTest {
         false_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie uniquement le titre, on peut recuperer l'article avec le lien ou la description
-        repairable_article = new Article();
+        repairable_article = new DatabaseArticle();
         repairable_article.setAuthor(articles.get(0).getAuthor());
         repairable_article.setTitle("Modified Title");
         repairable_article.setPublished_date(articles.get(0).getPublished_date());
@@ -69,7 +67,7 @@ public class ArticleVerificationTest {
         repairable_article.setSource_url("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie le lien, la description, et le titre -> pas corrigible
-        not_repairable_article = new Article();
+        not_repairable_article = new DatabaseArticle();
         not_repairable_article.setAuthor(articles.get(0).getAuthor());
         not_repairable_article.setTitle("Modified Title");
         not_repairable_article.setPublished_date(articles.get(0).getPublished_date());

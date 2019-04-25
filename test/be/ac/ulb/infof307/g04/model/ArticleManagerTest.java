@@ -1,10 +1,8 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.Article;
-import be.ac.ulb.infof307.g04.model.ArticleManager;
-import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import org.junit.jupiter.api.*;
 
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import java.io.File;
 import java.nio.file.Files;
 
@@ -15,16 +13,16 @@ class ArticleManagerTest {
 
     private String dbpath;
     private ArticleManager manager;
-    private Article article1;
-    private Article article2;
+    private DatabaseArticle article1;
+    private DatabaseArticle article2;
 
     @BeforeAll
     void setup_before_article_manager() {
         this.dbpath = "./test.db";
 
         this.manager = new ArticleManager(dbpath, "test");
-        this.article1 = new Article();
-        this.article2 = new Article();
+        this.article1 = new DatabaseArticle();
+        this.article2 = new DatabaseArticle();
 
         this.article1.setLink("http://www.test1.com");
         this.article2.setLink("http://www.test2.com");
@@ -42,7 +40,7 @@ class ArticleManagerTest {
     @Test
     void add_and_find_article() {
         manager.add_article(article1);
-        DatabaseArticle article_test = manager.findArticle(article1.getLink());
+        be.ac.ulb.infof307.g04.model.DatabaseArticle article_test = manager.findArticle(article1.getLink());
         assertSame(article1.getDescription(), article_test.getDescription());
         //Verifie que l'article ajoute a la base de donnees a la meme description que l'article original
     }
@@ -51,7 +49,7 @@ class ArticleManagerTest {
     void delete_existing_article() {
         manager.add_article(article1);
         manager.delete_article(article1);
-        Article deleted_article = new Article(manager.findArticle(article1.getLink()));
+        DatabaseArticle deleted_article = new DatabaseArticle(manager.findArticle(article1.getLink()));
         assertTrue(deleted_article.getDeleted());
         //L'article supprime devrais avoir son attribut deleted a "true" pour signifier que l'article est supprime.
         assertSame(null, deleted_article.getDescription());
@@ -60,7 +58,7 @@ class ArticleManagerTest {
 
     @Test
     void delete_non_existing_article(){
-        Article non_existing_article = new Article();
+        DatabaseArticle non_existing_article = new DatabaseArticle();
         non_existing_article.setLink("http://www.test3.com");
         non_existing_article.setTitle("Test3");
         assertFalse(manager.delete_article(non_existing_article));
