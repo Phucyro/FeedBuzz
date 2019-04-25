@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -102,7 +103,7 @@ public class ArticleManager{
     }
 
 
-    public void verify_articles() throws IOException, ParserConfigurationException, SAXException {
+    public void verify_articles() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
          * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
          * replace it if possible or delete it

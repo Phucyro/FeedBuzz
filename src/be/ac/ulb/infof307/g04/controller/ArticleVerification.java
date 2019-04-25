@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +36,7 @@ public class ArticleVerification {
      * Get all the articles from a source
      * @return An ArrayList of articles
      */
-    public ArrayList<Article> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException {
+    public ArrayList<Article> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException, ParseException {
         ParserRss parser = new ParserRss();
         ArrayList<Article> articles;
         articles = parser.parse(source);
@@ -74,7 +75,7 @@ public class ArticleVerification {
 
 
 
-    public boolean is_valid() throws IOException, ParserConfigurationException, SAXException {
+    public boolean is_valid() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * Check if an article exists and wasn't modified from the source
          *
@@ -95,7 +96,7 @@ public class ArticleVerification {
     }
 
 
-    public boolean is_correctable() throws IOException, ParserConfigurationException, SAXException {
+    public boolean is_correctable() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * check if an article can be corrected
          * @see Article
@@ -117,7 +118,7 @@ public class ArticleVerification {
     }
 
 
-    public void correct_article() throws IOException, ParserConfigurationException, SAXException {
+    public void correct_article() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
          * correct an article if it is possible
          */

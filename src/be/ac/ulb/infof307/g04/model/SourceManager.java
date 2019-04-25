@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -79,7 +80,7 @@ public class SourceManager {
     }
 
 
-    public void download(ArticleManager articleManager) throws IOException, ParserConfigurationException, SAXException {
+    public void download(ArticleManager articleManager) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * Download the articles
          * @see ArticleManager

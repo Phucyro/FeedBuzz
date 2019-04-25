@@ -51,7 +51,6 @@ public class SourceMenu extends Application {
          */
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
-
         AnchorPane main_container;
         main_container = loader.load();
         primaryStage.setTitle("Source Menu");
