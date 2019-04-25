@@ -55,18 +55,16 @@ public class TagMenu  extends Application {
         launch(args);
     }
 
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-        try {
-            AnchorPane main_container;
-            main_container = loader.load();
-            Scene scene = new Scene(main_container);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        AnchorPane main_container;
+        main_container = loader.load();
+        Scene scene = new Scene(main_container);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
     }
 
     private void init_list() {
@@ -172,14 +170,4 @@ public class TagMenu  extends Application {
         alert.setContentText("Vous n'avez pas selectionné de tag!");
         alert.showAndWait();
     }
-    /*private void init_combo() {
-        ObservableList<String> tags = FXCollections.observableArrayList();
-        for (DatabaseTag tag : tag_manager.get_all()){
-            if (!tag.getName().equals("Default")) {
-                tags.add(tag.getName());
-            }
-        }
-        combo_tags.setItems(tags);
-        combo_tags.setValue(tags.get(0));
-    }*/
 }

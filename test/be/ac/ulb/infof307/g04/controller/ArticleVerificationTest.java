@@ -6,7 +6,11 @@ import be.ac.ulb.infof307.g04.controller.ParserRss;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -25,7 +29,7 @@ public class ArticleVerificationTest {
     private String test_source;
 
     @BeforeAll
-    void setup_before_article_verification() {
+    void setup_before_article_verification() throws IOException, ParserConfigurationException, SAXException {
         // On recupere la liste d'article de la source
         test_source = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
         ParserRss parser = new ParserRss();
@@ -76,7 +80,7 @@ public class ArticleVerificationTest {
     }
 
     @Test
-    void valid_article_False() {
+    void valid_article_False() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(false_article, test_source);
         assertFalse(test_verification.is_valid());
 
@@ -84,7 +88,7 @@ public class ArticleVerificationTest {
 
 
     @Test
-    void valid_article_True() {
+    void valid_article_True() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(true_article, test_source);
         assertTrue(test_verification.is_valid());
 
@@ -92,14 +96,14 @@ public class ArticleVerificationTest {
 
 
     @Test
-    void correctable_False() {
+    void correctable_False() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(not_repairable_article, test_source);
         assertFalse(test_verification.is_correctable());
     }
 
 
     @Test
-    void correctable_True() {
+    void correctable_True() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(repairable_article, test_source);
         assertTrue(test_verification.is_correctable());
 
@@ -107,14 +111,14 @@ public class ArticleVerificationTest {
 
 
     @Test
-    void corrected_False() {
+    void corrected_False() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(not_repairable_article, test_source);
         test_verification.correct_article();
         assertFalse(test_verification.is_valid());
     }
 
     @Test
-    void corrected_True() {
+    void corrected_True() throws IOException, ParserConfigurationException, SAXException {
         test_verification = new ArticleVerification(repairable_article, test_source);
         test_verification.correct_article();
         assertTrue(test_verification.is_valid());

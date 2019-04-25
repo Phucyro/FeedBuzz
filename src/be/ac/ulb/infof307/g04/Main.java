@@ -22,10 +22,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -75,7 +79,7 @@ public class Main extends Application {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException, ParserConfigurationException, SAXException {
         /*
         Initialize the main window -> has a close button, a search bar and display all the articles in the DB
          */
@@ -143,7 +147,6 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
             ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
-            System.out.println("Ouverture de l'article");
             loader.setController(controller);
             controller.set_articles_windows(this);
             Parent root = (Parent) loader.load();
@@ -151,9 +154,25 @@ public class Main extends Application {
             stage.setTitle("Article Reading");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
-            System.out.println("Aucun article n'a été sélectionné");
+
+        } catch(NullPointerException e){
+            show_error_box("No article selected");
+        }catch(ParserConfigurationException e){
+            show_error_box("Parser configuration error");
+        }catch(IOException e){
+            show_error_box("No article selected");
+        }catch(SAXException e){
+            show_error_box("SAX Error");
         }
+    }
+
+    private void show_error_box(String s) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(s);
+
+        alert.showAndWait();
     }
 
     @FXML
@@ -168,15 +187,15 @@ public class Main extends Application {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            System.out.println("Veuillez selectionner un article");
+            show_error_box("No article selected");
         }
     }
 
     @FXML
     public void open_source_window(ActionEvent actionEvent) {
         /**
-         * Opens the link of the article
-         * @throws Exception : when no article has been selected
+         * Opens the sources window
+         * @throws Exception
          */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
@@ -190,7 +209,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            show_error_box("No article selected");
         }
     }
 
@@ -256,7 +275,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            show_error_box("No article selected");
         }
     }
 

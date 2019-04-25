@@ -9,6 +9,8 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
+
 /**
  * Class SourceCell where a source cell is created
  * @see DatabaseSource
@@ -97,8 +99,6 @@ public class SourceCell extends ListCell<DatabaseSource>{
             title_label.setText(item.getSource_name());
             url_label.setText(item.getUrl());
             source_enabled.setSelected(item.isEnabled());
-            //System.out.println(item.getSource_name());
-            //System.out.println(item.getLifeSpan_default());
             SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumber_to_download());
             source_number_of_articles.setValueFactory(valueFactoryNumber);
             SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpan_default());

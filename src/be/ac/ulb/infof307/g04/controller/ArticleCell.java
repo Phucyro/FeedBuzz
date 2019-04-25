@@ -48,15 +48,12 @@ public class ArticleCell extends ListCell<Article> {
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
         GridPane.setValignment(articleIcon, VPos.TOP);
-        //
+
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         tagLabel.setStyle("-fx-font-size: 0.9em;");
         GridPane.setConstraints(tagLabel, 2, 0);
-        //
-        //descriptionWebView.setMaxSize(400, 100);
-        //GridPane.setConstraints(descriptionWebView, 2, 0, 1, 1);
-        //
+
         GridPane.setConstraints(linkLabel, 1, 1, 2, 1);
 
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
@@ -77,7 +74,7 @@ public class ArticleCell extends ListCell<Article> {
     }
 
     @Override
-    protected void updateItem(Article item, boolean empty) {
+    protected void updateItem(Article item, boolean empty){
         /**
          * Function called when an item is modified
          *
@@ -91,8 +88,6 @@ public class ArticleCell extends ListCell<Article> {
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
-            //descriptionWebView.getEngine().loadContent(item.getDescription());
-            //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
 
             popupOverArticle(item);
@@ -100,9 +95,8 @@ public class ArticleCell extends ListCell<Article> {
             try {
                 showImageIcon(item);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // ERREUR A BIEN COMPRENDRE
             }
-
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override

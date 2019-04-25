@@ -1,4 +1,9 @@
 package be.ac.ulb.infof307.g04.controller;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +35,7 @@ public class ArticleVerification {
      * Get all the articles from a source
      * @return An ArrayList of articles
      */
-    public ArrayList<Article> get_articles_from_source(){
+    public ArrayList<Article> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException {
         ParserRss parser = new ParserRss();
         ArrayList<Article> articles;
         articles = parser.parse(source);
@@ -57,7 +62,6 @@ public class ArticleVerification {
 
         // condition de la forme, soit les deux champs sont nuls, soit aucun des deux n'est nul et les hash correspondent
         if((((a1.getDescription() == null && a2.getDescription() == null ) || (a1.getDescription() != null && a2.getDescription() != null )) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
-                /*(((a1.getCategory() == null && a2.getCategory() == null ) || (a1.getCategory() != null && a2.getCategory() != null )) && hashCode(a1.getCategory()) == hashCode(a2.getCategory())) &&*/
                     (((a1.getLink() == null && a2.getLink() == null ) || (a1.getLink() != null && a2.getLink() != null )) && hashCode(a1.getLink()) == hashCode(a2.getLink())) &&
                         (((a1.getPublished_date() == null && a2.getPublished_date() == null ) || (a1.getPublished_date() != null && a2.getPublished_date() != null )) && hashCode(a1.getPublished_date()) == hashCode(a2.getPublished_date())) &&
                             (((a1.getUpdated_date() == null && a2.getUpdated_date() == null ) || (a1.getUpdated_date() != null && a2.getUpdated_date() != null )) && hashCode(a1.getUpdated_date()) == hashCode(a2.getUpdated_date()))){
@@ -70,7 +74,7 @@ public class ArticleVerification {
 
 
 
-    public boolean is_valid(){
+    public boolean is_valid() throws IOException, ParserConfigurationException, SAXException {
         /**
          * Check if an article exists and wasn't modified from the source
          *
@@ -91,17 +95,12 @@ public class ArticleVerification {
     }
 
 
-    public boolean is_correctable(){
+    public boolean is_correctable() throws IOException, ParserConfigurationException, SAXException {
         /**
          * check if an article can be corrected
          * @see Article
          */
 
-        /* Champs Unique (clé) ->  description , (title+ author), link -> si le champ de l'article broken correspond avec un champ d'un article d'une source on peut mettre à jour un article
-        Champs non unique -> dates, categories, author, title -> à partir de ces champs on ne peut pas reconstruire un article (plusieurs articles peuvent avoir le meme titre ou le meme auteur, mais probablement pas le meme titre et le meme auteur)
-        exemple, les description des articles-> un des deux champs est null -> false  ,  les deux champs sont null -> false  ,  les deux champs sont non null et correspondent -> true
-        false = pas de possibilité de corriger l'article avec le champs courant
-        true = possibilité de corriger l'article à partir de la source grace a une correspondance des champs*/
         ArrayList<Article> articles = new ArrayList<>();
         articles = get_articles_from_source();
 
@@ -118,7 +117,7 @@ public class ArticleVerification {
     }
 
 
-    public void correct_article(){
+    public void correct_article() throws IOException, ParserConfigurationException, SAXException {
         /*
          * correct an article if it is possible
          */

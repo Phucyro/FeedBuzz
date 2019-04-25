@@ -57,10 +57,6 @@ public class Article extends DatabaseArticle {
         setLink(_link);
         setAuthor(_author);
 
-        if (_image_url != null) {
-            //Image image = new Image(_image_url);
-            //setImage(image);
-        }
         if (_tags != null){
             setTags(_tags);
         }

@@ -30,7 +30,7 @@ public class ParserRss {
     public ParserRss() {
     }
 
-    public ArrayList<Article> parse(String url_name) {
+    public ArrayList<Article> parse(String url_name) throws IOException, SAXException, ParserConfigurationException {
         /**
          * parse an rss feed
          * @param url_name
@@ -42,11 +42,9 @@ public class ParserRss {
         atom = false;
 
         URL url = null;
-        try {
-            url = new URL(url_name);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
+        url = new URL(url_name);
+
 
         if (url != null) {
             get_xml_file(url);
@@ -73,7 +71,7 @@ public class ParserRss {
     }
 
 
-    private void get_xml_file(URL url){
+    private void get_xml_file(URL url) throws ParserConfigurationException, IOException, SAXException {
         /**
          * download the xml file of the rss feed
          * @param url
@@ -86,13 +84,10 @@ public class ParserRss {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
 
-        try {
-            docBuilder = dbf.newDocumentBuilder();
-            InputStream stream = url.openStream();
-            document = docBuilder.parse(stream);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
+        docBuilder = dbf.newDocumentBuilder();
+        InputStream stream = url.openStream();
+        document = docBuilder.parse(stream);
+
 
     }
 

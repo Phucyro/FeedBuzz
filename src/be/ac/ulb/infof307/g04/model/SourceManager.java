@@ -4,7 +4,11 @@ import be.ac.ulb.infof307.g04.controller.Article;
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -75,7 +79,7 @@ public class SourceManager {
     }
 
 
-    public void download(ArticleManager articleManager) {
+    public void download(ArticleManager articleManager) throws IOException, ParserConfigurationException, SAXException {
         /**
          * Download the articles
          * @see ArticleManager

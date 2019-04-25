@@ -17,8 +17,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Optional;
 
 /**
@@ -58,7 +61,7 @@ public class ViewSingleArticle extends Application{
     private ArticleVerification verification;
 
 
-    public ViewSingleArticle(Article _article){
+    public ViewSingleArticle(Article _article) throws IOException, ParserConfigurationException, SAXException {
         /**
         Constructor of the view of a single article
          @param _article
@@ -76,7 +79,7 @@ public class ViewSingleArticle extends Application{
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         /**
          * Start javafx window
          * @param primaryStage
@@ -84,32 +87,28 @@ public class ViewSingleArticle extends Application{
         //Load an fxml file
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
-        try {
-            AnchorPane conteneurPrincipal;
-            conteneurPrincipal = loader.load();
-            Scene scene = new Scene(conteneurPrincipal);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        AnchorPane conteneurPrincipal;
+        conteneurPrincipal = loader.load();
+        Scene scene = new Scene(conteneurPrincipal);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
     }
 
-    public void initialize() {
+    public void initialize() throws IOException, ParserConfigurationException, SAXException {
         /**
          * Initialize the text and the title of the article
          * Modify the integrity circle and text
          * @throws Exception : if article wasn't found
          */
-        try {
-            article_view.getEngine().load(article.getLink());
-        } catch (Exception e) {
-            //System.out.println(article.getDescription());
-        }
+
+        article_view.getEngine().load(article.getLink());
+
         set_Fields();
     }
 
-    private void set_Fields() {
+    private void set_Fields() throws IOException, ParserConfigurationException, SAXException {
         article_title.setText(article.getTitle());
         handle_Integrity();
         tags_label.setText("Tags: " + article.getTags());
@@ -117,7 +116,7 @@ public class ViewSingleArticle extends Application{
 
     }
 
-    private void handle_Integrity() {
+    private void handle_Integrity() throws IOException, ParserConfigurationException, SAXException {
         //if article is integer -> green ; else -> red
         if (this.is_valid) {
             integrity_label.setText("Article intègre");
@@ -137,7 +136,7 @@ public class ViewSingleArticle extends Application{
         }
     }
 
-    private void check_Integrity(boolean is_correct) {
+    private void check_Integrity(boolean is_correct) throws IOException, ParserConfigurationException, SAXException {
         /*
         validity of the article
          */

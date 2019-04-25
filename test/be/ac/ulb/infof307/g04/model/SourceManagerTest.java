@@ -2,6 +2,11 @@ package be.ac.ulb.infof307.g04.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -32,7 +37,7 @@ class SourceManagerTest {
     }*/
 
     @Test
-    void download() {
+    void download() throws IOException, ParserConfigurationException, SAXException {
         SourceManager source_manager = new SourceManager("./article_test_db");
         ArticleManager article_manager = new ArticleManager("./article_test_db", "password");
         source_manager.download(article_manager);

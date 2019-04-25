@@ -7,7 +7,11 @@ import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -98,7 +102,7 @@ public class ArticleManager{
     }
 
 
-    public void verify_articles() {
+    public void verify_articles() throws IOException, ParserConfigurationException, SAXException {
         /*
          * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
          * replace it if possible or delete it
