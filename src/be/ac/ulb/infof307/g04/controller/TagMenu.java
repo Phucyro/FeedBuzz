@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.Optional;
 
 /**
@@ -25,19 +24,19 @@ import java.util.Optional;
 public class TagMenu  extends Application {
     private TagManager tag_manager = new TagManager("./article_db", "password");
     @FXML
-    private Button add_button;
+    private Button addButton;
     @FXML
-    private Button delete_button;
+    private Button deleteButton;
     @FXML
-    private Button modify_button;
+    private Button modifyButton;
     @FXML
-    private TextField text_add;
+    private TextField textAdd;
     @FXML
-    private ComboBox combo_tags;
+    private ComboBox comboTags;
 
 
     @FXML
-    private ListView<String> tags_listview;
+    private ListView<String> tagsListview;
 
 
     public TagMenu() throws IOException {
@@ -48,32 +47,32 @@ public class TagMenu  extends Application {
          * @see init_list()
          */
 
-        init_list();
+        initList();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage _primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
         AnchorPane main_container;
         main_container = loader.load();
         Scene scene = new Scene(main_container);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        _primaryStage.setScene(scene);
+        _primaryStage.show();
 
     }
 
-    private void init_list() {
+    private void initList() {
         ObservableList<String> tags = FXCollections.observableArrayList();
-        for (DatabaseTag tag : tag_manager.get_all()) {
+        for (DatabaseTag tag : tag_manager.getAll()) {
             if (!tag.getName().equals("Default")) {
                 tags.add(tag.getName());
             }
         }
-        tags_listview.setItems(tags);
+        tagsListview.setItems(tags);
     }
 
 
@@ -91,7 +90,7 @@ public class TagMenu  extends Application {
         if (result.isPresent() && !result.get().isEmpty()){
             DatabaseTag tag = new DatabaseTag();
             tag.setName(result.get());
-            tag_manager.add_tag(tag);
+            tag_manager.addTag(tag);
         }
         else{
             System.out.println("Pop up");
@@ -101,7 +100,7 @@ public class TagMenu  extends Application {
             alert.setContentText("Please enter a name for the new tag");
             alert.showAndWait();
         }
-        init_list();
+        initList();
     }
 
 
@@ -111,24 +110,24 @@ public class TagMenu  extends Application {
          * Create a dialog window to modify the name of the tag selected
          */
 
-        if(tags_listview.getSelectionModel().getSelectedItem() == null){
-            display_error_window();
+        if(tagsListview.getSelectionModel().getSelectedItem() == null){
+            displayErrorWindow();
         }
         else {
             DatabaseTag oldTag = new DatabaseTag();
             DatabaseTag newTag = new DatabaseTag();
-            oldTag.setName(tags_listview.getSelectionModel().getSelectedItem());
+            oldTag.setName(tagsListview.getSelectionModel().getSelectedItem());
 
 
             TextInputDialog dialog = new TextInputDialog("");
             dialog.setTitle("Modify tag");
             dialog.setHeaderText("Modification of a tag name");
-            dialog.setContentText("Change the tag "+"\""+tags_listview.getSelectionModel().getSelectedItem()+"\" to: ");
+            dialog.setContentText("Change the tag "+"\""+ tagsListview.getSelectionModel().getSelectedItem()+"\" to: ");
 
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());
-                tag_manager.modify_tag(oldTag, newTag);
+                tag_manager.modifyTag(oldTag, newTag);
             }
             else{
                 System.out.println("Pop up");
@@ -138,7 +137,7 @@ public class TagMenu  extends Application {
                 alert.setContentText("Please enter a name for the new tag");
                 alert.showAndWait();
             }
-            init_list();
+            initList();
         }
     }
 
@@ -147,18 +146,18 @@ public class TagMenu  extends Application {
         /*
          * Create a dialog window to delete the name of the tag selected
          */
-        if(tags_listview.getSelectionModel().getSelectedItem() == null){
-            display_error_window();
+        if(tagsListview.getSelectionModel().getSelectedItem() == null){
+            displayErrorWindow();
         }
         else {
             DatabaseTag tag = new DatabaseTag();
-            tag.setName(tags_listview.getSelectionModel().getSelectedItem());
-            tag_manager.delete_tag(tag);
-            init_list();
+            tag.setName(tagsListview.getSelectionModel().getSelectedItem());
+            tag_manager.deleteTag(tag);
+            initList();
         }
     }
 
-    private void display_error_window(){
+    private void displayErrorWindow(){
         /**
          * Cases where there might be an error
          * @see Alert

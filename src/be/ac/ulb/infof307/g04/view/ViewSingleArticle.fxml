@@ -30,9 +30,9 @@
                         <RowConstraints minHeight="10.0" percentHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <ImageView fx:id="article_icon" fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <ImageView fx:id="articleIcon" fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                         </ImageView>
-                        <Label fx:id="article_title" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ceci est un titre" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <Label fx:id="articleTitle" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ceci est un titre" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -56,13 +56,13 @@
                         <RowConstraints minHeight="10.0" percentHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button fx:id="delete_button" alignment="CENTER" mnemonicParsing="false" onAction="#delete_button_pressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Delete" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <Button fx:id="deleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#delete_button_pressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Delete" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin></Button>
-                        <Circle fx:id="integrity_circle" fill="#00ff66" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <Label fx:id="integrity_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style=" -fx-border-color:black; -fx-border-width: 0.1; -fx-border-style: solid;" text="Article intègre" GridPane.columnIndex="1" />
-                        <Label fx:id="tags_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tags:" GridPane.columnIndex="2" />
+                        <Circle fx:id="integrityCircle" fill="#00ff66" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Label fx:id="integrityLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style=" -fx-border-color:black; -fx-border-width: 0.1; -fx-border-style: solid;" text="Article intègre" GridPane.columnIndex="1" />
+                        <Label fx:id="tagsLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tags:" GridPane.columnIndex="2" />
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -71,7 +71,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
                 </GridPane>
-                <WebView fx:id="article_view" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                <WebView fx:id="articleView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             </children>
         </GridPane>
     </children>

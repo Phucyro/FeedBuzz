@@ -16,8 +16,8 @@
         </rowConstraints>
         <children>
             <Button fx:id="add_button" mnemonicParsing="false" onAction="#add" text="Add" GridPane.columnIndex="1"/>
-            <TextField fx:id="text_add"/>
-            <ComboBox fx:id="combo_tags" minHeight="-Infinity" prefWidth="300.0" GridPane.halignment="RIGHT"
+            <TextField fx:id="textAdd"/>
+            <ComboBox fx:id="comboTags" minHeight="-Infinity" prefWidth="300.0" GridPane.halignment="RIGHT"
                       GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"/>
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columnConstraints>
@@ -28,9 +28,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
               </rowConstraints>
                 <children>
-                    <Button fx:id="delete_button" mnemonicParsing="false" onAction="#delete" text="Delete"
+                    <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete"
                             GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
-                    <Button fx:id="modify_button" mnemonicParsing="false" onAction="#modify" text="Modify"
+                    <Button fx:id="modifyButton" mnemonicParsing="false" onAction="#modify" text="Modify"
                             GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
                 </children>
             </GridPane>

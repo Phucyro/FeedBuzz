@@ -32,12 +32,12 @@ public class ParserRss {
     public ParserRss() {
     }
 
-    public ArrayList<DatabaseArticle> parse(String url_name) throws IOException, SAXException, ParserConfigurationException, ParseException {
+    public ArrayList<DatabaseArticle> parse(String _urlName) throws IOException, SAXException, ParserConfigurationException, ParseException {
         /**
          * parse an rss feed
-         * @param url_name
+         * @param _url_name
          *              url of the rss feed
-         * @see DatabaseArticle
+         * @see databaseArticle
          * @throws MalformedURLException : if the url is not valid
          * @return a list of articles
          */
@@ -45,39 +45,39 @@ public class ParserRss {
 
         URL url = null;
 
-        url = new URL(url_name);
+        url = new URL(_urlName);
 
 
         if (url != null) {
-            get_xml_file(url);
-            check_atom();
-            return parse_articles();
+            getXmlFile(url);
+            checkAtom();
+            return parseArticles();
         }
 
         return new ArrayList<>();
     }
 
-    private void get_updated(Element element) {
+    private void getUpdated(Element _element) {
         /**
          * Get the updated field of an entry
          * @see parse()
-         * @param element
+         * @param _element
          *              the entry
          */
         if(atom) {
-            updated = element.getElementsByTagName("updated").item(0).getTextContent().trim();
+            updated = _element.getElementsByTagName("updated").item(0).getTextContent().trim();
         }
         else {
-            updated = element.getElementsByTagName("lastBuildDate").item(0).getTextContent().trim();
+            updated = _element.getElementsByTagName("lastBuildDate").item(0).getTextContent().trim();
         }
     }
 
 
-    private void get_xml_file(URL url) throws ParserConfigurationException, IOException, SAXException {
+    private void getXmlFile(URL _url) throws ParserConfigurationException, IOException, SAXException {
         /**
          * download the xml file of the rss feed
-         * @param url
-         *          url of the feed$
+         * @param _url
+         *          _url of the feed$
          * @throws ParserConfigurationException
          * @throws IOException
          * @throws SAXException
@@ -87,13 +87,13 @@ public class ParserRss {
         DocumentBuilder docBuilder;
 
         docBuilder = dbf.newDocumentBuilder();
-        InputStream stream = url.openStream();
+        InputStream stream = _url.openStream();
         document = docBuilder.parse(stream);
 
 
     }
 
-    private void check_atom() {
+    private void checkAtom() {
         /*
          * Check if the feed is an atom feed or a rss2.0 feed
          */
@@ -103,93 +103,93 @@ public class ParserRss {
     }
 
 
-    private ArrayList<DatabaseArticle> parse_articles() throws ParseException {
+    private ArrayList<DatabaseArticle> parseArticles() throws ParseException {
         /**
          * Parse a load of articles
-         * @see DatabaseArticle
+         * @see databaseArticle
          * @return list of the articles
          */
         NodeList entryList;
         ArrayList<DatabaseArticle> articles = new ArrayList<>();
 
         if (atom) {
-            entryList = get_node_list("feed", "entry");
+            entryList = getNodeList("feed", "entry");
         } else {
-            entryList = get_node_list("channel", "item");
+            entryList = getNodeList("channel", "item");
         }
         for (int i = 0; i < entryList.getLength(); i++) {
             Element entry = (Element) entryList.item(i);
-            articles.add(parse_article(entry));
+            articles.add(parseArticle(entry));
         }
         return articles;
     }
 
 
-    private NodeList get_node_list(String feed_name, String entry_name) {
+    private NodeList getNodeList(String _feedName, String _entryName) {
         /**
          * get all the entries of the feed
-         * @param feed_name
+         * @param _feedName
          *                 name of the principal entry (feed of channel)
-         * @param entry_name
+         * @param _entryName
          *                  name of the articles entries (entry of item)
          * @return xml nodes
          */
-        NodeList nodes = document.getElementsByTagName(feed_name);
+        NodeList nodes = document.getElementsByTagName(_feedName);
         Element element = (Element) nodes.item(0);
-        get_updated(element);
-        return element.getElementsByTagName(entry_name);
+        getUpdated(element);
+        return element.getElementsByTagName(_entryName);
     }
 
 
-    private DatabaseArticle parse_article(Element entry) throws ParseException {
+    private DatabaseArticle parseArticle(Element _entry) throws ParseException {
         /**
          * parse a specific article
-         * @see DatabaseArticle
-         * @param entry
-         *            xml article entry
+         * @see databaseArticle
+         * @param _entry
+         *            xml article _entry
          * @return an article
          */
         DatabaseArticle article = new DatabaseArticle();
-        article.setTitle(get_string(entry, "title"));
-        article.setAuthor(get_string(entry, "author"));
-        article.setCategory(get_string(entry, "category"));
+        article.setTitle(getString(_entry, "title"));
+        article.setAuthor(getString(_entry, "author"));
+        article.setCategory(getString(_entry, "category"));
         if (atom) {
-            parse_article_atom(entry, article);
+            parseArticleAtom(_entry, article);
         } else {
-            parse_article_rss(entry, article);
+            parseArticleRss(_entry, article);
         }
         return article;
     }
 
-    private void parse_article_atom(Element entry, DatabaseArticle article) throws ParseException {
+    private void parseArticleAtom(Element _entry, DatabaseArticle _article) throws ParseException {
         /**
          * specific parse for atom feeds
-         * @param entry
-         *             xml article entry
-         * @param article
-         *              article that is being built
+         * @param _entry
+         *             xml _article _entry
+         * @param _article
+         *              _article that is being built
          */
-        article.setLink(get_link_atom(entry));
-        article.setDescription(get_string(entry, "content"));
-        article.setPublished_date(get_date(get_string(entry, "published")));
-        article.setUpdated_date(get_date(get_string(entry, "updated")));
+        _article.setLink(getLinkAtom(_entry));
+        _article.setDescription(getString(_entry, "content"));
+        _article.setPublishedDate(getDate(getString(_entry, "published")));
+        _article.setUpdatedDate(getDate(getString(_entry, "updated")));
     }
 
-    private void parse_article_rss(Element item, DatabaseArticle article) throws ParseException {
+    private void parseArticleRss(Element _item, DatabaseArticle _article) throws ParseException {
         /**
          * specific parse for rss2.0 feeds
-         * @param item
-         *           xml article item
-         * @param article
-         *           article that is being built
+         * @param _item
+         *           xml _article _item
+         * @param _article
+         *           _article that is being built
          */
-        article.setLink(get_string(item, "link"));
-        article.setDescription(get_string(item, "description"));
-        article.setPublished_date(get_date(get_string(item, "pubDate")));
-        article.setUpdated_date(get_date(get_string(item, "lastBuildDate")));
+        _article.setLink(getString(_item, "link"));
+        _article.setDescription(getString(_item, "description"));
+        _article.setPublishedDate(getDate(getString(_item, "pubDate")));
+        _article.setUpdatedDate(getDate(getString(_item, "lastBuildDate")));
     }
 
-    private Date get_date(String date) throws ParseException {
+    private Date getDate(String date) throws ParseException {
         /**
          * get a date from a string
          * @param date
@@ -212,15 +212,15 @@ public class ParserRss {
     }
 
 
-    private String get_link_atom(Element entry) {
+    private String getLinkAtom(Element _entry) {
         /**
          * get the link of an atom feed
-         * @param entry
-         *          xml article entry
+         * @param _entry
+         *          xml article _entry
          * @throws IOException
          * @return link of the atom
          */
-        NodeList tag_node = entry.getElementsByTagName("link");
+        NodeList tag_node = _entry.getElementsByTagName("link");
         if (tag_node.getLength() > 0) {
             return tag_node.item(0).getAttributes().getNamedItem("href").getTextContent().trim();
         } else {
@@ -228,16 +228,16 @@ public class ParserRss {
         }
     }
 
-    private String get_string(Element entry, String tag) {
+    private String getString(Element _entry, String _tag) {
         /**
-         * get the string of a tag of an entry
-         * @param entry
-         *          xml articl entry
-         * @param tag
-         *          tag of the xml entry
-         * @return text of the specific tag
+         * get the string of a _tag of an _entry
+         * @param _entry
+         *          xml articl _entry
+         * @param _tag
+         *          _tag of the xml _entry
+         * @return text of the specific _tag
          */
-        NodeList tag_node = entry.getElementsByTagName(tag);
+        NodeList tag_node = _entry.getElementsByTagName(_tag);
         if(tag_node.getLength() > 0) {
             return tag_node.item(0).getTextContent().trim();
         }

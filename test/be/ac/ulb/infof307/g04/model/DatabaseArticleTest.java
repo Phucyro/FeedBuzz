@@ -24,15 +24,15 @@ class DatabaseArticleTest {
 
     @Test
     void need_to_be_deleted_false() {
-        test_article.setPublished_date(test_date);
-        test_article.setDays_to_save(3);
-        assertFalse(test_article.need_to_be_deleted());
+        test_article.setPublishedDate(test_date);
+        test_article.setDaysToSave(3);
+        assertFalse(test_article.needToBeDeleted());
     }
 
     @Test
     void need_to_be_deleted_true() {
-        test_article.setPublished_date(test_date);
-        test_article.setDays_to_save(1);
-        assertTrue(test_article.need_to_be_deleted());
+        test_article.setPublishedDate(test_date);
+        test_article.setDaysToSave(1);
+        assertTrue(test_article.needToBeDeleted());
     }
 }

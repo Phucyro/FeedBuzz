@@ -2,7 +2,6 @@ package be.ac.ulb.infof307.g04.model;
 
 import org.junit.jupiter.api.*;
 
-import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import java.io.File;
 import java.nio.file.Files;
 
@@ -33,22 +32,22 @@ class ArticleManagerTest {
 
     @AfterEach()
     void clear_database() {
-        this.manager.delete_article(article1);
-        this.manager.delete_article(article2);
+        this.manager.deleteArticle(article1);
+        this.manager.deleteArticle(article2);
     }
 
     @Test
     void add_and_find_article() {
-        manager.add_article(article1);
-        be.ac.ulb.infof307.g04.model.DatabaseArticle article_test = manager.findArticle(article1.getLink());
+        manager.addArticle(article1);
+        DatabaseArticle article_test = manager.findArticle(article1.getLink());
         assertSame(article1.getDescription(), article_test.getDescription());
         //Verifie que l'article ajoute a la base de donnees a la meme description que l'article original
     }
 
     @Test
     void delete_existing_article() {
-        manager.add_article(article1);
-        manager.delete_article(article1);
+        manager.addArticle(article1);
+        manager.deleteArticle(article1);
         DatabaseArticle deleted_article = new DatabaseArticle(manager.findArticle(article1.getLink()));
         assertTrue(deleted_article.getDeleted());
         //L'article supprime devrais avoir son attribut deleted a "true" pour signifier que l'article est supprime.
@@ -61,15 +60,15 @@ class ArticleManagerTest {
         DatabaseArticle non_existing_article = new DatabaseArticle();
         non_existing_article.setLink("http://www.test3.com");
         non_existing_article.setTitle("Test3");
-        assertFalse(manager.delete_article(non_existing_article));
+        assertFalse(manager.deleteArticle(non_existing_article));
         //Le manager doit renvoyer false lorsque l'article n'est pas trouve, alors on assert que la valeur retournee lorsqu'on recherche un article qui n'est pas dans la base de donnees est "false"
     }
 
     @Test
     void load_articles_count(){
-        manager.add_article(article1);
-        manager.add_article(article2);
-        assertSame(manager.load_articles().size(), 2);
+        manager.addArticle(article1);
+        manager.addArticle(article2);
+        assertSame(manager.loadArticles().size(), 2);
         //Verifie qu'il y a bien deux articles dans la base de donnees apres l'ajout de deux articles
     }
 

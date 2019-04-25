@@ -6,7 +6,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,7 +21,7 @@ class SourceManagerTest {
         database_source.setNumber_to_download(3);
         //Ajout de cette source dans la base de donnée
         SourceManager source = new SourceManager("./article_test_db");
-        source.add_source(database_source);
+        source.addSource(database_source);
         //source.download();
 
 

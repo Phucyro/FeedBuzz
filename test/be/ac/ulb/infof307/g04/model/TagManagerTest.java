@@ -25,40 +25,40 @@ class TagManagerTest {
 
     @BeforeEach
     void reset_db(){
-        tagManager.delete_all();
+        tagManager.deleteAll();
     }
 
     @Test
     void add_tag() {
         tag.setName("test");
-        tagManager.add_tag(tag);
-        assertEquals(tag.getName(), tagManager.get_all().get(0).getName());
-        assertEquals(1, tagManager.get_all().size() );
+        tagManager.addTag(tag);
+        assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
+        assertEquals(1, tagManager.getAll().size() );
     }
 
     @Test
     void delete_tag() {
         tag.setName("test1");
-        tagManager.add_tag(tag);
-        assertEquals(1, tagManager.get_all().size() );
+        tagManager.addTag(tag);
+        assertEquals(1, tagManager.getAll().size() );
         tag.setName("test2");
-        tagManager.add_tag(tag);
-        assertEquals(2, tagManager.get_all().size() );
-        tagManager.delete_tag(tag);
-        assertEquals(1, tagManager.get_all().size() );
+        tagManager.addTag(tag);
+        assertEquals(2, tagManager.getAll().size() );
+        tagManager.deleteTag(tag);
+        assertEquals(1, tagManager.getAll().size() );
         tag.setName("test1");
-        assertEquals(tag.getName(), tagManager.get_all().get(0).getName());
+        assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
     }
 
     @Test
     void modify_tag() {
         tag.setName("test1");
-        tagManager.add_tag(tag);
+        tagManager.addTag(tag);
         DatabaseTag modify_tag = new DatabaseTag();
         modify_tag.setName("test2");
-        tagManager.modify_tag(tag, modify_tag);
-        assertEquals(1, tagManager.get_all().size() );
-        assertEquals(modify_tag.getName(), tagManager.get_all().get(0).getName());
+        tagManager.modifyTag(tag, modify_tag);
+        assertEquals(1, tagManager.getAll().size() );
+        assertEquals(modify_tag.getName(), tagManager.getAll().get(0).getName());
     }
 
     @Test
@@ -66,10 +66,10 @@ class TagManagerTest {
         ArrayList<DatabaseTag> tags = new ArrayList<>();
         tags.add(new DatabaseTag());
         tags.get(0).setName("test");
-        tagManager.add_tag(tags.get(0));
-        assertEquals(tags.size(), tagManager.get_all().size());
+        tagManager.addTag(tags.get(0));
+        assertEquals(tags.size(), tagManager.getAll().size());
         for(int i = 0; i < tags.size(); i++){
-            assertEquals(tags.get(i).getName(), tagManager.get_all().get(i).getName());
+            assertEquals(tags.get(i).getName(), tagManager.getAll().get(i).getName());
         }
     }
 
@@ -88,12 +88,12 @@ class TagManagerTest {
     @Test
     void delete_all() {
         tag.setName("test");
-        tagManager.add_tag(tag);
+        tagManager.addTag(tag);
         tag.setName("test2");
-        tagManager.add_tag(tag);
-        assertEquals(2, tagManager.get_all().size());
-        tagManager.delete_all();
-        assertEquals(0, tagManager.get_all().size());
+        tagManager.addTag(tag);
+        assertEquals(2, tagManager.getAll().size());
+        tagManager.deleteAll();
+        assertEquals(0, tagManager.getAll().size());
     }
 
     @AfterAll

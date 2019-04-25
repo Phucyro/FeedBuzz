@@ -76,26 +76,26 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     }
 
     @Override
-    protected void updateItem(DatabaseArticle item, boolean empty){
+    protected void updateItem(DatabaseArticle _item, boolean _empty){
         /**
          * Function called when an item is modified
          *
          * @throws IOException : if there's no picture found for the cell
          * @throws URISyntaxException : if the link doesn't work
          */
-        super.updateItem(item, empty);
+        super.updateItem(_item, _empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
-        if (!empty && item != null) {
-            titleLabel.setText(item.getTitle());
-            tagLabel.setText("Tags: "+ item.getTags()); // show tags
-            linkLabel.setText(item.getLink());
+        if (!_empty && _item != null) {
+            titleLabel.setText(_item.getTitle());
+            tagLabel.setText("Tags: "+ _item.getTags()); // show tags
+            linkLabel.setText(_item.getLink());
 
-            popupOverArticle(item);
+            popupOverArticle(_item);
 
             try {
-                showImageIcon(item);
+                showImageIcon(_item);
             } catch (IOException e) {
                 e.printStackTrace(); // ERREUR A BIEN COMPRENDRE
             }
@@ -104,7 +104,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
-                        java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
+                        java.awt.Desktop.getDesktop().browse(new URI(_item.getLink()));
                     } catch (URISyntaxException | IOException e1) {
                         e1.printStackTrace();
                     }
@@ -117,16 +117,16 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         }
     }
 
-    private void showImageIcon(DatabaseArticle item) throws IOException {
+    private void showImageIcon(DatabaseArticle _item) throws IOException {
         /**
          * Function called to show the image icon in the list view
-         * @param article item
+         * @param article _item
          */
 
         String imageUrl = null;
 
-        if (item.getDescription() != null) {
-            imageUrl = getFirstIconUrl(item.getDescription());
+        if (_item.getDescription() != null) {
+            imageUrl = getFirstIconUrl(_item.getDescription());
         }
 
         //Setup the icon
@@ -137,32 +137,32 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         }
     }
 
-    private void popupOverArticle(DatabaseArticle item) {
+    private void popupOverArticle(DatabaseArticle _item) {
         /**
          * Function called to create a popup that only shows when the mouse is over
-         * @param article item
+         * @param article _item
          */
         String summaryText = "";
-        if (item.getDescription() != null) {
-            summaryText = htmlToPlain(item.getDescription());
+        if (_item.getDescription() != null) {
+            summaryText = htmlToPlain(_item.getDescription());
         }
 
         DisplayPreview(gridPane, summaryText);
     }
 
-    private String getFirstIconUrl(String texte) throws IOException {
+    private String getFirstIconUrl(String _text) throws IOException {
 
         /**
          * Retrieve first icon url in html text
          *
-         * @param texte
+         * @param _text
          *          html file to parse
          * @return url to an image
          * @throws IOException : if there's no url to the icon
          */
 
         String imageUrl = null;
-        Document doc = Jsoup.parse(texte);
+        Document doc = Jsoup.parse(_text);
         Elements imgs = doc.getElementsByTag("img");
 
         boolean found = false;
@@ -182,21 +182,21 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * get the plain text of a html string
-     * @param html
+     * @param _html
      *          html file
      * @return the text of an html string
      *
      */
-    private String htmlToPlain(String html)
+    private String htmlToPlain(String _html)
     {
-        return Jsoup.parse(html).text();
+        return Jsoup.parse(_html).text();
     }
 
     private void DisplayPreview(GridPane articlePane, String summary) {
         /**
          * Function called to make the preview of the article
-         * @param GridPane articlePane
-         * @param String summary
+         * @param GridPane _articlePane
+         * @param String _summary
          */
 
         StackPane previewPane = makeSummaryPane();
@@ -205,34 +205,34 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     }
 
-    private void showsWhenMouseOver(GridPane articlePane, StackPane previewPane, Popup popup) {
+    private void showsWhenMouseOver(GridPane _articlePane, StackPane _previewPane, Popup _popup) {
         /**
          * Function called to make the popup appear and disappear
-         * @param GridPane articlePane
-         * @param GridPane previewPane
-         * @param Popup popup
+         * @param GridPane _articlePane
+         * @param GridPane _previewPane
+         * @param Popup _popup
          */
-        articlePane.hoverProperty().addListener((obs, oldVal, newValue) -> {
+        _articlePane.hoverProperty().addListener((obs, oldVal, newValue) -> {
 
             if (newValue) {
-                Bounds bounds = articlePane.localToScreen(articlePane.getLayoutBounds());
-                double x = bounds.getMinX() - (previewPane.getWidth() / 2) + (articlePane.getWidth() / 2);
-                double y = bounds.getMinY() - previewPane.getHeight();
-                popup.show(articlePane, x, y);
+                Bounds bounds = _articlePane.localToScreen(_articlePane.getLayoutBounds());
+                double x = bounds.getMinX() - (_previewPane.getWidth() / 2) + (_articlePane.getWidth() / 2);
+                double y = bounds.getMinY() - _previewPane.getHeight();
+                _popup.show(_articlePane, x, y);
             } else {
-                popup.hide();
+                _popup.hide();
             }
         });
     }
 
-    private Popup makePreviewPopup(String summary, StackPane previewPane) {
+    private Popup makePreviewPopup(String _summary, StackPane _previewPane) {
         /**
          * Function called to create the popup
-         * @param String summary
-         * @param StackPane previewPane
+         * @param String _summary
+         * @param StackPane _previewPane
          * @return Popup
          */
-        TextArea resume = new TextArea(summary);
+        TextArea resume = new TextArea(_summary);
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
 
@@ -242,10 +242,10 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
         //Layout options
         vBox.getChildren().addAll(resume);
-        previewPane.getChildren().addAll(vBox);
+        _previewPane.getChildren().addAll(vBox);
 
         Popup popup = new Popup();
-        popup.getContent().add(previewPane);
+        popup.getContent().add(_previewPane);
         return popup;
     }
 

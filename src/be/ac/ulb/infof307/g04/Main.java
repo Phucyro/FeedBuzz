@@ -40,41 +40,41 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     @FXML
-    private ListView<DatabaseArticle> list_view_articles;
+    private ListView<DatabaseArticle> listViewArticles;
 
     @FXML
-    private MenuItem quit_button;
+    private MenuItem quitButton;
 
     @FXML
-    private  GridPane grid_pane;
+    private  GridPane gridPane;
 
     private static ArticleManager article_manager;
     private static SourceManager source;
 
-    private ToolBar search_bar;
-    private Button close_search_button;
-    private TextField search_field;
+    private ToolBar searchBar;
+    private Button closeSearchButton;
+    private TextField searchField;
     private Label match_count;
 
     @FXML
-    private MenuItem read_menu_item;
+    private MenuItem readMenuItem;
 
-    public static void main(String[] args) {
+    public static void main(String[] _args) {
         article_manager = new ArticleManager("./article_db", "password");
-        init_db();
+        initDb();
         source = new SourceManager("./article_db");
-        launch(args);
+        launch(_args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage _primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
 
-        primaryStage.setTitle("DatabaseArticle List");
+        _primaryStage.setTitle("DatabaseArticle List");
 
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        _primaryStage.setScene(scene);
+        _primaryStage.show();
 
     }
 
@@ -83,37 +83,37 @@ public class Main extends Application {
         /*
         Initialize the main window -> has a close button, a search bar and display all the articles in the DB
          */
-            search_bar = new ToolBar();
-            search_bar.setPrefHeight(40.0);
-            search_bar.setPrefWidth(200.0);
-            GridPane.setConstraints(search_bar, 0, 0);
-            close_search_button = new Button("Close");
-            close_search_button.setOnAction(new EventHandler<ActionEvent>() {
+            searchBar = new ToolBar();
+            searchBar.setPrefHeight(40.0);
+            searchBar.setPrefWidth(200.0);
+            GridPane.setConstraints(searchBar, 0, 0);
+            closeSearchButton = new Button("Close");
+            closeSearchButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    change_search_bar_status();
+                    changeSearchBarStatus();
                 }
             });
-            search_field = new TextField();
-            search_field.textProperty().addListener(new ChangeListener<String>() {
+            searchField = new TextField();
+            searchField.textProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable,
                                     String oldValue, String newValue) {
 
-                    ArrayList<DatabaseArticle> articles = article_manager.load_articles(newValue);
-                    display_articles(articles);
+                    ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
+                    displayArticles(articles);
                     match_count.setText(articles.size() + " matches");
                 }
             });
             match_count = new Label();
-            search_bar.getItems().addAll(close_search_button, search_field, match_count);
+            searchBar.getItems().addAll(closeSearchButton, searchField, match_count);
 
-            list_view_articles.setCellFactory(lv -> new ArticleCell());
-            quit_button.setOnAction(e -> Platform.exit());
+            listViewArticles.setCellFactory(lv -> new ArticleCell());
+            quitButton.setOnAction(e -> Platform.exit());
             source.download(article_manager);
-            article_manager.verify_articles();
+            article_manager.verifyArticles();
 
-            display_articles(article_manager.load_articles());
+            displayArticles(article_manager.loadArticles());
 
             setMenuBarImages();
     }
@@ -122,33 +122,33 @@ public class Main extends Application {
         ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/read.png"));
         readIcon.setFitHeight(450);
         readIcon.setFitWidth(500);
-        read_menu_item.setGraphic(readIcon);
+        readMenuItem.setGraphic(readIcon);
     }
 
     @FXML
-    public void display_articles(ArrayList<DatabaseArticle> articles) {
+    public void displayArticles(ArrayList<DatabaseArticle> _articles) {
         /**
-         * Display all the valid articles in the window
-         * @param articles
-         *              articles that haven't been deleted in the DB
+         * Display all the valid _articles in the window
+         * @param _articles
+         *              _articles that haven't been deleted in the DB
          */
-        list_view_articles.getItems().clear();
-        for (DatabaseArticle item : articles) {
-            list_view_articles.getItems().add(item);
+        listViewArticles.getItems().clear();
+        for (DatabaseArticle item : _articles) {
+            listViewArticles.getItems().add(item);
         }
     }
 
     @FXML
-    private void open_article_window() {
+    private void openArticleWindow() {
         /**
          * Method that opens an article when the user click on it
          * @throws Exception : when no article has been selected
          */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
-            ViewSingleArticle controller = new ViewSingleArticle(list_view_articles.getSelectionModel().getSelectedItem());
+            ViewSingleArticle controller = new ViewSingleArticle(listViewArticles.getSelectionModel().getSelectedItem());
             loader.setController(controller);
-            controller.set_articles_windows(this);
+            controller.setArticlesWindows(this);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle("DatabaseArticle Reading");
@@ -156,19 +156,19 @@ public class Main extends Application {
             stage.show();
 
         } catch(NullPointerException e){
-            show_error_box("No article selected");
+            showErrorBox("No article selected");
         }catch(ParserConfigurationException e){
-            show_error_box("Parser configuration error");
+            showErrorBox("Parser configuration error");
         }catch(IOException e){
-            show_error_box("No article selected");
+            showErrorBox("No article selected");
         }catch(SAXException e){
-            show_error_box("SAX Error");
+            showErrorBox("SAX Error");
         } catch (ParseException e) {
-            show_error_box("Parse error");
+            showErrorBox("Parse error");
         }
     }
 
-    private void show_error_box(String s) {
+    private void showErrorBox(String s) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);
@@ -178,23 +178,23 @@ public class Main extends Application {
     }
 
     @FXML
-    private void copy_link_to_clipboard() {
+    private void copyLinkToClipboard() {
         /**
          * copy the link of the article
          * @throws Exception : when no article has been selected
          */
         try {
-            String myString = list_view_articles.getSelectionModel().getSelectedItem().getLink();
+            String myString = listViewArticles.getSelectionModel().getSelectedItem().getLink();
             StringSelection stringSelection = new StringSelection(myString);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            show_error_box("No article selected");
+            showErrorBox("No article selected");
         }
     }
 
     @FXML
-    public void open_source_window(ActionEvent actionEvent) {
+    public void openSourceWindow(ActionEvent _actionEvent) {
         /**
          * Opens the sources window
          * @throws Exception
@@ -211,33 +211,33 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            show_error_box("No article selected");
+            showErrorBox("No article selected");
         }
     }
 
     @FXML
-    public void change_search_bar_status(){
+    public void changeSearchBarStatus(){
         /*
         If the search bar is available or not. When you close it, it loads all the articles again
          */
-        if (grid_pane.getChildren().indexOf(search_bar) == -1) {
-            grid_pane.getChildren().add(search_bar);
+        if (gridPane.getChildren().indexOf(searchBar) == -1) {
+            gridPane.getChildren().add(searchBar);
             match_count.setText("");
         } else {
-            grid_pane.getChildren().remove(search_bar);
-            display_articles(article_manager.load_articles());
+            gridPane.getChildren().remove(searchBar);
+            displayArticles(article_manager.loadArticles());
         }
     }
 
-    private static void init_db() {
+    private static void initDb() {
         /*
         Initialize all the tags and the sources
          */
-        init_tags();
-        init_sources();
+        initTags();
+        initSources();
     }
 
-    private static void init_tags() {
+    private static void initTags() {
         /*
         Initialize all the tags
          */
@@ -246,11 +246,11 @@ public class Main extends Application {
         DatabaseTag tag = new DatabaseTag();
         for(int i = 0; i < tags.length; i++){
             tag.setName(tags[i]);
-            tagManager.add_tag(tag);
+            tagManager.addTag(tag);
         }
     }
 
-    private static void init_sources() {
+    private static void initSources() {
         /*
         Initialize all the sources
          */
@@ -258,10 +258,10 @@ public class Main extends Application {
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
-        sources.forEach(sourceManager::add_source);
+        sources.forEach(sourceManager::addSource);
     }
 
-    public void open_tag_window(ActionEvent actionEvent) {
+    public void openTagWindow(ActionEvent _actionEvent) {
         /*
         Open the tag window
          */
@@ -277,7 +277,7 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            show_error_box("No article selected");
+            showErrorBox("No article selected");
         }
     }
 

@@ -9,8 +9,6 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
-
 /**
  * Class SourceCell where a source cell is created
  * @see DatabaseSource
@@ -81,21 +79,21 @@ public class SourceCell extends ListCell<DatabaseSource>{
     }
 
     @Override
-    protected void updateItem(DatabaseSource _item, boolean empty) {
+    protected void updateItem(DatabaseSource _item, boolean _empty) {
         /**
          * update the sources
          * @see DatabaseSource
          * @param _item
          *          source that has to be modified
-         * @param empty
-         *          check if the source is empty or not
+         * @param _empty
+         *          check if the source is _empty or not
          */
         item = _item;
-        super.updateItem(item, empty);
+        super.updateItem(item, _empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
-        if (!empty && item != null) {
+        if (!_empty && item != null) {
             title_label.setText(item.getSource_name());
             url_label.setText(item.getUrl());
             source_enabled.setSelected(item.isEnabled());
@@ -122,7 +120,7 @@ public class SourceCell extends ListCell<DatabaseSource>{
          */
         TagManager tagManager = new TagManager("./article_db", "password");
         ObservableList<String> tags = FXCollections.observableArrayList();
-        tagManager.get_all().forEach(tag -> tags.add(tag.getName()));
+        tagManager.getAll().forEach(tag -> tags.add(tag.getName()));
         source_tag.setItems(tags);
 
         if(item.getTag() != null) {
