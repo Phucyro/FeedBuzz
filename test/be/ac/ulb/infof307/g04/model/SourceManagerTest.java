@@ -40,5 +40,4 @@ class SourceManagerTest {
         assertNotNull(article_manager.findArticle("http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists"));
         assertNotNull(article_manager.findArticle("http://diveintomark.org/archives/2002/09/27.html#pingback_vs_trackback"));
     }
-
 }

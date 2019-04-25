@@ -2,15 +2,15 @@ package be.ac.ulb.infof307.g04.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Popup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -91,35 +91,14 @@ public class ArticleCell extends ListCell<Article> {
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
-            System.out.println("_________");
-            System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
 
-            //Setup the preview popup over the article
-            String summaryText = "";
-            if (item.getDescription() != null) {
-                summaryText = htmlToPlain(item.getDescription());
-            }
-
-            //show a preview of the article description
-            PreviewDisplay.mouseOverArticle(gridPane, summaryText);
-
-            //Show the image icon
-            String imageUrl = null;
+            popupOverArticle(item);
 
             try {
-                imageUrl = null;
-                if (item.getDescription() != null) {
-                    imageUrl = getIconUrl(item.getDescription());
-                }
-
-                if (imageUrl != null)
-                {
-                    Image icon = new Image(imageUrl);
-                    articleIcon.setImage(icon);
-                }
+                showImageIcon(item);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -142,7 +121,40 @@ public class ArticleCell extends ListCell<Article> {
         }
     }
 
-    private String getIconUrl(String texte) throws IOException {
+    private void showImageIcon(Article item) throws IOException {
+        /**
+         * Function called to show the image icon in the list view
+         * @param article item
+         */
+
+        String imageUrl = null;
+
+        if (item.getDescription() != null) {
+            imageUrl = getFirstIconUrl(item.getDescription());
+        }
+
+        //Setup the icon
+        if (imageUrl != null)
+        {
+            Image icon = new Image(imageUrl);
+            articleIcon.setImage(icon);
+        }
+    }
+
+    private void popupOverArticle(Article item) {
+        /**
+         * Function called to create a popup that only shows when the mouse is over
+         * @param article item
+         */
+        String summaryText = "";
+        if (item.getDescription() != null) {
+            summaryText = htmlToPlain(item.getDescription());
+        }
+
+        DisplayPreview(gridPane, summaryText);
+    }
+
+    private String getFirstIconUrl(String texte) throws IOException {
 
         /**
          * Retrieve first icon url in html text
@@ -182,5 +194,74 @@ public class ArticleCell extends ListCell<Article> {
     private String htmlToPlain(String html)
     {
         return Jsoup.parse(html).text();
+    }
+
+    private void DisplayPreview(GridPane articlePane, String summary) {
+        /**
+         * Function called to make the preview of the article
+         * @param GridPane articlePane
+         * @param String summary
+         */
+
+        StackPane previewPane = makeSummaryPane();
+        Popup popup = makePreviewPopup(summary, previewPane);
+        showsWhenMouseOver(articlePane, previewPane, popup);
+
+    }
+
+    private void showsWhenMouseOver(GridPane articlePane, StackPane previewPane, Popup popup) {
+        /**
+         * Function called to make the popup appear and disappear
+         * @param GridPane articlePane
+         * @param GridPane previewPane
+         * @param Popup popup
+         */
+        articlePane.hoverProperty().addListener((obs, oldVal, newValue) -> {
+
+            if (newValue) {
+                Bounds bounds = articlePane.localToScreen(articlePane.getLayoutBounds());
+                double x = bounds.getMinX() - (previewPane.getWidth() / 2) + (articlePane.getWidth() / 2);
+                double y = bounds.getMinY() - previewPane.getHeight();
+                popup.show(articlePane, x, y);
+            } else {
+                popup.hide();
+            }
+        });
+    }
+
+    private Popup makePreviewPopup(String summary, StackPane previewPane) {
+        /**
+         * Function called to create the popup
+         * @param String summary
+         * @param StackPane previewPane
+         * @return Popup
+         */
+        TextArea resume = new TextArea(summary);
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+
+        //Text area options
+        resume.setWrapText(true);
+        resume.setEditable(false);
+
+        //Layout options
+        vBox.getChildren().addAll(resume);
+        previewPane.getChildren().addAll(vBox);
+
+        Popup popup = new Popup();
+        popup.getContent().add(previewPane);
+        return popup;
+    }
+
+    private StackPane makeSummaryPane() {
+        /**
+         * Function called to create the previewPane
+         * @return Stackpane
+         */
+        
+        StackPane previewPane = new StackPane();
+        previewPane.setPrefSize(200, 200);
+        previewPane.setStyle("-fx-font-style: italic");
+        return previewPane;
     }
 }

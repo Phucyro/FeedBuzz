@@ -59,7 +59,6 @@ public class DatabaseSource implements Serializable {
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
     public String getSource_name() { return source_name; }
-    public void setSource_name(String source_name) { this.source_name = source_name; }
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
     public int getLifeSpan_default() {return lifeSpan_default; }
