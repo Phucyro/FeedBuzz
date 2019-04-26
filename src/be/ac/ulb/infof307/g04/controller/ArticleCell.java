@@ -12,9 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,6 +22,7 @@ import java.net.URISyntaxException;
  */
 public class ArticleCell extends ListCell<Article> {
 
+    public static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
@@ -79,8 +77,6 @@ public class ArticleCell extends ListCell<Article> {
         if (!empty && item != null) {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags());
-            System.out.println("_________");
-            System.out.println(item.getTags());
             //descriptionWebView.getEngine().loadContent(item.getDescription());
             //articleIcon.setImage(item.());
             linkLabel.setText(item.getLink());
@@ -93,25 +89,13 @@ public class ArticleCell extends ListCell<Article> {
 
             PreviewDisplay.mouseOverArticle(gridPane, summaryText);
 
-            //Show the image icon
-            String imageUrl = null;
 
+            Image icon = new Image(DEFAULT_ICON);
             try {
-
-                imageUrl = null;
-                if (item.getDescription() != null) {
-                    imageUrl = getIconUrl(item.getDescription());
-                }
-
-                if (imageUrl != null)
-                {
-                    Image icon = new Image(imageUrl);
-                    articleIcon.setImage(icon);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                icon = new Image(getIconUrl(item.getLink(), item.getDescription()));
+            } catch (Exception e) {
             }
+            articleIcon.setImage(icon);
 
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
@@ -134,28 +118,11 @@ public class ArticleCell extends ListCell<Article> {
     /**
      * Retrieve first icon url in html text
      *
-     * @param texte html file to parse
+     * @param _descriptionHtml html file to parse
      * @return url to an image
      */
-    private String getIconUrl(String texte) throws IOException {
-
-        String imageUrl = null;
-        Document doc = Jsoup.parse(texte);
-        Elements imgs = doc.getElementsByTag("img");
-
-        boolean found = false;
-
-        for (Element elem: imgs)
-        {
-            if (!found)
-            {
-                imageUrl = elem.absUrl("src");
-
-                found = true;
-            }
-        }
-
-        return imageUrl;
+    private String getIconUrl(String _articleLink, String _descriptionHtml) throws IOException {
+        return HTMLArticleDownloader.getIconFromDescription(_articleLink, _descriptionHtml);
     }
 
     /**
