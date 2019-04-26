@@ -35,7 +35,7 @@
                       <MenuItem fx:id="readMenuItem" mnemonicParsing="false" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Search an article by name">
+                  <Menu mnemonicParsing="false" text="Search an article by title">
                     <items>
                       <MenuItem mnemonicParsing="false" />
                     </items>
