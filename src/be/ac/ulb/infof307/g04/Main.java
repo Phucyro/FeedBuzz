@@ -57,7 +57,17 @@ public class Main extends Application {
     private Label match_count;
 
     @FXML
-    private MenuItem readMenuItem;
+    private MenuItem readArticleImage;
+    @FXML
+    private MenuItem searchArticleImage;
+    @FXML
+    private MenuItem copyArticleLinkImage;
+    @FXML
+    private MenuItem configureSourcesImage;
+    @FXML
+    private MenuItem configureTagsImage;
+    @FXML
+    private MenuItem exitAppImage;
 
     public static void main(String[] _args) {
         article_manager = new ArticleManager("./article_db", "password");
@@ -115,15 +125,62 @@ public class Main extends Application {
 
             displayArticles(article_manager.loadArticles());
 
-            setupMenubarImages();
+            setHelpImages();
     }
 
-    private void setupMenubarImages() {
-        ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/read.png"));
-        readIcon.setFitHeight(300);
-        readIcon.setFitWidth(500);
-        readMenuItem.setGraphic(readIcon);
+    private void setHelpImages() {
+
+        setImage_ReadArticle();
+        setImage_SearchByTitle();
+        setImage_CopyToClipboard();
+        setImage_ConfigureSources();
+        setImage_ConfigureTags();
+        setImage_Exit();
+
     }
+
+    private void setImage_ReadArticle() {
+        ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png"));
+        readIcon.setFitHeight(250);
+        readIcon.setFitWidth(400);
+        readArticleImage.setGraphic(readIcon);
+    }
+
+    private void setImage_SearchByTitle() {
+        ImageView searchIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png"));
+        searchIcon.setFitHeight(280);
+        searchIcon.setFitWidth(380);
+        searchArticleImage.setGraphic(searchIcon);
+    }
+
+    private void setImage_CopyToClipboard() {
+        ImageView copyIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png"));
+        copyIcon.setFitHeight(250);
+        copyIcon.setFitWidth(400);
+        copyArticleLinkImage.setGraphic(copyIcon);
+    }
+
+    private void setImage_ConfigureSources() {
+        ImageView configureSourcesIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png"));
+        configureSourcesIcon.setFitHeight(380);
+        configureSourcesIcon.setFitWidth(530);
+        configureSourcesImage.setGraphic(configureSourcesIcon);
+    }
+
+    private void setImage_ConfigureTags() {
+        ImageView configureTagsIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png"));
+        configureTagsIcon.setFitHeight(350);
+        configureTagsIcon.setFitWidth(550);
+        configureTagsImage.setGraphic(configureTagsIcon);
+    }
+
+    private void setImage_Exit() {
+        ImageView exitIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png"));
+        exitIcon.setFitHeight(200);
+        exitIcon.setFitWidth(350);
+        exitAppImage.setGraphic(exitIcon);
+    }
+
 
     @FXML
     public void displayArticles(ArrayList<DatabaseArticle> _articles) {
@@ -157,10 +214,12 @@ public class Main extends Application {
 
         } catch(NullPointerException e){
             showErrorBox("No article selected");
+            e.printStackTrace();
         }catch(ParserConfigurationException e){
             showErrorBox("Parser configuration error");
         }catch(IOException e){
             showErrorBox("No article selected");
+            e.printStackTrace();
         }catch(SAXException e){
             showErrorBox("SAX Error");
         } catch (ParseException e) {

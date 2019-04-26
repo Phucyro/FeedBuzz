@@ -87,6 +87,7 @@ public class ViewSingleArticle extends Application{
          * @param _primaryStage
          */
         //Load an fxml file
+        /**
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
 
@@ -95,7 +96,7 @@ public class ViewSingleArticle extends Application{
         Scene scene = new Scene(conteneurPrincipal);
         _primaryStage.setScene(scene);
         _primaryStage.show();
-
+        **/
     }
 
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
