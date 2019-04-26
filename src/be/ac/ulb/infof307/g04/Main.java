@@ -249,7 +249,6 @@ public class Main extends Application {
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
             showErrorBox("Error while copying link to clipboard");
-            e.printStackTrace();
         }
     }
 
@@ -272,7 +271,6 @@ public class Main extends Application {
 
         } catch (Exception e) {
             showErrorBox("Error while opening source window!");
-            e.printStackTrace();
         }
     }
 
@@ -339,7 +337,6 @@ public class Main extends Application {
 
         } catch (Exception e) {
             showErrorBox("Error while opening the tag window!");
-            e.printStackTrace();
         }
     }
 

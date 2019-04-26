@@ -95,7 +95,7 @@ public class DatabaseArticle implements Serializable {
          * @see Date
          */
         Date now = new Date();
-        Date deleteDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
-        return now.after(deleteDate);
+        Date deletedDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
+        return now.after(deletedDate);
     }
 }
