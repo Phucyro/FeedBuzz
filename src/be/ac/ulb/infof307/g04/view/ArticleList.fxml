@@ -24,8 +24,8 @@
         </Menu>
           <Menu mnemonicParsing="false" text="Source">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openSourceWindow" text="Configure Sources" />
-                  <MenuItem mnemonicParsing="false" onAction="#openTagWindow" text="Configure Tags" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSourceWindow" text="Configure sources" />
+                  <MenuItem mnemonicParsing="false" onAction="#openTagWindow" text="Configure tags" />
               </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -37,27 +37,27 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Search an article by name">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Search by title&quot;" />
+                      <MenuItem mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Copy article link to clipboard">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Copy article link&quot;" />
-                    </items>
+                     <items>
+                        <MenuItem mnemonicParsing="false" />
+                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure sources">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Sources&quot;" />
+                      <MenuItem mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure tags">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Tags&quot;" />
+                      <MenuItem mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit the application">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Exit&quot;" />
+                      <MenuItem mnemonicParsing="false" />
                     </items>
                   </Menu>
                </items>

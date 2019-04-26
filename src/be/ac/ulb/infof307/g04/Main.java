@@ -189,7 +189,8 @@ public class Main extends Application {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            showErrorBox("No article selected");
+            showErrorBox("Error while copying link to clipboard");
+            e.printStackTrace();
         }
     }
 
@@ -211,7 +212,8 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            showErrorBox("No article selected");
+            showErrorBox("Error while opening source window!");
+            e.printStackTrace();
         }
     }
 
@@ -277,7 +279,8 @@ public class Main extends Application {
             stage.show();
 
         } catch (Exception e) {
-            showErrorBox("No article selected");
+            showErrorBox("Error while opening the tag window!");
+            e.printStackTrace();
         }
     }
 
