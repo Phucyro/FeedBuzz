@@ -6,10 +6,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,7 +19,7 @@ import java.util.Optional;
 
 
 public class TagMenu  extends Application {
-    private TagManager tag_manager = new TagManager("./article_db", "password");
+    private TagManager tagManager = new TagManager("./article_db", "password");
     @FXML
     private Button addButton;
     @FXML
@@ -66,7 +63,7 @@ public class TagMenu  extends Application {
 
     private void initList() {
         ObservableList<String> tags = FXCollections.observableArrayList();
-        for (DatabaseTag tag : tag_manager.getAll()) {
+        for (DatabaseTag tag : tagManager.getAll()) {
             if (!tag.getName().equals("Default")) {
                 tags.add(tag.getName());
             }
@@ -89,7 +86,7 @@ public class TagMenu  extends Application {
         if (result.isPresent() && !result.get().isEmpty()){
             DatabaseTag tag = new DatabaseTag();
             tag.setName(result.get());
-            tag_manager.addTag(tag);
+            tagManager.addTag(tag);
         }
         else{
             System.out.println("Pop up");
@@ -126,7 +123,7 @@ public class TagMenu  extends Application {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());
-                tag_manager.modifyTag(oldTag, newTag);
+                tagManager.modifyTag(oldTag, newTag);
             }
             else{
                 System.out.println("Pop up");
@@ -151,7 +148,7 @@ public class TagMenu  extends Application {
         else {
             DatabaseTag tag = new DatabaseTag();
             tag.setName(tagsListview.getSelectionModel().getSelectedItem());
-            tag_manager.deleteTag(tag);
+            tagManager.deleteTag(tag);
             initList();
         }
     }

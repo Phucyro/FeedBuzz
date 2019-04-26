@@ -56,7 +56,7 @@
                         <RowConstraints minHeight="10.0" percentHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button fx:id="deleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#delete_button_pressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Delete" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <Button fx:id="deleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#deleteButtonPressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Delete" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin></Button>

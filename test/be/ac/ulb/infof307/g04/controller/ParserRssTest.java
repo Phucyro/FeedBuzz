@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ParserRssTest {
     @Test
-    void articles_len_test() {
+    void articlesLenTest() {
         try {
             assertEquals(15, new ParserRss().parse("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml").size());
         } catch (Exception e) {
@@ -16,7 +16,7 @@ class ParserRssTest {
     }
 
     @Test
-    void bad_url_test() {
+    void badUrlTest() {
         assertThrows(java.lang.IllegalArgumentException.class, () -> new ParserRss().parse("http:/"));
     }
 }

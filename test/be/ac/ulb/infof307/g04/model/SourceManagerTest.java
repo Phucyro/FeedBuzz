@@ -15,13 +15,13 @@ class SourceManagerTest {
     @BeforeEach
     void setUp() {
         //Ajout de la source et de ses paramètres
-        DatabaseSource database_source = new DatabaseSource();
-        database_source.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
-        database_source.setEnabled(true);
-        database_source.setNumber_to_download(3);
+        DatabaseSource databaseSource = new DatabaseSource();
+        databaseSource.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
+        databaseSource.setEnabled(true);
+        databaseSource.setNumberToDownload(3);
         //Ajout de cette source dans la base de donnée
         SourceManager source = new SourceManager("./article_test_db");
-        source.addSource(database_source);
+        source.addSource(databaseSource);
         //source.download();
 
 
@@ -38,11 +38,11 @@ class SourceManagerTest {
 
     @Test
     void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        SourceManager source_manager = new SourceManager("./article_test_db");
-        ArticleManager article_manager = new ArticleManager("./article_test_db", "password");
-        source_manager.download(article_manager);
-        assertNotNull(article_manager.findArticle("http://diveintomark.org/archives/2002/09/29.html#dooce"));
-        assertNotNull(article_manager.findArticle("http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists"));
-        assertNotNull(article_manager.findArticle("http://diveintomark.org/archives/2002/09/27.html#pingback_vs_trackback"));
+        SourceManager sourceManager = new SourceManager("./article_test_db");
+        ArticleManager articleManager = new ArticleManager("./article_test_db", "password");
+        sourceManager.download(articleManager);
+        assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/29.html#dooce"));
+        assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists"));
+        assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/27.html#pingback_vs_trackback"));
     }
 }

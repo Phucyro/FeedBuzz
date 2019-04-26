@@ -60,33 +60,32 @@ public class DatabaseArticle implements Serializable {
      */
 
     public Date getPublishedDate() { return publishedDate; }
-    public void setPublishedDate(Date publishedDate) { this.publishedDate = publishedDate; }
+    public void setPublishedDate(Date _publishedDate) { this.publishedDate = _publishedDate; }
     public Date getUpdatedDate() { return updatedDate; }
-    public void setUpdatedDate(Date updatedDate) { this.updatedDate = updatedDate; }
+    public void setUpdatedDate(Date _updatedDate) { this.updatedDate = _updatedDate; }
     public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String _title) { this.title = _title; }
     public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String _description) { this.description = _description; }
     public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
+    public void setLink(String _link) { this.link = _link; }
     public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String _author) { this.author = _author; }
     public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public void setCategory(String _category) { this.category = _category; }
     public int getDaysToSave() { return daysToSave; }
-    public void setDaysToSave(int daysToSave) { this.daysToSave = daysToSave; }
+    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
 
     public String getLocalisation() { return localisation; }
-    public void setLocalisation(String localisation) { this.localisation = localisation; }
+    public void setLocalisation(String _localisation) { this.localisation = _localisation; }
     public String getTags() { return tags; }
-    public void setTags(String tags) { this.tags = tags; }
+    public void setTags(String _tags) { this.tags = _tags; }
     public boolean getDeleted() { return deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public void setDeleted(boolean _deleted) { this.deleted = _deleted; }
     public String getSourceUrl() {return sourceUrl;}
-    public void setSourceUrl(String url){
-        sourceUrl = url;}
+    public void setSourceUrl(String _url){ sourceUrl = _url;}
     public Date getDownloadDate() { return downloadDate;}
-    public void setDownloadDate(Date now) { downloadDate = now;}
+    public void setDownloadDate(Date _now) { downloadDate = _now;}
 
     public boolean needToBeDeleted() {
         /**
@@ -96,7 +95,7 @@ public class DatabaseArticle implements Serializable {
          * @see Date
          */
         Date now = new Date();
-        Date delete_date = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
-        return now.after(delete_date);
+        Date deleteDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
+        return now.after(deleteDate);
     }
 }

@@ -163,11 +163,11 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
         String imageUrl = null;
         Document doc = Jsoup.parse(_text);
-        Elements imgs = doc.getElementsByTag("img");
+        Elements images = doc.getElementsByTag("img");
 
         boolean found = false;
 
-        for (Element elem: imgs)
+        for (Element elem: images)
         {
             if (!found)
             {

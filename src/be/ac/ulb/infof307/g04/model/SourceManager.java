@@ -92,14 +92,14 @@ public class SourceManager {
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
                 ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
-                for (int i = 0; i < source.getNumber_to_download(); i++) {
-                    DatabaseArticle article_to_save = articles.get(i);
-                    article_to_save.setDaysToSave(source.getLifeSpan_default());
-                    article_to_save.setCategory(source.getTag());
-                    article_to_save.setDownloadDate(new Date());
-                    article_to_save.setSourceUrl(source.getUrl());
-                    article_to_save.setTags(source.getTag());
-                    _articleManager.addArticle(article_to_save);
+                for (int i = 0; i < source.getNumberToDownload(); i++) {
+                    DatabaseArticle articleToSave = articles.get(i);
+                    articleToSave.setDaysToSave(source.getLifeSpanDefault());
+                    articleToSave.setCategory(source.getTag());
+                    articleToSave.setDownloadDate(new Date());
+                    articleToSave.setSourceUrl(source.getUrl());
+                    articleToSave.setTags(source.getTag());
+                    _articleManager.addArticle(articleToSave);
                 }
 
             }

@@ -101,9 +101,7 @@ public class ArticleVerification {
          * check if an article can be corrected
          * @see databaseArticle
          */
-
-        ArrayList<DatabaseArticle> articles = new ArrayList<>();
-        articles = getArticlesFromSource();
+        ArrayList<DatabaseArticle> articles = getArticlesFromSource();
 
         for(int i=0; i< articles.size(); i++){
             if(((articleToVerify.getLink() != null && articles.get(i).getLink() != null   )   &&   (   hashCode(articleToVerify.getLink()) == hashCode(articles.get(i).getLink()))) ||

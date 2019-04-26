@@ -108,11 +108,11 @@ public class ArticleManager{
          */
         ArrayList<DatabaseArticle> articles = loadArticles();
         for(DatabaseArticle article : articles){
-            ArticleVerification article_verification = new ArticleVerification(article,article.getSourceUrl());
-            if(!article_verification.isValid()){
-                if(article_verification.isCorrectable()){
-                    article_verification.correctArticle();
-                    replaceArticle(article, article_verification.getArticle());
+            ArticleVerification articleVerification = new ArticleVerification(article,article.getSourceUrl());
+            if(!articleVerification.isValid()){
+                if(articleVerification.isCorrectable()){
+                    articleVerification.correctArticle();
+                    replaceArticle(article, articleVerification.getArticle());
                 }
                 else{
                     deleteArticle(article);

@@ -17,19 +17,19 @@ class TagManagerTest {
     private DatabaseTag tag;
 
     @BeforeAll
-    void setup_before_tag_manager() {
+    void setupBeforeTagManager() {
         this.dbpath = "./test.db";
         tagManager = new TagManager(this.dbpath, "test");
         tag = new DatabaseTag();
     }
 
     @BeforeEach
-    void reset_db(){
+    void resetDb(){
         tagManager.deleteAll();
     }
 
     @Test
-    void add_tag() {
+    void addTag() {
         tag.setName("test");
         tagManager.addTag(tag);
         assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
@@ -37,7 +37,7 @@ class TagManagerTest {
     }
 
     @Test
-    void delete_tag() {
+    void deleteTag() {
         tag.setName("test1");
         tagManager.addTag(tag);
         assertEquals(1, tagManager.getAll().size() );
@@ -51,7 +51,7 @@ class TagManagerTest {
     }
 
     @Test
-    void modify_tag() {
+    void modifyTag() {
         tag.setName("test1");
         tagManager.addTag(tag);
         DatabaseTag modify_tag = new DatabaseTag();
@@ -62,7 +62,7 @@ class TagManagerTest {
     }
 
     @Test
-    void get_all() {
+    void getAll() {
         ArrayList<DatabaseTag> tags = new ArrayList<>();
         tags.add(new DatabaseTag());
         tags.get(0).setName("test");
@@ -86,7 +86,7 @@ class TagManagerTest {
     }
 
     @Test
-    void delete_all() {
+    void deleteAll() {
         tag.setName("test");
         tagManager.addTag(tag);
         tag.setName("test2");
@@ -97,7 +97,7 @@ class TagManagerTest {
     }
 
     @AfterAll
-    void delete_databse_files() {
+    void deleteDatabaseFiles() {
         deleteDir(new File(dbpath));
     }
 

@@ -19,108 +19,108 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ArticleVerificationTest {
 
-    private ArticleVerification test_verification;
-    private DatabaseArticle false_article;
-    private DatabaseArticle true_article;
-    private DatabaseArticle repairable_article;
-    private DatabaseArticle not_repairable_article;
+    private ArticleVerification testVerification;
+    private DatabaseArticle falseArticle;
+    private DatabaseArticle trueArticle;
+    private DatabaseArticle repairableArticle;
+    private DatabaseArticle notRepairableArticle;
 
-    private String test_source;
+    private String testSource;
 
     @BeforeAll
-    void setup_before_article_verification() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    void setupBeforeArticleVerification() throws IOException, ParserConfigurationException, SAXException, ParseException {
         // On recupere la liste d'article de la source
-        test_source = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
+        testSource = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
         ParserRss parser = new ParserRss();
-        ArrayList<DatabaseArticle> articles = parser.parse(test_source);
+        ArrayList<DatabaseArticle> articles = parser.parse(testSource);
 
         // Un article pris de la source sans aucune modification
-        true_article = new DatabaseArticle();
-        true_article.setAuthor(articles.get(0).getAuthor());
-        true_article.setTitle(articles.get(0).getTitle());
-        true_article.setPublishedDate(articles.get(0).getPublishedDate());
-        true_article.setUpdatedDate(articles.get(0).getUpdatedDate());
-        true_article.setLink(articles.get(0).getLink());
-        true_article.setCategory(articles.get(0).getCategory());
-        true_article.setDescription(articles.get(0).getDescription());
-        true_article.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
+        trueArticle = new DatabaseArticle();
+        trueArticle.setAuthor(articles.get(0).getAuthor());
+        trueArticle.setTitle(articles.get(0).getTitle());
+        trueArticle.setPublishedDate(articles.get(0).getPublishedDate());
+        trueArticle.setUpdatedDate(articles.get(0).getUpdatedDate());
+        trueArticle.setLink(articles.get(0).getLink());
+        trueArticle.setCategory(articles.get(0).getCategory());
+        trueArticle.setDescription(articles.get(0).getDescription());
+        trueArticle.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
         // On altere un article de la source
-        false_article = new DatabaseArticle();
-        false_article.setAuthor(articles.get(0).getAuthor());
-        false_article.setTitle("Modified Title");
-        false_article.setPublishedDate(articles.get(0).getPublishedDate());
-        false_article.setUpdatedDate(articles.get(0).getUpdatedDate());
-        false_article.setLink(articles.get(0).getLink());
-        false_article.setCategory(articles.get(0).getCategory());
-        false_article.setDescription(articles.get(0).getDescription());
-        false_article.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
+        falseArticle = new DatabaseArticle();
+        falseArticle.setAuthor(articles.get(0).getAuthor());
+        falseArticle.setTitle("Modified Title");
+        falseArticle.setPublishedDate(articles.get(0).getPublishedDate());
+        falseArticle.setUpdatedDate(articles.get(0).getUpdatedDate());
+        falseArticle.setLink(articles.get(0).getLink());
+        falseArticle.setCategory(articles.get(0).getCategory());
+        falseArticle.setDescription(articles.get(0).getDescription());
+        falseArticle.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie uniquement le titre, on peut recuperer l'article avec le lien ou la description
-        repairable_article = new DatabaseArticle();
-        repairable_article.setAuthor(articles.get(0).getAuthor());
-        repairable_article.setTitle("Modified Title");
-        repairable_article.setPublishedDate(articles.get(0).getPublishedDate());
-        repairable_article.setUpdatedDate(articles.get(0).getUpdatedDate());
-        repairable_article.setLink(articles.get(0).getLink());
-        repairable_article.setCategory("nocategory");
-        repairable_article.setDescription(articles.get(0).getDescription());
-        repairable_article.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
+        repairableArticle = new DatabaseArticle();
+        repairableArticle.setAuthor(articles.get(0).getAuthor());
+        repairableArticle.setTitle("Modified Title");
+        repairableArticle.setPublishedDate(articles.get(0).getPublishedDate());
+        repairableArticle.setUpdatedDate(articles.get(0).getUpdatedDate());
+        repairableArticle.setLink(articles.get(0).getLink());
+        repairableArticle.setCategory("nocategory");
+        repairableArticle.setDescription(articles.get(0).getDescription());
+        repairableArticle.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
 
         // on modifie le lien, la description, et le titre -> pas corrigible
-        not_repairable_article = new DatabaseArticle();
-        not_repairable_article.setAuthor(articles.get(0).getAuthor());
-        not_repairable_article.setTitle("Modified Title");
-        not_repairable_article.setPublishedDate(articles.get(0).getPublishedDate());
-        not_repairable_article.setUpdatedDate(articles.get(0).getUpdatedDate());
-        not_repairable_article.setLink("link broken");
-        not_repairable_article.setCategory("nocategory");
-        not_repairable_article.setDescription("This article is broken");
-        not_repairable_article.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
+        notRepairableArticle = new DatabaseArticle();
+        notRepairableArticle.setAuthor(articles.get(0).getAuthor());
+        notRepairableArticle.setTitle("Modified Title");
+        notRepairableArticle.setPublishedDate(articles.get(0).getPublishedDate());
+        notRepairableArticle.setUpdatedDate(articles.get(0).getUpdatedDate());
+        notRepairableArticle.setLink("link broken");
+        notRepairableArticle.setCategory("nocategory");
+        notRepairableArticle.setDescription("This article is broken");
+        notRepairableArticle.setSourceUrl("http://feeds.bbci.co.uk/news/world/rss.xml");
     }
 
     @Test
-    void valid_article_False() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(false_article, test_source);
-        assertFalse(test_verification.isValid());
-
-    }
-
-
-    @Test
-    void valid_article_True() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(true_article, test_source);
-        assertTrue(test_verification.isValid());
+    void validArticleFalse() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(falseArticle, testSource);
+        assertFalse(testVerification.isValid());
 
     }
 
 
     @Test
-    void correctable_False() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(not_repairable_article, test_source);
-        assertFalse(test_verification.isCorrectable());
-    }
-
-
-    @Test
-    void correctable_True() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(repairable_article, test_source);
-        assertTrue(test_verification.isCorrectable());
+    void validArticleTrue() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(trueArticle, testSource);
+        assertTrue(testVerification.isValid());
 
     }
 
 
     @Test
-    void corrected_False() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(not_repairable_article, test_source);
-        test_verification.correctArticle();
-        assertFalse(test_verification.isValid());
+    void correctableFalse() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(notRepairableArticle, testSource);
+        assertFalse(testVerification.isCorrectable());
+    }
+
+
+    @Test
+    void correctableTrue() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(repairableArticle, testSource);
+        assertTrue(testVerification.isCorrectable());
+
+    }
+
+
+    @Test
+    void correctedFalse() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(notRepairableArticle, testSource);
+        testVerification.correctArticle();
+        assertFalse(testVerification.isValid());
     }
 
     @Test
-    void corrected_True() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        test_verification = new ArticleVerification(repairable_article, test_source);
-        test_verification.correctArticle();
-        assertTrue(test_verification.isValid());
+    void correctedTrue() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        testVerification = new ArticleVerification(repairableArticle, testSource);
+        testVerification.correctArticle();
+        assertTrue(testVerification.isValid());
     }
 
 

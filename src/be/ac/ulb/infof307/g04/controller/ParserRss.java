@@ -76,12 +76,13 @@ public class ParserRss {
     private void getXmlFile(URL _url) throws ParserConfigurationException, IOException, SAXException {
         /**
          * download the xml file of the rss feed
+         * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
+         *
          * @param _url
          *          _url of the feed$
          * @throws ParserConfigurationException
          * @throws IOException
          * @throws SAXException
-         *
          */
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
@@ -89,7 +90,6 @@ public class ParserRss {
         docBuilder = dbf.newDocumentBuilder();
         InputStream stream = _url.openStream();
         document = docBuilder.parse(stream);
-
 
     }
 
@@ -237,9 +237,9 @@ public class ParserRss {
          *          _tag of the xml _entry
          * @return text of the specific _tag
          */
-        NodeList tag_node = _entry.getElementsByTagName(_tag);
-        if(tag_node.getLength() > 0) {
-            return tag_node.item(0).getTextContent().trim();
+        NodeList tagNode = _entry.getElementsByTagName(_tag);
+        if(tagNode.getLength() > 0) {
+            return tagNode.item(0).getTextContent().trim();
         }
         else{
             return null;

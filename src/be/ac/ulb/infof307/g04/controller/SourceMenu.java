@@ -74,10 +74,10 @@ public class SourceMenu extends Application {
         /*
         confirm button on the menu when adding sources,...
          */
-        ObservableList<DatabaseSource> items_list = listViewSources.getItems();
-        //System.out.println(items_list);
-        for (int i = 0; i < items_list.size(); i++) {
-            sourceManager.updateSource(items_list.get(i));
+        ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
+        //System.out.println(itemsList);
+        for (int i = 0; i < itemsList.size(); i++) {
+            sourceManager.updateSource(itemsList.get(i));
         }
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();

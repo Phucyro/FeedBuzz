@@ -16,7 +16,7 @@ class ArticleManagerTest {
     private DatabaseArticle article2;
 
     @BeforeAll
-    void setup_before_article_manager() {
+    void setupBeforeArticleManager() {
         this.dbpath = "./test.db";
 
         this.manager = new ArticleManager(dbpath, "test");
@@ -31,41 +31,41 @@ class ArticleManagerTest {
     }
 
     @AfterEach()
-    void clear_database() {
+    void clearDatabase() {
         this.manager.deleteArticle(article1);
         this.manager.deleteArticle(article2);
     }
 
     @Test
-    void add_and_find_article() {
+    void addAndFindArticle() {
         manager.addArticle(article1);
-        DatabaseArticle article_test = manager.findArticle(article1.getLink());
-        assertSame(article1.getDescription(), article_test.getDescription());
+        DatabaseArticle articleTest = manager.findArticle(article1.getLink());
+        assertSame(article1.getDescription(), articleTest.getDescription());
         //Verifie que l'article ajoute a la base de donnees a la meme description que l'article original
     }
 
     @Test
-    void delete_existing_article() {
+    void deleteExistingArticle() {
         manager.addArticle(article1);
         manager.deleteArticle(article1);
-        DatabaseArticle deleted_article = new DatabaseArticle(manager.findArticle(article1.getLink()));
-        assertTrue(deleted_article.getDeleted());
+        DatabaseArticle deletedArticle = new DatabaseArticle(manager.findArticle(article1.getLink()));
+        assertTrue(deletedArticle.getDeleted());
         //L'article supprime devrais avoir son attribut deleted a "true" pour signifier que l'article est supprime.
-        assertSame(null, deleted_article.getDescription());
+        assertSame(null, deletedArticle.getDescription());
         //L'article supprime devrais avoir sa description mise a "null"
     }
 
     @Test
-    void delete_non_existing_article(){
-        DatabaseArticle non_existing_article = new DatabaseArticle();
-        non_existing_article.setLink("http://www.test3.com");
-        non_existing_article.setTitle("Test3");
-        assertFalse(manager.deleteArticle(non_existing_article));
+    void deleteNonExistingArticle(){
+        DatabaseArticle nonExistingArticle = new DatabaseArticle();
+        nonExistingArticle.setLink("http://www.test3.com");
+        nonExistingArticle.setTitle("Test3");
+        assertFalse(manager.deleteArticle(nonExistingArticle));
         //Le manager doit renvoyer false lorsque l'article n'est pas trouve, alors on assert que la valeur retournee lorsqu'on recherche un article qui n'est pas dans la base de donnees est "false"
     }
 
     @Test
-    void load_articles_count(){
+    void loadArticlesCount(){
         manager.addArticle(article1);
         manager.addArticle(article2);
         assertSame(manager.loadArticles().size(), 2);
@@ -86,7 +86,7 @@ class ArticleManagerTest {
     }
 
     @AfterAll
-    void delete_database_files() {
+    void deleteDatabaseFiles() {
         deleteDir(new File(dbpath));
     }
 }
