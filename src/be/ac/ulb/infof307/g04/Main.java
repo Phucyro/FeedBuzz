@@ -115,12 +115,12 @@ public class Main extends Application {
 
             displayArticles(article_manager.loadArticles());
 
-            setMenuBarImages();
+            setupMenubarImages();
     }
 
-    private void setMenuBarImages() {
+    private void setupMenubarImages() {
         ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/read.png"));
-        readIcon.setFitHeight(450);
+        readIcon.setFitHeight(300);
         readIcon.setFitWidth(500);
         readMenuItem.setGraphic(readIcon);
     }

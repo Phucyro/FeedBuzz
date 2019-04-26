@@ -49,14 +49,14 @@ public class SourceMenu extends Application {
         /*
         Set the window of the source menu
          */
-        FXMLLoader loader = new FXMLLoader();
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
         AnchorPane main_container;
         main_container = loader.load();
         _primaryStage.setTitle("Source Menu");
         Scene scene = new Scene(main_container);
         _primaryStage.setScene(scene);
-        _primaryStage.show();
+        _primaryStage.show();*/
 
     }
 

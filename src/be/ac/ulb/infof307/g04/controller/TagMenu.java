@@ -55,14 +55,13 @@ public class TagMenu  extends Application {
     }
 
     public void start(Stage _primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
         AnchorPane main_container;
         main_container = loader.load();
         Scene scene = new Scene(main_container);
         _primaryStage.setScene(scene);
-        _primaryStage.show();
-
+        _primaryStage.show();*/
     }
 
     private void initList() {
