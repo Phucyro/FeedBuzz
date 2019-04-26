@@ -1,11 +1,14 @@
 package be.ac.ulb.infof307.g04.model;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,14 +30,10 @@ class SourceManagerTest {
 
     }
 
-  /*  @AfterEach
+    @AfterEach
     void tearDown(){
-        try {
-            FileUtils.deleteDirectory(new File("./article_test_db"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+        //deleteDir(new File("./article_test_db"));
+    }
 
     @Test
     void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
@@ -44,5 +43,18 @@ class SourceManagerTest {
         assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/29.html#dooce"));
         assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists"));
         assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/27.html#pingback_vs_trackback"));
+    }
+
+    private void deleteDir(File file) {
+        //Supprime le dossier de la base de donnees de test apres que les tests soient termines
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                if (! Files.isSymbolicLink(f.toPath())) {
+                    deleteDir(f);
+                }
+            }
+        }
+        file.delete();
     }
 }

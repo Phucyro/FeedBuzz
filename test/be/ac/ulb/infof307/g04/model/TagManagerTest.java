@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TagManagerTest {
 
+    private final String TAG_1 = "tag1";
+    private final String TAG_2 = "tag2";
     private String dbpath;
     private TagManager tagManager;
     private DatabaseTag tag;
@@ -30,7 +32,7 @@ class TagManagerTest {
 
     @Test
     void addTag() {
-        tag.setName("test");
+        tag.setName(TAG_1);
         tagManager.addTag(tag);
         assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
         assertEquals(1, tagManager.getAll().size() );
@@ -38,24 +40,24 @@ class TagManagerTest {
 
     @Test
     void deleteTag() {
-        tag.setName("test1");
+        tag.setName(TAG_1);
         tagManager.addTag(tag);
         assertEquals(1, tagManager.getAll().size() );
-        tag.setName("test2");
+        tag.setName(TAG_2);
         tagManager.addTag(tag);
         assertEquals(2, tagManager.getAll().size() );
         tagManager.deleteTag(tag);
         assertEquals(1, tagManager.getAll().size() );
-        tag.setName("test1");
+        tag.setName(TAG_1);
         assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
     }
 
     @Test
     void modifyTag() {
-        tag.setName("test1");
+        tag.setName(TAG_1);
         tagManager.addTag(tag);
         DatabaseTag modify_tag = new DatabaseTag();
-        modify_tag.setName("test2");
+        modify_tag.setName(TAG_2);
         tagManager.modifyTag(tag, modify_tag);
         assertEquals(1, tagManager.getAll().size() );
         assertEquals(modify_tag.getName(), tagManager.getAll().get(0).getName());
@@ -65,7 +67,7 @@ class TagManagerTest {
     void getAll() {
         ArrayList<DatabaseTag> tags = new ArrayList<>();
         tags.add(new DatabaseTag());
-        tags.get(0).setName("test");
+        tags.get(0).setName(TAG_1);
         tagManager.addTag(tags.get(0));
         assertEquals(tags.size(), tagManager.getAll().size());
         for(int i = 0; i < tags.size(); i++){
@@ -87,9 +89,9 @@ class TagManagerTest {
 
     @Test
     void deleteAll() {
-        tag.setName("test");
+        tag.setName(TAG_1);
         tagManager.addTag(tag);
-        tag.setName("test2");
+        tag.setName(TAG_2);
         tagManager.addTag(tag);
         assertEquals(2, tagManager.getAll().size());
         tagManager.deleteAll();

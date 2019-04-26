@@ -72,6 +72,10 @@ class ArticleManagerTest {
         //Verifie qu'il y a bien deux articles dans la base de donnees apres l'ajout de deux articles
     }
 
+    /**
+     * @param file
+     * @see <a href="https://www.baeldung.com/java-delete-directory">source</a>
+     */
     void deleteDir(File file) {
         //Supprime le dossier de la base de donnees de test apres que les tests soient termines
         File[] contents = file.listFiles();

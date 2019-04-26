@@ -19,19 +19,19 @@ class DatabaseArticleTest {
     void setupBeforeArticle() {
         Date now = new Date();
         testDate = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
+        System.out.println(testDate);
         testArticle = new DatabaseArticle();
+        testArticle.setDownloadDate(testDate);
     }
 
     @Test
     void needToBeDeletedFalse() {
-        testArticle.setPublishedDate(testDate);
         testArticle.setDaysToSave(3);
         assertFalse(testArticle.needToBeDeleted());
     }
 
     @Test
     void needToBeDeletedTrue() {
-        testArticle.setPublishedDate(testDate);
         testArticle.setDaysToSave(1);
         assertTrue(testArticle.needToBeDeleted());
     }

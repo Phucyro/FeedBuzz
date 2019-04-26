@@ -64,11 +64,18 @@ public class ParserRss {
          * @param _element
          *              the entry
          */
+        NodeList elementNodes;
         if(atom) {
-            updated = _element.getElementsByTagName("updated").item(0).getTextContent().trim();
+            elementNodes = _element.getElementsByTagName("updated");
         }
         else {
-            updated = _element.getElementsByTagName("lastBuildDate").item(0).getTextContent().trim();
+            elementNodes = _element.getElementsByTagName("lastBuildDate");
+        }
+        if (elementNodes.getLength() > 0) {
+            this.updated = elementNodes.item(0).getTextContent().trim();
+        }
+        else{
+            this.updated = null;
         }
     }
 
@@ -200,13 +207,13 @@ public class ParserRss {
         if (date == null){
             date = updated;
         }
+        else {
             if (atom) {
                 res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
             } else {
                 res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
             }
-            if (res == null){
-            }
+        }
 
         return res;
     }
