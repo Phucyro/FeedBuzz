@@ -84,39 +84,39 @@ public class Main extends Application {
         /*
         Initialize the main window -> has a close button, a search bar and display all the articles in the DB
          */
-        search_bar = new ToolBar();
-        search_bar.setPrefHeight(40.0);
-        search_bar.setPrefWidth(200.0);
-        GridPane.setConstraints(search_bar, 0, 0);
-        close_search_button = new Button("Close");
-        close_search_button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                change_search_bar_status();
-            }
-        });
-        search_field = new TextField();
-        search_field.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
+            search_bar = new ToolBar();
+            search_bar.setPrefHeight(40.0);
+            search_bar.setPrefWidth(200.0);
+            GridPane.setConstraints(search_bar, 0, 0);
+            close_search_button = new Button("Close");
+            close_search_button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    change_search_bar_status();
+                }
+            });
+            search_field = new TextField();
+            search_field.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
 
-                ArrayList<Article> articles = article_manager.load_articles(newValue);
-                display_articles(articles);
-                match_count.setText(articles.size() + " matches");
-            }
-        });
-        match_count = new Label();
-        search_bar.getItems().addAll(close_search_button, search_field, match_count);
+                    ArrayList<Article> articles = article_manager.load_articles(newValue);
+                    display_articles(articles);
+                    match_count.setText(articles.size() + " matches");
+                }
+            });
+            match_count = new Label();
+            search_bar.getItems().addAll(close_search_button, search_field, match_count);
 
-        list_view_articles.setCellFactory(lv -> new ArticleCell());
-        quit_button.setOnAction(e -> Platform.exit());
-        source.download(article_manager);
-        article_manager.verify_articles();
+            list_view_articles.setCellFactory(lv -> new ArticleCell());
+            quit_button.setOnAction(e -> Platform.exit());
+            source.download(article_manager);
+            article_manager.verify_articles();
 
-        display_articles(article_manager.load_articles());
+            display_articles(article_manager.load_articles());
 
-        setMenuBarImages();
+            setMenuBarImages();
     }
 
     private void setMenuBarImages() {
@@ -165,7 +165,7 @@ public class Main extends Application {
         }catch(SAXException e){
             show_error_box("SAX Error");
         } catch (ParseException e) {
-            show_error_box("Parser configuration error");
+            show_error_box("Parse error");
         }
     }
 

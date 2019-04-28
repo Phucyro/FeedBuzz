@@ -198,14 +198,13 @@ public class ParserRss {
         if (date == null){
             date = updated;
         }
-
-        if (atom) {
-            res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
-        } else {
-            res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
-        }
-        if (res == null){
-        }
+            if (atom) {
+                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
+            } else {
+                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
+            }
+            if (res == null){
+            }
 
         return res;
     }
