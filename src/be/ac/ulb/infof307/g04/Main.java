@@ -128,57 +128,19 @@ public class Main extends Application {
             setHelpImages();
     }
 
-    private void setHelpImages() {
-
-        setImage_ReadArticle();
-        setImage_SearchByTitle();
-        setImage_CopyToClipboard();
-        setImage_ConfigureSources();
-        setImage_ConfigureTags();
-        setImage_Exit();
-
-    }
-
-    private void setImage_ReadArticle() {
-        ImageView readIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png"));
-        readIcon.setFitHeight(250);
-        readIcon.setFitWidth(400);
+    private void setImage(String s, int i, int i2, MenuItem readArticleImage) {
+        ImageView readIcon = new ImageView(new Image(s));
+        readIcon.setFitHeight(i);
+        readIcon.setFitWidth(i2);
         readArticleImage.setGraphic(readIcon);
     }
-
-    private void setImage_SearchByTitle() {
-        ImageView searchIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png"));
-        searchIcon.setFitHeight(280);
-        searchIcon.setFitWidth(380);
-        searchArticleImage.setGraphic(searchIcon);
-    }
-
-    private void setImage_CopyToClipboard() {
-        ImageView copyIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png"));
-        copyIcon.setFitHeight(250);
-        copyIcon.setFitWidth(400);
-        copyArticleLinkImage.setGraphic(copyIcon);
-    }
-
-    private void setImage_ConfigureSources() {
-        ImageView configureSourcesIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png"));
-        configureSourcesIcon.setFitHeight(380);
-        configureSourcesIcon.setFitWidth(530);
-        configureSourcesImage.setGraphic(configureSourcesIcon);
-    }
-
-    private void setImage_ConfigureTags() {
-        ImageView configureTagsIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png"));
-        configureTagsIcon.setFitHeight(350);
-        configureTagsIcon.setFitWidth(550);
-        configureTagsImage.setGraphic(configureTagsIcon);
-    }
-
-    private void setImage_Exit() {
-        ImageView exitIcon = new ImageView(new Image("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png"));
-        exitIcon.setFitHeight(200);
-        exitIcon.setFitWidth(350);
-        exitAppImage.setGraphic(exitIcon);
+    private void setHelpImages() {
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png", 250, 400, copyArticleLinkImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png", 380, 530, configureSourcesImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png", 350, 550, configureTagsImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);
     }
 
 
@@ -252,6 +214,20 @@ public class Main extends Application {
         }
     }
 
+    public void openWindow(FXMLLoader loader, String title, String window_title){
+        try {
+            Parent root = (Parent) loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (Exception e) {
+            showErrorBox("Error while opening "+ window_title + " window!");
+        }
+    }
+
     @FXML
     public void openSourceWindow(ActionEvent _actionEvent) {
         /**
@@ -262,18 +238,25 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
             SourceMenu controller = new SourceMenu();
             loader.setController(controller);
-            Parent root = (Parent) loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Choose sources");
-            stage.setScene(new Scene(root));
-            stage.show();
-
+            openWindow(loader, "Choose sources", "source");
         } catch (Exception e) {
             showErrorBox("Error while opening source window!");
         }
     }
 
+    public void openTagWindow(ActionEvent _actionEvent) {
+        /*
+        Open the tag window
+         */
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
+            TagMenu controller = new TagMenu();
+            loader.setController(controller);
+            openWindow(loader, "Manage tags", "tag");
+        } catch (Exception e) {
+            showErrorBox("Error while opening the tag window!");
+        }
+    }
     @FXML
     public void changeSearchBarStatus(){
         /*
@@ -319,25 +302,4 @@ public class Main extends Application {
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
         sources.forEach(sourceManager::addSource);
     }
-
-    public void openTagWindow(ActionEvent _actionEvent) {
-        /*
-        Open the tag window
-         */
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-            TagMenu controller = new TagMenu();
-            loader.setController(controller);
-            Parent root = (Parent) loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Manage tags");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (Exception e) {
-            showErrorBox("Error while opening the tag window!");
-        }
-    }
-
 };
