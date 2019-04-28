@@ -81,7 +81,7 @@ public class ArticleManager{
     }
 
 
-    public boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
+    private boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
         /**
          * replace an _article by another one
          * @param _article
@@ -139,7 +139,7 @@ public class ArticleManager{
     }
 
 
-    public DatabaseArticle findArticle(String _link){
+    private DatabaseArticle findArticle(String _link){
         /**
          * search an article in the database
          * @param _link
