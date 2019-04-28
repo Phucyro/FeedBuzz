@@ -69,6 +69,8 @@ public class Main extends Application {
     @FXML
     private MenuItem exitAppImage;
 
+    private ArrayList<Stage> stageArrayList = new ArrayList<Stage>();
+
     public static void main(String[] _args) {
         article_manager = new ArticleManager("./article_db", "password");
         initDb();
@@ -85,6 +87,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         _primaryStage.setScene(scene);
         _primaryStage.show();
+        _primaryStage.setOnCloseRequest(e -> Platform.exit());
 
     }
 
@@ -157,7 +160,23 @@ public class Main extends Application {
         }
     }
 
-    @FXML
+    public void disconnectUser() {
+        Platform.exit();
+        for (int i = 0; i < stageArrayList.size(); i++) {
+            stageArrayList.get(i).close();
+        }
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();
+
+    }
+    public void relaunchApplication() throws Exception {
+        disconnectUser();
+        Main mymain = new Main();
+        mymain.start(new Stage());
+
+    }
+
+        @FXML
     private void openArticleWindow() {
         /**
          * Method that opens an article when the user click on it
@@ -173,6 +192,7 @@ public class Main extends Application {
             stage.setTitle("DatabaseArticle Reading");
             stage.setScene(new Scene(root));
             stage.show();
+            stageArrayList.add(stage);
 
         } catch(NullPointerException e){
             showErrorBox("No article selected");
