@@ -21,7 +21,7 @@ public class DatabaseSource implements Serializable {
         source_name = _source_name;
         url = _url;
         enabled = true;
-        number_to_download = 10;
+        number_to_download = 2;
         lifeSpan_default = 7;
         tag = _tag;
     }
