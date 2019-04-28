@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.Optional;
 
 /**
@@ -61,7 +62,7 @@ public class ViewSingleArticle extends Application{
     private ArticleVerification verification;
 
 
-    public ViewSingleArticle(Article _article) throws IOException, ParserConfigurationException, SAXException {
+    public ViewSingleArticle(Article _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
         Constructor of the view of a single article
          @param _article
@@ -96,7 +97,7 @@ public class ViewSingleArticle extends Application{
 
     }
 
-    public void initialize() throws IOException, ParserConfigurationException, SAXException {
+    public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * Initialize the text and the title of the article
          * Modify the integrity circle and text
@@ -108,7 +109,7 @@ public class ViewSingleArticle extends Application{
         set_Fields();
     }
 
-    private void set_Fields() throws IOException, ParserConfigurationException, SAXException {
+    private void set_Fields() throws IOException, ParserConfigurationException, SAXException, ParseException {
         article_title.setText(article.getTitle());
         handle_Integrity();
         tags_label.setText("Tags: " + article.getTags());
@@ -116,7 +117,7 @@ public class ViewSingleArticle extends Application{
 
     }
 
-    private void handle_Integrity() throws IOException, ParserConfigurationException, SAXException {
+    private void handle_Integrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //if article is integer -> green ; else -> red
         if (this.is_valid) {
             integrity_label.setText("Article intègre");
@@ -136,7 +137,7 @@ public class ViewSingleArticle extends Application{
         }
     }
 
-    private void check_Integrity(boolean is_correct) throws IOException, ParserConfigurationException, SAXException {
+    private void check_Integrity(boolean is_correct) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
         validity of the article
          */

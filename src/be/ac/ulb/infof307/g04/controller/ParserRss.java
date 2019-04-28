@@ -30,7 +30,7 @@ public class ParserRss {
     public ParserRss() {
     }
 
-    public ArrayList<Article> parse(String url_name) throws IOException, SAXException, ParserConfigurationException {
+    public ArrayList<Article> parse(String url_name) throws IOException, SAXException, ParserConfigurationException, ParseException {
         /**
          * parse an rss feed
          * @param url_name
@@ -101,7 +101,7 @@ public class ParserRss {
     }
 
 
-    private ArrayList<Article> parse_articles() {
+    private ArrayList<Article> parse_articles() throws ParseException {
         /**
          * Parse a load of articles
          * @see Article
@@ -139,7 +139,7 @@ public class ParserRss {
     }
 
 
-    private Article parse_article(Element entry) {
+    private Article parse_article(Element entry) throws ParseException {
         /**
          * parse a specific article
          * @see Article
@@ -159,7 +159,7 @@ public class ParserRss {
         return article;
     }
 
-    private void parse_article_atom(Element entry, Article article) {
+    private void parse_article_atom(Element entry, Article article) throws ParseException {
         /**
          * specific parse for atom feeds
          * @param entry
@@ -173,7 +173,7 @@ public class ParserRss {
         article.setUpdated_date(get_date(get_string(entry, "updated")));
     }
 
-    private void parse_article_rss(Element item, Article article) {
+    private void parse_article_rss(Element item, Article article) throws ParseException {
         /**
          * specific parse for rss2.0 feeds
          * @param item
@@ -187,7 +187,7 @@ public class ParserRss {
         article.setUpdated_date(get_date(get_string(item, "lastBuildDate")));
     }
 
-    private Date get_date(String date) {
+    private Date get_date(String date) throws ParseException {
         /**
          * get a date from a string
          * @param date
@@ -198,17 +198,15 @@ public class ParserRss {
         if (date == null){
             date = updated;
         }
-        try {
-            if (atom) {
-                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
-            } else {
-                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
-            }
-            if (res == null){
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+
+        if (atom) {
+            res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
+        } else {
+            res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
         }
+        if (res == null){
+        }
+
         return res;
     }
 

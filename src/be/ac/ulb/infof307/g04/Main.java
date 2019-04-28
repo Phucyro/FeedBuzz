@@ -30,6 +30,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -79,7 +80,7 @@ public class Main extends Application {
     }
 
     @FXML
-    public void initialize() throws IOException, ParserConfigurationException, SAXException {
+    public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
         Initialize the main window -> has a close button, a search bar and display all the articles in the DB
          */
@@ -163,6 +164,8 @@ public class Main extends Application {
             show_error_box("No article selected");
         }catch(SAXException e){
             show_error_box("SAX Error");
+        } catch (ParseException e) {
+            show_error_box("Parser configuration error");
         }
     }
 
