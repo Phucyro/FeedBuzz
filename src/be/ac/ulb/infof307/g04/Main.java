@@ -82,7 +82,7 @@ public class Main extends Application {
     public void start(Stage _primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
 
-        _primaryStage.setTitle("DatabaseArticle List");
+        _primaryStage.setTitle("Article List");
 
         Scene scene = new Scene(root);
         _primaryStage.setScene(scene);
@@ -194,12 +194,13 @@ public class Main extends Application {
          */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
-            ViewSingleArticle controller = new ViewSingleArticle(listViewArticles.getSelectionModel().getSelectedItem());
+            DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
+            ViewSingleArticle controller = new ViewSingleArticle(articleToRead);
             loader.setController(controller);
             controller.setArticlesWindows(this);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
-            stage.setTitle("DatabaseArticle Reading");
+            stage.setTitle(articleToRead.getTitle());
             stage.setScene(new Scene(root));
             stage.show();
             stageArrayList.add(stage);

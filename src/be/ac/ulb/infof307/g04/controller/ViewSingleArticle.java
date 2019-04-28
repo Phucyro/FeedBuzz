@@ -43,8 +43,6 @@ public class ViewSingleArticle extends Application{
     private ArticleManager articleManager = new ArticleManager("./article_db");
 
     @FXML
-    private Label articleTitle;
-    @FXML
     private Label integrityLabel;
     @FXML
     private Circle integrityCircle; //integrity of the article represented by a coloured circle
@@ -52,8 +50,6 @@ public class ViewSingleArticle extends Application{
     private Button deleteButton;
     @FXML
     private Label tagsLabel;
-    @FXML
-    private ImageView articleIcon; //image of the article
     @FXML
     private WebView articleView; //whole article
 
@@ -115,10 +111,8 @@ public class ViewSingleArticle extends Application{
     }
 
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        articleTitle.setText(article.getTitle());
         handleIntegrity();
         tagsLabel.setText("Tags: " + article.getTags());
-        articleIcon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
 
     }
 
