@@ -75,21 +75,21 @@ public class DatabaseArticle implements Serializable {
     public void setAuthor(String _author) { this.author = _author; }
     public String getCategory() { return category; }
     public void setCategory(String _category) { this.category = _category; }
-    public int getDaysToSave() { return daysToSave; }
-    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
+    private int getDaysToSave() { return daysToSave; }
+    void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
 
-    public String getLocalisation() { return localisation; }
-    public void setLocalisation(String _localisation) { this.localisation = _localisation; }
+    private String getLocalisation() { return localisation; }
+    private void setLocalisation(String _localisation) { this.localisation = _localisation; }
     public String getTags() { return tags; }
     public void setTags(String _tags) { this.tags = _tags; }
     public boolean getDeleted() { return deleted; }
     public void setDeleted(boolean _deleted) { this.deleted = _deleted; }
     public String getSourceUrl() {return sourceUrl;}
     public void setSourceUrl(String _url){ sourceUrl = _url;}
-    public Date getDownloadDate() { return downloadDate;}
-    public void setDownloadDate(Date _now) { downloadDate = _now;}
+    private Date getDownloadDate() { return downloadDate;}
+    void setDownloadDate(Date _now) { downloadDate = _now;}
 
-    public boolean needToBeDeleted() {
+    boolean needToBeDeleted() {
         /**
          * Tests if an article is outdated (based on his download date and the days to save the article)
          *

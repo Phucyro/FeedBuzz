@@ -36,7 +36,7 @@ public class ArticleVerification {
      * Get all the articles from a source
      * @return An ArrayList of articles
      */
-    public ArrayList<DatabaseArticle> getArticlesFromSource() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    private ArrayList<DatabaseArticle> getArticlesFromSource() throws IOException, ParserConfigurationException, SAXException, ParseException {
         ParserRss parser = new ParserRss();
         ArrayList<DatabaseArticle> articles;
         articles = parser.parse(source);
@@ -62,15 +62,10 @@ public class ArticleVerification {
         DatabaseArticle a2 = articleFromSource;
 
         // condition de la forme, soit les deux champs sont nuls, soit aucun des deux n'est nul et les hash correspondent
-        if((((a1.getDescription() == null && a2.getDescription() == null ) || (a1.getDescription() != null && a2.getDescription() != null )) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
-                    (((a1.getLink() == null && a2.getLink() == null ) || (a1.getLink() != null && a2.getLink() != null )) && hashCode(a1.getLink()) == hashCode(a2.getLink())) &&
-                        (((a1.getPublishedDate() == null && a2.getPublishedDate() == null ) || (a1.getPublishedDate() != null && a2.getPublishedDate() != null )) && hashCode(a1.getPublishedDate()) == hashCode(a2.getPublishedDate())) &&
-                            (((a1.getUpdatedDate() == null && a2.getUpdatedDate() == null ) || (a1.getUpdatedDate() != null && a2.getUpdatedDate() != null )) && hashCode(a1.getUpdatedDate()) == hashCode(a2.getUpdatedDate()))){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (((a1.getDescription() == null && a2.getDescription() == null) || (a1.getDescription() != null && a2.getDescription() != null)) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
+                (((a1.getLink() == null && a2.getLink() == null) || (a1.getLink() != null && a2.getLink() != null)) && hashCode(a1.getLink()) == hashCode(a2.getLink())) &&
+                (((a1.getPublishedDate() == null && a2.getPublishedDate() == null) || (a1.getPublishedDate() != null && a2.getPublishedDate() != null)) && hashCode(a1.getPublishedDate()) == hashCode(a2.getPublishedDate())) &&
+                (((a1.getUpdatedDate() == null && a2.getUpdatedDate() == null) || (a1.getUpdatedDate() != null && a2.getUpdatedDate() != null)) && hashCode(a1.getUpdatedDate()) == hashCode(a2.getUpdatedDate()));
     }
 
 
@@ -85,10 +80,10 @@ public class ArticleVerification {
         ArrayList<DatabaseArticle> articles = new ArrayList<>();
         articles = getArticlesFromSource();
         boolean found = false;
-        for(int i=0; i< articles.size(); i++){
-            if(((articleToVerify.getTitle() == null && articles.get(i).getTitle() == null ) || (articleToVerify.getTitle() != null && articles.get(i).getTitle() != null )) && articleToVerify.getTitle().equals(articles.get(i).getTitle()) &&
-                    ((articleToVerify.getAuthor() == null && articles.get(i).getAuthor() == null ) || (articleToVerify.getAuthor() != null && articles.get(i).getAuthor() != null )) && hashCode(articleToVerify.getAuthor()) == hashCode(articles.get(i).getAuthor())){
-                articleFromSource = articles.get(i);
+        for (DatabaseArticle article : articles) {
+            if (((articleToVerify.getTitle() == null && article.getTitle() == null) || (articleToVerify.getTitle() != null && article.getTitle() != null)) && articleToVerify.getTitle().equals(article.getTitle()) &&
+                    ((articleToVerify.getAuthor() == null && article.getAuthor() == null) || (articleToVerify.getAuthor() != null && article.getAuthor() != null)) && hashCode(articleToVerify.getAuthor()) == hashCode(article.getAuthor())) {
+                articleFromSource = article;
                 return isEqual();
             }
         }
