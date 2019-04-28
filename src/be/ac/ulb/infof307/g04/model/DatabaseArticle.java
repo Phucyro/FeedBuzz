@@ -30,8 +30,6 @@ public class DatabaseArticle implements Serializable {
     private String category;
 
     @Secret
-    private String localisation;
-    @Secret
     private String tags;
     private int daysToSave;
     private boolean deleted;
@@ -50,7 +48,6 @@ public class DatabaseArticle implements Serializable {
         this.setAuthor(_item.getAuthor());
         this.setCategory(_item.getCategory());
         this.setDaysToSave(_item.getDaysToSave());
-        this.setLocalisation(_item.getLocalisation());
         this.setTags(_item.getTags());
         this.setDeleted(_item.getDeleted());
         this.setSourceUrl(_item.getSourceUrl());
@@ -78,8 +75,6 @@ public class DatabaseArticle implements Serializable {
     private int getDaysToSave() { return daysToSave; }
     void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
 
-    private String getLocalisation() { return localisation; }
-    private void setLocalisation(String _localisation) { this.localisation = _localisation; }
     public String getTags() { return tags; }
     public void setTags(String _tags) { this.tags = _tags; }
     public boolean getDeleted() { return deleted; }

@@ -132,14 +132,17 @@ public class ArticleManager{
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
+            System.out.println(dbArticle.getDescription());
+            System.out.println(dbArticle.getHtmlContent());
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
+            System.out.println("Erreur 2");
             return false;
         }
     }
 
 
-    private DatabaseArticle findArticle(String _link){
+    public DatabaseArticle findArticle(String _link){
         /**
          * search an article in the database
          * @param _link

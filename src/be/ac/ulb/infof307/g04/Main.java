@@ -123,7 +123,11 @@ public class Main extends Application {
 
             listViewArticles.setCellFactory(lv -> new ArticleCell());
             quitButton.setOnAction(e -> Platform.exit());
-            source.download(article_manager);
+            try{
+                source.download(article_manager);
+            } catch (IOException e){
+                //Cas hors connexion
+            }
             try {
                 article_manager.verifyArticles();
             } catch (Exception e){

@@ -34,7 +34,7 @@ public class DatabaseSource implements Serializable {
         sourceName = _sourceName;
         url = _url;
         enabled = true;
-        numberToDownload = 2;
+        numberToDownload = 3;
         lifeSpanDefault = 7;
         tag = _tag;
     }

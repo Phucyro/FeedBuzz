@@ -105,7 +105,9 @@ public class SourceManager {
                             try {
                                 System.out.println("Downloading article");
                                 article_to_save.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(article_to_save.getLink()));
+                                System.out.println("Downloaded");
                             } catch (IOException e) {
+                                System.out.println("Erreur");
                                 article_to_save.setHtmlContent("");
                             }
                             _articleManager.addArticle(article_to_save);
@@ -114,7 +116,8 @@ public class SourceManager {
                         }
                     }
                 } catch (Exception e) {
-                    //TODO source offline
+                    e.printStackTrace();
+                    //TODO cas offline
                 }
 
             }
