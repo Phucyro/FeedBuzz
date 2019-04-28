@@ -132,8 +132,8 @@ public class ArticleManager{
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
-            System.out.println(dbArticle.getDescription());
-            System.out.println(dbArticle.getHtmlContent());
+            //System.out.println(dbArticle.getDescription());
+            //System.out.println(dbArticle.getHtmlContent());
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
             System.out.println("Erreur 2");
@@ -189,8 +189,9 @@ public class ArticleManager{
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             ArrayList<DatabaseArticle> articles = loadArticles();
             for (DatabaseArticle article : articles) {
+                System.out.println(article.needToBeDeleted());
                 if (article.needToBeDeleted()) {
-                    deleteArticle(article);
+                    //deleteArticle(article);
                 }
             }
         }

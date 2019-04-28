@@ -91,15 +91,12 @@ public class DatabaseArticle implements Serializable {
          * @return boolean if an article has to be deleted
          * @see Date
          */
+        System.out.println("kestufé ?");
         Date now = new Date();
-        Date deletedDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
+        System.out.println(getDownloadDate());
+        Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
     }
-    //public void setDeleted(boolean deleted) { this.deleted = deleted; }
-    public String getSource_url() {return sourceUrl;}
-    public void setSource_url(String url){sourceUrl = url;}
-    public Date getDownload_date() { return downloadDate;}
-    public void setDownload_date(Date now) { downloadDate = now;}
     public String getHtmlContent() {
         return htmlContent;
     }

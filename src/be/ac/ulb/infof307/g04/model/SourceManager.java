@@ -94,26 +94,34 @@ public class SourceManager {
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
                 try {
+                    int counter = source.getNumberToDownload();
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
-                    for (DatabaseArticle article_to_save : articles) {
-                        if (_articleManager.findArticle(article_to_save.getLink()) == null) {
-                            article_to_save.setDaysToSave(source.getLifeSpanDefault());
-                            article_to_save.setCategory(source.getTag());
-                            article_to_save.setDownload_date(new Date());
-                            article_to_save.setSource_url(source.getUrl());
-                            article_to_save.setTags(source.getTag());
-                            try {
-                                System.out.println("Downloading article");
-                                article_to_save.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(article_to_save.getLink()));
-                                System.out.println("Downloaded");
-                            } catch (IOException e) {
-                                System.out.println("Erreur");
-                                article_to_save.setHtmlContent("");
+                    for (DatabaseArticle articleToSave : articles) {
+                        if (counter > 0) {
+
+                            if (_articleManager.findArticle(articleToSave.getLink()) == null) {
+                                articleToSave.setDaysToSave(source.getLifeSpanDefault());
+                                articleToSave.setCategory(source.getTag());
+                                articleToSave.setDownloadDate(new Date());
+                                articleToSave.setSourceUrl(source.getUrl());
+                                articleToSave.setTags(source.getTag());
+                                try {
+                                    System.out.println("Downloading article");
+                                    articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink()));
+                                    System.out.println("Downloaded");
+                                } catch (IOException e) {
+                                    System.out.println("Erreur");
+                                    articleToSave.setHtmlContent("");
+                                }
+                                _articleManager.addArticle(articleToSave);
+                            } else {
+                                System.out.println("Existing article");
                             }
-                            _articleManager.addArticle(article_to_save);
                         } else {
-                            System.out.println("Existing article");
+                            break;
                         }
+                        counter --;
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

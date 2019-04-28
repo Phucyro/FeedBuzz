@@ -72,9 +72,7 @@ public class Main extends Application {
     private ArrayList<Stage> stageArrayList = new ArrayList<Stage>();
 
     public static void main(String[] _args) {
-        article_manager = new ArticleManager("./article_db", "password");
-        initDb();
-        source = new SourceManager("./article_db");
+
         launch(_args);
     }
 
@@ -96,7 +94,11 @@ public class Main extends Application {
         /*
         Initialize the main window -> has a close button, a search bar and display all the articles in the DB
          */
-            searchBar = new ToolBar();
+
+        article_manager = new ArticleManager("./article_db", "password");
+        initDb();
+        source = new SourceManager("./article_db");
+        searchBar = new ToolBar();
             searchBar.setPrefHeight(40.0);
             searchBar.setPrefWidth(200.0);
             GridPane.setConstraints(searchBar, 0, 0);
