@@ -28,7 +28,6 @@ public class DatabaseArticle implements Serializable {
     private String author;
     @Secret
     private String category;
-
     @Secret
     private String tags;
     private int daysToSave;
@@ -72,17 +71,16 @@ public class DatabaseArticle implements Serializable {
     public void setAuthor(String _author) { this.author = _author; }
     public String getCategory() { return category; }
     public void setCategory(String _category) { this.category = _category; }
-    private int getDaysToSave() { return daysToSave; }
-    void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
-
     public String getTags() { return tags; }
     public void setTags(String _tags) { this.tags = _tags; }
+    public int getDaysToSave() { return daysToSave; }
+    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
     public boolean getDeleted() { return deleted; }
     public void setDeleted(boolean _deleted) { this.deleted = _deleted; }
     public String getSourceUrl() {return sourceUrl;}
     public void setSourceUrl(String _url){ sourceUrl = _url;}
-    private Date getDownloadDate() { return downloadDate;}
-    void setDownloadDate(Date _now) { downloadDate = _now;}
+    public Date getDownloadDate() { return downloadDate;}
+    public void setDownloadDate(Date _now) { downloadDate = _now;}
 
     boolean needToBeDeleted() {
         /**
@@ -91,9 +89,7 @@ public class DatabaseArticle implements Serializable {
          * @return boolean if an article has to be deleted
          * @see Date
          */
-        System.out.println("kestufé ?");
         Date now = new Date();
-        System.out.println(getDownloadDate());
         Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
     }

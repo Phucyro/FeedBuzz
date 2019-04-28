@@ -189,9 +189,8 @@ public class ArticleManager{
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             ArrayList<DatabaseArticle> articles = loadArticles();
             for (DatabaseArticle article : articles) {
-                System.out.println(article.needToBeDeleted());
                 if (article.needToBeDeleted()) {
-                    //deleteArticle(article);
+                    deleteArticle(article);
                 }
             }
         }

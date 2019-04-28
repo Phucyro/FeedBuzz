@@ -97,7 +97,7 @@ public class SourceManager {
                     int counter = source.getNumberToDownload();
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                     for (DatabaseArticle articleToSave : articles) {
-                        if (counter > 0) {
+                        if (counter-- > 0) {
 
                             if (_articleManager.findArticle(articleToSave.getLink()) == null) {
                                 articleToSave.setDaysToSave(source.getLifeSpanDefault());
@@ -120,8 +120,6 @@ public class SourceManager {
                         } else {
                             break;
                         }
-                        counter --;
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
