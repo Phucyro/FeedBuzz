@@ -30,6 +30,7 @@ import java.util.List;
 
 public class ViewListArticles extends Application {
 
+
     @FXML
     private ListView<Article> list_view_articles;
 
@@ -47,8 +48,7 @@ public class ViewListArticles extends Application {
     private TextField search_field;
     private Label match_count;
     private String db_path;
-    private Stage the_stage;
-    private List<Stage> stage_list;
+    private List<Stage> stage_list = new ArrayList<Stage>();
     public ViewListArticles(String path_to_db){
         // article_manager = new ArticleManager("./test.db","abcdefgh");
         db_path = new String(path_to_db);
@@ -57,8 +57,6 @@ public class ViewListArticles extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         System.out.println(db_path);
 
 
@@ -110,20 +108,27 @@ public class ViewListArticles extends Application {
 
 
         display_articles(article_manager.load_articles());
+
     }
 
 
     @FXML
     public void disconnect() {
-        Platform.exit();
+        for (int i = 0; i < stage_list.size(); i++) {
+            stage_list.get(i).close();
+        }
+        Stage stage = (Stage) grid_pane.getScene().getWindow();
+        stage.close();
+
     }
 
     @FXML
     public void relaunch() throws Exception {
+        disconnect();
         Main mymain = new Main();
         mymain.start(new Stage());
-
     }
+
     @FXML
     public void display_articles(ArrayList<Article> articles) {
         // La fonction rafraîchit la fenêtre principale (articles supprimés/ rajoutés)
@@ -148,6 +153,7 @@ public class ViewListArticles extends Application {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+            stage_list.add(stage);
 
         } catch (Exception e) {
             System.out.println("Aucun article n'a été sélectionné");
