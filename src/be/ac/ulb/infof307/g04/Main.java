@@ -121,7 +121,11 @@ public class Main extends Application {
             listViewArticles.setCellFactory(lv -> new ArticleCell());
             quitButton.setOnAction(e -> Platform.exit());
             source.download(article_manager);
-            article_manager.verifyArticles();
+            try {
+                article_manager.verifyArticles();
+            } catch (Exception e){
+                //Ne rien faire car le logiciel est lance en hors-ligne
+            }
 
             displayArticles(article_manager.loadArticles());
 
@@ -156,6 +160,8 @@ public class Main extends Application {
             listViewArticles.getItems().add(item);
         }
     }
+
+
 
     @FXML
     private void openArticleWindow() {

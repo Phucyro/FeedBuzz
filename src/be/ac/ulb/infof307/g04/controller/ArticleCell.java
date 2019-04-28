@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.controller;
 
-
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,6 +26,7 @@ import java.net.URISyntaxException;
  */
 public class ArticleCell extends ListCell<DatabaseArticle> {
 
+    public static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
@@ -50,7 +50,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
         GridPane.setValignment(articleIcon, VPos.TOP);
-
+        //
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         tagLabel.setStyle("-fx-font-size: 0.9em;");
@@ -75,36 +75,45 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         content.getChildren().add(gridPane);
     }
 
+
+    /**
+     * Function called when an item is modified
+     */
     @Override
-    protected void updateItem(DatabaseArticle _item, boolean _empty){
+    protected void updateItem(DatabaseArticle item, boolean _empty){
         /**
          * Function called when an item is modified
          *
          * @throws IOException : if there's no picture found for the cell
          * @throws URISyntaxException : if the link doesn't work
          */
-        super.updateItem(_item, _empty);
+        super.updateItem(item, _empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
-        if (!_empty && _item != null) {
-            titleLabel.setText(_item.getTitle());
-            tagLabel.setText("Tags: "+ _item.getTags()); // show tags
-            linkLabel.setText(_item.getLink());
+        if (!_empty && item != null) {
+            titleLabel.setText(item.getTitle());
+            tagLabel.setText("Tags: "+ item.getTags()); // show tags
+            linkLabel.setText(item.getLink());
 
-            popupOverArticle(_item);
 
+            popupOverArticle(item);
+
+
+            Image icon = new Image(DEFAULT_ICON);
             try {
-                showImageIcon(_item);
-            } catch (IOException e) {
-                e.printStackTrace(); // ERREUR A BIEN COMPRENDRE
+                icon = new Image(getIconUrl(item.getLink(), item.getDescription()));
+            } catch (Exception e) {
             }
+            articleIcon.setImage(icon);
+
+
 
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
-                        java.awt.Desktop.getDesktop().browse(new URI(_item.getLink()));
+                        java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
                     } catch (URISyntaxException | IOException e1) {
                         e1.printStackTrace();
                     }
@@ -114,26 +123,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        }
-    }
-
-    private void showImageIcon(DatabaseArticle _item) throws IOException {
-        /**
-         * Function called to show the image icon in the list view
-         * @param article _item
-         */
-
-        String imageUrl = null;
-
-        if (_item.getDescription() != null) {
-            imageUrl = getFirstIconUrl(_item.getDescription());
-        }
-
-        //Setup the icon
-        if (imageUrl != null)
-        {
-            Image icon = new Image(imageUrl);
-            articleIcon.setImage(icon);
         }
     }
 
@@ -148,48 +137,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         }
 
         DisplayPreview(gridPane, summaryText);
-    }
-
-    private String getFirstIconUrl(String _text) throws IOException {
-
-        /**
-         * Retrieve first icon url in html text
-         *
-         * @param _text
-         *          html file to parse
-         * @return url to an image
-         * @throws IOException : if there's no url to the icon
-         */
-
-        String imageUrl = null;
-        Document doc = Jsoup.parse(_text);
-        Elements images = doc.getElementsByTag("img");
-
-        boolean found = false;
-
-        for (Element elem: images)
-        {
-            if (!found)
-            {
-                imageUrl = elem.absUrl("src");
-
-                found = true;
-            }
-        }
-
-        return imageUrl;
-    }
-
-    /**
-     * get the plain text of a html string
-     * @param _html
-     *          html file
-     * @return the text of an html string
-     *
-     */
-    private String htmlToPlain(String _html)
-    {
-        return Jsoup.parse(_html).text();
     }
 
     private void DisplayPreview(GridPane articlePane, String summary) {
@@ -225,6 +172,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         });
     }
 
+
     private Popup makePreviewPopup(String _summary, StackPane _previewPane) {
         /**
          * Function called to create the popup
@@ -249,15 +197,37 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         return popup;
     }
 
+
     private StackPane makeSummaryPane() {
         /**
          * Function called to create the previewPane
          * @return Stackpane
          */
-        
+
         StackPane previewPane = new StackPane();
         previewPane.setPrefSize(200, 200);
         previewPane.setStyle("-fx-font-style: italic");
         return previewPane;
+    }
+
+
+
+    /**
+     * Retrieve first icon url in html text
+     *
+     * @param _descriptionHtml html file to parse
+     * @return url to an image
+     */
+    private String getIconUrl(String _articleLink, String _descriptionHtml) throws IOException {
+        return HTMLArticleDownloader.getIconFromDescription(_articleLink, _descriptionHtml);
+    }
+
+    /**
+     * get the plain text of a html string
+     * @param html html file
+     */
+    private String htmlToPlain(String html)
+    {
+        return Jsoup.parse(html).text();
     }
 }

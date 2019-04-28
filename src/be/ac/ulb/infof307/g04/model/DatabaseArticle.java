@@ -23,6 +23,8 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String description;
     @Secret
+    private String htmlContent;
+    @Secret
     private String author;
     @Secret
     private String category;
@@ -97,5 +99,21 @@ public class DatabaseArticle implements Serializable {
         Date now = new Date();
         Date deletedDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
         return now.after(deletedDate);
+    }
+    //public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public String getSource_url() {return sourceUrl;}
+    public void setSource_url(String url){sourceUrl = url;}
+    public Date getDownload_date() { return downloadDate;}
+    public void setDownload_date(Date now) { downloadDate = now;}
+    public String getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

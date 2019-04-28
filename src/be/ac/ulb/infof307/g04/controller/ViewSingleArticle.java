@@ -1,9 +1,8 @@
 package be.ac.ulb.infof307.g04.controller;
 
-
-import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,6 +72,10 @@ public class ViewSingleArticle extends Application{
         ArticleVerification verification = new ArticleVerification(article,article.getSourceUrl());
         checkIntegrity(verification.isValid());
 
+        //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
+        //set_integrity(verification.is_valid());
+
+        //TODO article verification (propre)
     }
 
     public void setArticlesWindows(Main _articlesWindows) {
@@ -161,4 +164,3 @@ public class ViewSingleArticle extends Application{
         stage.close();
     }
 }
-
