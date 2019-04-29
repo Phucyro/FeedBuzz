@@ -22,7 +22,6 @@ public class DatabaseArticle implements Serializable {
     private String title;
     @Secret
     private String description;
-    @Secret
     private String htmlContent;
     @Secret
     private String author;
@@ -51,6 +50,7 @@ public class DatabaseArticle implements Serializable {
         this.setDeleted(_item.getDeleted());
         this.setSourceUrl(_item.getSourceUrl());
         this.setDownloadDate(_item.getDownloadDate());
+        this.setHtmlContent(_item.getHtmlContent());
     }
 
     /*
@@ -81,6 +81,13 @@ public class DatabaseArticle implements Serializable {
     public void setSourceUrl(String _url){ sourceUrl = _url;}
     public Date getDownloadDate() { return downloadDate;}
     public void setDownloadDate(Date _now) { downloadDate = _now;}
+    public String getHtmlContent() {
+        return htmlContent;
+    }
+    public void setHtmlContent(String _htmlContent) {
+        this.htmlContent = _htmlContent;
+    }
+
 
     boolean needToBeDeleted() {
         /**
@@ -93,14 +100,6 @@ public class DatabaseArticle implements Serializable {
         Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
     }
-    public String getHtmlContent() {
-        return htmlContent;
-    }
-
-    public void setHtmlContent(String htmlContent) {
-        this.htmlContent = htmlContent;
-    }
-
     public boolean isDeleted() {
         return deleted;
     }
