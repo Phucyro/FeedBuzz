@@ -186,10 +186,10 @@ public class HTMLArticleDownloader {
      * @return return the extension of the file
      */
     private static String getFileExtension(String _url) {
-        String[] url_splitted = _url.split("/");
-        url_splitted = url_splitted[url_splitted.length-1].split("\\.");
-        if (url_splitted.length > 1) {
-            return url_splitted[url_splitted.length - 1];
+        String[] urlSplitted = _url.split("/");
+        urlSplitted = urlSplitted[urlSplitted.length-1].split("\\.");
+        if (urlSplitted.length > 1) {
+            return urlSplitted[urlSplitted.length - 1];
         }
         return "";
     }

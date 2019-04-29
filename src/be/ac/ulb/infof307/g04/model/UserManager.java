@@ -1,13 +1,7 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.model.DatabaseUser;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
-import io.jsondb.crypto.CryptoUtil;
-import io.jsondb.crypto.DefaultAESCBCCipher;
-import io.jsondb.crypto.ICipher;
-
-import java.util.ArrayList;
 
 public class UserManager {
 
@@ -15,33 +9,33 @@ public class UserManager {
 
     /**
      * @param database_path path to the database
-     * @param password password of the database
+     * @param _password password of the database
      */
-    public UserManager(String database_path, String password) {
+    public UserManager(String database_path, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseUser.class)) {
-            create_collection();
+            createCollection();
         }
 
     }
 
-    public UserManager(String database_path) {
-        this(database_path, "password");
+    public UserManager(String _databasePath) {
+        this(_databasePath, "password");
 
     }
 
-    private void create_collection() {
+    private void createCollection() {
         jsonDBTemplate.createCollection(DatabaseUser.class);
     }
 
     /**
-     * @param username
+     * @param _username
      * @return inform if the user has been deleted
      */
-    public boolean delete_user(String username) {
-        DatabaseUser user = findUser_by_username(username);
+    public boolean deleteUser(String _username) {
+        DatabaseUser user = findUserByUsername(_username);
 
         try {
             this.jsonDBTemplate.remove(user, DatabaseUser.class);
@@ -53,15 +47,15 @@ public class UserManager {
 
 
     /**
-     * @param username username to add
+     * @param _username username to add
      * @return inform if the user has been added
      */
-    public boolean add_user(String username, String password) {
+    public boolean addUser(String _username, String _password) {
         try {
 
             DatabaseUser user = new DatabaseUser();
-            user.setPassword(password);
-            user.setUsername(username);
+            user.setPassword(_password);
+            user.setUsername(_username);
 
             jsonDBTemplate.insert(user);
             return true;
@@ -70,9 +64,9 @@ public class UserManager {
         }
     }
 
-    public boolean add_user(DatabaseUser user) {
+    public boolean addUser(DatabaseUser _user) {
         try {
-            jsonDBTemplate.insert(user);
+            jsonDBTemplate.insert(_user);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
             return false;
@@ -81,12 +75,12 @@ public class UserManager {
 
     /**
      * search an user in the database
-     * @param username
+     * @param _username
      * @return found user
      */
-    public DatabaseUser findUser_by_username(String username){
+    public DatabaseUser findUserByUsername(String _username){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(username, DatabaseUser.class);
+            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
             return user;
         } catch (Exception e) {
             return null;
@@ -94,13 +88,13 @@ public class UserManager {
     }
     /**
      * search an user in the database
-     * @param username
+     * @param _username
      * @return found user
      */
-    public DatabaseUser findUser(String username, String password){
+    public DatabaseUser findUser(String _username, String _password){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(username, DatabaseUser.class);
-            if(user.getPassword() == password.hashCode()){
+            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
+            if(user.getPassword() == _password.hashCode()){
                 return user;
             }
             else{
@@ -114,9 +108,9 @@ public class UserManager {
 
 
 
-    public boolean existUsername(String username){
+    public boolean existUsername(String _username){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(username, DatabaseUser.class);
+            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
             if(user != null){
                 return true;
             }
@@ -131,10 +125,10 @@ public class UserManager {
 
 
 
-    public boolean existUser(String username, String password){
+    public boolean existUser(String _username, String _password){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(username, DatabaseUser.class);
-            if(user.getPassword() == password.hashCode()){
+            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
+            if(user.getPassword() == _password.hashCode()){
                 return true;
             }
             else{
