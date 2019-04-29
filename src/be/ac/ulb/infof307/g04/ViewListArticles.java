@@ -132,6 +132,9 @@ public class ViewListArticles extends Application {
     }
 
 
+    /**
+     * Shuts off all windows of active session.
+     */
     @FXML
     public void disconnect() {
         for (int i = 0; i < stageArrayList.size(); i++) {
@@ -141,6 +144,11 @@ public class ViewListArticles extends Application {
         mainStage.close();
     }
 
+    /**
+     * relaunches the application after the disconnecting of windows
+     * goes to logging screen
+     * @throws Exception
+     */
     @FXML
     public void relaunch() throws Exception {
         disconnect();
@@ -199,8 +207,8 @@ public class ViewListArticles extends Application {
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
             stage.setScene(new Scene(root));
-            stage.show();
             stageArrayList.add(stage);
+            stage.show();
 
         } catch(NullPointerException e){
             showErrorBox("No article selected");
@@ -215,6 +223,9 @@ public class ViewListArticles extends Application {
         }
     }
 
+    /**
+     * shows an ErrorBox instead of printing
+     */
     private void showErrorBox(String s) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
@@ -254,6 +265,9 @@ public class ViewListArticles extends Application {
         }
     }
 
+    /**
+     * @param actionEvent opens the SourceWindow (download settings)
+     */
     @FXML
     public void openSourceWindow(ActionEvent actionEvent) {
         try {
