@@ -59,22 +59,19 @@ public class ViewSingleArticle extends Application{
     private ArticleVerification verification;
 
 
+    /**
+      *Constructor of the view of a single article
+      *@param _article article to view
+      *article that has to be reviewd
+      */
     public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         Constructor of the view of a single article
-         @param _article
-         article that has to be reviewd
-         */
+
         article = _article;
         System.out.println(article);
         if (InternetTester.testInternet()) {
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-            checkIntegrity(verification.isValid());
+            checkIntegrity();
         }
-        //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
-        //set_integrity(verification.is_valid());
-
-        //TODO article verification (propre)
     }
 
     public void setArticlesWindows(ViewListArticles _articlesWindows) {
@@ -82,31 +79,18 @@ public class ViewSingleArticle extends Application{
     }
 
 
+    /**
+     * Start javafx window
+     */
     @Override
-    public void start(Stage _primaryStage) throws IOException {
-        /**
-         * Start javafx window
-         * @param _primaryStage
-         */
-        //Load an fxml file
-        /**
-         FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
+    public void start(Stage _primaryStage) {}
 
-         AnchorPane conteneurPrincipal;
-         conteneurPrincipal = loader.load();
-         Scene scene = new Scene(conteneurPrincipal);
-         _primaryStage.setScene(scene);
-         _primaryStage.show();
-         **/
-    }
-
+    /**
+     * Initialize the text and the title of the article
+     * Modify the integrity circle and text
+     * @throws IOException : if article wasn't found
+     */
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * Initialize the text and the title of the article
-         * Modify the integrity circle and text
-         * @throws Exception : if article wasn't found
-         */
         System.out.println(article.getHtmlContent());
         if(InternetTester.testInternet()) {
             articleView.getEngine().load(article.getLink());
@@ -117,6 +101,9 @@ public class ViewSingleArticle extends Application{
         setFields();
     }
 
+    /**
+     * set integrity and tag files
+     */
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
         handleIntegrity();
         tagsLabel.setText("Tags: " + article.getTags());
@@ -143,12 +130,16 @@ public class ViewSingleArticle extends Application{
                 }
             }
         }
+        else{
+            integrityLabel.setText("Pas d'iternet");
+            integrityCircle.setFill(Color.ORANGE);
+        }
     }
 
-    private void checkIntegrity(boolean _isCorrect) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /*
-        validity of the article
-         */
+    /**
+     * validity of the article
+     */
+    private void checkIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         if (InternetTester.testInternet()) {
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
             this.isValid = verification.isValid();
@@ -156,11 +147,11 @@ public class ViewSingleArticle extends Application{
     }
 
 
+    /**
+     * function called when the delete button is pressed
+     */
     @FXML
-    private void deleteButtonPressed(){
-        /*
-         * function called when the delete button is pressed
-         */
+    public void deleteButtonPressed(){
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
         System.out.println("DatabaseArticle supprimé");

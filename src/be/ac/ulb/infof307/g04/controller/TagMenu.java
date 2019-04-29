@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 public class TagMenu  extends Application {
-    private TagManager tagManager = new TagManager("./article_db", "password");
+    private TagManager tagManager;
     @FXML
     private Button addButton;
     @FXML
@@ -36,14 +36,11 @@ public class TagMenu  extends Application {
     private ListView<String> tagsListview;
 
 
-    public TagMenu() throws IOException {
+    public TagMenu(String _dbPath, String _password) {
+        tagManager = new TagManager(_dbPath, _password);
     }
 
-    public void initialize() throws IOException {
-        /**
-         * @see init_list()
-         */
-
+    public void initialize(){
         initList();
     }
 
@@ -51,16 +48,11 @@ public class TagMenu  extends Application {
         launch(args);
     }
 
-    public void start(Stage _primaryStage) throws IOException {
-        /*FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-        AnchorPane main_container;
-        main_container = loader.load();
-        Scene scene = new Scene(main_container);
-        _primaryStage.setScene(scene);
-        _primaryStage.show();*/
-    }
+    public void start(Stage _primaryStage) {}
 
+    /**
+     * initialize the list of tags
+     */
     private void initList() {
         ObservableList<String> tags = FXCollections.observableArrayList();
         for (DatabaseTag tag : tagManager.getAll()) {
@@ -72,11 +64,11 @@ public class TagMenu  extends Application {
     }
 
 
+    /**
+     * * Create a dialog window to add a new tag
+     */
     @FXML
     public void add() {
-        /*
-         * Create a dialog window to add a new tag
-         */
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Add");
         dialog.setHeaderText("Add a tag");
@@ -94,6 +86,9 @@ public class TagMenu  extends Application {
         initList();
     }
 
+    /**
+     * alert message when encoding problem
+     */
     private void alertDialog() {
         System.out.println("Pop up");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -104,12 +99,11 @@ public class TagMenu  extends Application {
     }
 
 
+    /**
+     * Create a dialog window to modify the name of the tag selected
+     */
     @FXML
     public void modify() {
-        /*
-         * Create a dialog window to modify the name of the tag selected
-         */
-
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
             displayErrorWindow();
         }
@@ -117,7 +111,6 @@ public class TagMenu  extends Application {
             DatabaseTag oldTag = new DatabaseTag();
             DatabaseTag newTag = new DatabaseTag();
             oldTag.setName(tagsListview.getSelectionModel().getSelectedItem());
-
 
             TextInputDialog dialog = new TextInputDialog("");
             dialog.setTitle("Modify tag");
@@ -136,11 +129,11 @@ public class TagMenu  extends Application {
         }
     }
 
+    /**
+     * Create a dialog window to delete the name of the tag selected
+     */
     @FXML
     public void delete() {
-        /*
-         * Create a dialog window to delete the name of the tag selected
-         */
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
             displayErrorWindow();
         }
@@ -152,11 +145,11 @@ public class TagMenu  extends Application {
         }
     }
 
+    /**
+     * Cases where there might be an error
+     * @see Alert
+     */
     private void displayErrorWindow(){
-        /**
-         * Cases where there might be an error
-         * @see Alert
-         */
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Erreur!");
         alert.setHeaderText("Erreur de sélection!");

@@ -23,7 +23,7 @@ class SourceManagerTest {
         databaseSource.setEnabled(true);
         databaseSource.setNumberToDownload(3);
         //Ajout de cette source dans la base de donnée
-        SourceManager source = new SourceManager("./article_test_db");
+        SourceManager source = new SourceManager("./article_test_db", "password");
         source.addSource(databaseSource);
         //source.download();
 
@@ -37,7 +37,7 @@ class SourceManagerTest {
 
     @Test
     void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        SourceManager sourceManager = new SourceManager("./article_test_db");
+        SourceManager sourceManager = new SourceManager("./article_test_db", "password");
         ArticleManager articleManager = new ArticleManager("./article_test_db", "password");
         sourceManager.download(articleManager);
         assertNotNull(articleManager.findArticle("http://diveintomark.org/archives/2002/09/29.html#dooce"));

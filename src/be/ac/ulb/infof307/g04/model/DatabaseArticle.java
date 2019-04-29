@@ -88,19 +88,49 @@ public class DatabaseArticle implements Serializable {
         this.htmlContent = _htmlContent;
     }
 
-
+    /**
+     * Tests if an article is outdated (based on his download date and the days to save the article)
+     *
+     * @return boolean if an article has to be deleted
+     * @see Date
+     */
     boolean needToBeDeleted() {
-        /**
-         * Tests if an article is outdated (based on his download date and the days to save the article)
-         *
-         * @return boolean if an article has to be deleted
-         * @see Date
-         */
         Date now = new Date();
         Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
     }
+
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public boolean equals(DatabaseArticle _articleToCompare){
+        /**
+         * Test if an article is equal to another
+         * @return boolean
+         * @throws
+         */
+        if (_articleToCompare == this) {
+            return true;
+        }
+        if (!(_articleToCompare instanceof DatabaseArticle)) {
+            return false;
+        }
+        DatabaseArticle cc = (DatabaseArticle)_articleToCompare;
+        return cc.hashCode() == this.hashCode();
+    }
+
+    public int hashCode() {
+        int hash = this.getPublishedDate().hashCode();
+        hash = hash ^ this.getTitle().hashCode();
+        hash = hash ^ getUpdatedDate().hashCode();
+        hash = hash ^ getDescription().hashCode();
+        hash = hash ^ getLink().hashCode();
+        hash = hash ^ getAuthor().hashCode();
+        hash = hash ^ getHtmlContent().hashCode();
+        hash = hash ^ getSourceUrl().hashCode();
+        hash = hash ^ getHtmlContent().hashCode();
+
+        return hash;
     }
 }
