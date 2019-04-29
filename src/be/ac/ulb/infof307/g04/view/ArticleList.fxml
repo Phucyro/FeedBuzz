@@ -18,46 +18,46 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-                  <MenuItem fx:id="search_menu_button" mnemonicParsing="false" onAction="#change_search_bar_status" text="Search by title" />
-              <MenuItem fx:id="quit_button" mnemonicParsing="false" text="Quit" />
+                  <MenuItem fx:id="searchMenuButton" mnemonicParsing="false" onAction="#changeSearchBarStatus" text="Search by title" />
+              <MenuItem fx:id="quitButton" mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
           <Menu mnemonicParsing="false" text="Source">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#open_source_window" text="Configure Sources" />
-                  <MenuItem mnemonicParsing="false" onAction="#open_tag_window" text="Configure Tags" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSourceWindow" text="Configure sources" />
+                  <MenuItem mnemonicParsing="false" onAction="#openTagWindow" text="Configure tags" />
               </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
                <items>
                   <Menu mnemonicParsing="false" text="Read an article">
                     <items>
-                      <MenuItem fx:id="read_menu_item" mnemonicParsing="false" />
+                      <MenuItem fx:id="readArticleImage" mnemonicParsing="false" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Search an article by name">
+                  <Menu mnemonicParsing="false" text="Search an article by title">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Search by title&quot;" />
+                      <MenuItem fx:id="searchArticleImage" mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Copy article link to clipboard">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Click on the article and then on &quot;Copy article link&quot;" />
-                    </items>
+                     <items>
+                        <MenuItem fx:id="copyArticleLinkImage" mnemonicParsing="false" />
+                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure sources">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Sources&quot;" />
+                      <MenuItem fx:id="configureSourcesImage" mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Configure tags">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;Source&quot; and then on &quot;Configure Tags&quot;" />
+                      <MenuItem fx:id="configureTagsImage" mnemonicParsing="false" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Exit the application">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Click on &quot;File&quot; and then on &quot;Exit&quot;" />
+                      <MenuItem fx:id="exitAppImage" mnemonicParsing="false" />
                     </items>
                   </Menu>
                </items>
@@ -66,13 +66,13 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-        <GridPane fx:id="grid_pane" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <GridPane fx:id="gridPane" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <children>
-            <ListView fx:id="list_view_articles" prefHeight="241.0" prefWidth="640.0" GridPane.rowIndex="1" />
+            <ListView fx:id="listViewArticles" prefHeight="241.0" prefWidth="640.0" GridPane.rowIndex="1" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
               <children>
-                <Button fx:id="read_article" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#open_article_window" text="Read the article" />
-                <Button mnemonicParsing="false" onAction="#copy_link_to_clipboard" text="Copy article link" />
+                <Button fx:id="readArticle" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openArticleWindow" text="Read the article" />
+                <Button mnemonicParsing="false" onAction="#copyLinkToClipboard" text="Copy article link" />
               </children>
             </HBox>
           </children>

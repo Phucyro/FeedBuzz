@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.Article;
 import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
@@ -11,12 +10,11 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
- * Class Article Manager, used to handle the display of all the articles
+ * Class DatabaseArticle Manager, used to handle the display of all the articles
  * @see DatabaseArticle
  * @see DatabaseSource
  * @see DatabaseTag
@@ -26,76 +24,76 @@ public class ArticleManager{
 
     private JsonDBTemplate jsonDBTemplate;
 
-    public ArticleManager(String database_path, String password) {
+    public ArticleManager(String _databasePath, String _password) {
         /**
-         * Constructor with the path to the database and the password
-         * @param database_path
+         * Constructor with the path to the database and the _password
+         * @param _databasePath
          *                  path to the database
-         * @param password
-         *                  password of the database
+         * @param _password
+         *                  _password of the database
          */
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
-        this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
+        this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
         try {
-            String base64EncodedKey = CryptoUtil.generate128BitKey(password, password);
+            String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
-            this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage, newCipher);
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
         } catch (Exception e){
             System.out.println(e);
-            this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
-            create_collection();
+            createCollection();
         }
         deleteExpired();
 
     }
 
-    public ArticleManager(String database_path) {
+    public ArticleManager(String _database_path) {
         /**
          * Constructor with only the path to the database
-         * @param database_path
+         * @param _database_path
          *                   path to the database
          */
-        this(database_path, "password");
+        this(_database_path, "password");
 
     }
 
-    private void create_collection() {
+    private void createCollection() {
         jsonDBTemplate.createCollection(DatabaseArticle.class);
     }
 
 
-    public boolean delete_article(Article article) {
+    public boolean deleteArticle(DatabaseArticle _article) {
         /**
-         * Delete an article. For every deleted article, we keep the url (will be used as a primary key)
+         * Delete an _article. For every deleted _article, we keep the url (will be used as a primary key)
          * so they won't be loaded again by the database
-         * @param article
-         *              article to delete
-         * @return inform if the article has been deleted
+         * @param _article
+         *              _article to delete
+         * @return inform if the _article has been deleted
          */
             DatabaseArticle to_replace = new DatabaseArticle();
-            to_replace.setLink(article.getLink());
+            to_replace.setLink(_article.getLink());
             to_replace.setDeleted(true);
-            return replace_article(article,to_replace);
+            return replaceArticle(_article,to_replace);
     }
 
 
-    public boolean replace_article(Article article, DatabaseArticle article2) {
+    public boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
         /**
-         * replace an article by another one
-         * @param article
-         *              article that will be removed
-         * @param article2
-         *              article that will replaced the first
-         * @return inform if the article has been replaced
+         * replace an _article by another one
+         * @param _article
+         *              _article that will be removed
+         * @param _article2
+         *              _article that will replaced the first
+         * @return inform if the _article has been replaced
          */
 
         try {
-            this.jsonDBTemplate.remove(article, DatabaseArticle.class);
-            this.jsonDBTemplate.insert(article2);
+            this.jsonDBTemplate.remove(_article, DatabaseArticle.class);
+            this.jsonDBTemplate.insert(_article2);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
@@ -103,35 +101,35 @@ public class ArticleManager{
     }
 
 
-    public void verify_articles() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public void verifyArticles() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
          * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
          * replace it if possible or delete it
          */
-        ArrayList<Article> articles = load_articles();
-        for(Article article : articles){
-            ArticleVerification article_verification = new ArticleVerification(article,article.getSource_url());
-            if(!article_verification.is_valid()){
-                if(article_verification.is_correctable()){
-                    article_verification.correct_article();
-                    replace_article(article, article_verification.get_article());
+        ArrayList<DatabaseArticle> articles = loadArticles();
+        for(DatabaseArticle article : articles){
+            ArticleVerification articleVerification = new ArticleVerification(article,article.getSourceUrl());
+            if(!articleVerification.isValid()){
+                if(articleVerification.isCorrectable()){
+                    articleVerification.correctArticle();
+                    replaceArticle(article, articleVerification.getArticle());
                 }
                 else{
-                    delete_article(article);
+                    deleteArticle(article);
                 }
             }
 
         }
     }
 
-    public boolean add_article(Article article) {
+    public boolean addArticle(DatabaseArticle _article) {
         /**
-         * Add an article from the database
-         * @param article
-         *              article the will be added
-         * @return inform if the article has been added
+         * Add an _article from the database
+         * @param _article
+         *              _article the will be added
+         * @return inform if the _article has been added
          */
-        DatabaseArticle dbArticle = article;
+        DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
             return true;
@@ -141,39 +139,39 @@ public class ArticleManager{
     }
 
 
-    public DatabaseArticle findArticle(String link){
+    public DatabaseArticle findArticle(String _link){
         /**
          * search an article in the database
-         * @param link
-         *          the link of the article
+         * @param _link
+         *          the _link of the article
          * @return found article
          */
         try {
-            return jsonDBTemplate.findById(link, DatabaseArticle.class);
+            return jsonDBTemplate.findById(_link, DatabaseArticle.class);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public ArrayList<Article> load_articles() {
+    public ArrayList<DatabaseArticle> loadArticles() {
         /**
          * @return list containing all the articles
          */
-        return this.load_articles("");
+        return this.loadArticles("");
     }
 
-    public ArrayList<Article> load_articles(String title_contains) {
+    public ArrayList<DatabaseArticle> loadArticles(String _titleContains) {
         /**
          * search an article by its title
-         * @param title_contains
+         * @param _titleContains
          *                  title of the article
          * @return list containing all the articles with a specific title
          */
-        ArrayList<Article> result = new ArrayList<Article>();
+        ArrayList<DatabaseArticle> result = new ArrayList<>();
         for (DatabaseArticle item : jsonDBTemplate.findAll(DatabaseArticle.class)) {
             if (!item.getDeleted()) {
-                if (item.getTitle().toLowerCase().contains(title_contains.toLowerCase())) {
-                    result.add(new Article(item));
+                if (item.getTitle().toLowerCase().contains(_titleContains.toLowerCase())) {
+                    result.add(new DatabaseArticle(item));
                 }
             }
         }
@@ -186,10 +184,10 @@ public class ArticleManager{
          * delete the expired articles
          */
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
-            ArrayList<Article> articles = load_articles();
-            for (Article article : articles) {
-                if (article.need_to_be_deleted()) {
-                    delete_article(article);
+            ArrayList<DatabaseArticle> articles = loadArticles();
+            for (DatabaseArticle article : articles) {
+                if (article.needToBeDeleted()) {
+                    deleteArticle(article);
                 }
             }
         }

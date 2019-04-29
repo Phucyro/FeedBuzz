@@ -1,8 +1,5 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.Article;
-import be.ac.ulb.infof307.g04.model.ArticleManager;
-import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -15,16 +12,16 @@ class ArticleManagerTest {
 
     private String dbpath;
     private ArticleManager manager;
-    private Article article1;
-    private Article article2;
+    private DatabaseArticle article1;
+    private DatabaseArticle article2;
 
     @BeforeAll
-    void setup_before_article_manager() {
+    void setupBeforeArticleManager() {
         this.dbpath = "./test.db";
 
         this.manager = new ArticleManager(dbpath, "test");
-        this.article1 = new Article();
-        this.article2 = new Article();
+        this.article1 = new DatabaseArticle();
+        this.article2 = new DatabaseArticle();
 
         this.article1.setLink("http://www.test1.com");
         this.article2.setLink("http://www.test2.com");
@@ -34,47 +31,51 @@ class ArticleManagerTest {
     }
 
     @AfterEach()
-    void clear_database() {
-        this.manager.delete_article(article1);
-        this.manager.delete_article(article2);
+    void clearDatabase() {
+        this.manager.deleteArticle(article1);
+        this.manager.deleteArticle(article2);
     }
 
     @Test
-    void add_and_find_article() {
-        manager.add_article(article1);
-        DatabaseArticle article_test = manager.findArticle(article1.getLink());
-        assertSame(article1.getDescription(), article_test.getDescription());
+    void addAndFindArticle() {
+        manager.addArticle(article1);
+        DatabaseArticle articleTest = manager.findArticle(article1.getLink());
+        assertSame(article1.getDescription(), articleTest.getDescription());
         //Verifie que l'article ajoute a la base de donnees a la meme description que l'article original
     }
 
     @Test
-    void delete_existing_article() {
-        manager.add_article(article1);
-        manager.delete_article(article1);
-        Article deleted_article = new Article(manager.findArticle(article1.getLink()));
-        assertTrue(deleted_article.getDeleted());
+    void deleteExistingArticle() {
+        manager.addArticle(article1);
+        manager.deleteArticle(article1);
+        DatabaseArticle deletedArticle = new DatabaseArticle(manager.findArticle(article1.getLink()));
+        assertTrue(deletedArticle.getDeleted());
         //L'article supprime devrais avoir son attribut deleted a "true" pour signifier que l'article est supprime.
-        assertSame(null, deleted_article.getDescription());
+        assertSame(null, deletedArticle.getDescription());
         //L'article supprime devrais avoir sa description mise a "null"
     }
 
     @Test
-    void delete_non_existing_article(){
-        Article non_existing_article = new Article();
-        non_existing_article.setLink("http://www.test3.com");
-        non_existing_article.setTitle("Test3");
-        assertFalse(manager.delete_article(non_existing_article));
+    void deleteNonExistingArticle(){
+        DatabaseArticle nonExistingArticle = new DatabaseArticle();
+        nonExistingArticle.setLink("http://www.test3.com");
+        nonExistingArticle.setTitle("Test3");
+        assertFalse(manager.deleteArticle(nonExistingArticle));
         //Le manager doit renvoyer false lorsque l'article n'est pas trouve, alors on assert que la valeur retournee lorsqu'on recherche un article qui n'est pas dans la base de donnees est "false"
     }
 
     @Test
-    void load_articles_count(){
-        manager.add_article(article1);
-        manager.add_article(article2);
-        assertSame(manager.load_articles().size(), 2);
+    void loadArticlesCount(){
+        manager.addArticle(article1);
+        manager.addArticle(article2);
+        assertSame(manager.loadArticles().size(), 2);
         //Verifie qu'il y a bien deux articles dans la base de donnees apres l'ajout de deux articles
     }
 
+    /**
+     * @param file
+     * @see <a href="https://www.baeldung.com/java-delete-directory">source</a>
+     */
     void deleteDir(File file) {
         //Supprime le dossier de la base de donnees de test apres que les tests soient termines
         File[] contents = file.listFiles();
@@ -89,7 +90,7 @@ class ArticleManagerTest {
     }
 
     @AfterAll
-    void delete_database_files() {
+    void deleteDatabaseFiles() {
         deleteDir(new File(dbpath));
     }
 }

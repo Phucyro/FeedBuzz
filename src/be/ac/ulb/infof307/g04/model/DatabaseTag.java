@@ -19,5 +19,5 @@ public class DatabaseTag implements Serializable {
 
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String _name) { this.name = _name; }
 }

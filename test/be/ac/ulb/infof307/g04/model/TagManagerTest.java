@@ -12,64 +12,66 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TagManagerTest {
 
+    private final String TAG_1 = "tag1";
+    private final String TAG_2 = "tag2";
     private String dbpath;
     private TagManager tagManager;
     private DatabaseTag tag;
 
     @BeforeAll
-    void setup_before_tag_manager() {
+    void setupBeforeTagManager() {
         this.dbpath = "./test.db";
         tagManager = new TagManager(this.dbpath, "test");
         tag = new DatabaseTag();
     }
 
     @BeforeEach
-    void reset_db(){
-        tagManager.delete_all();
+    void resetDb(){
+        tagManager.deleteAll();
     }
 
     @Test
-    void add_tag() {
-        tag.setName("test");
-        tagManager.add_tag(tag);
-        assertEquals(tag.getName(), tagManager.get_all().get(0).getName());
-        assertEquals(1, tagManager.get_all().size() );
+    void addTag() {
+        tag.setName(TAG_1);
+        tagManager.addTag(tag);
+        assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
+        assertEquals(1, tagManager.getAll().size() );
     }
 
     @Test
-    void delete_tag() {
-        tag.setName("test1");
-        tagManager.add_tag(tag);
-        assertEquals(1, tagManager.get_all().size() );
-        tag.setName("test2");
-        tagManager.add_tag(tag);
-        assertEquals(2, tagManager.get_all().size() );
-        tagManager.delete_tag(tag);
-        assertEquals(1, tagManager.get_all().size() );
-        tag.setName("test1");
-        assertEquals(tag.getName(), tagManager.get_all().get(0).getName());
+    void deleteTag() {
+        tag.setName(TAG_1);
+        tagManager.addTag(tag);
+        assertEquals(1, tagManager.getAll().size() );
+        tag.setName(TAG_2);
+        tagManager.addTag(tag);
+        assertEquals(2, tagManager.getAll().size() );
+        tagManager.deleteTag(tag);
+        assertEquals(1, tagManager.getAll().size() );
+        tag.setName(TAG_1);
+        assertEquals(tag.getName(), tagManager.getAll().get(0).getName());
     }
 
     @Test
-    void modify_tag() {
-        tag.setName("test1");
-        tagManager.add_tag(tag);
+    void modifyTag() {
+        tag.setName(TAG_1);
+        tagManager.addTag(tag);
         DatabaseTag modify_tag = new DatabaseTag();
-        modify_tag.setName("test2");
-        tagManager.modify_tag(tag, modify_tag);
-        assertEquals(1, tagManager.get_all().size() );
-        assertEquals(modify_tag.getName(), tagManager.get_all().get(0).getName());
+        modify_tag.setName(TAG_2);
+        tagManager.modifyTag(tag, modify_tag);
+        assertEquals(1, tagManager.getAll().size() );
+        assertEquals(modify_tag.getName(), tagManager.getAll().get(0).getName());
     }
 
     @Test
-    void get_all() {
+    void getAll() {
         ArrayList<DatabaseTag> tags = new ArrayList<>();
         tags.add(new DatabaseTag());
-        tags.get(0).setName("test");
-        tagManager.add_tag(tags.get(0));
-        assertEquals(tags.size(), tagManager.get_all().size());
+        tags.get(0).setName(TAG_1);
+        tagManager.addTag(tags.get(0));
+        assertEquals(tags.size(), tagManager.getAll().size());
         for(int i = 0; i < tags.size(); i++){
-            assertEquals(tags.get(i).getName(), tagManager.get_all().get(i).getName());
+            assertEquals(tags.get(i).getName(), tagManager.getAll().get(i).getName());
         }
     }
 
@@ -86,18 +88,18 @@ class TagManagerTest {
     }
 
     @Test
-    void delete_all() {
-        tag.setName("test");
-        tagManager.add_tag(tag);
-        tag.setName("test2");
-        tagManager.add_tag(tag);
-        assertEquals(2, tagManager.get_all().size());
-        tagManager.delete_all();
-        assertEquals(0, tagManager.get_all().size());
+    void deleteAll() {
+        tag.setName(TAG_1);
+        tagManager.addTag(tag);
+        tag.setName(TAG_2);
+        tagManager.addTag(tag);
+        assertEquals(2, tagManager.getAll().size());
+        tagManager.deleteAll();
+        assertEquals(0, tagManager.getAll().size());
     }
 
     @AfterAll
-    void delete_databse_files() {
+    void deleteDatabaseFiles() {
         deleteDir(new File(dbpath));
     }
 

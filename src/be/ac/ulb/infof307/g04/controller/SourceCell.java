@@ -9,8 +9,6 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
-
 /**
  * Class SourceCell where a source cell is created
  * @see DatabaseSource
@@ -20,45 +18,45 @@ public class SourceCell extends ListCell<DatabaseSource>{
 
 
     private final GridPane gridPane = new GridPane();
-    private final Label title_label = new Label();
-    private final Label url_label = new Label();
+    private final Label titleLabel = new Label();
+    private final Label urlLabel = new Label();
     private final AnchorPane content = new AnchorPane();
-    private final CheckBox source_enabled = new CheckBox();
-    private final Spinner<Integer> source_lifespan = new Spinner<>();
-    private final Spinner<Integer> source_number_of_articles = new Spinner<>();
-    private final ComboBox<String> source_tag = new ComboBox<>();
+    private final CheckBox sourceEnabled = new CheckBox();
+    private final Spinner<Integer> sourceLifespan = new Spinner<>();
+    private final Spinner<Integer> sourceNumberOfArticles = new Spinner<>();
+    private final ComboBox<String> sourceTag = new ComboBox<>();
     private DatabaseSource item;
 
     public SourceCell() {
         /*
         Constructor of the source cell
          */
-        title_label.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
-        source_lifespan.setMaxWidth(Double.MAX_VALUE);
-        source_number_of_articles.setMaxWidth(Double.MAX_VALUE);
-        source_tag.setMaxWidth(Double.MAX_VALUE);
-        GridPane.setConstraints(title_label, 1, 0);
-        GridPane.setConstraints(url_label, 2, 0);
-        GridPane.setConstraints(source_enabled, 0, 0);
-        GridPane.setConstraints(source_number_of_articles, 3, 0);
-        GridPane.setConstraints(source_lifespan, 4, 0);
-        GridPane.setConstraints(source_tag, 5, 0);
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
+        sourceLifespan.setMaxWidth(Double.MAX_VALUE);
+        sourceNumberOfArticles.setMaxWidth(Double.MAX_VALUE);
+        sourceTag.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setConstraints(titleLabel, 1, 0);
+        GridPane.setConstraints(urlLabel, 2, 0);
+        GridPane.setConstraints(sourceEnabled, 0, 0);
+        GridPane.setConstraints(sourceNumberOfArticles, 3, 0);
+        GridPane.setConstraints(sourceLifespan, 4, 0);
+        GridPane.setConstraints(sourceTag, 5, 0);
 
 
-        ColumnConstraints checkbox_constraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
-        checkbox_constraint.setPercentWidth(5);
-        ColumnConstraints default_constraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
-        default_constraint.setPercentWidth(19);
-        gridPane.getColumnConstraints().add(checkbox_constraint);
-        gridPane.getColumnConstraints().add(default_constraint);
-        gridPane.getColumnConstraints().add(default_constraint);
-        gridPane.getColumnConstraints().add(default_constraint);
-        gridPane.getColumnConstraints().add(default_constraint);
-        gridPane.getColumnConstraints().add(default_constraint);
+        ColumnConstraints columnConstraints = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        columnConstraints.setPercentWidth(5);
+        ColumnConstraints defaultConstraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        defaultConstraint.setPercentWidth(19);
+        gridPane.getColumnConstraints().add(columnConstraints);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
         gridPane.setHgap(6);
         gridPane.setVgap(6);
-        gridPane.getChildren().setAll(title_label, url_label, source_enabled, source_number_of_articles, source_lifespan, source_tag);
+        gridPane.getChildren().setAll(titleLabel, urlLabel, sourceEnabled, sourceNumberOfArticles, sourceLifespan, sourceTag);
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
         AnchorPane.setBottomAnchor(gridPane, 0d);
@@ -66,43 +64,43 @@ public class SourceCell extends ListCell<DatabaseSource>{
         content.getChildren().add(gridPane);
 
         //listener that reacts when the checkbox value is modified
-        source_enabled.selectedProperty().addListener((obs, oldValue, newValue) ->
-                item.setEnabled(source_enabled.isSelected()));
+        sourceEnabled.selectedProperty().addListener((obs, oldValue, newValue) ->
+                item.setEnabled(sourceEnabled.isSelected()));
         //listener that reacts when the left spinner value (number of articles to load) is modified
-        source_number_of_articles.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setNumber_to_download(source_number_of_articles.getValue()));
+        sourceNumberOfArticles.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setNumberToDownload(sourceNumberOfArticles.getValue()));
         //listener that reacts when the right spinner value (lifespan of an article) is modified
-        source_lifespan.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setLifeSpan_default(source_lifespan.getValue()));
+        sourceLifespan.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setLifeSpanDefault(sourceLifespan.getValue()));
         //listener that reacts when the combobox value (tags) is modified
-        source_tag.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setTag(source_tag.getValue()));
+        sourceTag.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setTag(sourceTag.getValue()));
 
     }
 
     @Override
-    protected void updateItem(DatabaseSource _item, boolean empty) {
+    protected void updateItem(DatabaseSource _item, boolean _empty) {
         /**
          * update the sources
          * @see DatabaseSource
          * @param _item
          *          source that has to be modified
-         * @param empty
-         *          check if the source is empty or not
+         * @param _empty
+         *          check if the source is _empty or not
          */
         item = _item;
-        super.updateItem(item, empty);
+        super.updateItem(item, _empty);
         setGraphic(null);
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
-        if (!empty && item != null) {
-            title_label.setText(item.getSource_name());
-            url_label.setText(item.getUrl());
-            source_enabled.setSelected(item.isEnabled());
-            SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumber_to_download());
-            source_number_of_articles.setValueFactory(valueFactoryNumber);
-            SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpan_default());
-            source_lifespan.setValueFactory(valueFactoryLifespan);
+        if (!_empty && item != null) {
+            titleLabel.setText(item.getSourceName());
+            urlLabel.setText(item.getUrl());
+            sourceEnabled.setSelected(item.isEnabled());
+            SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumberToDownload());
+            sourceNumberOfArticles.setValueFactory(valueFactoryNumber);
+            SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpanDefault());
+            sourceLifespan.setValueFactory(valueFactoryLifespan);
 
             initTag();
 
@@ -122,13 +120,13 @@ public class SourceCell extends ListCell<DatabaseSource>{
          */
         TagManager tagManager = new TagManager("./article_db", "password");
         ObservableList<String> tags = FXCollections.observableArrayList();
-        tagManager.get_all().forEach(tag -> tags.add(tag.getName()));
-        source_tag.setItems(tags);
+        tagManager.getAll().forEach(tag -> tags.add(tag.getName()));
+        sourceTag.setItems(tags);
 
         if(item.getTag() != null) {
-            source_tag.setValue(item.getTag());
+            sourceTag.setValue(item.getTag());
         } else {
-            source_tag.setValue("Default");
+            sourceTag.setValue("Default");
         }
     }
 }

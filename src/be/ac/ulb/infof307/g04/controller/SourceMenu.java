@@ -22,13 +22,13 @@ import java.util.ArrayList;
 
 
 public class SourceMenu extends Application {
-    private SourceManager source_manager = new SourceManager("./article_db");
+    private SourceManager sourceManager = new SourceManager("./article_db");
     @FXML
-    private Button cancel_button;
+    private Button cancelButton;
     @FXML
-    private Button confirm_button;
+    private Button confirmButton;
     @FXML
-    private ListView list_view_sources;
+    private ListView listViewSources;
 
     public SourceMenu() throws IOException {
     }
@@ -38,25 +38,25 @@ public class SourceMenu extends Application {
          * Constructor of the Menu
          * @throws IOException : if there's no source
          */
-        list_view_sources.setCellFactory(lv -> new SourceCell());
+        listViewSources.setCellFactory(lv -> new SourceCell());
         SourceManager source_manager = new SourceManager("./article_db");
-        display_sources(source_manager.load_sources());
+        displaySources(source_manager.loadSources());
     }
 
     public static void main(String[] args) { launch(args); }
 
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage _primaryStage) throws IOException {
         /*
         Set the window of the source menu
          */
-        FXMLLoader loader = new FXMLLoader();
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
         AnchorPane main_container;
         main_container = loader.load();
-        primaryStage.setTitle("Source Menu");
+        _primaryStage.setTitle("Source Menu");
         Scene scene = new Scene(main_container);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        _primaryStage.setScene(scene);
+        _primaryStage.show();*/
 
     }
 
@@ -65,7 +65,7 @@ public class SourceMenu extends Application {
         /*
         cancel button of the menu
          */
-        Stage stage = (Stage) cancel_button.getScene().getWindow();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
@@ -74,21 +74,21 @@ public class SourceMenu extends Application {
         /*
         confirm button on the menu when adding sources,...
          */
-        ObservableList<DatabaseSource> items_list = list_view_sources.getItems();
-        //System.out.println(items_list);
-        for (int i = 0; i < items_list.size(); i++) {
-            source_manager.update_source(items_list.get(i));
+        ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
+        //System.out.println(itemsList);
+        for (int i = 0; i < itemsList.size(); i++) {
+            sourceManager.updateSource(itemsList.get(i));
         }
-        Stage stage = (Stage) confirm_button.getScene().getWindow();
+        Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
     }
 
-    public void display_sources(ArrayList<DatabaseSource> sources) {
+    public void displaySources(ArrayList<DatabaseSource> _sources) {
         /*
-        show all the sources
+        show all the _sources
          */
-        for (DatabaseSource item : sources) {
-            list_view_sources.getItems().add(item);
+        for (DatabaseSource item : _sources) {
+            listViewSources.getItems().add(item);
         }
     }
 }

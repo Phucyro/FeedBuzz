@@ -9,15 +9,15 @@ import java.util.Date;
 
 /**
  * Class DatabaseArtcle where all the articles are stored
- * @see be.ac.ulb.infof307.g04.controller.Article
+ * @see DatabaseArticle
  */
 @Document(collection = "articles", schemaVersion= "1.0")
 public class DatabaseArticle implements Serializable {
     //This field will be used as a primary key, every POJO should have one
     @Id
     private String link;
-    private Date published_date;
-    private Date updated_date;
+    private Date publishedDate;
+    private Date updatedDate;
     @Secret
     private String title;
     @Secret
@@ -31,59 +31,71 @@ public class DatabaseArticle implements Serializable {
     private String localisation;
     @Secret
     private String tags;
-    private int days_to_save;
+    private int daysToSave;
     private boolean deleted;
-    private String source_url;
-    private Date download_date;
+    private String sourceUrl;
+    private Date downloadDate;
 
 
     public DatabaseArticle() { }
 
-    public DatabaseArticle(DatabaseArticle item) {
-        this.setPublished_date(item.getPublished_date());
-        this.setUpdated_date(item.getUpdated_date());
-        this.setTitle(item.getTitle());
-        this.setDescription(item.getDescription());
-        this.setLink(item.getLink());
-        this.setAuthor(item.getAuthor());
-        this.setCategory(item.getCategory());
-        this.setDays_to_save(item.getDays_to_save());
-        this.setLocalisation(item.getLocalisation());
-        this.setTags(item.getTags());
-        this.setDeleted(item.getDeleted());
-        this.setSource_url(item.getSource_url());
-        this.setDownload_date(item.getDownload_date());
+    public DatabaseArticle(DatabaseArticle _item) {
+        this.setPublishedDate(_item.getPublishedDate());
+        this.setUpdatedDate(_item.getUpdatedDate());
+        this.setTitle(_item.getTitle());
+        this.setDescription(_item.getDescription());
+        this.setLink(_item.getLink());
+        this.setAuthor(_item.getAuthor());
+        this.setCategory(_item.getCategory());
+        this.setDaysToSave(_item.getDaysToSave());
+        this.setLocalisation(_item.getLocalisation());
+        this.setTags(_item.getTags());
+        this.setDeleted(_item.getDeleted());
+        this.setSourceUrl(_item.getSourceUrl());
+        this.setDownloadDate(_item.getDownloadDate());
     }
 
     /*
     All the methods to get/set infos from an article
      */
 
-    public Date getPublished_date() { return published_date; }
-    public void setPublished_date(Date published_date) { this.published_date = published_date; }
-    public Date getUpdated_date() { return updated_date; }
-    public void setUpdated_date(Date updated_date) { this.updated_date = updated_date; }
+    public Date getPublishedDate() { return publishedDate; }
+    public void setPublishedDate(Date _publishedDate) { this.publishedDate = _publishedDate; }
+    public Date getUpdatedDate() { return updatedDate; }
+    public void setUpdatedDate(Date _updatedDate) { this.updatedDate = _updatedDate; }
     public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String _title) { this.title = _title; }
     public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String _description) { this.description = _description; }
     public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
+    public void setLink(String _link) { this.link = _link; }
     public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String _author) { this.author = _author; }
     public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-    public int getDays_to_save() { return days_to_save; }
-    public void setDays_to_save(int days_to_save) { this.days_to_save = days_to_save; }
+    public void setCategory(String _category) { this.category = _category; }
+    public int getDaysToSave() { return daysToSave; }
+    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
 
     public String getLocalisation() { return localisation; }
-    public void setLocalisation(String localisation) { this.localisation = localisation; }
+    public void setLocalisation(String _localisation) { this.localisation = _localisation; }
     public String getTags() { return tags; }
-    public void setTags(String tags) { this.tags = tags; }
+    public void setTags(String _tags) { this.tags = _tags; }
     public boolean getDeleted() { return deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
-    public String getSource_url() {return source_url;}
-    public void setSource_url(String url){source_url = url;}
-    public Date getDownload_date() { return download_date;}
-    public void setDownload_date(Date now) { download_date = now;}
+    public void setDeleted(boolean _deleted) { this.deleted = _deleted; }
+    public String getSourceUrl() {return sourceUrl;}
+    public void setSourceUrl(String _url){ sourceUrl = _url;}
+    public Date getDownloadDate() { return downloadDate;}
+    public void setDownloadDate(Date _now) { downloadDate = _now;}
+
+    public boolean needToBeDeleted() {
+        /**
+         * Tests if an article is outdated (based on his download date and the days to save the article)
+         *
+         * @return boolean if an article has to be deleted
+         * @see Date
+         */
+        Date now = new Date();
+        Date deletedDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
+        return now.after(deletedDate);
+    }
 }

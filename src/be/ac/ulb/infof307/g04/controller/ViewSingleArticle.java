@@ -1,5 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
+
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import javafx.application.Application;
@@ -21,80 +23,80 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.Optional;
 
 /**
  * Class ViewSingleArticle, show what an article looks like when you click on it in the article cell
- * @see Article
+ * @see DatabaseArticle
  * @see ArticleManager
  * @see ArticleVerification
  * @version 4.0
  */
 
 public class ViewSingleArticle extends Application{
-    private Article article;
+    private DatabaseArticle article;
 
     //Boolean fot the validity of the article
-    private boolean is_valid;
+    private boolean isValid;
 
     //Manager that could allow to delete an article
-    private ArticleManager article_manager = new ArticleManager("./article_db");
+    private ArticleManager articleManager = new ArticleManager("./article_db");
 
     @FXML
-    private Label article_title;
+    private Label articleTitle;
     @FXML
-    private Label integrity_label;
+    private Label integrityLabel;
     @FXML
-    private Circle integrity_circle; //integrity of the article represented by a coloured circle
+    private Circle integrityCircle; //integrity of the article represented by a coloured circle
     @FXML
-    private Button delete_button;
+    private Button deleteButton;
     @FXML
-    private Label tags_label;
+    private Label tagsLabel;
     @FXML
-    private ImageView article_icon; //image of the article
+    private ImageView articleIcon; //image of the article
     @FXML
-    private WebView article_view; //whole article
+    private WebView articleView; //whole article
 
-    private Main articles_window; //window that contains the article
+    private Main articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
 
-    public ViewSingleArticle(Article _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
         Constructor of the view of a single article
          @param _article
                     article that has to be reviewd
          */
         article = _article;
-        ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
-        check_Integrity(verification.is_valid());
+        ArticleVerification verification = new ArticleVerification(article,article.getSourceUrl());
+        checkIntegrity(verification.isValid());
 
     }
 
-    public void set_articles_windows(Main articles_window_) {
-        articles_window = articles_window_;
+    public void setArticlesWindows(Main _articlesWindows) {
+        articlesWindow = _articlesWindows;
     }
 
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage _primaryStage) throws IOException {
         /**
          * Start javafx window
-         * @param primaryStage
+         * @param _primaryStage
          */
         //Load an fxml file
+        /**
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
 
         AnchorPane conteneurPrincipal;
         conteneurPrincipal = loader.load();
         Scene scene = new Scene(conteneurPrincipal);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
+        _primaryStage.setScene(scene);
+        _primaryStage.show();
+        **/
     }
 
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
@@ -104,27 +106,27 @@ public class ViewSingleArticle extends Application{
          * @throws Exception : if article wasn't found
          */
 
-        article_view.getEngine().load(article.getLink());
+        articleView.getEngine().load(article.getLink());
 
-        set_Fields();
+        setFields();
     }
 
-    private void set_Fields() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        article_title.setText(article.getTitle());
-        handle_Integrity();
-        tags_label.setText("Tags: " + article.getTags());
-        article_icon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
+    private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        articleTitle.setText(article.getTitle());
+        handleIntegrity();
+        tagsLabel.setText("Tags: " + article.getTags());
+        articleIcon.setImage(new Image("/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg"));
 
     }
 
-    private void handle_Integrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    private void handleIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //if article is integer -> green ; else -> red
-        if (this.is_valid) {
-            integrity_label.setText("Article intègre");
-            integrity_circle.setFill(Color.web("0x00FF66"));
+        if (this.isValid) {
+            integrityLabel.setText("DatabaseArticle intègre");
+            integrityCircle.setFill(Color.web("0x00FF66"));
         } else {
-            integrity_label.setText("Non intègre!");
-            integrity_circle.setFill(Color.RED);
+            integrityLabel.setText("Non intègre!");
+            integrityCircle.setFill(Color.RED);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Erreur intégrité");
             alert.setHeaderText("L'article n'est pas intègre!");
@@ -132,30 +134,30 @@ public class ViewSingleArticle extends Application{
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                verification.correct_article();
+                verification.correctArticle();
             }
         }
     }
 
-    private void check_Integrity(boolean is_correct) throws IOException, ParserConfigurationException, SAXException, ParseException {
+    private void checkIntegrity(boolean _isCorrect) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
         validity of the article
          */
-        ArticleVerification verification = new ArticleVerification(article, article.getSource_url());
-        this.is_valid = verification.is_valid();
+        ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+        this.isValid = verification.isValid();
     }
 
 
     @FXML
-    private void delete_button_pressed(){
+    private void deleteButtonPressed(){
         /*
          * function called when the delete button is pressed
          */
-        article_manager.delete_article(article);
-        articles_window.display_articles(article_manager.load_articles());
-        System.out.println("Article supprimé");
+        articleManager.deleteArticle(article);
+        articlesWindow.displayArticles(articleManager.loadArticles());
+        System.out.println("DatabaseArticle supprimé");
         //close the article page when deleted
-        Stage stage = (Stage) delete_button.getScene().getWindow();
+        Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();
     }
 }

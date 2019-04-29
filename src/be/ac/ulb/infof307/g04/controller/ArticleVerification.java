@@ -1,9 +1,9 @@
 package be.ac.ulb.infof307.g04.controller;
 import org.xml.sax.SAXException;
 
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -15,57 +15,57 @@ import java.util.ArrayList;
  */
 
 public class ArticleVerification {
-    private Article article_to_verify;
-    private Article article_from_source;
+    private DatabaseArticle articleToVerify;
+    private DatabaseArticle articleFromSource;
     private String source;
 
-    public ArticleVerification(Article article, String source_url){
+    public ArticleVerification(DatabaseArticle _article, String _source_url){
         /**
-         * Constructor of the Article verification
+         * Constructor of the DatabaseArticle verification
          *
-         * @param article
+         * @param _article
          *              get the article that needs to be verified
-         * @param source_url
+         * @param _source_url
          *              get the url of the article
          */
-        article_to_verify = article;
-        source = source_url;
+        articleToVerify = _article;
+        source = _source_url;
     }
 
     /**
      * Get all the articles from a source
      * @return An ArrayList of articles
      */
-    public ArrayList<Article> get_articles_from_source() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ArrayList<DatabaseArticle> getArticlesFromSource() throws IOException, ParserConfigurationException, SAXException, ParseException {
         ParserRss parser = new ParserRss();
-        ArrayList<Article> articles;
+        ArrayList<DatabaseArticle> articles;
         articles = parser.parse(source);
         return articles;
     }
 
 
-    public static int hashCode(Object o) {
+    public static int hashCode(Object _object) {
         /*
         Method used to generate a hash
          */
-        return o != null ? o.hashCode() : 0;
+        return _object != null ? _object.hashCode() : 0;
     }
 
-    public boolean is_equal(){
+    public boolean isEqual(){
         /**
          * Test if an article is equal to another
          * @return boolean
          * @throws
          */
 
-        Article a1 = article_to_verify;
-        Article a2 = article_from_source;
+        DatabaseArticle a1 = articleToVerify;
+        DatabaseArticle a2 = articleFromSource;
 
         // condition de la forme, soit les deux champs sont nuls, soit aucun des deux n'est nul et les hash correspondent
         if((((a1.getDescription() == null && a2.getDescription() == null ) || (a1.getDescription() != null && a2.getDescription() != null )) && hashCode(a1.getDescription()) == hashCode(a2.getDescription())) &&
                     (((a1.getLink() == null && a2.getLink() == null ) || (a1.getLink() != null && a2.getLink() != null )) && hashCode(a1.getLink()) == hashCode(a2.getLink())) &&
-                        (((a1.getPublished_date() == null && a2.getPublished_date() == null ) || (a1.getPublished_date() != null && a2.getPublished_date() != null )) && hashCode(a1.getPublished_date()) == hashCode(a2.getPublished_date())) &&
-                            (((a1.getUpdated_date() == null && a2.getUpdated_date() == null ) || (a1.getUpdated_date() != null && a2.getUpdated_date() != null )) && hashCode(a1.getUpdated_date()) == hashCode(a2.getUpdated_date()))){
+                        (((a1.getPublishedDate() == null && a2.getPublishedDate() == null ) || (a1.getPublishedDate() != null && a2.getPublishedDate() != null )) && hashCode(a1.getPublishedDate()) == hashCode(a2.getPublishedDate())) &&
+                            (((a1.getUpdatedDate() == null && a2.getUpdatedDate() == null ) || (a1.getUpdatedDate() != null && a2.getUpdatedDate() != null )) && hashCode(a1.getUpdatedDate()) == hashCode(a2.getUpdatedDate()))){
             return true;
         }
         else{
@@ -75,42 +75,40 @@ public class ArticleVerification {
 
 
 
-    public boolean is_valid() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public boolean isValid() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * Check if an article exists and wasn't modified from the source
          *
          * @return boolean
          * @see is_equal()
          */
-        ArrayList<Article> articles = new ArrayList<>();
-        articles = get_articles_from_source();
+        ArrayList<DatabaseArticle> articles = new ArrayList<>();
+        articles = getArticlesFromSource();
         boolean found = false;
         for(int i=0; i< articles.size(); i++){
-            if(((article_to_verify.getTitle() == null && articles.get(i).getTitle() == null ) || (article_to_verify.getTitle() != null && articles.get(i).getTitle() != null )) && article_to_verify.getTitle().equals(articles.get(i).getTitle()) &&
-                    ((article_to_verify.getAuthor() == null && articles.get(i).getAuthor() == null ) || (article_to_verify.getAuthor() != null && articles.get(i).getAuthor() != null )) && hashCode(article_to_verify.getAuthor()) == hashCode(articles.get(i).getAuthor())){
-                article_from_source = articles.get(i);
-                return is_equal();
+            if(((articleToVerify.getTitle() == null && articles.get(i).getTitle() == null ) || (articleToVerify.getTitle() != null && articles.get(i).getTitle() != null )) && articleToVerify.getTitle().equals(articles.get(i).getTitle()) &&
+                    ((articleToVerify.getAuthor() == null && articles.get(i).getAuthor() == null ) || (articleToVerify.getAuthor() != null && articles.get(i).getAuthor() != null )) && hashCode(articleToVerify.getAuthor()) == hashCode(articles.get(i).getAuthor())){
+                articleFromSource = articles.get(i);
+                return isEqual();
             }
         }
         return false;
     }
 
 
-    public boolean is_correctable() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public boolean isCorrectable() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
          * check if an article can be corrected
-         * @see Article
+         * @see databaseArticle
          */
-
-        ArrayList<Article> articles = new ArrayList<>();
-        articles = get_articles_from_source();
+        ArrayList<DatabaseArticle> articles = getArticlesFromSource();
 
         for(int i=0; i< articles.size(); i++){
-            if(((article_to_verify.getLink() != null && articles.get(i).getLink() != null   )   &&   (   hashCode(article_to_verify.getLink()) == hashCode(articles.get(i).getLink()))) ||
-                    ((article_to_verify.getTitle() != null && articles.get(i).getTitle() != null ) && (  hashCode(article_to_verify.getTitle()) == hashCode(articles.get(i).getTitle())) &&
-                    (article_to_verify.getAuthor() != null && articles.get(i).getAuthor() != null   ) && (  hashCode(article_to_verify.getAuthor()) == hashCode(articles.get(i).getAuthor()))) ||
-                        ((article_to_verify.getDescription() != null && articles.get(i).getDescription() != null ) && (  hashCode(article_to_verify.getDescription()) == hashCode(articles.get(i).getDescription())))){
-                article_from_source = articles.get(i);
+            if(((articleToVerify.getLink() != null && articles.get(i).getLink() != null   )   &&   (   hashCode(articleToVerify.getLink()) == hashCode(articles.get(i).getLink()))) ||
+                    ((articleToVerify.getTitle() != null && articles.get(i).getTitle() != null ) && (  hashCode(articleToVerify.getTitle()) == hashCode(articles.get(i).getTitle())) &&
+                    (articleToVerify.getAuthor() != null && articles.get(i).getAuthor() != null   ) && (  hashCode(articleToVerify.getAuthor()) == hashCode(articles.get(i).getAuthor()))) ||
+                        ((articleToVerify.getDescription() != null && articles.get(i).getDescription() != null ) && (  hashCode(articleToVerify.getDescription()) == hashCode(articles.get(i).getDescription())))){
+                articleFromSource = articles.get(i);
                 return true;
             }
         }
@@ -118,28 +116,28 @@ public class ArticleVerification {
     }
 
 
-    public void correct_article() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public void correctArticle() throws IOException, ParserConfigurationException, SAXException, ParseException {
         /*
          * correct an article if it is possible
          */
-        if(is_correctable()){
-            article_to_verify.setTitle(article_from_source.getTitle());
-            article_to_verify.setAuthor(article_from_source.getAuthor());
-            article_to_verify.setCategory(article_from_source.getCategory());
-            article_to_verify.setLink(article_from_source.getLink());
-            article_to_verify.setDescription(article_from_source.getDescription());
-            article_to_verify.setUpdated_date(article_from_source.getUpdated_date());
-            article_to_verify.setPublished_date(article_from_source.getPublished_date());
+        if(isCorrectable()){
+            articleToVerify.setTitle(articleFromSource.getTitle());
+            articleToVerify.setAuthor(articleFromSource.getAuthor());
+            articleToVerify.setCategory(articleFromSource.getCategory());
+            articleToVerify.setLink(articleFromSource.getLink());
+            articleToVerify.setDescription(articleFromSource.getDescription());
+            articleToVerify.setUpdatedDate(articleFromSource.getUpdatedDate());
+            articleToVerify.setPublishedDate(articleFromSource.getPublishedDate());
         }
     }
 
 
 
-    public Article get_article(){
+    public DatabaseArticle getArticle(){
         /*
         Get the article that has to be verified
          */
-        return article_to_verify;
+        return articleToVerify;
     }
 
 
