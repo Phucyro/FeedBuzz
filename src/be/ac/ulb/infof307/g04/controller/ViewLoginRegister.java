@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.controller;
 
-import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.UserManager;
 import com.sun.javafx.application.HostServicesDelegate;
@@ -123,7 +122,7 @@ public class ViewLoginRegister extends Application{
         File file = new File(DB_ROOT + username);
         if (file.exists()) { file.delete();}
 
-        if (file.mkdir()) {
+        if (file.mkdir())  {
             System.out.println("Successfully made folder" + file.getAbsolutePath());
         } else {
             System.out.println("Failed making the folder " + file.getAbsolutePath());
@@ -263,13 +262,13 @@ public class ViewLoginRegister extends Application{
         Window current_window = login_warning.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
         ViewListArticles controller = new ViewListArticles(db_path);
+        loader.setController(controller);
         Parent loginroot = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
 
         stage.show();
         current_window.hide();
-
 
 
     }
