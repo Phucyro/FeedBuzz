@@ -39,6 +39,8 @@ public class Main extends Application {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/LoginRegister.fxml"));
+        ViewLoginRegister controller = new ViewLoginRegister();
+        loader.setController(controller);
         Parent loginroot = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
