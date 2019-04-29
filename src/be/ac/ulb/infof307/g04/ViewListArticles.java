@@ -125,6 +125,7 @@ public class ViewListArticles extends Application {
         searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
+//        QuitButton.setOnAction(e -> Platform.exit());
         if (InternetTester.testInternet()) {
             try {
                 source.download(article_manager);

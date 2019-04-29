@@ -258,8 +258,19 @@ public class ViewLoginRegister extends Application{
      * @param db_path the path to the user database
      */
     public void launch_main_app(String db_path) throws java.io.IOException{
-
         Window current_window = login_warning.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
+        ViewListArticles controller = new ViewListArticles(db_path);
+        loader.setController(controller);
+        Parent root = (Parent) loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        current_window.hide();
+
+        /*Window current_window = login_warning.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
         ViewListArticles controller = new ViewListArticles(db_path);
         loader.setController(controller);
@@ -268,7 +279,7 @@ public class ViewLoginRegister extends Application{
         stage.setScene(new Scene(loginroot));
 
         stage.show();
-        current_window.hide();
+        current_window.hide();*/
 
 
     }

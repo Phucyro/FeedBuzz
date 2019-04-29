@@ -82,13 +82,6 @@ public class UserManager {
         }
     }
 
-
-
-
-
-
-
-
     /**
      * search an user in the database
      * @param username

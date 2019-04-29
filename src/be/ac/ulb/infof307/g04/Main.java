@@ -36,8 +36,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/LoginRegister.fxml"));
         ViewLoginRegister controller = new ViewLoginRegister();
         loader.setController(controller);
@@ -45,7 +43,6 @@ public class Main extends Application {
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
         stage.show();
-
     }
 
     @FXML
