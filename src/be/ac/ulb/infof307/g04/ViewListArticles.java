@@ -165,7 +165,11 @@ public class ViewListArticles extends Application {
          * @param _articles
          *              _articles that haven't been deleted in the DB
          */
-        listViewArticles.getItems().setAll(_articles);
+        listViewArticles.getItems().clear();
+        for (DatabaseArticle item : _articles) {
+            listViewArticles.getItems().add(item);
+        }
+
     }
 
     private void setImage(String s, int i, int i2, MenuItem readArticleImage) {
