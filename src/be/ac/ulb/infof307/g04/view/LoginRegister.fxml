@@ -37,18 +37,18 @@
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                     <children>
                                                         <Label text="Nom d'utilisateur:   " />
-                                                        <TextField fx:id="login_username" />
+                                                        <TextField fx:id="loginUsername" />
                                                     </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                                     <children>
                                                         <Label text="Mot de passe :        " />
-                                                        <PasswordField fx:id="login_password" />
+                                                        <PasswordField fx:id="loginPassword" />
                                                     </children>
                                                 </HBox>
                                                 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="442.0">
                                                     <children>
-                                                        <Label fx:id="login_warning" text="Nom d'utilisateur ou mot de passe invalide" textFill="#da4f4f" visible="false">
+                                                        <Label fx:id="loginWarning" text="Nom d'utilisateur ou mot de passe invalide" textFill="#da4f4f" visible="false">
                                                             <font>
                                                                 <Font size="14.0" />
                                                             </font>
@@ -57,7 +57,7 @@
                                                 </VBox>
                                                 <HBox alignment="CENTER" prefHeight="135.0" prefWidth="618.0" spacing="240.0">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#connect_button_pressed" text="Se connecter" />
+                                                        <Button mnemonicParsing="false" onAction="#connectButtonPressed" text="Se connecter" />
                                                     </children>
                                                 </HBox>
                                             </children>
@@ -85,35 +85,35 @@
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <children>
                                                 <Label text="Nom d'utilisateur:            " />
-                                                <TextField fx:id="register_username" />
+                                                <TextField fx:id="registerUsername" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <children>
                                                 <Label text="Mot de passe :                 " />
-                                                <PasswordField fx:id="register_password" />
+                                                <PasswordField fx:id="registerPassword" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <children>
                                                 <Label text="Confirmer mot de passe: " />
-                                                <PasswordField fx:id="register_confirm_password" />
+                                                <PasswordField fx:id="registerConfirmPassword" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <children>
-                                                <CheckBox fx:id="user_agreement_checkbox" mnemonicParsing="false" text="J'ai lu et j'approuve " />
-                                                <Hyperlink fx:id="user_agreement_link" text="les termes de services" />
+                                                <CheckBox fx:id="userAgreementCheckbox" mnemonicParsing="false" text="J'ai lu et j'approuve " />
+                                                <Hyperlink fx:id="userAgreementLink" text="les termes de services" />
                                             </children>
                                         </HBox>
-                                        <Label fx:id="register_warning" text="" textFill="#d74646" visible="false">
+                                        <Label fx:id="registerWarning" text="" textFill="#d74646" visible="false">
                                             <font>
                                                 <Font size="10.0" />
                                             </font>
                                         </Label>
                                         <HBox alignment="CENTER" prefHeight="135.0" prefWidth="618.0" spacing="240.0">
                                             <children>
-                                                <Button mnemonicParsing="false" onAction="#register_button_pressed" text="S'inscrire" />
+                                                <Button mnemonicParsing="false" onAction="#registerButtonPressed" text="S'inscrire" />
                                             </children>
                                         </HBox>
                                     </children>

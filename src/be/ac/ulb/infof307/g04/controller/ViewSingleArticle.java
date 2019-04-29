@@ -128,7 +128,7 @@ public class ViewSingleArticle extends Application{
             }
         }
         else{
-            integrityLabel.setText("Pas d'iternet");
+            integrityLabel.setText("No connexion");
             integrityCircle.setFill(Color.ORANGE);
         }
     }

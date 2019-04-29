@@ -80,6 +80,9 @@ public class ViewListArticles extends Application {
     public void start(Stage primaryStage) throws Exception { }
 
 
+    /**
+     * Initialize the main window: has a close button, a search bar and display all the articles in the DB
+     */
     @FXML
     public void initialize() {
 
@@ -156,13 +159,13 @@ public class ViewListArticles extends Application {
         mymain.start(new Stage());
     }
 
+    /**
+     * Display all the valid _articles in the window
+     * @param _articles
+     *              _articles that haven't been deleted in the DB
+     */
     @FXML
     public void displayArticles(ArrayList<DatabaseArticle> _articles) {
-        /**
-         * Display all the valid _articles in the window
-         * @param _articles
-         *              _articles that haven't been deleted in the DB
-         */
         listViewArticles.getItems().clear();
         for (DatabaseArticle item : _articles) {
             listViewArticles.getItems().add(item);
@@ -170,11 +173,17 @@ public class ViewListArticles extends Application {
 
     }
 
-    private void setImage(String s, int i, int i2, MenuItem readArticleImage) {
-        ImageView readIcon = new ImageView(new Image(s));
-        readIcon.setFitHeight(i);
-        readIcon.setFitWidth(i2);
-        readArticleImage.setGraphic(readIcon);
+    /**
+     * @param _path path of the image
+     * @param _height height of the image
+     * @param _width width of the image
+     * @param _readArticleImage place to put the image
+     */
+    private void setImage(String _path, int _height, int _width, MenuItem _readArticleImage) {
+        ImageView readIcon = new ImageView(new Image(_path));
+        readIcon.setFitHeight(_height);
+        readIcon.setFitWidth(_width);
+        _readArticleImage.setGraphic(readIcon);
     }
 
     public void setMainStage(Stage _stage){
@@ -182,6 +191,9 @@ public class ViewListArticles extends Application {
     }
 
 
+    /**
+     * load the images of the help menu
+     */
     private void setHelpImages() {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
@@ -191,12 +203,12 @@ public class ViewListArticles extends Application {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);
     }
 
+    /**
+     * Method that opens an article when the user click on it
+     * @throws Exception : when no article has been selected
+     */
     @FXML
     private void openArticleWindow() {
-        /**
-         * Method that opens an article when the user click on it
-         * @throws Exception : when no article has been selected
-         */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
@@ -224,23 +236,23 @@ public class ViewListArticles extends Application {
     }
 
     /**
-     * shows an ErrorBox instead of printing
+     * show a eroor box with a message
+     * @param _errorMessage the error message to print
      */
-    private void showErrorBox(String s) {
+    private void showErrorBox(String _errorMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);
-        alert.setContentText(s);
+        alert.setContentText(_errorMessage);
 
         alert.showAndWait();
     }
 
+    /**
+     * copy the link of the article
+     */
     @FXML
     private void copyLinkToClipboard() {
-        /**
-         * copy the link of the article
-         * @throws Exception : when no article has been selected
-         */
         try {
             String myString = listViewArticles.getSelectionModel().getSelectedItem().getLink();
             StringSelection stringSelection = new StringSelection(myString);
@@ -251,19 +263,25 @@ public class ViewListArticles extends Application {
         }
     }
 
-    public void openWindow(FXMLLoader loader, String title, String window_title){
+    /**
+     * @param _loader _loader
+     * @param _title_window title of the window
+     * @param _title parameter use for the error message
+     */
+    public void openWindow(FXMLLoader _loader, String _title_window, String _title){
         try {
-            Parent root = (Parent) loader.load();
+            Parent root = (Parent) _loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle(title);
+            stage.setTitle(_title_window);
             stage.setScene(new Scene(root));
             stage.show();
         }
         catch (Exception e) {
-            showErrorBox("Error while opening "+ window_title + " window!");
+            showErrorBox("Error while opening "+ _title + " window!");
         }
     }
+
 
     /**
      * @param actionEvent opens the SourceWindow (download settings)
@@ -284,6 +302,9 @@ public class ViewListArticles extends Application {
         }
     }
 
+    /**
+     *  If the search bar is available or not. When you close it, it loads all the articles again
+     */
     @FXML
     public void changeSearchBarStatus(){
         if (GridPane.getChildren().indexOf(searchBar) == -1) {
@@ -295,11 +316,17 @@ public class ViewListArticles extends Application {
         }
     }
 
+    /**
+     * Initialize all the tags and the sources
+     */
     private void init_db() {
         init_tags();
         init_sources();
     }
 
+    /**
+     * Initialize all the tags
+     */
     private void init_tags() {
         String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
         TagManager tagManager = new TagManager(dbPath, password);
@@ -310,6 +337,9 @@ public class ViewListArticles extends Application {
         }
     }
 
+    /**
+     * Initialize all the sources
+     */
     private void init_sources() {
         SourceManager sourceManager = new SourceManager(dbPath, password);
         ArrayList<DatabaseSource> sources = new ArrayList<>();
@@ -318,6 +348,9 @@ public class ViewListArticles extends Application {
         sources.forEach(sourceManager::addSource);
     }
 
+    /**
+     * open the tag window
+     */
     public void openTagWindow(ActionEvent _actionEvent) {
         /*
         Open the tag window
