@@ -29,41 +29,39 @@ public class ParserRss {
     private boolean atom;
     private String updated;
 
-    public ParserRss() {
-    }
+    public ParserRss() {}
 
+    /**
+     * parse an rss feed
+     * @param _urlName url of the rss feed
+     * @throws MalformedURLException : if the url is not valid
+     * @return a list of articles
+     */
     public ArrayList<DatabaseArticle> parse(String _urlName) throws IOException, SAXException, ParserConfigurationException, ParseException {
-        /**
-         * parse an rss feed
-         * @param _url_name
-         *              url of the rss feed
-         * @see databaseArticle
-         * @throws MalformedURLException : if the url is not valid
-         * @return a list of articles
-         */
-        atom = false;
 
-        URL url = null;
+        if (InternetTester.testInternet()) {
+            atom = false;
 
-        url = new URL(_urlName);
+            URL url = null;
+
+            url = new URL(_urlName);
 
 
-        if (url != null) {
-            getXmlFile(url);
-            checkAtom();
-            return parseArticles();
+            if (url != null) {
+                getXmlFile(url);
+                checkAtom();
+                return parseArticles();
+            }
         }
-
         return new ArrayList<>();
     }
 
+    /**
+     * Get the updated field of an entry
+     * @param _element the entry
+     */
     private void getUpdated(Element _element) {
-        /**
-         * Get the updated field of an entry
-         * @see parse()
-         * @param _element
-         *              the entry
-         */
+
         NodeList elementNodes;
         if(atom) {
             elementNodes = _element.getElementsByTagName("updated");
@@ -79,18 +77,13 @@ public class ParserRss {
         }
     }
 
-
+    /**
+     * download the xml file of the rss feed
+     * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
+     * @param _url _url of the feed
+     */
     private void getXmlFile(URL _url) throws ParserConfigurationException, IOException, SAXException {
-        /**
-         * download the xml file of the rss feed
-         * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
-         *
-         * @param _url
-         *          _url of the feed$
-         * @throws ParserConfigurationException
-         * @throws IOException
-         * @throws SAXException
-         */
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
 
@@ -100,22 +93,21 @@ public class ParserRss {
 
     }
 
+    /**
+     * Check if the feed is an atom feed or a rss2.0 feed
+     */
     private void checkAtom() {
-        /*
-         * Check if the feed is an atom feed or a rss2.0 feed
-         */
         if (document.getElementsByTagName("feed").getLength() == 1) {
             atom = true;
         }
     }
 
-
+    /**
+     * Parse a load of articles
+     * @return list of the articles
+     */
     private ArrayList<DatabaseArticle> parseArticles() throws ParseException {
-        /**
-         * Parse a load of articles
-         * @see databaseArticle
-         * @return list of the articles
-         */
+
         NodeList entryList;
         ArrayList<DatabaseArticle> articles = new ArrayList<>();
 
@@ -131,31 +123,27 @@ public class ParserRss {
         return articles;
     }
 
-
+    /**
+     * get all the entries of the feed
+     * @param _feedName name of the principal entry (feed of channel)
+     * @param _entryName name of the articles entries (entry of item)
+     * @return xml nodes
+     */
     private NodeList getNodeList(String _feedName, String _entryName) {
-        /**
-         * get all the entries of the feed
-         * @param _feedName
-         *                 name of the principal entry (feed of channel)
-         * @param _entryName
-         *                  name of the articles entries (entry of item)
-         * @return xml nodes
-         */
+
         NodeList nodes = document.getElementsByTagName(_feedName);
         Element element = (Element) nodes.item(0);
         getUpdated(element);
         return element.getElementsByTagName(_entryName);
     }
 
-
+    /**
+     * parse a specific article
+     * @param _entry xml article _entry
+     * @return an article
+     */
     private DatabaseArticle parseArticle(Element _entry) throws ParseException {
-        /**
-         * parse a specific article
-         * @see databaseArticle
-         * @param _entry
-         *            xml article _entry
-         * @return an article
-         */
+
         DatabaseArticle article = new DatabaseArticle();
         article.setTitle(getString(_entry, "title"));
         article.setAuthor(getString(_entry, "author"));
@@ -168,65 +156,54 @@ public class ParserRss {
         return article;
     }
 
+    /**
+     * specific parse for atom feeds
+     * @param _entry xml _article _entry
+     * @param _article _article that is being built
+     */
     private void parseArticleAtom(Element _entry, DatabaseArticle _article) throws ParseException {
-        /**
-         * specific parse for atom feeds
-         * @param _entry
-         *             xml _article _entry
-         * @param _article
-         *              _article that is being built
-         */
         _article.setLink(getLinkAtom(_entry));
         _article.setDescription(getString(_entry, "content"));
         _article.setPublishedDate(getDate(getString(_entry, "published")));
         _article.setUpdatedDate(getDate(getString(_entry, "updated")));
     }
 
+    /**
+     * specific parse for rss2.0 feeds
+     * @param _item xml _article _item
+     * @param _article article that is being built
+     */
     private void parseArticleRss(Element _item, DatabaseArticle _article) throws ParseException {
-        /**
-         * specific parse for rss2.0 feeds
-         * @param _item
-         *           xml _article _item
-         * @param _article
-         *           _article that is being built
-         */
         _article.setLink(getString(_item, "link"));
         _article.setDescription(getString(_item, "description"));
         _article.setPublishedDate(getDate(getString(_item, "pubDate")));
         _article.setUpdatedDate(getDate(getString(_item, "lastBuildDate")));
     }
 
-    private Date getDate(String date) throws ParseException {
-        /**
-         * get a date from a string
-         * @param date
-         *          string containing the date
-         * @return date object
-         */
+    /**
+     * get a date from a string
+     * @param _date string containing the date
+     * @return date object
+     */
+    private Date getDate(String _date) throws ParseException {
+
         Date res = null;
-        if (date == null){
-            date = updated;
-        }
-        else {
+        if (_date !=null){
             if (atom) {
-                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(date);
+                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(_date);
             } else {
-                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(date);
+                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(_date);
             }
         }
-
         return res;
     }
 
-
+    /**
+     * get the link of an atom feed
+     * @param _entry xml article _entry
+     * @return link of the atom
+     */
     private String getLinkAtom(Element _entry) {
-        /**
-         * get the link of an atom feed
-         * @param _entry
-         *          xml article _entry
-         * @throws IOException
-         * @return link of the atom
-         */
         NodeList tag_node = _entry.getElementsByTagName("link");
         if (tag_node.getLength() > 0) {
             return tag_node.item(0).getAttributes().getNamedItem("href").getTextContent().trim();
@@ -235,15 +212,14 @@ public class ParserRss {
         }
     }
 
+    /**
+     * get the string of a tag of an entry
+     * @param _entry xml article _entry
+     * @param _tag tag of the xml _entry
+     * @return text of the specific _tag
+     */
     private String getString(Element _entry, String _tag) {
-        /**
-         * get the string of a _tag of an _entry
-         * @param _entry
-         *          xml articl _entry
-         * @param _tag
-         *          _tag of the xml _entry
-         * @return text of the specific _tag
-         */
+
         NodeList tagNode = _entry.getElementsByTagName(_tag);
         if(tagNode.getLength() > 0) {
             return tagNode.item(0).getTextContent().trim();

@@ -16,14 +16,13 @@ import java.util.ArrayList;
 public class TagManager {
     private JsonDBTemplate jsonDBTemplate;
 
-
+    /**
+     * @param _databasePath
+     *                  path to the database
+     * @param _password
+     *                  _password of the database
+     */
     public TagManager(String _databasePath, String _password) {
-        /**
-         * @param _databasePath
-         *                  path to the database
-         * @param _password
-         *                  _password of the database
-         */
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -44,14 +43,13 @@ public class TagManager {
         jsonDBTemplate.createCollection(DatabaseTag.class);
     }
 
-
+    /**
+     * add a _tag to the database
+     * @param _tag
+     *          _tag that will be added to the database
+     * @return boolean to inform if the _tag has been added
+     */
     public boolean addTag(DatabaseTag _tag){
-        /**
-         * add a _tag to the database
-         * @param _tag
-         *          _tag that will be added to the database
-         * @return boolean to inform if the _tag has been added
-         */
         try {
             jsonDBTemplate.insert(_tag);
             return true;
@@ -60,14 +58,13 @@ public class TagManager {
         }
     }
 
-
+    /**
+     * delete a _tag from the database
+     * @param _tag
+     *          _tag that will be removed from the database
+     * @return boolean to inform if the _tag has been deleted
+     */
     public boolean deleteTag(DatabaseTag _tag){
-        /**
-         * delete a _tag from the database
-         * @param _tag
-         *          _tag that will be removed from the database
-         * @return boolean to inform if the _tag has been deleted
-         */
         try {
             jsonDBTemplate.remove(_tag, DatabaseTag.class);
             update("_tag", _tag.getName(), "Default", DatabaseSource.class);
@@ -78,15 +75,15 @@ public class TagManager {
         }
     }
 
+    /**
+     * modify a _tag from the database with another
+     * @param _tag
+     *          the _tag that will be modified
+     * @param _newTag
+     *          the _tag that will replace the original _tag
+     * @return boolean to inform if the _tag has well been deleted
+     */
     public boolean modifyTag(DatabaseTag _tag, DatabaseTag _newTag){
-        /**
-         * modify a _tag from the database with another
-         * @param _tag
-         *          the _tag that will be modified
-         * @param _newTag
-         *          the _tag that will replace the original _tag
-         * @return boolean to inform if the _tag has well been deleted
-         */
         try {
             update("name", _tag.getName(), _newTag.getName(), DatabaseTag.class);
             update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
@@ -99,30 +96,33 @@ public class TagManager {
         }
     }
 
+    /**
+     * update a value in a database
+     * @param _key
+     *          the _key of the field in the db
+     * @param _oldValue
+     *          the old value that we want to change
+     * @param _newValue
+     *          the new value
+     * @param _entityClass
+     *          the database in which we work
+     */
     private void update(String _key, String _oldValue, String _newValue, Class _entityClass){
-        /**
-         * update a value in a database
-         * @param _key
-         *          the _key of the field in the db
-         * @param _oldValue
-         *          the old value that we want to change
-         * @param _newValue
-         *          the new value
-         * @param _entityClass
-         *          the database in which we work
-         */
-        Update update = Update.update(_key, _newValue);
+         Update update = Update.update(_key, _newValue);
         String jxQuery = String.format("/.[%s='%s']", _key, _oldValue);
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
     }
 
+    /**
+     * @return a list that contained all the tags
+     */
     public ArrayList<DatabaseTag> getAll() {
-        /**
-         * @return a list that contained all the tags
-         */
         return (ArrayList<DatabaseTag>) jsonDBTemplate.findAll(DatabaseTag.class);
     }
 
+    /**
+     * delete all tags
+     */
     public void deleteAll(){
         /*
          * remove all the tags in the database

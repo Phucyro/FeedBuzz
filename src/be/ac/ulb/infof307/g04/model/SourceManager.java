@@ -21,12 +21,12 @@ import java.util.Date;
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
-
+    /**
+     * @param _databasePath
+     *                  path to the database
+     */
     public SourceManager(String _databasePath) {
-        /**
-         * @param _databasePath
-         *                  path to the database
-         */
+
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -39,21 +39,19 @@ public class SourceManager {
         jsonDBTemplate.createCollection(DatabaseSource.class);
     }
 
-
+    /**
+     * @return a list that contained all the sources
+     */
     public ArrayList<DatabaseSource> loadSources() {
-        /**
-         * @return a list that contained all the sources
-         */
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
-
+    /**
+     * @param _source
+     *          _source that will be added
+     * @return boolean to inform if the _source has been added
+     */
     public boolean addSource(DatabaseSource _source) {
-        /**
-         * @param _source
-         *          _source that will be added
-         * @return boolean to inform if the _source has been added
-         */
         try {
             jsonDBTemplate.insert(_source);
             return true;
@@ -62,14 +60,12 @@ public class SourceManager {
         }
     }
 
-
+    /**
+     * @param _source
+     *             _source to update
+     * @return boolean to inform if the sources has been updated
+     */
     public boolean updateSource(DatabaseSource _source){
-        /**
-         * @param _source
-         *             _source to update
-         * @return boolean to inform if the sources has been updated
-         * @throws InvalidJsonDbApiUsageException
-         */
         try{
             jsonDBTemplate.upsert(_source);
             return true;
@@ -79,16 +75,15 @@ public class SourceManager {
         }
     }
 
-
-    public void download(ArticleManager _articleManager) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * Download the articles
-         * @see ArticleManager
-         * @see databaseArticle
-         * @see ParserRss
-         * @param _articleManager
-         *                  article manager to see what articles can we load
-         */
+    /**
+     * Download the articles
+     * @see ArticleManager
+     * @see ParserRss
+     * @see DatabaseArticle
+     * @param _articleManager
+     *                  article manager to see what articles can we load
+     */
+    public void download(ArticleManager _articleManager) {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {

@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
@@ -53,63 +54,60 @@ public class ViewSingleArticle extends Application{
     @FXML
     private WebView articleView; //whole article
 
-    private Main articlesWindow; //window that contains the article
+    private ViewListArticles articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
 
+    /**
+      *Constructor of the view of a single article
+      *@param _article article to view
+      *article that has to be reviewd
+      */
     public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-        Constructor of the view of a single article
-         @param _article
-                    article that has to be reviewd
-         */
-        article = _article;
-        ArticleVerification verification = new ArticleVerification(article,article.getSourceUrl());
-        checkIntegrity(verification.isValid());
 
+        article = _article;
+        System.out.println(article);
+        if (InternetTester.testInternet()) {
+            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+            checkIntegrity();
+        }
         //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
         //set_integrity(verification.is_valid());
 
         //TODO article verification (propre)
     }
 
-    public void setArticlesWindows(Main _articlesWindows) {
+    public void setArticlesWindows(ViewListArticles _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 
 
+    /**
+     * Start javafx window
+     */
     @Override
-    public void start(Stage _primaryStage) throws IOException {
-        /**
-         * Start javafx window
-         * @param _primaryStage
-         */
-        //Load an fxml file
-        /**
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
+    public void start(Stage _primaryStage) {}
 
-        AnchorPane conteneurPrincipal;
-        conteneurPrincipal = loader.load();
-        Scene scene = new Scene(conteneurPrincipal);
-        _primaryStage.setScene(scene);
-        _primaryStage.show();
-        **/
-    }
-
+    /**
+     * Initialize the text and the title of the article
+     * Modify the integrity circle and text
+     * @throws IOException : if article wasn't found
+     */
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * Initialize the text and the title of the article
-         * Modify the integrity circle and text
-         * @throws Exception : if article wasn't found
-         */
-
-        articleView.getEngine().load(article.getLink());
-
+        System.out.println(article.getHtmlContent());
+        if(InternetTester.testInternet()) {
+            articleView.getEngine().load(article.getLink());
+        }
+        else {
+            articleView.getEngine().loadContent(article.getHtmlContent());
+        }
         setFields();
     }
 
+    /**
+     * set integrity and tag files
+     */
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
         handleIntegrity();
         tagsLabel.setText("Tags: " + article.getTags());
@@ -118,38 +116,46 @@ public class ViewSingleArticle extends Application{
 
     private void handleIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //if article is integer -> green ; else -> red
-        if (this.isValid) {
-            integrityLabel.setText("DatabaseArticle intègre");
-            integrityCircle.setFill(Color.web("0x00FF66"));
-        } else {
-            integrityLabel.setText("Non intègre!");
-            integrityCircle.setFill(Color.RED);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Erreur intégrité");
-            alert.setHeaderText("L'article n'est pas intègre!");
-            alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
+        if (InternetTester.testInternet()){
+            if (this.isValid) {
+                integrityLabel.setText("DatabaseArticle intègre");
+                integrityCircle.setFill(Color.web("0x00FF66"));
+            } else {
+                integrityLabel.setText("Non intègre!");
+                integrityCircle.setFill(Color.RED);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Erreur intégrité");
+                alert.setHeaderText("L'article n'est pas intègre!");
+                alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                verification.correctArticle();
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    verification.correctArticle();
+                }
             }
+        }
+        else{
+            integrityLabel.setText("Pas d'iternet");
+            integrityCircle.setFill(Color.ORANGE);
         }
     }
 
-    private void checkIntegrity(boolean _isCorrect) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /*
-        validity of the article
-         */
-        ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-        this.isValid = verification.isValid();
+    /**
+     * validity of the article
+     */
+    private void checkIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
+        if (InternetTester.testInternet()) {
+            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+            this.isValid = verification.isValid();
+        }
     }
 
 
+    /**
+     * function called when the delete button is pressed
+     */
     @FXML
-    private void deleteButtonPressed(){
-        /*
-         * function called when the delete button is pressed
-         */
+    public void deleteButtonPressed(){
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
         System.out.println("DatabaseArticle supprimé");
