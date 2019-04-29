@@ -1,7 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.model.DataForTests;
-import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -123,10 +122,10 @@ class HTMLArticleDownloaderTest {
     public static void tearDown() {
         System.out.println(MEDIA_FOLDER + FOLDER_NAME);
         File directory = new File(MEDIA_FOLDER + FOLDER_NAME);
-        try {
-            FileUtils.cleanDirectory(directory);
-        } catch (IOException e){
-            //Case will not occur because file is created at the beginning of the class
+        String[]entries = directory.list();
+        for(String s: entries){
+            File currentFile = new File(directory.getPath(),s);
+            currentFile.delete();
         }
         directory.delete();
     }
