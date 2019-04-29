@@ -78,6 +78,8 @@ public class Main extends Application {
         launch(_args);
     }
 
+    /**
+     */
     @Override
     public void start(Stage _primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
@@ -91,13 +93,11 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Initialize the main window: has a close button, a search bar and display all the articles in the DB
+     */
     @FXML
-    public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /*
-        Initialize the main window -> has a close button, a search bar and display all the articles in the DB
-         */
-
-
+    public void initialize() {
         searchBar = new ToolBar();
         searchBar.setPrefHeight(40.0);
         searchBar.setPrefWidth(200.0);
@@ -142,12 +142,22 @@ public class Main extends Application {
         setHelpImages();
     }
 
-    private void setImage(String s, int i, int i2, MenuItem readArticleImage) {
-        ImageView readIcon = new ImageView(new Image(s));
-        readIcon.setFitHeight(i);
-        readIcon.setFitWidth(i2);
-        readArticleImage.setGraphic(readIcon);
+    /**
+     * @param _path path of the image
+     * @param _height height of the image
+     * @param _width width of the image
+     * @param _readArticleImage place to put the image
+     */
+    private void setImage(String _path, int _height, int _width, MenuItem _readArticleImage) {
+        ImageView readIcon = new ImageView(new Image(_path));
+        readIcon.setFitHeight(_height);
+        readIcon.setFitWidth(_width);
+        _readArticleImage.setGraphic(readIcon);
     }
+
+    /**
+     * load the images of the help menu
+     */
     private void setHelpImages() {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
@@ -159,15 +169,19 @@ public class Main extends Application {
 
 
     @FXML
+    /**
+     * Display all the valid _articles in the window
+     * @param _articles
+     *              _articles that haven't been deleted in the DB
+     */
     public void displayArticles(ArrayList<DatabaseArticle> _articles) {
-        /**
-         * Display all the valid _articles in the window
-         * @param _articles
-         *              _articles that haven't been deleted in the DB
-         */
+
         listViewArticles.getItems().setAll(_articles);
     }
 
+    /**
+     * desconnect a user
+     */
     public void disconnectUser() {
         Platform.exit();
         for (int i = 0; i < stageArrayList.size(); i++) {
@@ -177,6 +191,10 @@ public class Main extends Application {
         stage.close();
 
     }
+
+    /**
+     * relaunch the app
+     */
     public void relaunchApplication() throws Exception {
         disconnectUser();
         Main mymain = new Main();
@@ -184,12 +202,11 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Method that opens an article when the user click on it
+     */
     @FXML
     private void openArticleWindow() {
-        /**
-         * Method that opens an article when the user click on it
-         * @throws Exception : when no article has been selected
-         */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
@@ -203,36 +220,36 @@ public class Main extends Application {
             stage.show();
             stageArrayList.add(stage);
 
-        } catch(NullPointerException e){
+        } catch(NullPointerException | IOException e){
             showErrorBox("No article selected");
             e.printStackTrace();
         }catch(ParserConfigurationException e){
             showErrorBox("Parser configuration error");
-        }catch(IOException e){
-            showErrorBox("No article selected");
-            e.printStackTrace();
-        }catch(SAXException e){
+        } catch(SAXException e){
             showErrorBox("SAX Error");
         } catch (ParseException e) {
             showErrorBox("Parse error");
         }
     }
 
-    private void showErrorBox(String s) {
+    /**
+     * show a eroor box with a message
+     * @param _errorMessage the error message to print
+     */
+    private void showErrorBox(String _errorMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);
-        alert.setContentText(s);
+        alert.setContentText(_errorMessage);
 
         alert.showAndWait();
     }
 
+    /**
+     * copy the link of the article
+     */
     @FXML
     private void copyLinkToClipboard() {
-        /**
-         * copy the link of the article
-         * @throws Exception : when no article has been selected
-         */
         try {
             String myString = listViewArticles.getSelectionModel().getSelectedItem().getLink();
             StringSelection stringSelection = new StringSelection(myString);
@@ -243,26 +260,30 @@ public class Main extends Application {
         }
     }
 
-    public void openWindow(FXMLLoader loader, String title, String window_title){
+    /**
+     * @param _loader _loader
+     * @param _title_window title of the window
+     * @param _title parameter use for the error message
+     */
+    private void openWindow(FXMLLoader _loader, String _title_window, String _title){
         try {
-            Parent root = (Parent) loader.load();
-
+            Parent root = (Parent) _loader.load();
             Stage stage = new Stage();
-            stage.setTitle(title);
+            stage.setTitle(_title_window);
             stage.setScene(new Scene(root));
             stage.show();
         }
         catch (Exception e) {
-            showErrorBox("Error while opening "+ window_title + " window!");
+            showErrorBox("Error while opening "+ _title + " window!");
         }
     }
 
+    /**
+     * Opens the source window
+     */
     @FXML
-    public void openSourceWindow(ActionEvent _actionEvent) {
-        /**
-         * Opens the sources window
-         * @throws Exception
-         */
+    public void openSourceWindow() {
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
             SourceMenu controller = new SourceMenu();
@@ -273,7 +294,10 @@ public class Main extends Application {
         }
     }
 
-    public void openTagWindow(ActionEvent _actionEvent) {
+    /**
+     * open the tag window
+     */
+    public void openTagWindow() {
         /*
         Open the tag window
          */
@@ -286,11 +310,12 @@ public class Main extends Application {
             showErrorBox("Error while opening the tag window!");
         }
     }
+
+    /**
+     *  If the search bar is available or not. When you close it, it loads all the articles again
+     */
     @FXML
     public void changeSearchBarStatus(){
-        /*
-        If the search bar is available or not. When you close it, it loads all the articles again
-         */
         if (gridPane.getChildren().indexOf(searchBar) == -1) {
             gridPane.getChildren().add(searchBar);
             match_count.setText("");
@@ -300,18 +325,18 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Initialize all the tags and the sources
+     */
     private static void initDb() {
-        /*
-        Initialize all the tags and the sources
-         */
         initTags();
         initSources();
     }
 
+    /**
+     * Initialize all the tags
+     */
     private static void initTags() {
-        /*
-        Initialize all the tags
-         */
         String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
         TagManager tagManager = new TagManager("./article_db", "password");
         DatabaseTag tag = new DatabaseTag();
@@ -321,10 +346,10 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Initialize all the sources
+     */
     private static void initSources() {
-        /*
-        Initialize all the sources
-         */
         SourceManager sourceManager = new SourceManager("./article_db");
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));

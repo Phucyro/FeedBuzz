@@ -87,20 +87,20 @@ public class DatabaseArticle implements Serializable {
     public void setHtmlContent(String _htmlContent) {
         this.htmlContent = _htmlContent;
     }
+    public boolean isDeleted() {
+        return deleted;
+    }
 
-
+    /**
+     * Tests if an article is outdated (based on his download date and the days to save the article)
+     *
+     * @return boolean if an article has to be deleted
+     * @see Date
+     */
     boolean needToBeDeleted() {
-        /**
-         * Tests if an article is outdated (based on his download date and the days to save the article)
-         *
-         * @return boolean if an article has to be deleted
-         * @see Date
-         */
         Date now = new Date();
         Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
     }
-    public boolean isDeleted() {
-        return deleted;
-    }
+
 }

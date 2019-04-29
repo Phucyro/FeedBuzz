@@ -28,9 +28,6 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private DatabaseSource item;
 
     public SourceCell() {
-        /*
-        Constructor of the source cell
-         */
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         sourceLifespan.setMaxWidth(Double.MAX_VALUE);
         sourceNumberOfArticles.setMaxWidth(Double.MAX_VALUE);
@@ -78,16 +75,14 @@ public class SourceCell extends ListCell<DatabaseSource>{
 
     }
 
+    /**
+     * update the sources
+     * @see DatabaseSource
+     * @param _item source that has to be modified
+     * @param _empty check if the source is _empty or not
+     */
     @Override
     protected void updateItem(DatabaseSource _item, boolean _empty) {
-        /**
-         * update the sources
-         * @see DatabaseSource
-         * @param _item
-         *          source that has to be modified
-         * @param _empty
-         *          check if the source is _empty or not
-         */
         item = _item;
         super.updateItem(item, _empty);
         setGraphic(null);
@@ -112,12 +107,12 @@ public class SourceCell extends ListCell<DatabaseSource>{
         }
     }
 
+    /**
+     * Initialize the tags in the comboBox
+     * @see TagManager
+     * @throws java.io.IOException : if an article doesn't have a tag -> default
+     */
     private void initTag() {
-        /**
-         * Initialize the tags in the comboBox
-         * @see TagManager
-         * @throws java.io.IOException : if an article doesn't have a tag -> default
-         */
         TagManager tagManager = new TagManager("./article_db", "password");
         ObservableList<String> tags = FXCollections.observableArrayList();
         tagManager.getAll().forEach(tag -> tags.add(tag.getName()));

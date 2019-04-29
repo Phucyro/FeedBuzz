@@ -23,15 +23,13 @@ import java.util.ArrayList;
 public class ArticleManager{
 
     private JsonDBTemplate jsonDBTemplate;
-
+    /**
+     * Constructor with the path to the database and the _password
+     * @param _databasePath path to the database
+     * @param _password _password of the database
+     */
     public ArticleManager(String _databasePath, String _password) {
-        /**
-         * Constructor with the path to the database and the _password
-         * @param _databasePath
-         *                  path to the database
-         * @param _password
-         *                  _password of the database
-         */
+
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -51,46 +49,44 @@ public class ArticleManager{
 
     }
 
+    /**
+     * Constructor with only the path to the database
+     * @param _database_path path to the database
+     */
     public ArticleManager(String _database_path) {
-        /**
-         * Constructor with only the path to the database
-         * @param _database_path
-         *                   path to the database
-         */
+
         this(_database_path, "password");
 
     }
 
+    /**
+     * create a new collection
+     */
     private void createCollection() {
         jsonDBTemplate.createCollection(DatabaseArticle.class);
     }
 
-
+    /**
+     * Delete an _article. For every deleted _article, we keep the url (will be used as a primary key)
+     * so they won't be loaded again by the database
+     * @param _article _article to delete
+     * @return inform if the _article has been deleted
+     */
     public boolean deleteArticle(DatabaseArticle _article) {
-        /**
-         * Delete an _article. For every deleted _article, we keep the url (will be used as a primary key)
-         * so they won't be loaded again by the database
-         * @param _article
-         *              _article to delete
-         * @return inform if the _article has been deleted
-         */
+
             DatabaseArticle to_replace = new DatabaseArticle();
             to_replace.setLink(_article.getLink());
             to_replace.setDeleted(true);
             return replaceArticle(_article,to_replace);
     }
 
-
+    /**
+     * replace an _article by another one
+     * @param _article _article that will be removed
+     * @param _article2 _article that will replaced the first
+     * @return inform if the _article has been replaced
+     */
     private boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
-        /**
-         * replace an _article by another one
-         * @param _article
-         *              _article that will be removed
-         * @param _article2
-         *              _article that will replaced the first
-         * @return inform if the _article has been replaced
-         */
-
         try {
             this.jsonDBTemplate.remove(_article, DatabaseArticle.class);
             this.jsonDBTemplate.insert(_article2);
@@ -100,12 +96,12 @@ public class ArticleManager{
         }
     }
 
-
+    /**
+     * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
+     * replace it if possible or delete it
+     */
     public void verifyArticles() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /*
-         * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
-         * replace it if possible or delete it
-         */
+
         ArrayList<DatabaseArticle> articles = loadArticles();
         for(DatabaseArticle article : articles){
             ArticleVerification articleVerification = new ArticleVerification(article,article.getSourceUrl());
@@ -122,13 +118,13 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * Add an _article from the database
+     * @param _article
+     *              _article the will be added
+     * @return inform if the _article has been added
+     */
     public boolean addArticle(DatabaseArticle _article) {
-        /**
-         * Add an _article from the database
-         * @param _article
-         *              _article the will be added
-         * @return inform if the _article has been added
-         */
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
@@ -141,14 +137,13 @@ public class ArticleManager{
         }
     }
 
-
+    /**
+     * search an article in the database
+     * @param _link
+     *          the _link of the article
+     * @return found article
+     */
     public DatabaseArticle findArticle(String _link){
-        /**
-         * search an article in the database
-         * @param _link
-         *          the _link of the article
-         * @return found article
-         */
         try {
             return jsonDBTemplate.findById(_link, DatabaseArticle.class);
         } catch (Exception e) {
@@ -156,20 +151,19 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * @return list containing all the articles
+     */
     public ArrayList<DatabaseArticle> loadArticles() {
-        /**
-         * @return list containing all the articles
-         */
         return this.loadArticles("");
     }
 
+    /**
+     * search an article by its title
+     * @param _titleContains title of the article
+     * @return list containing all the articles with a specific title
+     */
     public ArrayList<DatabaseArticle> loadArticles(String _titleContains) {
-        /**
-         * search an article by its title
-         * @param _titleContains
-         *                  title of the article
-         * @return list containing all the articles with a specific title
-         */
         ArrayList<DatabaseArticle> result = new ArrayList<>();
         for (DatabaseArticle item : jsonDBTemplate.findAll(DatabaseArticle.class)) {
             if (!item.getDeleted()) {
@@ -181,11 +175,11 @@ public class ArticleManager{
         return (result);
     }
 
-
+    /**
+     * delete the expired articles
+     */
     private void deleteExpired() {
-        /**
-         * delete the expired articles
-         */
+
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             ArrayList<DatabaseArticle> articles = loadArticles();
             for (DatabaseArticle article : articles) {
