@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
@@ -53,7 +54,7 @@ public class ViewSingleArticle extends Application{
     @FXML
     private WebView articleView; //whole article
 
-    private Main articlesWindow; //window that contains the article
+    private ViewListArticles articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
@@ -77,7 +78,7 @@ public class ViewSingleArticle extends Application{
         //TODO article verification (propre)
     }
 
-    public void setArticlesWindows(Main _articlesWindows) {
+    public void setArticlesWindows(ViewListArticles _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 
