@@ -122,7 +122,7 @@ public class ViewListArticles extends Application {
         searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
-        QuitButton.setOnAction(e -> Platform.exit());
+//        QuitButton.setOnAction(e -> Platform.exit());
         if (InternetTester.testInternet()) {
             try {
                 source.download(article_manager);
@@ -257,7 +257,7 @@ public class ViewListArticles extends Application {
     }
 
     @FXML
-    public void open_source_window(ActionEvent actionEvent) {
+    public void openSourceWindow(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
             SourceMenu controller = new SourceMenu();
