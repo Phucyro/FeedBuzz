@@ -29,8 +29,7 @@ public class ParserRss {
     private boolean atom;
     private String updated;
 
-    public ParserRss() {
-    }
+    public ParserRss() {}
 
     public ArrayList<DatabaseArticle> parse(String _urlName) throws IOException, SAXException, ParserConfigurationException, ParseException {
         /**
@@ -41,20 +40,22 @@ public class ParserRss {
          * @throws MalformedURLException : if the url is not valid
          * @return a list of articles
          */
-        atom = false;
+        if (InternetTester.testInternet()) {
+            atom = false;
 
-        URL url = null;
+            URL url = null;
 
-        url = new URL(_urlName);
+            url = new URL(_urlName);
 
 
-        if (url != null) {
-            getXmlFile(url);
-            checkAtom();
-            return parseArticles();
+            if (url != null) {
+                getXmlFile(url);
+                checkAtom();
+                return parseArticles();
+            }
         }
-
         return new ArrayList<>();
+
     }
 
     private void getUpdated(Element _element) {

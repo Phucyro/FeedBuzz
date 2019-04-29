@@ -125,15 +125,16 @@ public class Main extends Application {
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
         quitButton.setOnAction(e -> Platform.exit());
-        try{
-            source.download(article_manager);
-        } catch (IOException e){
-            //Cas hors connexion
-        }
-        try {
-            article_manager.verifyArticles();
-        } catch (Exception e){
-            //Ne rien faire car le logiciel est lance en hors-ligne
+        if (InternetTester.testInternet()) {
+            try {
+                source.download(article_manager);
+
+                article_manager.verifyArticles();
+            } catch (Exception ignored) {
+
+            }
+        }else{
+            //cas sans internet
         }
 
         displayArticles(article_manager.loadArticles());
