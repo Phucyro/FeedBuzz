@@ -13,12 +13,15 @@ import java.util.ArrayList;
  * @version 2.0
  *
  */
-
 public class ArticleVerification {
     private DatabaseArticle articleToVerify;
     private DatabaseArticle articleFromSource;
     private String source;
 
+    /**
+     * @param _article article to verify
+     * @param _source_url source of the article
+     */
     public ArticleVerification(DatabaseArticle _article, String _source_url){
         /**
          * Constructor of the DatabaseArticle verification
@@ -44,6 +47,10 @@ public class ArticleVerification {
     }
 
 
+    /**
+     * @param _object object to hash
+     * @return hashcode of the object
+     */
     public static int hashCode(Object _object) {
         /*
         Method used to generate a hash
@@ -51,12 +58,12 @@ public class ArticleVerification {
         return _object != null ? _object.hashCode() : 0;
     }
 
+    /**
+     * Test if an article is equal to another
+     * @return boolean
+     */
     public boolean isEqual(){
-        /**
-         * Test if an article is equal to another
-         * @return boolean
-         * @throws
-         */
+
 
         DatabaseArticle a1 = articleToVerify;
         DatabaseArticle a2 = articleFromSource;
@@ -68,18 +75,13 @@ public class ArticleVerification {
                 (((a1.getUpdatedDate() == null && a2.getUpdatedDate() == null) || (a1.getUpdatedDate() != null && a2.getUpdatedDate() != null)) && hashCode(a1.getUpdatedDate()) == hashCode(a2.getUpdatedDate()));
     }
 
-
-
+    /**
+     * Check if an article exists and wasn't modified from the source
+     *
+     * @return boolean
+     */
     public boolean isValid() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * Check if an article exists and wasn't modified from the source
-         *
-         * @return boolean
-         * @see is_equal()
-         */
-        ArrayList<DatabaseArticle> articles = new ArrayList<>();
-        articles = getArticlesFromSource();
-        boolean found = false;
+        ArrayList<DatabaseArticle> articles = getArticlesFromSource();
         for (DatabaseArticle article : articles) {
             if (((articleToVerify.getTitle() == null && article.getTitle() == null) || (articleToVerify.getTitle() != null && article.getTitle() != null)) && articleToVerify.getTitle().equals(article.getTitle()) &&
                     ((articleToVerify.getAuthor() == null && article.getAuthor() == null) || (articleToVerify.getAuthor() != null && article.getAuthor() != null)) && hashCode(articleToVerify.getAuthor()) == hashCode(article.getAuthor())) {
@@ -90,31 +92,29 @@ public class ArticleVerification {
         return false;
     }
 
-
+    /**
+     * check if an article can be corrected
+     */
     public boolean isCorrectable() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * check if an article can be corrected
-         * @see databaseArticle
-         */
+
         ArrayList<DatabaseArticle> articles = getArticlesFromSource();
 
-        for(int i=0; i< articles.size(); i++){
-            if(((articleToVerify.getLink() != null && articles.get(i).getLink() != null   )   &&   (   hashCode(articleToVerify.getLink()) == hashCode(articles.get(i).getLink()))) ||
-                    ((articleToVerify.getTitle() != null && articles.get(i).getTitle() != null ) && (  hashCode(articleToVerify.getTitle()) == hashCode(articles.get(i).getTitle())) &&
-                    (articleToVerify.getAuthor() != null && articles.get(i).getAuthor() != null   ) && (  hashCode(articleToVerify.getAuthor()) == hashCode(articles.get(i).getAuthor()))) ||
-                        ((articleToVerify.getDescription() != null && articles.get(i).getDescription() != null ) && (  hashCode(articleToVerify.getDescription()) == hashCode(articles.get(i).getDescription())))){
-                articleFromSource = articles.get(i);
+        for (DatabaseArticle article : articles) {
+            if (((articleToVerify.getLink() != null && article.getLink() != null) && (hashCode(articleToVerify.getLink()) == hashCode(article.getLink()))) ||
+                    ((articleToVerify.getTitle() != null && article.getTitle() != null) && (hashCode(articleToVerify.getTitle()) == hashCode(article.getTitle())) &&
+                            (articleToVerify.getAuthor() != null && article.getAuthor() != null) && (hashCode(articleToVerify.getAuthor()) == hashCode(article.getAuthor()))) ||
+                    ((articleToVerify.getDescription() != null && article.getDescription() != null) && (hashCode(articleToVerify.getDescription()) == hashCode(article.getDescription())))) {
+                articleFromSource = article;
                 return true;
             }
         }
         return false;
     }
 
-
+    /**
+     * correct an article if it is possible
+     */
     public void correctArticle() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /*
-         * correct an article if it is possible
-         */
         if(isCorrectable()){
             articleToVerify.setTitle(articleFromSource.getTitle());
             articleToVerify.setAuthor(articleFromSource.getAuthor());
@@ -126,12 +126,11 @@ public class ArticleVerification {
         }
     }
 
-
-
+    /**
+     * Get the article that has to be verified
+     * @return article to verify
+     */
     public DatabaseArticle getArticle(){
-        /*
-        Get the article that has to be verified
-         */
         return articleToVerify;
     }
 
