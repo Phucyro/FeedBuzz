@@ -4,6 +4,9 @@ import be.ac.ulb.infof307.g04.controller.HTMLArticleDownloader;
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
+import io.jsondb.crypto.CryptoUtil;
+import io.jsondb.crypto.DefaultAESCBCCipher;
+import io.jsondb.crypto.ICipher;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,10 +28,19 @@ public class SourceManager {
      * @param _databasePath
      *                  path to the database
      */
-    public SourceManager(String _databasePath) {
-
+    public SourceManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+
+        this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+
+        try {
+            String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
+            ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
+        } catch (Exception e){
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+        }
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
             createCollection();

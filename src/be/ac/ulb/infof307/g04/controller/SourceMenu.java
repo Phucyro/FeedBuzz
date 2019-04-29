@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 public class SourceMenu extends Application {
-    private SourceManager sourceManager = new SourceManager("./article_db");
+    private SourceManager sourceManager;
     @FXML
     private Button cancelButton;
     @FXML
@@ -30,7 +30,9 @@ public class SourceMenu extends Application {
     @FXML
     private ListView listViewSources;
 
-    public SourceMenu() {}
+    public SourceMenu(String _dbPath, String _password) {
+        sourceManager = new SourceManager(_dbPath, _password);
+    }
 
     public void initialize() {
         /**
@@ -38,8 +40,7 @@ public class SourceMenu extends Application {
          * @throws IOException : if there's no source
          */
         listViewSources.setCellFactory(lv -> new SourceCell());
-        SourceManager source_manager = new SourceManager("./article_db");
-        displaySources(source_manager.loadSources());
+        displaySources(sourceManager.loadSources());
     }
 
     public void start(Stage _primaryStage) {}

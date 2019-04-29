@@ -72,10 +72,6 @@ public class ViewSingleArticle extends Application{
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
             checkIntegrity();
         }
-        //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
-        //set_integrity(verification.is_valid());
-
-        //TODO article verification (propre)
     }
 
     public void setArticlesWindows(ViewListArticles _articlesWindows) {

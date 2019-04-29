@@ -189,7 +189,7 @@ public class ViewLoginRegister extends Application{
 
         if (login_inputs_valids(username_str,password_str)) {
             if (user_manager.existUser(username_str, password_str)) {
-                launch_main_app(DB_ROOT+username_str);
+                launch_main_app(DB_ROOT+username_str, password_str);
             }
             else{
                 set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide");
@@ -216,7 +216,7 @@ public class ViewLoginRegister extends Application{
                 String db_user_path = DB_ROOT + username_str;
 
                 make_user_directory(username_str);
-                launch_main_app(db_user_path);
+                launch_main_app(db_user_path, password_str);
             }
             else{ set_warning_and_display(register_warning, "Le nom d'utilisateur existe déja");}
         }
@@ -227,13 +227,13 @@ public class ViewLoginRegister extends Application{
 
     /**
      * launch the main menu of the app with the path to the connected user's database
-     * @param db_path the path to the user database
+     * @param dbPath the path to the user database
      */
-    public void launch_main_app(String db_path) throws java.io.IOException{
+    public void launch_main_app(String dbPath, String password) throws java.io.IOException{
         Window current_window = login_warning.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(db_path);
+        ViewListArticles controller = new ViewListArticles(dbPath, password);
         loader.setController(controller);
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();
