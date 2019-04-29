@@ -19,6 +19,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.xml.sax.SAXException;
@@ -42,7 +43,7 @@ public class ViewListArticles extends Application {
     private MenuItem QuitButton;
 
     @FXML
-    private  GridPane GridPane;
+    private VBox VBox;
 
     private static ArticleManager article_manager;
     private static SourceManager source;
@@ -307,11 +308,11 @@ public class ViewListArticles extends Application {
      */
     @FXML
     public void changeSearchBarStatus(){
-        if (GridPane.getChildren().indexOf(searchBar) == -1) {
-            GridPane.getChildren().add(searchBar);
+        if (VBox.getChildren().indexOf(searchBar) == -1) {
+            VBox.getChildren().add(searchBar);
             match_count.setText("");
         } else {
-            GridPane.getChildren().remove(searchBar);
+            VBox.getChildren().remove(searchBar);
             displayArticles(article_manager.loadArticles());
         }
     }
