@@ -31,8 +31,8 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="connect_button" mnemonicParsing="false" onAction="#connectButtonPressed" text="Connexion" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                <Button fx:id="register_button" mnemonicParsing="false" onAction="#registerButtonPressed" text="Pas encore de compte" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectButtonPressed" text="Connexion" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonPressed" text="Pas encore de compte" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                     <children>
                         <Label alignment="BOTTOM_LEFT" text="Nom d'utilisateur:">

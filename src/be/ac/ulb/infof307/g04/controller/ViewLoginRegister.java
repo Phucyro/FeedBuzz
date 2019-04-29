@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
 
 public class ViewLoginRegister extends Application{
 
@@ -209,27 +210,27 @@ public class ViewLoginRegister extends Application{
 
 
 
-    public void app_closed(){
+    public void appClosed(){
         mainStage.close();
     }
 
     /**
      * Try to register the user
      */
-    public void register_button_pressed() throws IOException{
+    public void registerButtonPressed() throws IOException {
 
         registerWarning.setVisible(false);
-        String username_str = registerUsername.getText();
-        String password_str = registerPassword.getText();
-        String confirm_password_str = registerConfirmPassword.getText();
+        String username = registerUsername.getText();
+        String password = registerPassword.getText();
+        String confirmPassword = registerConfirmPassword.getText();
 
-        if(registerInputsValid(username_str,password_str,confirm_password_str) && isCheckedUserAgreements()) {
-            if (!userManager.existUsername(username_str)) {
-                userManager.addUser(username_str, password_str);
-                String db_user_path = DB_ROOT + username_str;
+        if(registerInputsValid(username,password,confirmPassword) && isCheckedUserAgreements()) {
+            if (!userManager.existUsername(username)) {
+                userManager.addUser(username, password);
+                String db_user_path = DB_ROOT + username;
 
-                makeUserDirectory(username_str);
-                launchMainApp(db_user_path, password_str);
+                makeUserDirectory(username);
+                launchMainApp(db_user_path, password);
             }
             else{ setWarningAndDisplay(registerWarning, "Le nom d'utilisateur existe déja");}
         }
@@ -240,13 +241,13 @@ public class ViewLoginRegister extends Application{
 
     /**
      * launch the main menu of the app with the path to the connected user's database
-     * @param dbPath the path to the user database
+     * @param _dbPath the path to the user database
      */
-    public void launchMainApp(String dbPath, String password) throws java.io.IOException{
-        Window current_window = loginWarning.getScene().getWindow();
+    public void launchMainApp(String _dbPath, String _password) throws java.io.IOException{
+        Window currentWindow = loginWarning.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(dbPath, password);
+        ViewListArticles controller = new ViewListArticles(_dbPath, _password);
         loader.setController(controller);
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();
@@ -254,6 +255,6 @@ public class ViewLoginRegister extends Application{
         controller.setMainStage(stage);
         stage.show();
 
-        current_window.hide();
+        currentWindow.hide();
     }
 }
