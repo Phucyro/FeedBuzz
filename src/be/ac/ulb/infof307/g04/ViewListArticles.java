@@ -68,7 +68,7 @@ public class ViewListArticles extends Application {
     @FXML
     private MenuItem exitAppImage;
     @FXML
-    private Stage mainStage;
+    private Stage primaryStage;
 
 
     public ViewListArticles(String path_to_db){
@@ -83,14 +83,11 @@ public class ViewListArticles extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-
         primaryStage.setTitle("Fenêtre principale");
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.show();
-        mainStage = primaryStage;
-        primaryStage.setOnCloseRequest(e -> Platform.exit());
+
     }
 
     @FXML
@@ -125,6 +122,7 @@ public class ViewListArticles extends Application {
         searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
+        setHelpImages();
 //        QuitButton.setOnAction(e -> Platform.exit());
         if (InternetTester.testInternet()) {
             try {
@@ -149,6 +147,7 @@ public class ViewListArticles extends Application {
         for (int i = 0; i < stageArrayList.size(); i++) {
             stageArrayList.get(i).close();
         }
+
 
     }
 
