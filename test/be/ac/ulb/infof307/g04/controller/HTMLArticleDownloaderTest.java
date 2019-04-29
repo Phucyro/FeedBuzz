@@ -5,10 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import be.ac.ulb.infof307.g04.controller.HTMLArticleDownloader;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +65,7 @@ class HTMLArticleDownloaderTest {
 
 
     /**
+     * @see <a href https://stackoverflow.com/questions/955110/similarity-string-comparison-in-java>For the code for the strings comparator</a>
      * @param s1 First string to compare
      * @param s2 Second string to compare
      * @return a double equals to the similarity of two strings. 1.0 means the strings are the same and 0.0 means the strings are completely different
@@ -116,6 +115,7 @@ class HTMLArticleDownloaderTest {
 
 
     /**
+     * @see <a href https://stackoverflow.com/questions/20281835/how-to-delete-a-folder-with-files-using-java>For the code for deleting files</a>
      * Delete the folders that were created for the tests
      */
     @AfterAll
