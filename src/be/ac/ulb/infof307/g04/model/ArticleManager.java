@@ -38,7 +38,6 @@ public class ArticleManager{
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
         } catch (Exception e){
-            System.out.println(e);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
@@ -128,11 +127,8 @@ public class ArticleManager{
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
-            //System.out.println(dbArticle.getDescription());
-            //System.out.println(dbArticle.getHtmlContent());
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            System.out.println("Erreur 2");
             return false;
         }
     }

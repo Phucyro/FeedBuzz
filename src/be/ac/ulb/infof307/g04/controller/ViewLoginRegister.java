@@ -2,23 +2,30 @@ package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.UserManager;
+import com.sun.javafx.application.HostServicesDelegate;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
 
 public class ViewLoginRegister extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
+    private String DB_ROOT = "./article_db/";
     UserManager user_manager = new UserManager("./article_db","password");
 
 
@@ -43,9 +50,8 @@ public class ViewLoginRegister extends Application{
     @FXML
     private Hyperlink user_agreement_link;
 
-    private String DB_ROOT;
-
     private Stage main_stage;
+
 
 
 
@@ -66,8 +72,7 @@ public class ViewLoginRegister extends Application{
      * Set the webview for the user agreement terms
      *
      */
-    private void initialize(){
-        DB_ROOT = "./article_db/";
+    public void initialize(){
         Stage user_agreement_view = new Stage();
         // set title for the stage
         user_agreement_view.setTitle("Contrat de license");
@@ -118,15 +123,13 @@ public class ViewLoginRegister extends Application{
 
 
     /**
-     * Update the window errpr label to inform the user the input are not valid in the login or register form
+     * Update the label to inform the user the input are not valid in the login or register form
      * @param label_warning the label used to display the warning
      * @param warning the message warning
      */
     public void set_warning_and_display(Label label_warning, String warning){
-        if(label_warning != null){
-            label_warning.setText(warning);
-            label_warning.setVisible(true);
-        }
+        label_warning.setText(warning);
+        label_warning.setVisible(true);
     }
 
 
@@ -138,13 +141,13 @@ public class ViewLoginRegister extends Application{
      * @param password_str the password
      */
     public boolean login_inputs_valids(String username_str, String password_str) {
-        // inputs are valid if they're not empty, but it does only mean that we can now check if the username and password exists
         if (!username_str.isEmpty() && !password_str.isEmpty()) {
             return true;
         }
         else{
             set_warning_and_display(login_warning, "Les champs ne peuvent etre vides");
-            return false;
+            //return false;
+            return true;
         }
     }
 
@@ -160,7 +163,10 @@ public class ViewLoginRegister extends Application{
         if(username_str.length() >= MIN_CHARACTERS && username_str.length() <=MAX_CHARACTERS){
             if(password_str.length() >= MIN_CHARACTERS && password_str.length() <= MAX_CHARACTERS){
                 if(password_str.equals(confirm_password_str)){
-                    return true;
+                    if(user_agreement_checkbox.isSelected()){
+                        return true;
+                    }
+                    else{set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire"); }
                 }
                 else{set_warning_and_display(register_warning, "Les mots de passe ne correspondent pas");}
             }
@@ -172,21 +178,13 @@ public class ViewLoginRegister extends Application{
 
     }
 
-    private boolean useragreements_ischecked(){
-        if(user_agreement_checkbox.isSelected()){
-            return true;
-        }
-        else{
-            set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
-            return false;
-        }
-    }
+
 
     /**
      * Try to connect the user
      */
     public void connect_button_pressed() throws java.io.IOException {
-        login_warning.setVisible(false); // the login warning is updated when the user use the connect button
+        login_warning.setVisible(false);
         String username_str = login_username.getText();
         String password_str = login_password.getText();
 
@@ -202,9 +200,11 @@ public class ViewLoginRegister extends Application{
 
 
 
+
     public void app_closed(){
         main_stage.close();
     }
+
     /**
      * Try to register the user
      */
@@ -215,7 +215,7 @@ public class ViewLoginRegister extends Application{
         String password_str = register_password.getText();
         String confirm_password_str = register_confirm_password.getText();
 
-        if(register_inputs_valids(username_str,password_str,confirm_password_str) && useragreements_ischecked()) {
+        if(register_inputs_valids(username_str,password_str,confirm_password_str)) {
             if (!user_manager.existUsername(username_str)) {
                 user_manager.add_user(username_str, password_str);
                 String db_user_path = DB_ROOT + username_str;
@@ -246,8 +246,6 @@ public class ViewLoginRegister extends Application{
         controller.setMainStage(stage);
         stage.show();
 
-
         current_window.hide();
-
     }
 }

@@ -63,11 +63,9 @@ public class UserManager {
             user.setPassword(password);
             user.setUsername(username);
 
-            System.out.println(username);
             jsonDBTemplate.insert(user);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            System.out.println(e);
             return false;
         }
     }
@@ -77,7 +75,6 @@ public class UserManager {
             jsonDBTemplate.insert(user);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            System.out.println(e);
             return false;
         }
     }
