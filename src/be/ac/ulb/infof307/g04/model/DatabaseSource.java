@@ -21,16 +21,17 @@ public class DatabaseSource implements Serializable {
 
     public DatabaseSource() { }
 
+    /**
+     * Constructor of a source
+     * @param _sourceName
+     *                  name of the source
+     * @param _url
+     *                  url of the source
+     * @param _tag
+     *                  tag of the source
+     */
     public DatabaseSource(String _sourceName, String _url, String _tag){
-        /**
-         * Constructor of a source
-         * @param _sourceName
-         *                  name of the source
-         * @param _url
-         *                  url of the source
-         * @param _tag
-         *                  tag of the source
-         */
+
         sourceName = _sourceName;
         url = _url;
         enabled = true;
@@ -39,10 +40,10 @@ public class DatabaseSource implements Serializable {
         tag = _tag;
     }
 
+    /**
+     *Same constructor as above, except if there's no precise tag: set as "Default"
+     */
     public DatabaseSource(String _sourceName, String _url){
-        /*
-        Same constructor as above, except if there's no precise tag -> set as "Default"
-         */
         this(_sourceName, _url, "Default");
     }
 
@@ -51,10 +52,6 @@ public class DatabaseSource implements Serializable {
         this.sourceName = _item.sourceName;
         this.enabled = _item.enabled;
     }
-
-    /*
-    Methods to get/set infos from sources
-     */
 
     public String getUrl() { return url; }
     public void setUrl(String _url) { this.url = _url; }

@@ -30,10 +30,9 @@ public class SourceMenu extends Application {
     @FXML
     private ListView listViewSources;
 
-    public SourceMenu() throws IOException {
-    }
+    public SourceMenu() {}
 
-    public void initialize() throws IOException {
+    public void initialize() {
         /**
          * Constructor of the Menu
          * @throws IOException : if there's no source
@@ -43,37 +42,22 @@ public class SourceMenu extends Application {
         displaySources(source_manager.loadSources());
     }
 
-    public static void main(String[] args) { launch(args); }
+    public void start(Stage _primaryStage) {}
 
-    public void start(Stage _primaryStage) throws IOException {
-        /*
-        Set the window of the source menu
-         */
-        /*FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SourceMenu.class.getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
-        AnchorPane main_container;
-        main_container = loader.load();
-        _primaryStage.setTitle("Source Menu");
-        Scene scene = new Scene(main_container);
-        _primaryStage.setScene(scene);
-        _primaryStage.show();*/
-
-    }
-
+    /**
+     * cancel button of the menu
+     */
     @FXML
     public void cancel() {
-        /*
-        cancel button of the menu
-         */
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * confirm button on the menu when adding sources
+     */
     @FXML
     public void confirm(){
-        /*
-        confirm button on the menu when adding sources,...
-         */
         ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
         //System.out.println(itemsList);
         for (int i = 0; i < itemsList.size(); i++) {
@@ -83,6 +67,9 @@ public class SourceMenu extends Application {
         stage.close();
     }
 
+    /**
+     * @param _sources list of all the sources
+     */
     public void displaySources(ArrayList<DatabaseSource> _sources) {
         /*
         show all the _sources

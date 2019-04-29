@@ -21,7 +21,7 @@ public class UserManager {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
-        if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
+        if (!this.jsonDBTemplate.collectionExists(DatabaseUser.class)) {
             create_collection();
         }
 
