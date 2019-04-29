@@ -22,6 +22,7 @@ public class DatabaseArticle implements Serializable {
     private String title;
     @Secret
     private String description;
+    @Secret
     private String htmlContent;
     @Secret
     private String author;
@@ -31,6 +32,7 @@ public class DatabaseArticle implements Serializable {
     private String tags;
     private int daysToSave;
     private boolean deleted;
+    @Secret
     private String sourceUrl;
     private Date downloadDate;
 
