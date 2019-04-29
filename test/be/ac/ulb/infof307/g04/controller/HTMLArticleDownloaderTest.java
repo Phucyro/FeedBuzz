@@ -21,7 +21,7 @@ class HTMLArticleDownloaderTest {
     public static final String HREF_TAG = "href";
     public static final String MEDIA_FOLDER = "media/";
     public static final String FOLDER_NAME = "articleTest";
-    private String resultantHtml; //String containing the resulting html from the fetched article
+    public String resultantHtml; //String containing the resulting html from the fetched article
     DataForTests dataForTests = new DataForTests();
     Document doc; //Document containing the fetched article
 

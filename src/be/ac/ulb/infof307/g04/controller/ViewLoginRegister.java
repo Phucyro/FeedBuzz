@@ -25,6 +25,7 @@ public class ViewLoginRegister extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
+    private String DB_ROOT = "./article_db/";
     UserManager user_manager = new UserManager("./article_db","password");
 
 
@@ -49,9 +50,8 @@ public class ViewLoginRegister extends Application{
     @FXML
     private Hyperlink user_agreement_link;
 
-    private String DB_ROOT;
-
     private Stage main_stage;
+
 
 
 
@@ -73,7 +73,6 @@ public class ViewLoginRegister extends Application{
      *
      */
     public void initialize(){
-        DB_ROOT = "./article_db/";
         Stage user_agreement_view = new Stage();
         // set title for the stage
         user_agreement_view.setTitle("Contrat de license");
@@ -201,9 +200,11 @@ public class ViewLoginRegister extends Application{
 
 
 
+
     public void app_closed(){
         main_stage.close();
     }
+
     /**
      * Try to register the user
      */
@@ -245,10 +246,6 @@ public class ViewLoginRegister extends Application{
         controller.setMainStage(stage);
         stage.show();
 
-
         current_window.hide();
-
-
-
     }
 }
