@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
@@ -53,16 +54,16 @@ public class ViewSingleArticle extends Application{
     @FXML
     private WebView articleView; //whole article
 
-    private Main articlesWindow; //window that contains the article
+    private ViewListArticles articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
 
     public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
-        Constructor of the view of a single article
+         Constructor of the view of a single article
          @param _article
-                    article that has to be reviewd
+         article that has to be reviewd
          */
         article = _article;
         System.out.println(article);
@@ -76,7 +77,7 @@ public class ViewSingleArticle extends Application{
         //TODO article verification (propre)
     }
 
-    public void setArticlesWindows(Main _articlesWindows) {
+    public void setArticlesWindows(ViewListArticles _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 
@@ -89,15 +90,15 @@ public class ViewSingleArticle extends Application{
          */
         //Load an fxml file
         /**
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
+         FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
 
-        AnchorPane conteneurPrincipal;
-        conteneurPrincipal = loader.load();
-        Scene scene = new Scene(conteneurPrincipal);
-        _primaryStage.setScene(scene);
-        _primaryStage.show();
-        **/
+         AnchorPane conteneurPrincipal;
+         conteneurPrincipal = loader.load();
+         Scene scene = new Scene(conteneurPrincipal);
+         _primaryStage.setScene(scene);
+         _primaryStage.show();
+         **/
     }
 
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
