@@ -54,6 +54,8 @@ public class ViewListArticles extends Application {
     private String dbPath;
     private String password;
     private ArrayList <Stage> stageArrayList = new ArrayList<Stage>();
+    private Stage mainStage;
+
 
     @FXML
     private MenuItem readArticleImage;
@@ -67,8 +69,6 @@ public class ViewListArticles extends Application {
     private MenuItem configureTagsImage;
     @FXML
     private MenuItem exitAppImage;
-    @FXML
-    private Stage primaryStage;
 
 
     public ViewListArticles(String _pathToDB, String _password){
@@ -77,14 +77,8 @@ public class ViewListArticles extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        primaryStage.setTitle("Fenêtre principale");
+    public void start(Stage primaryStage) throws Exception { }
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-
-    }
 
     @FXML
     public void initialize() {
@@ -144,7 +138,7 @@ public class ViewListArticles extends Application {
             stageArrayList.get(i).close();
         }
 
-
+        mainStage.close();
     }
 
     @FXML
@@ -174,6 +168,12 @@ public class ViewListArticles extends Application {
         readIcon.setFitWidth(i2);
         readArticleImage.setGraphic(readIcon);
     }
+
+    public void setMainStage(Stage _stage){
+        mainStage = _stage;
+    }
+
+
     private void setHelpImages() {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);

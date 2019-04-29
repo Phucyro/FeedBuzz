@@ -65,9 +65,7 @@ public class ViewSingleArticle extends Application{
       *article that has to be reviewd
       */
     public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
-
         article = _article;
-        System.out.println(article);
         if (InternetTester.testInternet()) {
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
             checkIntegrity();
@@ -91,7 +89,6 @@ public class ViewSingleArticle extends Application{
      * @throws IOException : if article wasn't found
      */
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        System.out.println(article.getHtmlContent());
         if(InternetTester.testInternet()) {
             articleView.getEngine().load(article.getLink());
         }
