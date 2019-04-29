@@ -83,7 +83,7 @@ public class HTMLArticleDownloader {
      * @param _folderName folder name
      * @return new html content
      */
-    private static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) {
+    protected static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) {
         Pattern pat = Pattern.compile("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:css|jpg|gif|png|js)");
 
         Matcher mat = pat.matcher(_htmlContent);
@@ -102,7 +102,7 @@ public class HTMLArticleDownloader {
      * @param _url url to sanitize
      * @return sanitized url
      */
-    private static String sanitizeString(String _url) {
+    protected static String sanitizeString(String _url) {
         _url = _url.replace("/", "");
         _url = _url.replace("<", "");
         _url = _url.replace(">", "");
@@ -119,7 +119,7 @@ public class HTMLArticleDownloader {
     /**
      * Replace the href reference in the links
      */
-    private static void replaceLinksHref(Elements _links, String _toReplace) {
+    protected static void replaceLinksHref(Elements _links, String _toReplace) {
         for (Element link : _links) {
             link.attr(HREF_TAG, _toReplace);
         }
@@ -131,7 +131,7 @@ public class HTMLArticleDownloader {
      * @param _elements elements to download and replace
      * @param _folderName name of the folder
      */
-    private static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
+    protected static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
         for (Element element : _elements) {
             try {
                 element.attr(SRC_TAG, downloader(element.attr(SRC_TAG), _folderName));
