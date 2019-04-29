@@ -51,6 +51,8 @@ public class ViewLoginRegister extends Application{
 
     private String DB_ROOT;
 
+    private Stage main_stage;
+
 
 
 
@@ -214,7 +216,9 @@ public class ViewLoginRegister extends Application{
 
 
 
-
+    public void app_closed(){
+        main_stage.close();
+    }
     /**
      * Try to register the user
      */
@@ -258,7 +262,9 @@ public class ViewLoginRegister extends Application{
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
+        controller.setMainStage(stage);
         stage.show();
+
 
         current_window.hide();
 

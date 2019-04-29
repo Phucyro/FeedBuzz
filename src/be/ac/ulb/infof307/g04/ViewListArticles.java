@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.xml.sax.SAXException;
+import javafx.stage.Window;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
@@ -54,6 +55,7 @@ public class ViewListArticles extends Application {
     private Label match_count;
     private String db_path;
     private ArrayList <Stage> stageArrayList = new ArrayList<Stage>();
+    private Stage mainStage;
 
     @FXML
     private MenuItem readArticleImage;
@@ -67,28 +69,15 @@ public class ViewListArticles extends Application {
     private MenuItem configureTagsImage;
     @FXML
     private MenuItem exitAppImage;
-    @FXML
-    private Stage primaryStage;
 
 
     public ViewListArticles(String path_to_db){
         // article_manager = new ArticleManager("./test.db","abcdefgh");
         db_path = new String(path_to_db);
-        System.out.println(db_path);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        System.out.println(db_path);
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        primaryStage.setTitle("Fenêtre principale");
-
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-
-    }
+    public void start(Stage primaryStage) throws Exception { }
 
     @FXML
     public void initialize() {
@@ -107,6 +96,7 @@ public class ViewListArticles extends Application {
                 changeSearchBarStatus();
             }
         });
+
         searchField = new TextField();
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -147,8 +137,7 @@ public class ViewListArticles extends Application {
         for (int i = 0; i < stageArrayList.size(); i++) {
             stageArrayList.get(i).close();
         }
-
-
+        mainStage.close();
     }
 
     @FXML
@@ -173,6 +162,10 @@ public class ViewListArticles extends Application {
         readIcon.setFitHeight(i);
         readIcon.setFitWidth(i2);
         readArticleImage.setGraphic(readIcon);
+    }
+    public void setMainStage(Stage stage){
+        mainStage = stage;
+
     }
     private void setHelpImages() {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
