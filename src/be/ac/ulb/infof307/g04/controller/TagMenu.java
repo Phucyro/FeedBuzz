@@ -89,14 +89,18 @@ public class TagMenu  extends Application {
             tagManager.addTag(tag);
         }
         else{
-            System.out.println("Pop up");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error!");
-            alert.setHeaderText("New tag name empty");
-            alert.setContentText("Please enter a name for the new tag");
-            alert.showAndWait();
+            alertDialog();
         }
         initList();
+    }
+
+    private void alertDialog() {
+        System.out.println("Pop up");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error!");
+        alert.setHeaderText("New tag name empty");
+        alert.setContentText("Please enter a name for the new tag");
+        alert.showAndWait();
     }
 
 
@@ -126,12 +130,7 @@ public class TagMenu  extends Application {
                 tagManager.modifyTag(oldTag, newTag);
             }
             else{
-                System.out.println("Pop up");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error!");
-                alert.setHeaderText("New tag name empty");
-                alert.setContentText("Please enter a name for the new tag");
-                alert.showAndWait();
+                alertDialog();
             }
             initList();
         }

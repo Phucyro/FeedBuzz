@@ -1,5 +1,6 @@
 package be.ac.ulb.infof307.g04.model;
 
+import be.ac.ulb.infof307.g04.controller.HTMLArticleDownloader;
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
@@ -8,6 +9,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -91,15 +93,37 @@ public class SourceManager {
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
-                for (int i = 0; i < source.getNumberToDownload(); i++) {
-                    DatabaseArticle articleToSave = articles.get(i);
-                    articleToSave.setDaysToSave(source.getLifeSpanDefault());
-                    articleToSave.setCategory(source.getTag());
-                    articleToSave.setDownloadDate(new Date());
-                    articleToSave.setSourceUrl(source.getUrl());
-                    articleToSave.setTags(source.getTag());
-                    _articleManager.addArticle(articleToSave);
+                try {
+                    int counter = source.getNumberToDownload();
+                    ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
+                    for (DatabaseArticle articleToSave : articles) {
+                        if (counter-- > 0) {
+
+                            if (_articleManager.findArticle(articleToSave.getLink()) == null) {
+                                articleToSave.setDaysToSave(source.getLifeSpanDefault());
+                                articleToSave.setCategory(source.getTag());
+                                articleToSave.setDownloadDate(new Date());
+                                articleToSave.setSourceUrl(source.getUrl());
+                                articleToSave.setTags(source.getTag());
+                                try {
+                                    System.out.println("Downloading article");
+                                    articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink()));
+                                    System.out.println("Downloaded");
+                                } catch (IOException e) {
+                                    System.out.println("Erreur");
+                                    articleToSave.setHtmlContent("");
+                                }
+                                _articleManager.addArticle(articleToSave);
+                            } else {
+                                System.out.println("Existing article");
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //TODO cas offline
                 }
 
             }

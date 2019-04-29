@@ -23,12 +23,11 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String description;
     @Secret
+    private String htmlContent;
+    @Secret
     private String author;
     @Secret
     private String category;
-
-    @Secret
-    private String localisation;
     @Secret
     private String tags;
     private int daysToSave;
@@ -48,7 +47,6 @@ public class DatabaseArticle implements Serializable {
         this.setAuthor(_item.getAuthor());
         this.setCategory(_item.getCategory());
         this.setDaysToSave(_item.getDaysToSave());
-        this.setLocalisation(_item.getLocalisation());
         this.setTags(_item.getTags());
         this.setDeleted(_item.getDeleted());
         this.setSourceUrl(_item.getSourceUrl());
@@ -73,13 +71,10 @@ public class DatabaseArticle implements Serializable {
     public void setAuthor(String _author) { this.author = _author; }
     public String getCategory() { return category; }
     public void setCategory(String _category) { this.category = _category; }
-    public int getDaysToSave() { return daysToSave; }
-    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
-
-    public String getLocalisation() { return localisation; }
-    public void setLocalisation(String _localisation) { this.localisation = _localisation; }
     public String getTags() { return tags; }
     public void setTags(String _tags) { this.tags = _tags; }
+    public int getDaysToSave() { return daysToSave; }
+    public void setDaysToSave(int _daysToSave) { this.daysToSave = _daysToSave; }
     public boolean getDeleted() { return deleted; }
     public void setDeleted(boolean _deleted) { this.deleted = _deleted; }
     public String getSourceUrl() {return sourceUrl;}
@@ -87,7 +82,7 @@ public class DatabaseArticle implements Serializable {
     public Date getDownloadDate() { return downloadDate;}
     public void setDownloadDate(Date _now) { downloadDate = _now;}
 
-    public boolean needToBeDeleted() {
+    boolean needToBeDeleted() {
         /**
          * Tests if an article is outdated (based on his download date and the days to save the article)
          *
@@ -95,7 +90,18 @@ public class DatabaseArticle implements Serializable {
          * @see Date
          */
         Date now = new Date();
-        Date deletedDate = new Date(getDownloadDate().getTime() + getDaysToSave() * 24 * 60 * 60 * 1000);
+        Date deletedDate = new Date(getDownloadDate().getTime() + (getDaysToSave() * 24 * 60 * 60 * 1000));
         return now.after(deletedDate);
+    }
+    public String getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

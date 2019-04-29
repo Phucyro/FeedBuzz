@@ -81,7 +81,7 @@ public class ArticleManager{
     }
 
 
-    public boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
+    private boolean replaceArticle(DatabaseArticle _article, DatabaseArticle _article2) {
         /**
          * replace an _article by another one
          * @param _article
@@ -132,8 +132,11 @@ public class ArticleManager{
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
+            //System.out.println(dbArticle.getDescription());
+            //System.out.println(dbArticle.getHtmlContent());
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
+            System.out.println("Erreur 2");
             return false;
         }
     }
