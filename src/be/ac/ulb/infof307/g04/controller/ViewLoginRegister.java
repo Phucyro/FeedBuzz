@@ -128,8 +128,10 @@ public class ViewLoginRegister extends Application{
      * @param warning the message warning
      */
     public void set_warning_and_display(Label label_warning, String warning){
-        label_warning.setText(warning);
-        label_warning.setVisible(true);
+        if (label_warning!=null){
+            label_warning.setText(warning);
+            label_warning.setVisible(true);
+        }
     }
 
 
@@ -146,8 +148,7 @@ public class ViewLoginRegister extends Application{
         }
         else{
             set_warning_and_display(login_warning, "Les champs ne peuvent etre vides");
-            //return false;
-            return true;
+            return false;
         }
     }
 
@@ -163,10 +164,7 @@ public class ViewLoginRegister extends Application{
         if(username_str.length() >= MIN_CHARACTERS && username_str.length() <=MAX_CHARACTERS){
             if(password_str.length() >= MIN_CHARACTERS && password_str.length() <= MAX_CHARACTERS){
                 if(password_str.equals(confirm_password_str)){
-                    if(user_agreement_checkbox.isSelected()){
-                        return true;
-                    }
-                    else{set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire"); }
+                    return true;
                 }
                 else{set_warning_and_display(register_warning, "Les mots de passe ne correspondent pas");}
             }
@@ -178,6 +176,18 @@ public class ViewLoginRegister extends Application{
 
     }
 
+
+    public boolean is_checked_useragreements(){
+        if(user_agreement_checkbox.isSelected()){
+            return true;
+        }
+
+        else{
+            set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
+            return false;
+        }
+
+    }
 
 
     /**
@@ -215,7 +225,7 @@ public class ViewLoginRegister extends Application{
         String password_str = register_password.getText();
         String confirm_password_str = register_confirm_password.getText();
 
-        if(register_inputs_valids(username_str,password_str,confirm_password_str)) {
+        if(register_inputs_valids(username_str,password_str,confirm_password_str) && is_checked_useragreements()) {
             if (!user_manager.existUsername(username_str)) {
                 user_manager.add_user(username_str, password_str);
                 String db_user_path = DB_ROOT + username_str;
