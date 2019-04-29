@@ -82,20 +82,8 @@ public class ViewLoginRegister extends Application{
         // get the web engine
         WebEngine wsk = w.getEngine();
 
-        // load a website
-        // temporaire, j'ai eu des soucis avec le chargement du document html local dans webview_html
-        wsk.loadContent("<!DOCTYPE html>\n" +
-                "<p>&nbsp;</p>\n" +
-                "<h1 style=\"text-align: center;\"><strong>User agreement and services terms here</strong></h1>\n" +
-                "<p>----------------------------------------------------------------------------------------------------------------------------------------------</p>\n" +
-                "<p>&nbsp;</p>\n" +
-                "<p>&nbsp;</p>\n" +
-                "<p>Here are the conditions the user have to comply in order to user our services :</p>\n" +
-                "<ul>\n" +
-                "\t<li>DO NOT modify any data of the app folder</li>\n" +
-                "\t<li>Ask for permission if you intend to reuse some parts of the application</li>\n" +
-                "</ul>\n" +
-                "<p>&nbsp;</p>","text/html");
+        // load the html page containing the user terms (possibility to format with css and html to make a pretty user agreements terms
+        wsk.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
 
 
         // create a scene
@@ -231,13 +219,16 @@ public class ViewLoginRegister extends Application{
      * Try to register the user
      */
     public void register_button_pressed() throws java.io.IOException{
+
         register_warning.setVisible(false);
         String username_str = register_username.getText();
         String password_str = register_password.getText();
         String confirm_password_str = register_confirm_password.getText();
 
         if(register_inputs_valids(username_str,password_str,confirm_password_str)) {
+            System.out.println("skkkkkkkk");
             if (!user_manager.existUsername(username_str)) {
+                System.out.println("skkkkkkkk");
                 user_manager.add_user(username_str, password_str);
                 String db_user_path = DB_ROOT + username_str;
 
@@ -247,6 +238,7 @@ public class ViewLoginRegister extends Application{
                 make_json_file(db_user_path + "/sources.json");
                 launch_main_app(db_user_path);
             }
+            else{ set_warning_and_display(register_warning, "Le nom d'utilisateur existe déja");}
         }
     }
 
