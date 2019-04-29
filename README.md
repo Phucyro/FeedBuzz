@@ -26,14 +26,17 @@ Pour compiler, il faut utiliser les options de compilation suivantes:
 
 ## Démarrage 
 
-Exécuter le fichier JAR g04-iteration-2.jar dans le dossier dist
+Exécuter le fichier JAR g04-iteration-3.jar dans le dossier dist
 <!-- TO DO: Informations sur le démarrage -->
 
 # Configuration :
 
 # Tests
 
-TO DO: Informations sur la façon d'executer les tests
+Pour éxécuter les tests, veuillez éxécuter les différentes classes qui sont contenues dans le dossier "test"
+Attention! Les tests de la classe HTMLArticleDownloader prennent quelques minutes.
+Vous pouvez éxécuter les différentes classes de ce dossier séparément.
+<!-- TO DO: Informations sur les tests -->
 
 # Misc
 
