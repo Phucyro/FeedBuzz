@@ -112,12 +112,18 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    try {
-                        java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
-                    } catch (URISyntaxException | IOException e1) {
-                        e1.printStackTrace();
+                    if (java.awt.Desktop.isDesktopSupported()) {
+                        new Thread(() -> {
+                            try {
+                                java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
+                            } catch (IOException | URISyntaxException e1) {
+                                e1.printStackTrace();
+                            }
+                        }).start();
                     }
                 }
+
+
             });
             
             setText(null);
