@@ -34,6 +34,10 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * @param primaryStage Opens logging screen
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/LoginRegister.fxml"));

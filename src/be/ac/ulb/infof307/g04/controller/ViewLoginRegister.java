@@ -199,12 +199,6 @@ public class ViewLoginRegister extends Application{
     }
 
 
-
-
-    public void app_closed(){
-        main_stage.close();
-    }
-
     /**
      * Try to register the user
      */
