@@ -4,7 +4,6 @@ package be.ac.ulb.infof307.g04;
 import be.ac.ulb.infof307.g04.controller.*;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.xml.sax.SAXException;
-import javafx.stage.Window;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
@@ -53,9 +51,9 @@ public class ViewListArticles extends Application {
     private Button CloseSearchButton;
     private TextField searchField;
     private Label match_count;
-    private String db_path;
+    private String dbPath;
+    private String password;
     private ArrayList <Stage> stageArrayList = new ArrayList<Stage>();
-    private Stage mainStage;
 
     @FXML
     private MenuItem readArticleImage;
@@ -69,22 +67,31 @@ public class ViewListArticles extends Application {
     private MenuItem configureTagsImage;
     @FXML
     private MenuItem exitAppImage;
+    @FXML
+    private Stage primaryStage;
 
 
-    public ViewListArticles(String path_to_db){
-        // article_manager = new ArticleManager("./test.db","abcdefgh");
-        db_path = new String(path_to_db);
+    public ViewListArticles(String _pathToDB, String _password){
+        dbPath = _pathToDB;
+        password = _password;
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception { }
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
+        primaryStage.setTitle("Fenêtre principale");
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+
+    }
 
     @FXML
     public void initialize() {
 
-        article_manager = new ArticleManager(db_path, "password");
+        article_manager = new ArticleManager(dbPath, password);
         init_db();
-        source = new SourceManager(db_path);
+        source = new SourceManager(dbPath, password);
         searchBar = new ToolBar();
         searchBar.setPrefHeight(40.0);
         searchBar.setPrefWidth(200.0);
@@ -96,7 +103,6 @@ public class ViewListArticles extends Application {
                 changeSearchBarStatus();
             }
         });
-
         searchField = new TextField();
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -137,7 +143,8 @@ public class ViewListArticles extends Application {
         for (int i = 0; i < stageArrayList.size(); i++) {
             stageArrayList.get(i).close();
         }
-        mainStage.close();
+
+
     }
 
     @FXML
@@ -154,7 +161,11 @@ public class ViewListArticles extends Application {
          * @param _articles
          *              _articles that haven't been deleted in the DB
          */
-        listViewArticles.getItems().setAll(_articles);
+        listViewArticles.getItems().clear();
+        for (DatabaseArticle item : _articles) {
+            listViewArticles.getItems().add(item);
+        }
+
     }
 
     private void setImage(String s, int i, int i2, MenuItem readArticleImage) {
@@ -162,10 +173,6 @@ public class ViewListArticles extends Application {
         readIcon.setFitHeight(i);
         readIcon.setFitWidth(i2);
         readArticleImage.setGraphic(readIcon);
-    }
-    public void setMainStage(Stage stage){
-        mainStage = stage;
-
     }
     private void setHelpImages() {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
@@ -197,12 +204,10 @@ public class ViewListArticles extends Application {
 
         } catch(NullPointerException e){
             showErrorBox("No article selected");
-            e.printStackTrace();
         }catch(ParserConfigurationException e){
             showErrorBox("Parser configuration error");
         }catch(IOException e){
             showErrorBox("No article selected");
-            e.printStackTrace();
         }catch(SAXException e){
             showErrorBox("SAX Error");
         } catch (ParseException e) {
@@ -253,7 +258,7 @@ public class ViewListArticles extends Application {
     public void openSourceWindow(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
-            SourceMenu controller = new SourceMenu();
+            SourceMenu controller = new SourceMenu(dbPath, password);
             loader.setController(controller);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
@@ -283,7 +288,7 @@ public class ViewListArticles extends Application {
 
     private void init_tags() {
         String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
-        TagManager tagManager = new TagManager(db_path, "password");
+        TagManager tagManager = new TagManager(dbPath, password);
         DatabaseTag tag = new DatabaseTag();
         for(int i = 0; i < tags.length; i++){
             tag.setName(tags[i]);
@@ -292,7 +297,7 @@ public class ViewListArticles extends Application {
     }
 
     private void init_sources() {
-        SourceManager sourceManager = new SourceManager(db_path);
+        SourceManager sourceManager = new SourceManager(dbPath, password);
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
@@ -305,7 +310,7 @@ public class ViewListArticles extends Application {
          */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-            TagMenu controller = new TagMenu();
+            TagMenu controller = new TagMenu(dbPath, password);
             loader.setController(controller);
             openWindow(loader, "Manage tags", "tag");
         } catch (Exception e) {

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 public class TagMenu  extends Application {
-    private TagManager tagManager = new TagManager("./article_db", "password");
+    private TagManager tagManager;
     @FXML
     private Button addButton;
     @FXML
@@ -36,7 +36,9 @@ public class TagMenu  extends Application {
     private ListView<String> tagsListview;
 
 
-    public TagMenu() {}
+    public TagMenu(String _dbPath, String _password) {
+        tagManager = new TagManager(_dbPath, _password);
+    }
 
     public void initialize(){
         initList();

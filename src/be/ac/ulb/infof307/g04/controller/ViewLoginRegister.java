@@ -122,21 +122,6 @@ public class ViewLoginRegister extends Application{
 
 
 
-    /**
-     * Make a json file and write the header
-     * @param path the path to the user folder database (contain the json filename)
-     */
-    public void make_json_file(String path) throws java.io.IOException{
-        File file = new File(path);
-        if(file.exists()) {
-            file.delete();
-        }
-        FileWriter fwriter = new FileWriter(file);
-        fwriter.write("{\"schemaVersion\":\"1.0\"}");
-        fwriter.close();
-    }
-
-
 
     /**
      * Update the label to inform the user the input are not valid in the login or register form
@@ -176,8 +161,8 @@ public class ViewLoginRegister extends Application{
      */
     public boolean register_inputs_valids(String username_str, String password_str, String confirm_password_str) {
         // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
-        if(username_str.length() >= 0 && username_str.length() <=17){
-            if(password_str.length() >= 0 && password_str.length() <= 17){
+        if(username_str.length() >= MIN_CHARACTERS && username_str.length() <=MAX_CHARACTERS){
+            if(password_str.length() >= MIN_CHARACTERS && password_str.length() <= MAX_CHARACTERS){
                 if(password_str.equals(confirm_password_str)){
                     if(user_agreement_checkbox.isSelected()){
                         return true;
@@ -206,7 +191,7 @@ public class ViewLoginRegister extends Application{
 
         if (login_inputs_valids(username_str,password_str)) {
             if (user_manager.existUser(username_str, password_str)) {
-                launch_main_app(DB_ROOT+username_str);
+                launch_main_app(DB_ROOT+username_str, password_str);
             }
             else{
                 set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide");
@@ -230,17 +215,12 @@ public class ViewLoginRegister extends Application{
         String confirm_password_str = register_confirm_password.getText();
 
         if(register_inputs_valids(username_str,password_str,confirm_password_str)) {
-            System.out.println("skkkkkkkk");
             if (!user_manager.existUsername(username_str)) {
-                System.out.println("skkkkkkkk");
                 user_manager.add_user(username_str, password_str);
                 String db_user_path = DB_ROOT + username_str;
 
                 make_user_directory(username_str);
-                make_json_file(db_user_path + "/articles.json");
-                make_json_file(db_user_path + "/tags.json");
-                make_json_file(db_user_path + "/sources.json");
-                launch_main_app(db_user_path);
+                launch_main_app(db_user_path, password_str);
             }
             else{ set_warning_and_display(register_warning, "Le nom d'utilisateur existe déja");}
         }
@@ -251,13 +231,13 @@ public class ViewLoginRegister extends Application{
 
     /**
      * launch the main menu of the app with the path to the connected user's database
-     * @param db_path the path to the user database
+     * @param dbPath the path to the user database
      */
-    public void launch_main_app(String db_path) throws java.io.IOException{
+    public void launch_main_app(String dbPath, String password) throws java.io.IOException{
         Window current_window = login_warning.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(db_path);
+        ViewListArticles controller = new ViewListArticles(dbPath, password);
         loader.setController(controller);
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();
@@ -268,16 +248,6 @@ public class ViewLoginRegister extends Application{
 
         current_window.hide();
 
-        /*Window current_window = login_warning.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(db_path);
-        loader.setController(controller);
-        Parent loginroot = (Parent) loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(loginroot));
-
-        stage.show();
-        current_window.hide();*/
 
 
     }
