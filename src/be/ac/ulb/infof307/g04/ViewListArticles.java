@@ -104,7 +104,7 @@ public class ViewListArticles extends Application {
         CloseSearchButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                change_search_bar_status();
+                changeSearchBarStatus();
             }
         });
         searchField = new TextField();
@@ -273,7 +273,7 @@ public class ViewListArticles extends Application {
     }
 
     @FXML
-    public void change_search_bar_status(){
+    public void changeSearchBarStatus(){
         if (GridPane.getChildren().indexOf(searchBar) == -1) {
             GridPane.getChildren().add(searchBar);
             match_count.setText("");

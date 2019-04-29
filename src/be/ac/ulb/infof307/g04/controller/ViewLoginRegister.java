@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.UserManager;
 import com.sun.javafx.application.HostServicesDelegate;
 import javafx.application.Application;
@@ -261,7 +262,7 @@ public class ViewLoginRegister extends Application{
 
         Window current_window = login_warning.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        Main controller = new Main();
+        ViewListArticles controller = new ViewListArticles(db_path);
         Parent loginroot = (Parent) loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(loginroot));
