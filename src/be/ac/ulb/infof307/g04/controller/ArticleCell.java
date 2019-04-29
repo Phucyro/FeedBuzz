@@ -89,20 +89,13 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
             linkLabel.setText(item.getLink());
-
-
             popupOverArticle(item);
-
-
             Image icon = new Image(DEFAULT_ICON);
             try {
                 icon = new Image(getIconUrl(item.getLink(), item.getDescription()));
             } catch (Exception ignored) {
             }
             articleIcon.setImage(icon);
-
-
-
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -119,7 +112,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
 
             });
-            
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
