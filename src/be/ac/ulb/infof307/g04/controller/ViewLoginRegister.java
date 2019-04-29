@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.UserManager;
+import com.sun.javafx.application.HostServicesDelegate;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
-import java.io.IOException;
 
 public class ViewLoginRegister extends Application{
 

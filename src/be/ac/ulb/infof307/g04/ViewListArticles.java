@@ -85,6 +85,7 @@ public class ViewListArticles extends Application {
      */
     @FXML
     public void initialize() {
+
         article_manager = new ArticleManager(dbPath, password);
         init_db();
         source = new SourceManager(dbPath, password);
@@ -133,8 +134,9 @@ public class ViewListArticles extends Application {
 
     }
 
+
     /**
-     * desconnect a user
+     * Shuts off all windows of active session.
      */
     @FXML
     public void disconnect() {
@@ -145,6 +147,11 @@ public class ViewListArticles extends Application {
         mainStage.close();
     }
 
+    /**
+     * relaunches the application after the disconnecting of windows
+     * goes to logging screen
+     * @throws Exception
+     */
     @FXML
     public void relaunch() throws Exception {
         disconnect();
@@ -159,11 +166,6 @@ public class ViewListArticles extends Application {
      */
     @FXML
     public void displayArticles(ArrayList<DatabaseArticle> _articles) {
-        /**
-         * Display all the valid _articles in the window
-         * @param _articles
-         *              _articles that haven't been deleted in the DB
-         */
         listViewArticles.getItems().clear();
         for (DatabaseArticle item : _articles) {
             listViewArticles.getItems().add(item);
@@ -217,8 +219,8 @@ public class ViewListArticles extends Application {
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
             stage.setScene(new Scene(root));
-            stage.show();
             stageArrayList.add(stage);
+            stage.show();
 
         } catch(NullPointerException e){
             showErrorBox("No article selected");
@@ -251,10 +253,6 @@ public class ViewListArticles extends Application {
      */
     @FXML
     private void copyLinkToClipboard() {
-        /**
-         * copy the link of the article
-         * @throws Exception : when no article has been selected
-         */
         try {
             String myString = listViewArticles.getSelectionModel().getSelectedItem().getLink();
             StringSelection stringSelection = new StringSelection(myString);
@@ -284,8 +282,9 @@ public class ViewListArticles extends Application {
         }
     }
 
+
     /**
-     * Opens the source window
+     * @param actionEvent opens the SourceWindow (download settings)
      */
     @FXML
     public void openSourceWindow(ActionEvent actionEvent) {
