@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.Main;
+import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
@@ -53,28 +54,30 @@ public class ViewSingleArticle extends Application{
     @FXML
     private WebView articleView; //whole article
 
-    private Main articlesWindow; //window that contains the article
+    private ViewListArticles articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
 
     public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         /**
-        Constructor of the view of a single article
+         Constructor of the view of a single article
          @param _article
-                    article that has to be reviewd
+         article that has to be reviewd
          */
         article = _article;
-        ArticleVerification verification = new ArticleVerification(article,article.getSourceUrl());
-        checkIntegrity(verification.isValid());
-
+        System.out.println(article);
+        if (InternetTester.testInternet()) {
+            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+            checkIntegrity(verification.isValid());
+        }
         //ArticleVerification verification = new ArticleVerification(article,article.getSource_url());
         //set_integrity(verification.is_valid());
 
         //TODO article verification (propre)
     }
 
-    public void setArticlesWindows(Main _articlesWindows) {
+    public void setArticlesWindows(ViewListArticles _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 
@@ -87,15 +90,15 @@ public class ViewSingleArticle extends Application{
          */
         //Load an fxml file
         /**
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
+         FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(ViewSingleArticle.class.getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
 
-        AnchorPane conteneurPrincipal;
-        conteneurPrincipal = loader.load();
-        Scene scene = new Scene(conteneurPrincipal);
-        _primaryStage.setScene(scene);
-        _primaryStage.show();
-        **/
+         AnchorPane conteneurPrincipal;
+         conteneurPrincipal = loader.load();
+         Scene scene = new Scene(conteneurPrincipal);
+         _primaryStage.setScene(scene);
+         _primaryStage.show();
+         **/
     }
 
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
@@ -104,9 +107,13 @@ public class ViewSingleArticle extends Application{
          * Modify the integrity circle and text
          * @throws Exception : if article wasn't found
          */
-
-        articleView.getEngine().load(article.getLink());
-
+        System.out.println(article.getHtmlContent());
+        if(InternetTester.testInternet()) {
+            articleView.getEngine().load(article.getLink());
+        }
+        else {
+            articleView.getEngine().loadContent(article.getHtmlContent());
+        }
         setFields();
     }
 
@@ -118,20 +125,22 @@ public class ViewSingleArticle extends Application{
 
     private void handleIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //if article is integer -> green ; else -> red
-        if (this.isValid) {
-            integrityLabel.setText("DatabaseArticle intègre");
-            integrityCircle.setFill(Color.web("0x00FF66"));
-        } else {
-            integrityLabel.setText("Non intègre!");
-            integrityCircle.setFill(Color.RED);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Erreur intégrité");
-            alert.setHeaderText("L'article n'est pas intègre!");
-            alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
+        if (InternetTester.testInternet()){
+            if (this.isValid) {
+                integrityLabel.setText("DatabaseArticle intègre");
+                integrityCircle.setFill(Color.web("0x00FF66"));
+            } else {
+                integrityLabel.setText("Non intègre!");
+                integrityCircle.setFill(Color.RED);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Erreur intégrité");
+                alert.setHeaderText("L'article n'est pas intègre!");
+                alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                verification.correctArticle();
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    verification.correctArticle();
+                }
             }
         }
     }
@@ -140,8 +149,10 @@ public class ViewSingleArticle extends Application{
         /*
         validity of the article
          */
-        ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-        this.isValid = verification.isValid();
+        if (InternetTester.testInternet()) {
+            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+            this.isValid = verification.isValid();
+        }
     }
 
 
