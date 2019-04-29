@@ -67,6 +67,8 @@ public class ViewListArticles extends Application {
     private MenuItem configureTagsImage;
     @FXML
     private MenuItem exitAppImage;
+    @FXML
+    private Stage mainStage;
 
 
     public ViewListArticles(String path_to_db){
@@ -87,6 +89,7 @@ public class ViewListArticles extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+        mainStage = primaryStage;
         primaryStage.setOnCloseRequest(e -> Platform.exit());
     }
 
@@ -145,8 +148,6 @@ public class ViewListArticles extends Application {
         for (int i = 0; i < stageArrayList.size(); i++) {
             stageArrayList.get(i).close();
         }
-        Stage stage = (Stage) GridPane.getScene().getWindow();
-        stage.close();
 
     }
 
