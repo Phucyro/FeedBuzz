@@ -41,7 +41,7 @@ public class DatabaseSource implements Serializable {
     }
 
     /**
-     Same constructor as above, except if there's no precise tag -> set as "Default"
+     *Same constructor as above, except if there's no precise tag: set as "Default"
      */
     public DatabaseSource(String _sourceName, String _url){
         this(_sourceName, _url, "Default");

@@ -97,7 +97,7 @@ public class ArticleManager{
     }
 
     /**
-     * check the integrity of all articles. If not valid (because it was modified) -> try to correct it
+     * check the integrity of all articles. If not valid (because it was modified): try to correct it
      * replace it if possible or delete it
      */
     public void verifyArticles() throws IOException, ParserConfigurationException, SAXException, ParseException {

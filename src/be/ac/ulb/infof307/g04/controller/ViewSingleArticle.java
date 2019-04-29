@@ -91,7 +91,7 @@ public class ViewSingleArticle extends Application{
     /**
      * Initialize the text and the title of the article
      * Modify the integrity circle and text
-     * @throws Exception : if article wasn't found
+     * @throws IOException : if article wasn't found
      */
     public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
         System.out.println(article.getHtmlContent());
