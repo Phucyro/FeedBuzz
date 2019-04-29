@@ -112,7 +112,7 @@ Un point correspond à une heure de travail par binôme (approximatif). Par ité
 - Création d'une base de donnée pour les utilisateurs.
 
 
-### Section d"aide
+### Section d'aide
 
 **Instructions originales:**       
 - Section d'aide pour l'utilisateur.
