@@ -1,6 +1,7 @@
-package be.ac.ulb.infof307.g04;
+package be.ac.ulb.infof307.g04.controller;
 
 
+import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.controller.*;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
@@ -346,6 +347,9 @@ public class ViewListArticles extends Application {
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
+        sources.add(new DatabaseSource("JeuxVideo.com", "http://www.jeuxvideo.com/rss/rss.xml", "Technology"));
+        sources.add(new DatabaseSource("Vox", "https://www.vox.com/rss/world/index.xml"));
+        sources.add(new DatabaseSource("CNN Money", "http://rss.cnn.com/rss/money_topstories.rss","Business"));
         sources.forEach(sourceManager::addSource);
     }
 

@@ -142,7 +142,7 @@ public class ParserRss {
      * @param _entry xml article _entry
      * @return an article
      */
-    private DatabaseArticle parseArticle(Element _entry) throws ParseException {
+    private DatabaseArticle parseArticle(Element _entry) {
 
         DatabaseArticle article = new DatabaseArticle();
         article.setTitle(getString(_entry, "title"));
@@ -161,7 +161,7 @@ public class ParserRss {
      * @param _entry xml _article _entry
      * @param _article _article that is being built
      */
-    private void parseArticleAtom(Element _entry, DatabaseArticle _article) throws ParseException {
+    private void parseArticleAtom(Element _entry, DatabaseArticle _article) {
         _article.setLink(getLinkAtom(_entry));
         _article.setDescription(getString(_entry, "content"));
         _article.setPublishedDate(getDate(getString(_entry, "published")));
@@ -173,7 +173,7 @@ public class ParserRss {
      * @param _item xml _article _item
      * @param _article article that is being built
      */
-    private void parseArticleRss(Element _item, DatabaseArticle _article) throws ParseException {
+    private void parseArticleRss(Element _item, DatabaseArticle _article) {
         _article.setLink(getString(_item, "link"));
         _article.setDescription(getString(_item, "description"));
         _article.setPublishedDate(getDate(getString(_item, "pubDate")));
@@ -185,15 +185,18 @@ public class ParserRss {
      * @param _date string containing the date
      * @return date object
      */
-    private Date getDate(String _date) throws ParseException {
-
+    private Date getDate(String _date) {
         Date res = null;
-        if (_date !=null){
-            if (atom) {
-                res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(_date);
-            } else {
-                res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(_date);
+        try{
+            if (_date !=null){
+                if (atom) {
+                    res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(_date);
+                } else {
+                    res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(_date);
+                }
             }
+        } catch (ParseException e){
+            res = new Date();
         }
         return res;
     }
