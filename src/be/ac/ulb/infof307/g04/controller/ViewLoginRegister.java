@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.model.UserManager;
+import be.ac.ulb.infof307.g04.view.ArticleListController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,15 +55,6 @@ public class ViewLoginRegister extends Application{
     public ViewLoginRegister(){ }
 
 
-
-    /**
-     * Start javafx window
-     * @param primaryStage
-     */
-    @Override
-    public void start(Stage primaryStage) {
-    }
-
     /**
      * Set the webview for the user agreement terms
      *
@@ -94,6 +86,15 @@ public class ViewLoginRegister extends Application{
         });
 
     }
+    /**
+     * Start javafx window
+     * @param primaryStage
+     */
+    @Override
+    public void start(Stage primaryStage) {
+    }
+
+
 
 
 
@@ -244,8 +245,9 @@ public class ViewLoginRegister extends Application{
     public void launchMainApp(String _dbPath, String _password) throws java.io.IOException{
         Window currentWindow = loginWarning.getScene().getWindow();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(_dbPath, _password);
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleListController.fxml"));
+        FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
+        ArticleListController controller = new ArticleListController(_dbPath, _password);
         loader.setController(controller);
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();

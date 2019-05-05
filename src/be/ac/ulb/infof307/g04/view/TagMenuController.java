@@ -1,4 +1,4 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.DatabaseTag;
 import be.ac.ulb.infof307.g04.model.TagManager;
@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Class TagMenu when all the tags are displayed. We can assign tag to a certain source
+ * Class TagMenuController when all the tags are displayed. We can assign tag to a certain source
  * @see TagManager
  */
 
 
-public class TagMenu  extends Application {
+public class TagMenuController extends Application {
     private TagManager tagManager;
     @FXML
     private Button addButton;
@@ -36,7 +36,7 @@ public class TagMenu  extends Application {
     private ListView<String> tagsListview;
 
 
-    public TagMenu(String _dbPath, String _password) {
+    public TagMenuController(String _dbPath, String _password) {
         tagManager = new TagManager(_dbPath, _password);
     }
 

@@ -1,8 +1,9 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
 
 import be.ac.ulb.infof307.g04.Main;
-import be.ac.ulb.infof307.g04.controller.*;
+import be.ac.ulb.infof307.g04.controller.ArticleCell;
+import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -34,7 +35,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 
-public class ViewListArticles extends Application {
+public class ArticleListController extends Application {
 
 
     @FXML
@@ -73,7 +74,7 @@ public class ViewListArticles extends Application {
     private MenuItem exitAppImage;
 
 
-    public ViewListArticles(String _pathToDB, String _password){
+    public ArticleListController(String _pathToDB, String _password){
         dbPath = _pathToDB;
         password = _password;
     }
@@ -212,9 +213,10 @@ public class ViewListArticles extends Application {
     @FXML
     private void openArticleWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticle.fxml"));
+            FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticleController.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
-            ViewSingleArticle controller = new ViewSingleArticle(articleToRead);
+            ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead);
             loader.setController(controller);
             controller.setArticlesWindows(this);
             Parent root = (Parent) loader.load();
@@ -291,8 +293,9 @@ public class ViewListArticles extends Application {
     @FXML
     public void openSourceWindow(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenu.fxml"));
-            SourceMenu controller = new SourceMenu(dbPath, password);
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenuController.fxml"));
+            FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
+            SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
@@ -361,8 +364,9 @@ public class ViewListArticles extends Application {
         Open the tag window
          */
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenu.fxml"));
-            TagMenu controller = new TagMenu(dbPath, password);
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenuController.fxml"));
+            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
+            TagMenuController controller = new TagMenuController(dbPath, password);
             loader.setController(controller);
             openWindow(loader, "Manage tags", "tag");
         } catch (Exception e) {

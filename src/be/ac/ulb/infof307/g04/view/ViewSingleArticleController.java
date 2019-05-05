@@ -1,5 +1,7 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
+import be.ac.ulb.infof307.g04.controller.ArticleVerification;
+import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
@@ -20,14 +22,14 @@ import java.text.ParseException;
 import java.util.Optional;
 
 /**
- * Class ViewSingleArticle, show what an article looks like when you click on it in the article cell
+ * Class ViewSingleArticleController, show what an article looks like when you click on it in the article cell
  * @see DatabaseArticle
  * @see ArticleManager
  * @see ArticleVerification
  * @version 4.0
  */
 
-public class ViewSingleArticle extends Application{
+public class ViewSingleArticleController extends Application{
     private DatabaseArticle article;
 
     //Boolean fot the validity of the article
@@ -47,7 +49,7 @@ public class ViewSingleArticle extends Application{
     @FXML
     private WebView articleView; //whole article
 
-    private ViewListArticles articlesWindow; //window that contains the article
+    private ArticleListController articlesWindow; //window that contains the article
 
     private ArticleVerification verification;
 
@@ -55,9 +57,9 @@ public class ViewSingleArticle extends Application{
     /**
       *Constructor of the view of a single article
       *@param _article article to view
-      *article that has to be reviewd
+      *article that has to be viewed
       */
-    public ViewSingleArticle(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticleController(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
         article = _article;
         if (InternetTester.testInternet()) {
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
@@ -65,7 +67,7 @@ public class ViewSingleArticle extends Application{
         }
     }
 
-    public void setArticlesWindows(ViewListArticles _articlesWindows) {
+    public void setArticlesWindows(ArticleListController _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 

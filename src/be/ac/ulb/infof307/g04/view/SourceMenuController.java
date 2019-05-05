@@ -1,5 +1,6 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
+import be.ac.ulb.infof307.g04.controller.SourceCell;
 import be.ac.ulb.infof307.g04.model.DatabaseSource;
 import be.ac.ulb.infof307.g04.model.SourceManager;
 import javafx.application.Application;
@@ -16,12 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Class SourceMenu where all the sources are displayed
+ * Class SourceMenuController where all the sources are displayed
  * @see SourceManager
  */
 
 
-public class SourceMenu extends Application {
+public class SourceMenuController extends Application {
     private SourceManager sourceManager;
     @FXML
     private Button cancelButton;
@@ -30,7 +31,7 @@ public class SourceMenu extends Application {
     @FXML
     private ListView listViewSources;
 
-    public SourceMenu(String _dbPath, String _password) {
+    public SourceMenuController(String _dbPath, String _password) {
         sourceManager = new SourceManager(_dbPath, _password);
     }
 
