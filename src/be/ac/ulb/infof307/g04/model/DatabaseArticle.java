@@ -35,9 +35,12 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String sourceUrl;
     private Date downloadDate;
+    private int likeState;
 
 
-    public DatabaseArticle() { }
+    public DatabaseArticle() {
+        this.setLikeState(ArticleManager.NEUTRAL);
+    }
 
     public DatabaseArticle(DatabaseArticle _item) {
         this.setPublishedDate(_item.getPublishedDate());
@@ -53,6 +56,7 @@ public class DatabaseArticle implements Serializable {
         this.setSourceUrl(_item.getSourceUrl());
         this.setDownloadDate(_item.getDownloadDate());
         this.setHtmlContent(_item.getHtmlContent());
+        this.setLikeState(_item.getLikeState());
     }
 
     /*
@@ -89,6 +93,8 @@ public class DatabaseArticle implements Serializable {
     public void setHtmlContent(String _htmlContent) {
         this.htmlContent = _htmlContent;
     }
+    public int getLikeState() { return this.likeState; }
+    public void setLikeState(int _likeState) { this.likeState = _likeState; }
 
     /**
      * Tests if an article is outdated (based on his download date and the days to save the article)
@@ -115,7 +121,7 @@ public class DatabaseArticle implements Serializable {
         if (_articleToCompare == this) {
             return true;
         }
-        if (!(_articleToCompare instanceof DatabaseArticle)) {
+        if (_articleToCompare == null) {
             return false;
         }
         DatabaseArticle cc = (DatabaseArticle)_articleToCompare;

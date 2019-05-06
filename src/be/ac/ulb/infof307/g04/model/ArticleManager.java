@@ -22,6 +22,9 @@ import java.util.ArrayList;
 
 public class ArticleManager{
 
+    public static final int DISLIKED = -1;
+    public static final int LIKED = 1;
+    public static final int NEUTRAL = 0;
     private JsonDBTemplate jsonDBTemplate;
     /**
      * Constructor with the path to the database and the _password
@@ -29,7 +32,6 @@ public class ArticleManager{
      * @param _password _password of the database
      */
     public ArticleManager(String _databasePath, String _password) {
-
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -53,7 +55,6 @@ public class ArticleManager{
      * @param _database_path path to the database
      */
     public ArticleManager(String _database_path) {
-
         this(_database_path, "password");
 
     }
@@ -72,11 +73,10 @@ public class ArticleManager{
      * @return inform if the _article has been deleted
      */
     public boolean deleteArticle(DatabaseArticle _article) {
-
-            DatabaseArticle to_replace = new DatabaseArticle();
-            to_replace.setLink(_article.getLink());
-            to_replace.setDeleted(true);
-            return replaceArticle(_article,to_replace);
+        DatabaseArticle to_replace = new DatabaseArticle();
+        to_replace.setLink(_article.getLink());
+        to_replace.setDeleted(true);
+        return replaceArticle(_article,to_replace);
     }
 
     /**
@@ -89,6 +89,15 @@ public class ArticleManager{
         try {
             this.jsonDBTemplate.remove(_article, DatabaseArticle.class);
             this.jsonDBTemplate.insert(_article2);
+            return true;
+        } catch (InvalidJsonDbApiUsageException e){
+            return false;
+        }
+    }
+
+    private boolean upsertArticle(DatabaseArticle _article){
+        try {
+            this.jsonDBTemplate.upsert(_article);
             return true;
         } catch (InvalidJsonDbApiUsageException e){
             return false;
@@ -175,7 +184,6 @@ public class ArticleManager{
      * delete the expired articles
      */
     private void deleteExpired() {
-
         if (jsonDBTemplate.collectionExists(DatabaseArticle.class)) {
             ArrayList<DatabaseArticle> articles = loadArticles();
             for (DatabaseArticle article : articles) {
@@ -186,5 +194,19 @@ public class ArticleManager{
         }
     }
 
+    public void dislikeArticle(DatabaseArticle _article){
+        _article.setLikeState(DISLIKED);
+        this.upsertArticle(_article);
+    }
+
+    public void likeArticle(DatabaseArticle _article){
+        _article.setLikeState(LIKED);
+        this.upsertArticle(_article);
+    }
+
+    public void setNeutralLike(DatabaseArticle _article){
+        _article.setLikeState(NEUTRAL);
+        this.upsertArticle(_article);
+    }
 
 }

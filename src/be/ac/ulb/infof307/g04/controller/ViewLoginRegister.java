@@ -61,26 +61,19 @@ public class ViewLoginRegister extends Application{
      */
     public void initialize(){
         Stage userAgreementView = new Stage();
-        // set title for the stage
         userAgreementView.setTitle("Contrat de license");
 
-        // create a webview object
         WebView webView = new WebView();
-
-        // get the web engine
         WebEngine webEngine = webView.getEngine();
 
-        // load the html page containing the user terms (possibility to format with css and html to make a pretty user agreements terms
+        // load the html page containing the user terms
         webEngine.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
 
 
-        // create a scene
         Scene scene = new Scene(webView, webView.getPrefWidth(),
                 webView.getPrefHeight());
 
-        // set the scene
         userAgreementView.setScene(scene);
-        // lorsque l'utilisateur clique sur le lien vers le contrat d'utilisation
         userAgreementLink.setOnAction(e -> {
             userAgreementView.show();
         });

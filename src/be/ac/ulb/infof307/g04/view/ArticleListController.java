@@ -200,7 +200,7 @@ public class ArticleListController extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
-            ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead);
+            ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
             Parent root = (Parent) loader.load();

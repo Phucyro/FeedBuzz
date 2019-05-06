@@ -36,7 +36,7 @@ public class ViewSingleArticleController extends Application{
     private boolean isValid;
 
     //Manager that could allow to delete an article
-    private ArticleManager articleManager = new ArticleManager("./article_db");
+    private ArticleManager articleManager;
 
     @FXML
     private Label integrityLabel;
@@ -48,6 +48,10 @@ public class ViewSingleArticleController extends Application{
     private Label tagsLabel;
     @FXML
     private WebView articleView; //whole article
+    @FXML
+    private Button likeButton;
+    @FXML
+    private Button dislikeButton;
 
     private ArticleListController articlesWindow; //window that contains the article
 
@@ -59,11 +63,13 @@ public class ViewSingleArticleController extends Application{
       *@param _article article to view
       *article that has to be viewed
       */
-    public ViewSingleArticleController(DatabaseArticle _article) throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword)
+            throws IOException, ParserConfigurationException, SAXException, ParseException{
+        articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         if (InternetTester.testInternet()) {
             ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-            checkIntegrity();
+            //checkIntegrity(); Not supported yet
         }
     }
 
@@ -99,6 +105,7 @@ public class ViewSingleArticleController extends Application{
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
         handleIntegrity();
         tagsLabel.setText("Tags: " + article.getTags());
+        updateLikeDislikeButton();
 
     }
 
@@ -150,5 +157,39 @@ public class ViewSingleArticleController extends Application{
         //close the article page when deleted
         Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void updateLikeDislikeButton(){
+        if (article.getLikeState() == ArticleManager.DISLIKED) {
+            dislikeButton.setStyle("-fx-background-color: #ff0000; ");
+            likeButton.setStyle("");
+        } else if (article.getLikeState() == articleManager.LIKED) {
+            likeButton.setStyle("-fx-background-color: #0cff00; ");
+            dislikeButton.setStyle("");
+        } else {
+            dislikeButton.setStyle("");
+            likeButton.setStyle("");
+        }
+    }
+
+    @FXML
+    public void dislikeButtonPressed(){
+        if (article.getLikeState() == ArticleManager.DISLIKED) {
+            articleManager.setNeutralLike(article);
+        } else {
+            articleManager.dislikeArticle(article);
+        }
+        updateLikeDislikeButton();
+    }
+
+    @FXML
+    public void likeButtonPressed(){
+        if (article.getLikeState() == ArticleManager.LIKED) {
+            articleManager.setNeutralLike(article);
+        } else {
+            articleManager.likeArticle(article);
+        }
+        updateLikeDislikeButton();
     }
 }

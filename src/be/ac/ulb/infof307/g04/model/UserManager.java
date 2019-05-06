@@ -105,9 +105,6 @@ public class UserManager {
         }
     }
 
-
-
-
     public boolean existUsername(String _username){
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
@@ -122,8 +119,6 @@ public class UserManager {
             return false;
         }
     }
-
-
 
     public boolean existUser(String _username, String _password){
         try {
