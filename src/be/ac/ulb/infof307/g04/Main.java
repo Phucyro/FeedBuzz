@@ -34,16 +34,19 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * @param primaryStage Opens logging screen
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/LoginRegister.fxml"));
-        Parent loginroot = (Parent) loader.load();
+        ViewLoginRegister controller = new ViewLoginRegister();
+        loader.setController(controller);
+        Parent loginRoot = (Parent) loader.load();
         Stage stage = new Stage();
-        stage.setScene(new Scene(loginroot));
+        stage.setScene(new Scene(loginRoot));
         stage.show();
-
     }
 
     @FXML

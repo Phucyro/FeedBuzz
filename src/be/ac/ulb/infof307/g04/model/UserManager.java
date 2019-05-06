@@ -21,7 +21,7 @@ public class UserManager {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
 
-        if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
+        if (!this.jsonDBTemplate.collectionExists(DatabaseUser.class)) {
             create_collection();
         }
 
@@ -63,11 +63,9 @@ public class UserManager {
             user.setPassword(password);
             user.setUsername(username);
 
-            System.out.println(username);
             jsonDBTemplate.insert(user);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            System.out.println(e);
             return false;
         }
     }
@@ -77,7 +75,6 @@ public class UserManager {
             jsonDBTemplate.insert(user);
             return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            System.out.println(e);
             return false;
         }
     }

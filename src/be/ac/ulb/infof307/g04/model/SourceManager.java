@@ -4,6 +4,9 @@ import be.ac.ulb.infof307.g04.controller.HTMLArticleDownloader;
 import be.ac.ulb.infof307.g04.controller.ParserRss;
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
+import io.jsondb.crypto.CryptoUtil;
+import io.jsondb.crypto.DefaultAESCBCCipher;
+import io.jsondb.crypto.ICipher;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,14 +24,23 @@ import java.util.Date;
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
-
-    public SourceManager(String _databasePath) {
-        /**
-         * @param _databasePath
-         *                  path to the database
-         */
+    /**
+     * @param _databasePath
+     *                  path to the database
+     */
+    public SourceManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+
+        this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+
+        try {
+            String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
+            ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
+        } catch (Exception e){
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+        }
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseSource.class)) {
             createCollection();
@@ -39,21 +51,19 @@ public class SourceManager {
         jsonDBTemplate.createCollection(DatabaseSource.class);
     }
 
-
+    /**
+     * @return a list that contained all the sources
+     */
     public ArrayList<DatabaseSource> loadSources() {
-        /**
-         * @return a list that contained all the sources
-         */
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
-
+    /**
+     * @param _source
+     *          _source that will be added
+     * @return boolean to inform if the _source has been added
+     */
     public boolean addSource(DatabaseSource _source) {
-        /**
-         * @param _source
-         *          _source that will be added
-         * @return boolean to inform if the _source has been added
-         */
         try {
             jsonDBTemplate.insert(_source);
             return true;
@@ -62,14 +72,12 @@ public class SourceManager {
         }
     }
 
-
+    /**
+     * @param _source
+     *             _source to update
+     * @return boolean to inform if the sources has been updated
+     */
     public boolean updateSource(DatabaseSource _source){
-        /**
-         * @param _source
-         *             _source to update
-         * @return boolean to inform if the sources has been updated
-         * @throws InvalidJsonDbApiUsageException
-         */
         try{
             jsonDBTemplate.upsert(_source);
             return true;
@@ -79,16 +87,15 @@ public class SourceManager {
         }
     }
 
-
-    public void download(ArticleManager _articleManager) throws IOException, ParserConfigurationException, SAXException, ParseException {
-        /**
-         * Download the articles
-         * @see ArticleManager
-         * @see databaseArticle
-         * @see ParserRss
-         * @param _articleManager
-         *                  article manager to see what articles can we load
-         */
+    /**
+     * Download the articles
+     * @see ArticleManager
+     * @see ParserRss
+     * @see DatabaseArticle
+     * @param _articleManager
+     *                  article manager to see what articles can we load
+     */
+    public void download(ArticleManager _articleManager) {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {

@@ -34,18 +34,18 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     private final Hyperlink linkLabel = new Hyperlink();
     private final AnchorPane content = new AnchorPane();
 
-
+    /**
+     * Constructor of the article cell
+     *
+     * @version 3.0
+     * @see GridPane
+     * @see ImageView
+     * @see Label
+     * @see Hyperlink
+     * @see AnchorPane
+     */
     public ArticleCell() {
-        /**
-         * Constructor of the article cell
-         *
-         * @version 3.0
-         * @see GridPane
-         * @see ImageView
-         * @see Label
-         * @see Hyperlink
-         * @see AnchorPane
-         */
+
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
@@ -81,12 +81,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      */
     @Override
     protected void updateItem(DatabaseArticle item, boolean _empty){
-        /**
-         * Function called when an item is modified
-         *
-         * @throws IOException : if there's no picture found for the cell
-         * @throws URISyntaxException : if the link doesn't work
-         */
         super.updateItem(item, _empty);
         setGraphic(null);
         setText(null);
@@ -95,20 +89,13 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             titleLabel.setText(item.getTitle());
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
             linkLabel.setText(item.getLink());
-
-
             popupOverArticle(item);
-
-
             Image icon = new Image(DEFAULT_ICON);
             try {
                 icon = new Image(getIconUrl(item.getLink(), item.getDescription()));
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
             articleIcon.setImage(icon);
-
-
-
             linkLabel.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -125,18 +112,18 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
 
             });
-            
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }
 
+    /**
+     * Function called to create a popup that only shows when the mouse is over
+     * @param _item item to show
+     */
     private void popupOverArticle(DatabaseArticle _item) {
-        /**
-         * Function called to create a popup that only shows when the mouse is over
-         * @param article _item
-         */
+
         String summaryText = "";
         if (_item.getDescription() != null) {
             summaryText = htmlToPlain(_item.getDescription());
@@ -145,26 +132,26 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         DisplayPreview(gridPane, summaryText);
     }
 
-    private void DisplayPreview(GridPane articlePane, String summary) {
-        /**
-         * Function called to make the preview of the article
-         * @param GridPane _articlePane
-         * @param String _summary
-         */
-
+    /**
+     * Function called to make the preview of the article
+     * @param _articlePane article pane where show the preview
+     * @param _summary description of the article
+     */
+    private void DisplayPreview(GridPane _articlePane, String _summary) {
         StackPane previewPane = makeSummaryPane();
-        Popup popup = makePreviewPopup(summary, previewPane);
-        showsWhenMouseOver(articlePane, previewPane, popup);
+        Popup popup = makePreviewPopup(_summary, previewPane);
+        showsWhenMouseOver(_articlePane, previewPane, popup);
 
     }
 
+    /**
+     * Function called to make the popup appear and disappear
+     * @param _articlePane article pane where show the preview
+     * @param _previewPane preview pane where show the preview
+     * @param _popup popup where to show the preview
+     */
     private void showsWhenMouseOver(GridPane _articlePane, StackPane _previewPane, Popup _popup) {
-        /**
-         * Function called to make the popup appear and disappear
-         * @param GridPane _articlePane
-         * @param GridPane _previewPane
-         * @param Popup _popup
-         */
+
         _articlePane.hoverProperty().addListener((obs, oldVal, newValue) -> {
 
             if (newValue) {
@@ -178,14 +165,14 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         });
     }
 
-
+    /**
+     * Function called to create the popup
+     * @param _summary summary to print in the popup
+     * @param _previewPane preview pane where the summary is shown
+     * @return Popup
+     */
     private Popup makePreviewPopup(String _summary, StackPane _previewPane) {
-        /**
-         * Function called to create the popup
-         * @param String _summary
-         * @param StackPane _previewPane
-         * @return Popup
-         */
+
         TextArea resume = new TextArea(_summary);
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -204,11 +191,11 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     }
 
 
+    /**
+     * Function called to create the previewPane
+     * @return Stackpane
+     */
     private StackPane makeSummaryPane() {
-        /**
-         * Function called to create the previewPane
-         * @return Stackpane
-         */
 
         StackPane previewPane = new StackPane();
         previewPane.setPrefSize(200, 200);
@@ -220,7 +207,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Retrieve first icon url in html text
-     *
      * @param _descriptionHtml html file to parse
      * @return url to an image
      */
