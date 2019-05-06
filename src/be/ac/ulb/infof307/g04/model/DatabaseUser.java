@@ -12,20 +12,20 @@ public class DatabaseUser implements Serializable {
     @Secret
     private String username;
     @Secret
-    private int hashed_password;
+    private int hashedPassword;
 
     public DatabaseUser() {
     }
 
-    public DatabaseUser(String _username, String password) {
+    public DatabaseUser(String _username, String _password) {
         this.username = _username;
-        this.hashed_password = password.hashCode();
+        this.hashedPassword = _password.hashCode();
     }
 
 
-    public DatabaseUser(DatabaseUser user) {
-        this.setUsername(user.getUsername());
-        this.setPassword(user.getPassword());
+    public DatabaseUser(DatabaseUser _user) {
+        this.setUsername(_user.getUsername());
+        this.setPassword(_user.getPassword());
     }
 
     public String getUsername() {
@@ -37,13 +37,13 @@ public class DatabaseUser implements Serializable {
     }
 
     public int getPassword() {
-        return hashed_password;
+        return hashedPassword;
     }
 
     public void setPassword(String _password) {
-        this.hashed_password = _password.hashCode();
+        this.hashedPassword = _password.hashCode();
     }
     public void setPassword(int _password) {
-        this.hashed_password = _password;
+        this.hashedPassword = _password;
     }
 }

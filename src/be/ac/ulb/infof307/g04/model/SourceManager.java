@@ -100,6 +100,7 @@ public class SourceManager {
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
+                System.out.println(source.getSourceName());
                 try {
                     int counter = source.getNumberToDownload();
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());

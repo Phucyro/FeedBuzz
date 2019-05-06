@@ -1,8 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
-import be.ac.ulb.infof307.g04.ViewListArticles;
 import be.ac.ulb.infof307.g04.model.UserManager;
-import com.sun.javafx.application.HostServicesDelegate;
+import be.ac.ulb.infof307.g04.view.ArticleListController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,47 +9,44 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 
 public class ViewLoginRegister extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
     private String DB_ROOT = "./article_db/";
-    UserManager user_manager = new UserManager("./article_db","password");
+    UserManager userManager = new UserManager("./article_db","password");
 
 
     @FXML
-    private TextField login_username;
+    private TextField loginUsername;
     @FXML
-    private PasswordField login_password;
+    private PasswordField loginPassword;
     @FXML
-    private Label login_warning;
+    private Label loginWarning;
 
 
     @FXML
-    private TextField register_username;
+    private TextField registerUsername;
     @FXML
-    private PasswordField register_password;
+    private PasswordField registerPassword;
     @FXML
-    private PasswordField register_confirm_password;
+    private PasswordField registerConfirmPassword;
     @FXML
-    private CheckBox user_agreement_checkbox;
+    private CheckBox userAgreementCheckbox;
     @FXML
-    private Label register_warning;
+    private Label registerWarning;
     @FXML
-    private Hyperlink user_agreement_link;
+    private Hyperlink userAgreementLink;
 
-    private Stage main_stage;
+    private Stage mainStage;
 
 
 
@@ -59,7 +55,37 @@ public class ViewLoginRegister extends Application{
     public ViewLoginRegister(){ }
 
 
+    /**
+     * Set the webview for the user agreement terms
+     *
+     */
+    public void initialize(){
+        Stage userAgreementView = new Stage();
+        // set title for the stage
+        userAgreementView.setTitle("Contrat de license");
 
+        // create a webview object
+        WebView webView = new WebView();
+
+        // get the web engine
+        WebEngine webEngine = webView.getEngine();
+
+        // load the html page containing the user terms (possibility to format with css and html to make a pretty user agreements terms
+        webEngine.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
+
+
+        // create a scene
+        Scene scene = new Scene(webView, webView.getPrefWidth(),
+                webView.getPrefHeight());
+
+        // set the scene
+        userAgreementView.setScene(scene);
+        // lorsque l'utilisateur clique sur le lien vers le contrat d'utilisation
+        userAgreementLink.setOnAction(e -> {
+            userAgreementView.show();
+        });
+
+    }
     /**
      * Start javafx window
      * @param primaryStage
@@ -68,47 +94,17 @@ public class ViewLoginRegister extends Application{
     public void start(Stage primaryStage) {
     }
 
-    /**
-     * Set the webview for the user agreement terms
-     *
-     */
-    public void initialize(){
-        Stage user_agreement_view = new Stage();
-        // set title for the stage
-        user_agreement_view.setTitle("Contrat de license");
 
-        // create a webview object
-        WebView w = new WebView();
-
-        // get the web engine
-        WebEngine wsk = w.getEngine();
-
-        // load the html page containing the user terms (possibility to format with css and html to make a pretty user agreements terms
-        wsk.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
-
-
-        // create a scene
-        Scene scene = new Scene(w, w.getPrefWidth(),
-                w.getPrefHeight());
-
-        // set the scene
-        user_agreement_view.setScene(scene);
-        // lorsque l'utilisateur clique sur le lien vers le contrat d'utilisation
-        user_agreement_link.setOnAction(e -> {
-            user_agreement_view.show();
-        });
-
-    }
 
 
 
 
     /**
      * Make a directory to contain the user database (articles,sources and tags)
-     * @param username article the name of the folder to make
+     * @param _username article the name of the folder to make
      */
-    public void make_user_directory(String username){
-        File file = new File(DB_ROOT + username);
+    public void makeUserDirectory(String _username){
+        File file = new File(DB_ROOT + _username);
         if (file.exists()) { file.delete();}
 
         if (file.mkdir())  {
@@ -124,13 +120,13 @@ public class ViewLoginRegister extends Application{
 
     /**
      * Update the label to inform the user the input are not valid in the login or register form
-     * @param label_warning the label used to display the warning
-     * @param warning the message warning
+     * @param _labelWarning the label used to display the warning
+     * @param _warning the message warning
      */
-    public void set_warning_and_display(Label label_warning, String warning){
-        if (label_warning!=null){
-            label_warning.setText(warning);
-            label_warning.setVisible(true);
+    public void setWarningAndDisplay(Label _labelWarning, String _warning){
+        if (_labelWarning!=null){
+            _labelWarning.setText(_warning);
+            _labelWarning.setVisible(true);
         }
     }
 
@@ -139,15 +135,15 @@ public class ViewLoginRegister extends Application{
 
     /**
      * check the validity of the textfield inputs in the login form
-     * @param username_str the username
-     * @param password_str the password
+     * @param _usernameStr the username
+     * @param _passwordStr the password
      */
-    public boolean login_inputs_valids(String username_str, String password_str) {
-        if (!username_str.isEmpty() && !password_str.isEmpty()) {
+    public boolean loginInputsValid(String _usernameStr, String _passwordStr) {
+        if (!_usernameStr.isEmpty() && !_passwordStr.isEmpty()) {
             return true;
         }
         else{
-            set_warning_and_display(login_warning, "Les champs ne peuvent etre vides");
+            setWarningAndDisplay(loginWarning, "Les champs ne peuvent etre vides");
             return false;
         }
     }
@@ -155,35 +151,37 @@ public class ViewLoginRegister extends Application{
 
     /**
      * check the validity of the inputs in the register form
-     * @param username_str the username
-     * @param password_str the password
-     * @param confirm_password_str the confirmation password
+     * @param _usernameStr the username
+     * @param _passwordStr the password
+     * @param _confirmPasswordStr the confirmation password
      */
-    public boolean register_inputs_valids(String username_str, String password_str, String confirm_password_str) {
+    public boolean registerInputsValid(String _usernameStr, String _passwordStr, String _confirmPasswordStr) {
         // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
-        if(username_str.length() >= MIN_CHARACTERS && username_str.length() <=MAX_CHARACTERS){
-            if(password_str.length() >= MIN_CHARACTERS && password_str.length() <= MAX_CHARACTERS){
-                if(password_str.equals(confirm_password_str)){
+        if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <=MAX_CHARACTERS){
+            if(_passwordStr.length() >= MIN_CHARACTERS && _passwordStr.length() <= MAX_CHARACTERS){
+                if(_passwordStr.equals(_confirmPasswordStr)){
                     return true;
                 }
-                else{set_warning_and_display(register_warning, "Les mots de passe ne correspondent pas");}
+                else{
+                    setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
             }
-            else{ set_warning_and_display(register_warning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
+            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
         }
-        else{set_warning_and_display(register_warning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
+        else{
+            setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
 
         return false;
 
     }
 
 
-    public boolean is_checked_useragreements(){
-        if(user_agreement_checkbox.isSelected()){
+    public boolean isCheckedUserAgreements(){
+        if(userAgreementCheckbox.isSelected()){
             return true;
         }
 
         else{
-            set_warning_and_display(register_warning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
+            setWarningAndDisplay(registerWarning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
             return false;
         }
 
@@ -193,41 +191,47 @@ public class ViewLoginRegister extends Application{
     /**
      * Try to connect the user
      */
-    public void connect_button_pressed() throws java.io.IOException {
-        login_warning.setVisible(false);
-        String username_str = login_username.getText();
-        String password_str = login_password.getText();
+    public void connectButtonPressed() throws java.io.IOException {
+        loginWarning.setVisible(false);
+        String username = loginUsername.getText();
+        String password = loginPassword.getText();
 
-        if (login_inputs_valids(username_str,password_str)) {
-            if (user_manager.existUser(username_str, password_str)) {
-                launch_main_app(DB_ROOT+username_str, password_str);
+        if (loginInputsValid(username,password)) {
+            if (userManager.existUser(username, password)) {
+                launchMainApp(DB_ROOT+username, password);
             }
             else{
-                set_warning_and_display(login_warning, "Nom d'utilisateur ou mot de passe invalide");
+                setWarningAndDisplay(loginWarning, "Nom d'utilisateur ou mot de passe invalide");
             }
         }
     }
 
 
+
+
+    public void appClosed(){
+        mainStage.close();
+    }
+
     /**
      * Try to register the user
      */
-    public void register_button_pressed() throws java.io.IOException{
+    public void registerButtonPressed() throws IOException {
 
-        register_warning.setVisible(false);
-        String username_str = register_username.getText();
-        String password_str = register_password.getText();
-        String confirm_password_str = register_confirm_password.getText();
+        registerWarning.setVisible(false);
+        String username = registerUsername.getText();
+        String password = registerPassword.getText();
+        String confirmPassword = registerConfirmPassword.getText();
 
-        if(register_inputs_valids(username_str,password_str,confirm_password_str) && is_checked_useragreements()) {
-            if (!user_manager.existUsername(username_str)) {
-                user_manager.add_user(username_str, password_str);
-                String db_user_path = DB_ROOT + username_str;
+        if(registerInputsValid(username,password,confirmPassword) && isCheckedUserAgreements()) {
+            if (!userManager.existUsername(username)) {
+                userManager.addUser(username, password);
+                String db_user_path = DB_ROOT + username;
 
-                make_user_directory(username_str);
-                launch_main_app(db_user_path, password_str);
+                makeUserDirectory(username);
+                launchMainApp(db_user_path, password);
             }
-            else{ set_warning_and_display(register_warning, "Le nom d'utilisateur existe déja");}
+            else{ setWarningAndDisplay(registerWarning, "Le nom d'utilisateur existe déja");}
         }
     }
 
@@ -236,13 +240,14 @@ public class ViewLoginRegister extends Application{
 
     /**
      * launch the main menu of the app with the path to the connected user's database
-     * @param dbPath the path to the user database
+     * @param _dbPath the path to the user database
      */
-    public void launch_main_app(String dbPath, String password) throws java.io.IOException{
-        Window current_window = login_warning.getScene().getWindow();
+    public void launchMainApp(String _dbPath, String _password) throws java.io.IOException{
+        Window currentWindow = loginWarning.getScene().getWindow();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleList.fxml"));
-        ViewListArticles controller = new ViewListArticles(dbPath, password);
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleListController.fxml"));
+        FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
+        ArticleListController controller = new ArticleListController(_dbPath, _password);
         loader.setController(controller);
         Parent root = (Parent) loader.load();
         Stage stage = new Stage();
@@ -250,6 +255,6 @@ public class ViewLoginRegister extends Application{
         controller.setMainStage(stage);
         stage.show();
 
-        current_window.hide();
+        currentWindow.hide();
     }
 }

@@ -108,7 +108,7 @@ public class TagManager {
      *          the database in which we work
      */
     private void update(String _key, String _oldValue, String _newValue, Class _entityClass){
-         Update update = Update.update(_key, _newValue);
+        Update update = Update.update(_key, _newValue);
         String jxQuery = String.format("/.[%s='%s']", _key, _oldValue);
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
     }
