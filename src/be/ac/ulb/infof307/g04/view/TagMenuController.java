@@ -36,7 +36,7 @@ public class TagMenuController extends Application {
     private ListView<String> tagsListview;
 
 
-    public TagMenuController(String _dbPath, String _password) {
+    TagMenuController(String _dbPath, String _password) {
         tagManager = new TagManager(_dbPath, _password);
     }
 
@@ -90,7 +90,6 @@ public class TagMenuController extends Application {
      * alert message when encoding problem
      */
     private void alertDialog() {
-        System.out.println("Pop up");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error!");
         alert.setHeaderText("New tag name empty");

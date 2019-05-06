@@ -206,6 +206,7 @@ public class ArticleListController extends Application {
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
+            controller.start(stage);
             setStage(root, stage);
             stageArrayList.add(stage);
 

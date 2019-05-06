@@ -26,8 +26,12 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private final Spinner<Integer> sourceNumberOfArticles = new Spinner<>();
     private final ComboBox<String> sourceTag = new ComboBox<>();
     private DatabaseSource item;
+    private String dbPath;
+    private String dbPassword;
 
-    public SourceCell() {
+    public SourceCell(String _dbPath, String _dbPassword) {
+        dbPath = _dbPath;
+        dbPassword = _dbPassword;
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         sourceLifespan.setMaxWidth(Double.MAX_VALUE);
         sourceNumberOfArticles.setMaxWidth(Double.MAX_VALUE);
@@ -75,7 +79,7 @@ public class SourceCell extends ListCell<DatabaseSource>{
      * @throws java.io.IOException : if an article doesn't have a tag -> default
      */
     private void initTag() {
-        TagManager tagManager = new TagManager("./article_db", "password");
+        TagManager tagManager = new TagManager(dbPath, dbPassword);
         ObservableList<String> tags = FXCollections.observableArrayList();
         tagManager.getAll().forEach(tag -> tags.add(tag.getName()));
         sourceTag.setItems(tags);

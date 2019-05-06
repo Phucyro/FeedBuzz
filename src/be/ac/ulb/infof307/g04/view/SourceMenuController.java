@@ -31,7 +31,12 @@ public class SourceMenuController extends Application {
     @FXML
     private ListView listViewSources;
 
+    private String dbPath;
+    private String dbPassword;
+
     public SourceMenuController(String _dbPath, String _password) {
+        dbPath = _dbPath;
+        dbPassword = _password;
         sourceManager = new SourceManager(_dbPath, _password);
     }
 
@@ -40,7 +45,7 @@ public class SourceMenuController extends Application {
          * Constructor of the Menu
          * @throws IOException : if there's no source
          */
-        listViewSources.setCellFactory(lv -> new SourceCell());
+        listViewSources.setCellFactory(lv -> new SourceCell(dbPath, dbPassword));
         displaySources(sourceManager.loadSources());
     }
 

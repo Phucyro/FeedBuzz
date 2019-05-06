@@ -4,7 +4,9 @@ import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
+import be.ac.ulb.infof307.g04.model.TagManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,6 +22,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Class ViewSingleArticleController, show what an article looks like when you click on it in the article cell
@@ -37,6 +41,8 @@ public class ViewSingleArticleController extends Application{
 
     //Manager that could allow to delete an article
     private ArticleManager articleManager;
+    private Timer timer;
+    private boolean windowActive;
 
     @FXML
     private Label integrityLabel;
@@ -64,9 +70,11 @@ public class ViewSingleArticleController extends Application{
       *article that has to be viewed
       */
     public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword)
-            throws IOException, ParserConfigurationException, SAXException, ParseException{
+            throws IOException, ParserConfigurationException, SAXException, ParseException {
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
+        articleManager.openArticle(_article);
+        timer = new Timer();
         if (InternetTester.testInternet()) {
             //ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
             //checkIntegrity(); Not supported yet
@@ -82,7 +90,19 @@ public class ViewSingleArticleController extends Application{
      * Start javafx window
      */
     @Override
-    public void start(Stage _primaryStage) {}
+    public void start(Stage _primaryStage) {
+        _primaryStage.setOnHidden(e -> {
+            stop();
+        });
+        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            windowActive = newValue;
+        });
+    }
+
+    @Override
+    public void stop(){
+        stopTimer();
+    }
 
     /**
      * Initialize the text and the title of the article
@@ -96,7 +116,26 @@ public class ViewSingleArticleController extends Application{
         else {
             articleView.getEngine().loadContent(article.getHtmlContent());
         }
+
         setFields();
+        startTimer();
+    }
+
+    private void startTimer() {
+        TimerTask task = new TimerTask()
+        {
+            public void run()
+            {
+                if (windowActive) {
+                    articleManager.addTimeWatched(article, 1);
+                }
+            }
+        };
+        timer.schedule(task,0,1000);
+    }
+
+    private void stopTimer() {
+        timer.cancel();
     }
 
     /**

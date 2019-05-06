@@ -14,10 +14,15 @@ import java.io.Serializable;
 public class DatabaseTag implements Serializable {
     @Id
     private String name;
+    private int score;
 
-    public DatabaseTag(){}
+    public DatabaseTag(){
+        score = 0;
+    }
 
 
     public String getName() { return name; }
     public void setName(String _name) { this.name = _name; }
+    public int getScore() { return score; }
+    public void setScore(int _score) { this.score = _score; }
 }

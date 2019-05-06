@@ -26,12 +26,14 @@ public class ArticleManager{
     public static final int LIKED = 1;
     public static final int NEUTRAL = 0;
     private JsonDBTemplate jsonDBTemplate;
+    private TagManager tagManager;
     /**
      * Constructor with the path to the database and the _password
      * @param _databasePath path to the database
      * @param _password _password of the database
      */
     public ArticleManager(String _databasePath, String _password) {
+        tagManager = new TagManager(_databasePath, _password);
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -195,18 +197,41 @@ public class ArticleManager{
     }
 
     public void dislikeArticle(DatabaseArticle _article){
+        if (_article.getLikeState() == LIKED) {
+            tagManager.removeLike(_article.getTags());
+        }
+        tagManager.addDislike(_article.getTags());
         _article.setLikeState(DISLIKED);
         this.upsertArticle(_article);
     }
 
     public void likeArticle(DatabaseArticle _article){
+        if (_article.getLikeState() == DISLIKED) {
+            tagManager.removeDislike(_article.getTags());
+        }
+        tagManager.addLike(_article.getTags());
         _article.setLikeState(LIKED);
         this.upsertArticle(_article);
     }
 
     public void setNeutralLike(DatabaseArticle _article){
+        if (_article.getLikeState() == LIKED) {
+            tagManager.removeLike(_article.getTags());
+        } else if (_article.getLikeState() == DISLIKED) {
+            tagManager.removeDislike(_article.getTags());
+        }
         _article.setLikeState(NEUTRAL);
         this.upsertArticle(_article);
     }
 
+    public void addTimeWatched(DatabaseArticle _article, int _sec){
+        tagManager.addTime(_article.getTags(), _sec);
+    }
+
+    public void openArticle(DatabaseArticle _article) {
+        tagManager.addView(_article.getTags());
+        _article.setViewed(true);
+        upsertArticle(_article);
+
+    }
 }

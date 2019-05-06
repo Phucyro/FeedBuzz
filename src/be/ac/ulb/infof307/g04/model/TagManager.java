@@ -14,6 +14,10 @@ import java.util.ArrayList;
  * @see DatabaseTag
  */
 public class TagManager {
+    private static final int DISLIKEWEIGHT = -1;
+    private static final int LIKEWEIGHT = 1;
+    private static final int SECWEIGHT = 1;
+    private static final int VIEWWEIGHT = 1;
     private JsonDBTemplate jsonDBTemplate;
 
     /**
@@ -76,7 +80,7 @@ public class TagManager {
     }
 
     /**
-     * modify a _tag from the database with another
+     * modify a _tag from the database with an other
      * @param _tag
      *          the _tag that will be modified
      * @param _newTag
@@ -113,6 +117,22 @@ public class TagManager {
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
     }
 
+    private void editScore(String _tagName, int _score){
+        DatabaseTag toEdit = getTag(_tagName);
+        if (toEdit != null){
+            toEdit.setScore(toEdit.getScore() + _score);
+            jsonDBTemplate.upsert(toEdit);
+        }
+    }
+
+    private DatabaseTag getTag(String tagName) {
+        try {
+            return jsonDBTemplate.findById(tagName, DatabaseTag.class);
+        } catch(InvalidJsonDbApiUsageException e){
+            return null;
+        }
+    }
+
     /**
      * @return a list that contained all the tags
      */
@@ -129,5 +149,29 @@ public class TagManager {
          */
         ArrayList<DatabaseTag> tags = getAll();
         tags.forEach(tag -> deleteTag(tag));
+    }
+
+    public void removeDislike(String _tag) {
+        editScore(_tag, -DISLIKEWEIGHT);
+    }
+
+    public void addDislike(String _tag) {
+        editScore(_tag, DISLIKEWEIGHT);
+    }
+
+    public void removeLike(String _tag) {
+        editScore(_tag, -LIKEWEIGHT);
+    }
+
+    public void addLike(String _tag) {
+        editScore(_tag, LIKEWEIGHT);
+    }
+
+    public void addTime(String _tag, int sec) {
+        editScore(_tag, sec* SECWEIGHT);
+    }
+
+    public void addView(String _tag) {
+        editScore(_tag, VIEWWEIGHT);
     }
 }
