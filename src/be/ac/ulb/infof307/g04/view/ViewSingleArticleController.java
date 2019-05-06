@@ -68,7 +68,7 @@ public class ViewSingleArticleController extends Application{
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         if (InternetTester.testInternet()) {
-            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
+            //ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
             //checkIntegrity(); Not supported yet
         }
     }
@@ -103,7 +103,7 @@ public class ViewSingleArticleController extends Application{
      * set integrity and tag files
      */
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        handleIntegrity();
+        //handleIntegrity(); Not supported yet
         tagsLabel.setText("Tags: " + article.getTags());
         updateLikeDislikeButton();
 
