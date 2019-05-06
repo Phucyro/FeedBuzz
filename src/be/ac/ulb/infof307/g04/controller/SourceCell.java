@@ -32,46 +32,12 @@ public class SourceCell extends ListCell<DatabaseSource>{
         sourceLifespan.setMaxWidth(Double.MAX_VALUE);
         sourceNumberOfArticles.setMaxWidth(Double.MAX_VALUE);
         sourceTag.setMaxWidth(Double.MAX_VALUE);
-        GridPane.setConstraints(titleLabel, 1, 0);
-        GridPane.setConstraints(urlLabel, 2, 0);
-        GridPane.setConstraints(sourceEnabled, 0, 0);
-        GridPane.setConstraints(sourceNumberOfArticles, 3, 0);
-        GridPane.setConstraints(sourceLifespan, 4, 0);
-        GridPane.setConstraints(sourceTag, 5, 0);
 
-
-        ColumnConstraints columnConstraints = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
-        columnConstraints.setPercentWidth(5);
-        ColumnConstraints defaultConstraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
-        defaultConstraint.setPercentWidth(19);
-        gridPane.getColumnConstraints().add(columnConstraints);
-        gridPane.getColumnConstraints().add(defaultConstraint);
-        gridPane.getColumnConstraints().add(defaultConstraint);
-        gridPane.getColumnConstraints().add(defaultConstraint);
-        gridPane.getColumnConstraints().add(defaultConstraint);
-        gridPane.getColumnConstraints().add(defaultConstraint);
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.setHgap(6);
-        gridPane.setVgap(6);
-        gridPane.getChildren().setAll(titleLabel, urlLabel, sourceEnabled, sourceNumberOfArticles, sourceLifespan, sourceTag);
-        AnchorPane.setTopAnchor(gridPane, 0d);
-        AnchorPane.setLeftAnchor(gridPane, 0d);
-        AnchorPane.setBottomAnchor(gridPane, 0d);
-        AnchorPane.setRightAnchor(gridPane, 0d);
+        initGridPane();
+        initAnchorPane();
         content.getChildren().add(gridPane);
 
-        //listener that reacts when the checkbox value is modified
-        sourceEnabled.selectedProperty().addListener((obs, oldValue, newValue) ->
-                item.setEnabled(sourceEnabled.isSelected()));
-        //listener that reacts when the left spinner value (number of articles to load) is modified
-        sourceNumberOfArticles.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setNumberToDownload(sourceNumberOfArticles.getValue()));
-        //listener that reacts when the right spinner value (lifespan of an article) is modified
-        sourceLifespan.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setLifeSpanDefault(sourceLifespan.getValue()));
-        //listener that reacts when the combobox value (tags) is modified
-        sourceTag.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setTag(sourceTag.getValue()));
+        sourceListener();
 
     }
 
@@ -91,11 +57,7 @@ public class SourceCell extends ListCell<DatabaseSource>{
         if (!_empty && item != null) {
             titleLabel.setText(item.getSourceName());
             urlLabel.setText(item.getUrl());
-            sourceEnabled.setSelected(item.isEnabled());
-            SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumberToDownload());
-            sourceNumberOfArticles.setValueFactory(valueFactoryNumber);
-            SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpanDefault());
-            sourceLifespan.setValueFactory(valueFactoryLifespan);
+            updateSource();
 
             initTag();
 
@@ -123,5 +85,85 @@ public class SourceCell extends ListCell<DatabaseSource>{
         } else {
             sourceTag.setValue("Default");
         }
+    }
+
+    /**
+     * Initialize gridpane
+     */
+    private void initGridPane(){
+        initGridPaneConstraints();
+        initGridPaneColumnConstraints();
+        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
+        gridPane.setHgap(6);
+        gridPane.setVgap(6);
+        gridPane.getChildren().setAll(titleLabel, urlLabel, sourceEnabled, sourceNumberOfArticles, sourceLifespan, sourceTag);
+    }
+
+    /**
+     * Initialize gridpane constraints
+     */
+    private void initGridPaneConstraints(){
+        GridPane.setConstraints(titleLabel, 1, 0);
+        GridPane.setConstraints(urlLabel, 2, 0);
+        GridPane.setConstraints(sourceEnabled, 0, 0);
+        GridPane.setConstraints(sourceNumberOfArticles, 3, 0);
+        GridPane.setConstraints(sourceLifespan, 4, 0);
+        GridPane.setConstraints(sourceTag, 5, 0);
+    }
+
+    /**
+     * Initialize gridpane column constraints
+     */
+    private void initGridPaneColumnConstraints(){
+        ColumnConstraints columnConstraints = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        columnConstraints.setPercentWidth(5);
+        ColumnConstraints defaultConstraint = new ColumnConstraints(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE, Priority.NEVER, HPos.LEFT, true);
+        defaultConstraint.setPercentWidth(19);
+
+        gridPane.getColumnConstraints().add(columnConstraints);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+        gridPane.getColumnConstraints().add(defaultConstraint);
+    }
+
+    /**
+     * Initialize anchorpane
+     */
+    private void initAnchorPane(){
+        AnchorPane.setTopAnchor(gridPane, 0d);
+        AnchorPane.setLeftAnchor(gridPane, 0d);
+        AnchorPane.setBottomAnchor(gridPane, 0d);
+        AnchorPane.setRightAnchor(gridPane, 0d);
+    }
+
+    /**
+     * Gather all the listener source functions
+     */
+    private void sourceListener(){
+        //listener that reacts when the checkbox value is modified
+        sourceEnabled.selectedProperty().addListener((obs, oldValue, newValue) ->
+                item.setEnabled(sourceEnabled.isSelected()));
+        //listener that reacts when the left spinner value (number of articles to load) is modified
+        sourceNumberOfArticles.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setNumberToDownload(sourceNumberOfArticles.getValue()));
+        //listener that reacts when the right spinner value (lifespan of an article) is modified
+        sourceLifespan.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setLifeSpanDefault(sourceLifespan.getValue()));
+        //listener that reacts when the combobox value (tags) is modified
+        sourceTag.valueProperty().addListener((obs, oldValue, newValue) ->
+                item.setTag(sourceTag.getValue()));
+    }
+
+    /**
+     * Does the update of the source
+     */
+    private void updateSource(){
+        sourceEnabled.setSelected(item.isEnabled());
+        SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumberToDownload());
+        sourceNumberOfArticles.setValueFactory(valueFactoryNumber);
+        SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpanDefault());
+        sourceLifespan.setValueFactory(valueFactoryLifespan);
     }
 }

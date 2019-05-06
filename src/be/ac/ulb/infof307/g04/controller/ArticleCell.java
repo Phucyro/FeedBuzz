@@ -50,28 +50,17 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
         GridPane.setValignment(articleIcon, VPos.TOP);
-        //
+
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         tagLabel.setStyle("-fx-font-size: 0.9em;");
         GridPane.setConstraints(tagLabel, 2, 0);
-
         GridPane.setConstraints(linkLabel, 1, 1, 2, 1);
 
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.setHgap(6);
-        gridPane.setVgap(6);
+        setGridPane();
         gridPane.getChildren().setAll(articleIcon, titleLabel, tagLabel, linkLabel);
 
-        AnchorPane.setTopAnchor(gridPane, 0d);
-        AnchorPane.setLeftAnchor(gridPane, 0d);
-        AnchorPane.setBottomAnchor(gridPane, 0d);
-        AnchorPane.setRightAnchor(gridPane, 0d);
+        setAnchorPane();
         content.getChildren().add(gridPane);
     }
 
@@ -203,8 +192,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         return previewPane;
     }
 
-
-
     /**
      * Retrieve first icon url in html text
      * @param _descriptionHtml html file to parse
@@ -222,4 +209,39 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     {
         return Jsoup.parse(html).text();
     }
+
+    /**
+     * Initialize Gridpane
+     */
+    private void setGridPane(){
+        setGridPaneColumnConstraints();
+        setGridPaneColumnConstraints();
+        setGridPaneColumnConstraints();
+        setGridPaneColumnConstraints();
+        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
+        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
+        gridPane.setHgap(6);
+        gridPane.setVgap(6);
+
+    }
+
+    /**
+     * Initialize Gridpane column constraints
+     */
+    private void setGridPaneColumnConstraints() {
+        gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
+    }
+
+    /**
+     * Initialize Anchorpane
+     */
+    private void setAnchorPane(){
+        AnchorPane.setTopAnchor(gridPane, 0d);
+        AnchorPane.setLeftAnchor(gridPane, 0d);
+        AnchorPane.setBottomAnchor(gridPane, 0d);
+        AnchorPane.setRightAnchor(gridPane, 0d);
+    }
+
 }
+
+

@@ -93,33 +93,19 @@ public class ArticleListController extends Application {
         init_db();
         source = new SourceManager(dbPath, password);
         searchBar = new ToolBar();
-        searchBar.setPrefHeight(40.0);
-        searchBar.setPrefWidth(200.0);
-        GridPane.setConstraints(searchBar, 0, 0);
-        CloseSearchButton = new Button("Close");
-        CloseSearchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeSearchBarStatus();
-            }
-        });
-        searchField = new TextField();
-        searchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
+        init_searchBar(40, 200);
 
-                ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
-                displayArticles(articles);
-                match_count.setText(articles.size() + " matches");
-            }
-        });
+        CloseSearchButton = new Button("Close");
+        init_closeSearchButton();
+
+        searchField = new TextField();
+        init_searchField();
         match_count = new Label();
         searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
         setHelpImages();
-//        QuitButton.setOnAction(e -> Platform.exit());
+
         if (InternetTester.testInternet()) {
             try {
                 source.download(article_manager);
@@ -131,7 +117,6 @@ public class ArticleListController extends Application {
         }else{
             //cas sans internet
         }
-
 
         displayArticles(article_manager.loadArticles());
 
@@ -214,7 +199,6 @@ public class ArticleListController extends Application {
     private void openArticleWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ViewSingleArticleController.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
             ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead);
             loader.setController(controller);
@@ -222,11 +206,10 @@ public class ArticleListController extends Application {
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
-            stage.setScene(new Scene(root));
+            setStage(root, stage);
             stageArrayList.add(stage);
-            stage.show();
 
-        } catch(NullPointerException e){
+        }catch(NullPointerException e){
             showErrorBox("No article selected");
         }catch(ParserConfigurationException e){
             showErrorBox("Parser configuration error");
@@ -234,7 +217,7 @@ public class ArticleListController extends Application {
             showErrorBox("No article selected");
         }catch(SAXException e){
             showErrorBox("SAX Error");
-        } catch (ParseException e) {
+        }catch (ParseException e) {
             showErrorBox("Parse error");
         }
     }
@@ -275,11 +258,9 @@ public class ArticleListController extends Application {
     public void openWindow(FXMLLoader _loader, String _title_window, String _title){
         try {
             Parent root = (Parent) _loader.load();
-
             Stage stage = new Stage();
             stage.setTitle(_title_window);
-            stage.setScene(new Scene(root));
-            stage.show();
+            setStage(root, stage);
         }
         catch (Exception e) {
             showErrorBox("Error while opening "+ _title + " window!");
@@ -293,18 +274,21 @@ public class ArticleListController extends Application {
     @FXML
     public void openSourceWindow(ActionEvent actionEvent) {
         try {
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/SourceMenuController.fxml"));
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            setStage(root, stage);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setStage(Parent root, Stage stage) {
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -328,6 +312,47 @@ public class ArticleListController extends Application {
         init_tags();
         init_sources();
     }
+
+    /**
+     * Initialize searchbar parameters
+     * @param height
+     * @param width
+     */
+    private void init_searchBar(int height, int width){
+
+        searchBar.setPrefHeight(height);
+        searchBar.setPrefWidth(width);
+        GridPane.setConstraints(searchBar, 0, 0);
+    }
+
+    /**
+     * Initialize "close" button from search bar
+     */
+    private void init_closeSearchButton() {
+        CloseSearchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                changeSearchBarStatus();
+            }
+        });
+    }
+
+    /**
+     * Initialize searchField
+     */
+    private void init_searchField() {
+        searchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+
+                ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
+                displayArticles(articles);
+                match_count.setText(articles.size() + " matches");
+            }
+        });
+    }
+
 
     /**
      * Initialize all the tags
