@@ -108,12 +108,7 @@ public class UserManager {
     public boolean existUsername(String _username){
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
-            if(user != null){
-                return true;
-            }
-            else{
-                return false;
-            }
+            return user != null;
 
         } catch (Exception e) {
             return false;
@@ -123,12 +118,7 @@ public class UserManager {
     public boolean existUser(String _username, String _password){
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
-            if(user.getPassword() == _password.hashCode()){
-                return true;
-            }
-            else{
-                return false;
-            }
+            return user.getPassword() == _password.hashCode();
         } catch (Exception e) {
             return false;
         }

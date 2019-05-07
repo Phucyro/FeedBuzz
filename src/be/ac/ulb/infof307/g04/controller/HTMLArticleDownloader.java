@@ -158,7 +158,7 @@ public class HTMLArticleDownloader {
             if (!new File(complete_path).exists()) {
                 Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
             }
-        } catch (UnknownHostException e) { //No internet
+        } catch (UnknownHostException e) { //No internet TODO print error
         }
 
         return new File(complete_path).toURI().toString();
