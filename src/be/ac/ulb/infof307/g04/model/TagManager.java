@@ -53,12 +53,10 @@ public class TagManager {
      *          _tag that will be added to the database
      * @return boolean to inform if the _tag has been added
      */
-    public boolean addTag(DatabaseTag _tag){
+    public void addTag(DatabaseTag _tag){
         try {
             jsonDBTemplate.insert(_tag);
-            return true;
         } catch (InvalidJsonDbApiUsageException e){
-            return false;
         }
     }
 
@@ -68,14 +66,12 @@ public class TagManager {
      *          _tag that will be removed from the database
      * @return boolean to inform if the _tag has been deleted
      */
-    public boolean deleteTag(DatabaseTag _tag){
+    public void deleteTag(DatabaseTag _tag){
         try {
             jsonDBTemplate.remove(_tag, DatabaseTag.class);
             update("_tag", _tag.getName(), "Default", DatabaseSource.class);
             update("category", _tag.getName(), "Default", DatabaseArticle.class);
-            return true;
         } catch (InvalidJsonDbApiUsageException e){
-            return false;
         }
     }
 
@@ -87,16 +83,14 @@ public class TagManager {
      *          the _tag that will replace the original _tag
      * @return boolean to inform if the _tag has well been deleted
      */
-    public boolean modifyTag(DatabaseTag _tag, DatabaseTag _newTag){
+    public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag){
         try {
             update("name", _tag.getName(), _newTag.getName(), DatabaseTag.class);
             update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
             update("category", _tag.getName(), _newTag.getName(), DatabaseArticle.class);
             deleteTag(_tag);
-            return true;
         } catch(InvalidJsonDbApiUsageException e){
             deleteTag(_tag);
-            return false;
         }
     }
 
@@ -148,7 +142,7 @@ public class TagManager {
          * remove all the tags in the database
          */
         ArrayList<DatabaseTag> tags = getAll();
-        tags.forEach(tag -> deleteTag(tag));
+        tags.forEach(this::deleteTag);
     }
 
     public void removeDislike(String _tag) {

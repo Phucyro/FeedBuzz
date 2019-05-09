@@ -4,9 +4,7 @@ import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
-import be.ac.ulb.infof307.g04.model.TagManager;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -35,14 +33,14 @@ import java.util.TimerTask;
 
 public class ViewSingleArticleController extends Application{
     private static final String POLYGON_URL = "https://www.polygon.com/rss/index.xml";
-    private DatabaseArticle article;
+    private final DatabaseArticle article;
 
     //Boolean fot the validity of the article
     private boolean isValid;
 
     //Manager that could allow to delete an article
-    private ArticleManager articleManager;
-    private Timer timer;
+    private final ArticleManager articleManager;
+    private final Timer timer;
     private boolean windowActive;
 
     @FXML
@@ -103,7 +101,6 @@ public class ViewSingleArticleController extends Application{
     /**
      * Initialize the text and the title of the article
      * Modify the integrity circle and text
-     * @throws IOException : if article wasn't found
      */
     public void initialize(){
         if(InternetTester.testInternet() && !article.getSourceUrl().equals(POLYGON_URL)) {

@@ -50,7 +50,6 @@ public class HTMLArticleDownloader {
     /**
      * @param _url url of the article
      * @return
-     * @throws IOException
      */
     public static String ArticleLocalifier(String _url) throws IOException {
         String folder_name = getFolderName(_url);
@@ -83,16 +82,13 @@ public class HTMLArticleDownloader {
      * @param _folderName folder name
      * @return new html content
      */
-    protected static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) {
+    protected static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) throws IOException {
         Pattern pat = Pattern.compile("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:css|jpg|gif|png|js)");
 
         Matcher mat = pat.matcher(_htmlContent);
 
         while (mat.find()) {
-            try {
-                _htmlContent = _htmlContent.replaceAll(mat.group(), downloader(mat.group(), _folderName));
-            } catch (IOException e) {
-            }
+            _htmlContent = _htmlContent.replaceAll(mat.group(), downloader(mat.group(), _folderName));
         }
         return _htmlContent;
     }

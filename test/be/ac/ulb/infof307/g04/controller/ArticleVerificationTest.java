@@ -30,7 +30,7 @@ public class ArticleVerificationTest {
     @BeforeAll
     void setupBeforeArticleVerification() throws IOException, ParserConfigurationException, SAXException, ParseException {
         // On recupere la liste d'article de la source
-        testSource = new String("http://feeds.bbci.co.uk/news/world/rss.xml");
+        testSource = "http://feeds.bbci.co.uk/news/world/rss.xml";
         ParserRss parser = new ParserRss();
         ArrayList<DatabaseArticle> articles = parser.parse(testSource);
 

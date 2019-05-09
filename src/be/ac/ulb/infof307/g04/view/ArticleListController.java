@@ -55,9 +55,9 @@ public class ArticleListController extends Application {
     private Button CloseSearchButton;
     private TextField searchField;
     private Label match_count;
-    private String dbPath;
-    private String password;
-    private ArrayList <Stage> stageArrayList = new ArrayList<Stage>();
+    private final String dbPath;
+    private final String password;
+    private final ArrayList <Stage> stageArrayList = new ArrayList<>();
     private Stage mainStage;
 
 
@@ -135,8 +135,8 @@ public class ArticleListController extends Application {
      */
     @FXML
     public void disconnect() {
-        for (int i = 0; i < stageArrayList.size(); i++) {
-            stageArrayList.get(i).close();
+        for (Stage aStageArrayList : stageArrayList) {
+            aStageArrayList.close();
         }
 
         mainStage.close();
@@ -145,13 +145,13 @@ public class ArticleListController extends Application {
     /**
      * relaunches the application after the disconnecting of windows
      * goes to logging screen
-     * @throws Exception
+     * @throws Exception exception caused by main
      */
     @FXML
     public void relaunch() throws Exception {
         disconnect();
-        Main mymain = new Main();
-        mymain.start(new Stage());
+        Main myMain = new Main();
+        myMain.start(new Stage());
     }
 
     /**
@@ -200,7 +200,6 @@ public class ArticleListController extends Application {
 
     /**
      * Method that opens an article when the user click on it
-     * @throws Exception : when no article has been selected
      */
     @FXML
     private void openArticleWindow() {
@@ -210,7 +209,7 @@ public class ArticleListController extends Application {
             ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
             controller.start(stage);
@@ -262,7 +261,7 @@ public class ArticleListController extends Application {
      */
     public void openWindow(FXMLLoader _loader, String _title_window, String _title){
         try {
-            Parent root = (Parent) _loader.load();
+            Parent root = _loader.load();
             Stage stage = new Stage();
             stage.setTitle(_title_window);
             setStage(root, stage);
@@ -282,7 +281,7 @@ public class ArticleListController extends Application {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             Stage stage = new Stage();
             setStage(root, stage);
 
@@ -334,27 +333,18 @@ public class ArticleListController extends Application {
      * Initialize "close" button from search bar
      */
     private void init_closeSearchButton() {
-        CloseSearchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeSearchBarStatus();
-            }
-        });
+        CloseSearchButton.setOnAction(event -> changeSearchBarStatus());
     }
 
     /**
      * Initialize searchField
      */
     private void init_searchField() {
-        searchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
 
-                ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
-                displayArticles(articles);
-                match_count.setText(articles.size() + " matches");
-            }
+            ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
+            displayArticles(articles);
+            match_count.setText(articles.size() + " matches");
         });
     }
 
@@ -366,8 +356,8 @@ public class ArticleListController extends Application {
         String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
         TagManager tagManager = new TagManager(dbPath, password);
         DatabaseTag tag = new DatabaseTag();
-        for(int i = 0; i < tags.length; i++){
-            tag.setName(tags[i]);
+        for (String tag1 : tags) {
+            tag.setName(tag1);
             tagManager.addTag(tag);
         }
     }

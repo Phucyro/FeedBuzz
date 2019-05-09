@@ -14,19 +14,19 @@ import java.util.ArrayList;
  *
  */
 public class ArticleVerification {
-    private DatabaseArticle articleToVerify;
+    private final DatabaseArticle articleToVerify;
     private DatabaseArticle articleFromSource;
-    private String source;
+    private final String source;
 
     /**
      * @param _article article to verify
      * @param _source_url source of the article
      */
     public ArticleVerification(DatabaseArticle _article, String _source_url){
-        /**
-         * Constructor of the DatabaseArticle verification
-         *
-         * @param _article
+        /*
+          Constructor of the DatabaseArticle verification
+
+          @param _article
          *              get the article that needs to be verified
          * @param _source_url
          *              get the url of the article

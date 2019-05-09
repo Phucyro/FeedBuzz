@@ -118,9 +118,9 @@ public class DatabaseArticle implements Serializable {
     }
 
     public boolean equals(DatabaseArticle _articleToCompare){
-        /**
-         * Test if an article is equal to another
-         * @return boolean
+        /*
+          Test if an article is equal to another
+          @return boolean
          * @throws
          */
         if (_articleToCompare == this) {

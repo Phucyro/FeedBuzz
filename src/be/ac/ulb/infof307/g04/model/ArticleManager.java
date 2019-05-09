@@ -26,7 +26,7 @@ public class ArticleManager{
     public static final int LIKED = 1;
     public static final int NEUTRAL = 0;
     private JsonDBTemplate jsonDBTemplate;
-    private TagManager tagManager;
+    private final TagManager tagManager;
     /**
      * Constructor with the path to the database and the _password
      * @param _databasePath path to the database
@@ -97,12 +97,10 @@ public class ArticleManager{
         }
     }
 
-    private boolean upsertArticle(DatabaseArticle _article){
+    private void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
-            return true;
         } catch (InvalidJsonDbApiUsageException e){
-            return false;
         }
     }
 
@@ -134,13 +132,11 @@ public class ArticleManager{
      *              _article the will be added
      * @return inform if the _article has been added
      */
-    public boolean addArticle(DatabaseArticle _article) {
+    public void addArticle(DatabaseArticle _article) {
         DatabaseArticle dbArticle = _article;
         try {
             jsonDBTemplate.insert(dbArticle);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            return false;
         }
     }
 

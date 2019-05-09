@@ -30,11 +30,6 @@ class SourceManagerTest {
 
     }
 
-    @AfterEach
-    void tearDown(){
-        //deleteDir(new File("./article_test_db"));
-    }
-
     @Test
     void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
         SourceManager sourceManager = new SourceManager("./article_test_db", "password");

@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -63,12 +62,10 @@ public class SourceManager {
      *          _source that will be added
      * @return boolean to inform if the _source has been added
      */
-    public boolean addSource(DatabaseSource _source) {
+    public void addSource(DatabaseSource _source) {
         try {
             jsonDBTemplate.insert(_source);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            return false;
         }
     }
 
@@ -77,13 +74,11 @@ public class SourceManager {
      *             _source to update
      * @return boolean to inform if the sources has been updated
      */
-    public boolean updateSource(DatabaseSource _source){
+    public void updateSource(DatabaseSource _source){
         try{
             jsonDBTemplate.upsert(_source);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
             e.printStackTrace();
-            return false;
         }
     }
 

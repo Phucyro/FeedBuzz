@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 
 public class TagMenuController extends Application {
-    private TagManager tagManager;
+    private final TagManager tagManager;
     @FXML
     private Button addButton;
     @FXML
