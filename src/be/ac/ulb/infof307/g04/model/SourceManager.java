@@ -95,13 +95,12 @@ public class SourceManager {
      * @param _articleManager
      *                  article manager to see what articles can we load
      */
-    public void download(ArticleManager _articleManager) {
+    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
                 System.out.println(source.getSourceName());
-                try {
                     int counter = source.getNumberToDownload();
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                     for (DatabaseArticle articleToSave : articles) {
@@ -125,14 +124,8 @@ public class SourceManager {
                             } else {
                                 System.out.println("Existing article");
                             }
-                        } else {
-                            break;
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //TODO cas offline
-                }
 
             }
         }

@@ -144,6 +144,13 @@ public class ViewSingleArticleController extends Application{
     private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
         //handleIntegrity(); Not supported yet
         tagsLabel.setText("Tags: " + article.getTags());
+        if (InternetTester.testInternet()){
+            integrityLabel.setText("Connected to internet");
+            integrityCircle.setFill(Color.GREEN);
+        } else {
+            integrityLabel.setText("No connexion");
+            integrityCircle.setFill(Color.ORANGE);
+        }
         updateLikeDislikeButton();
 
     }

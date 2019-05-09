@@ -6,6 +6,7 @@ import be.ac.ulb.infof307.g04.controller.ArticleCell;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -111,11 +112,17 @@ public class ArticleListController extends Application {
                 source.download(article_manager);
 
                 article_manager.verifyArticles();
-            } catch (Exception ignored) {
-
+            } catch (ParserConfigurationException e) {
+                showErrorBox("Parser Configuration exception");
+            } catch (ParseException e) {
+                showErrorBox("Parse exception");
+            } catch (SAXException e) {
+                showErrorBox("SAX Exception");
+            } catch (IOException e) {
+                showErrorBox("IO Exception");
             }
         }else{
-            //cas sans internet
+            showErrorBox("Pas d'internet");
         }
 
         displayArticles(article_manager.loadArticles());
@@ -249,6 +256,11 @@ public class ArticleListController extends Application {
         } catch (Exception e) {
             showErrorBox("Error while copying link to clipboard");
         }
+    }
+
+    @FXML
+    private void quit(){
+        Platform.exit();
     }
 
     /**

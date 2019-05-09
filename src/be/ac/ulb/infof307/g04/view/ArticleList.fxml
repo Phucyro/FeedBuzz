@@ -20,7 +20,7 @@
           <items>
                   <MenuItem fx:id="searchMenuButton" mnemonicParsing="false" onAction="#changeSearchBarStatus" text="Search by title" />
                   <MenuItem fx:id="disconnectButton" mnemonicParsing="false" onAction="#relaunch" text="Disconnect" />
-              <MenuItem fx:id="quitButton" mnemonicParsing="false" text="Quit" />
+              <MenuItem fx:id="quitButton" mnemonicParsing="false" onAction="#quit" text="Quit" />
           </items>
         </Menu>
           <Menu mnemonicParsing="false" text="Source">
