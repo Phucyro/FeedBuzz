@@ -217,16 +217,8 @@ public class ArticleListController extends Application {
             setStage(root, stage);
             stageArrayList.add(stage);
 
-        }catch(NullPointerException e){
+        }catch(NullPointerException | IOException e){
             showErrorBox("No article selected");
-        }catch(ParserConfigurationException e){
-            showErrorBox("Parser configuration error");
-        }catch(IOException e){
-            showErrorBox("No article selected");
-        }catch(SAXException e){
-            showErrorBox("SAX Error");
-        }catch (ParseException e) {
-            showErrorBox("Parse error");
         }
     }
 
@@ -388,7 +380,7 @@ public class ArticleListController extends Application {
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
-        sources.add(new DatabaseSource("JeuxVideo.com", "http://www.jeuxvideo.com/rss/rss.xml", "Technology"));
+        sources.add(new DatabaseSource("Polygon", "https://www.polygon.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("Vox", "https://www.vox.com/rss/world/index.xml"));
         sources.add(new DatabaseSource("CNN Money", "http://rss.cnn.com/rss/money_topstories.rss","Business"));
         sources.forEach(sourceManager::addSource);

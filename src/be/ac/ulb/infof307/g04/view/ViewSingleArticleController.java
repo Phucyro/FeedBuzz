@@ -34,6 +34,7 @@ import java.util.TimerTask;
  */
 
 public class ViewSingleArticleController extends Application{
+    private static final String POLYGON_URL = "https://www.polygon.com/rss/index.xml";
     private DatabaseArticle article;
 
     //Boolean fot the validity of the article
@@ -69,8 +70,7 @@ public class ViewSingleArticleController extends Application{
       *@param _article article to view
       *article that has to be viewed
       */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword)
-            throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) {
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
@@ -91,12 +91,8 @@ public class ViewSingleArticleController extends Application{
      */
     @Override
     public void start(Stage _primaryStage) {
-        _primaryStage.setOnHidden(e -> {
-            stop();
-        });
-        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            windowActive = newValue;
-        });
+        _primaryStage.setOnHidden(e -> stop());
+        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
     }
 
     @Override
@@ -109,8 +105,8 @@ public class ViewSingleArticleController extends Application{
      * Modify the integrity circle and text
      * @throws IOException : if article wasn't found
      */
-    public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        if(InternetTester.testInternet()) {
+    public void initialize(){
+        if(InternetTester.testInternet() && !article.getSourceUrl().equals(POLYGON_URL)) {
             articleView.getEngine().load(article.getLink());
         }
         else {
@@ -141,7 +137,7 @@ public class ViewSingleArticleController extends Application{
     /**
      * set integrity and tag files
      */
-    private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    private void setFields() {
         //handleIntegrity(); Not supported yet
         tagsLabel.setText("Tags: " + article.getTags());
         if (InternetTester.testInternet()){
