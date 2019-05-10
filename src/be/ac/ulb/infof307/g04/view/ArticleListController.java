@@ -93,20 +93,16 @@ public class ArticleListController extends Application {
         article_manager = new ArticleManager(dbPath, password);
         init_db();
         source = new SourceManager(dbPath, password);
-        searchBar = new ToolBar();
-        init_searchBar(40, 200);
+        initJavaFX();
+        downloadArticles();
+        displayArticles(article_manager.loadArticles());
 
-        CloseSearchButton = new Button("Close");
-        init_closeSearchButton();
+    }
 
-        searchField = new TextField();
-        init_searchField();
-        match_count = new Label();
-        searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
-
-        listViewArticles.setCellFactory(lv -> new ArticleCell());
-        setHelpImages();
-
+    /**
+     * download articles and show an error box if necessary
+     */
+    private void downloadArticles() {
         if (InternetTester.testInternet()) {
             try {
                 source.download(article_manager);
@@ -124,9 +120,25 @@ public class ArticleListController extends Application {
         }else{
             showErrorBox("Pas d'internet");
         }
+    }
 
-        displayArticles(article_manager.loadArticles());
+    /**
+     * initialize the javaFX elements
+     */
+    private void initJavaFX() {
+        searchBar = new ToolBar();
+        init_searchBar(40, 200);
 
+        CloseSearchButton = new Button("Close");
+        init_closeSearchButton();
+
+        searchField = new TextField();
+        init_searchField();
+        match_count = new Label();
+        searchBar.getItems().addAll(CloseSearchButton, searchField, match_count);
+
+        listViewArticles.setCellFactory(lv -> new ArticleCell());
+        setHelpImages();
     }
 
 
@@ -273,10 +285,10 @@ public class ArticleListController extends Application {
 
 
     /**
-     * @param actionEvent opens the SourceWindow (download settings)
+     * @param _actionEvent opens the SourceWindow (download settings)
      */
     @FXML
-    public void openSourceWindow(ActionEvent actionEvent) {
+    public void openSourceWindow(ActionEvent _actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
@@ -319,13 +331,13 @@ public class ArticleListController extends Application {
 
     /**
      * Initialize searchbar parameters
-     * @param height
-     * @param width
+     * @param _height
+     * @param _width
      */
-    private void init_searchBar(int height, int width){
+    private void init_searchBar(int _height, int _width){
 
-        searchBar.setPrefHeight(height);
-        searchBar.setPrefWidth(width);
+        searchBar.setPrefHeight(_height);
+        searchBar.setPrefWidth(_width);
         GridPane.setConstraints(searchBar, 0, 0);
     }
 

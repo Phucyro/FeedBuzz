@@ -138,9 +138,6 @@ public class TagManager {
      * delete all tags
      */
     public void deleteAll(){
-        /*
-         * remove all the tags in the database
-         */
         ArrayList<DatabaseTag> tags = getAll();
         tags.forEach(this::deleteTag);
     }

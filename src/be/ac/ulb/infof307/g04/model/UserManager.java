@@ -48,7 +48,6 @@ public class UserManager {
 
     /**
      * @param _username username to add
-     * @return inform if the user has been added
      */
     public void addUser(String _username, String _password) {
         try {
@@ -76,10 +75,9 @@ public class UserManager {
      * @param _username name of the user that we are looking for
      * @return found user
      */
-    public DatabaseUser findUserByUsername(String _username){
+    private DatabaseUser findUserByUsername(String _username){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
-            return user;
+            return jsonDBTemplate.findById(_username, DatabaseUser.class);
         } catch (Exception e) {
             return null;
         }

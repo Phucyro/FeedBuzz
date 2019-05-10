@@ -60,7 +60,6 @@ public class SourceManager {
     /**
      * @param _source
      *          _source that will be added
-     * @return boolean to inform if the _source has been added
      */
     public void addSource(DatabaseSource _source) {
         try {
@@ -72,7 +71,6 @@ public class SourceManager {
     /**
      * @param _source
      *             _source to update
-     * @return boolean to inform if the sources has been updated
      */
     public void updateSource(DatabaseSource _source){
         try{

@@ -18,9 +18,9 @@ import java.util.regex.Pattern;
 
 
 public class HTMLArticleDownloader {
-    public static final String HREF_TAG = "href";
-    public static final String SRC_TAG = "src";
-    public static final String MEDIA_FOLDER = "media/";
+    private static final String HREF_TAG = "href";
+    private static final String SRC_TAG = "src";
+    private static final String MEDIA_FOLDER = "media/";
 
     /**
      * Extract all the links and sort them by type
@@ -29,7 +29,7 @@ public class HTMLArticleDownloader {
      * @return url of the image
      * @throws IOException exception due
      */
-    public static String getIconFromDescription(String _articleLink, String _descriptionHtml) throws IOException {
+    static String getIconFromDescription(String _articleLink, String _descriptionHtml) throws IOException {
         String folder_name = getFolderName(_articleLink);
         new File(MEDIA_FOLDER).mkdir(); //TODO delete this
         new File(MEDIA_FOLDER + folder_name).mkdir();
@@ -49,7 +49,7 @@ public class HTMLArticleDownloader {
 
     /**
      * @param _url url of the article
-     * @return
+     * @return return the modified html to stock
      */
     public static String ArticleLocalifier(String _url) throws IOException {
         String folder_name = getFolderName(_url);
@@ -60,6 +60,7 @@ public class HTMLArticleDownloader {
         Elements links = doc.select("a[href]");
         Elements media = doc.select("[src]");
         Elements imports = doc.select("link[href]");
+        doc.getElementsByClass("m-privacy-consent").remove();
 
         replaceLinksHref(links, "#");
         downloadReplaceElementsFromTag(media, folder_name, SRC_TAG);
@@ -82,7 +83,7 @@ public class HTMLArticleDownloader {
      * @param _folderName folder name
      * @return new html content
      */
-    protected static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) throws IOException {
+    static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) throws IOException {
         Pattern pat = Pattern.compile("(http(s?):)([/|.|\\w|\\s|-])*\\.(?:css|jpg|gif|png|js)");
 
         Matcher mat = pat.matcher(_htmlContent);
@@ -149,12 +150,9 @@ public class HTMLArticleDownloader {
             filename = getHashedFilename(_url);
         }
         String complete_path = MEDIA_FOLDER + _folderName + "/" + filename;
-        try {
-            InputStream in = new URL(_url).openStream();
-            if (!new File(complete_path).exists()) {
-                Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (UnknownHostException e) { //No internet TODO print error
+        InputStream in = new URL(_url).openStream();
+        if (!new File(complete_path).exists()) {
+            Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
         }
 
         return new File(complete_path).toURI().toString();

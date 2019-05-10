@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -102,13 +104,17 @@ public class ViewSingleArticleController extends Application{
      * Initialize the text and the title of the article
      * Modify the integrity circle and text
      */
-    public void initialize(){
+    public void initialize() throws IOException {
+        String htmlFile;
         if(InternetTester.testInternet() && !article.getSourceUrl().equals(POLYGON_URL)) {
-            articleView.getEngine().load(article.getLink());
+            Document doc = Jsoup.connect(article.getLink()).get();
+            doc.getElementsByClass("m-privacy-consent").remove();
+            htmlFile = doc.toString();
         }
         else {
-            articleView.getEngine().loadContent(article.getHtmlContent());
+            htmlFile = article.getHtmlContent();
         }
+        articleView.getEngine().loadContent(htmlFile);
 
         setFields();
         startTimer();
@@ -146,42 +152,6 @@ public class ViewSingleArticleController extends Application{
         }
         updateLikeDislikeButton();
 
-    }
-
-    private void handleIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        //if article is integer -> green ; else -> red
-        if (InternetTester.testInternet()){
-            if (this.isValid) {
-                integrityLabel.setText("DatabaseArticle intègre");
-                integrityCircle.setFill(Color.web("0x00FF66"));
-            } else {
-                integrityLabel.setText("Non intègre!");
-                integrityCircle.setFill(Color.RED);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Erreur intégrité");
-                alert.setHeaderText("L'article n'est pas intègre!");
-                alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    verification.correctArticle();
-                }
-            }
-        }
-        else{
-            integrityLabel.setText("No connexion");
-            integrityCircle.setFill(Color.ORANGE);
-        }
-    }
-
-    /**
-     * validity of the article
-     */
-    private void checkIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        if (InternetTester.testInternet()) {
-            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-            this.isValid = verification.isValid();
-        }
     }
 
 
