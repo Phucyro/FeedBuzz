@@ -63,7 +63,7 @@ public class ViewLoginRegister extends Application{
     public void initialize(){
         Stage userAgreementView = new Stage();
         userAgreementView.setTitle("Contrat de license");
-        ArticleLabelizer mk = new ArticleLabelizer();
+
 
         WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();
@@ -131,9 +131,12 @@ public class ViewLoginRegister extends Application{
      * @param _passwordStr the password
      */
     public boolean loginInputsValid(String _usernameStr, String _passwordStr) {
-        if (!_usernameStr.isEmpty() && !_passwordStr.isEmpty()) {
+        if (_usernameStr.length()!=14 || !_passwordStr.isEmpty()) {
             return true;
         }
+        /*if (!_usernameStr.isEmpty() && !_passwordStr.isEmpty()) {
+            return true;
+        }*/
         else{
             setWarningAndDisplay(loginWarning, "Les champs ne peuvent etre vides");
             return false;
@@ -149,8 +152,29 @@ public class ViewLoginRegister extends Application{
      */
     public boolean registerInputsValid(String _usernameStr, String _passwordStr, String _confirmPasswordStr) {
         // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
+
+        /*
         if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <=MAX_CHARACTERS){
             if(_passwordStr.length() >= MIN_CHARACTERS && _passwordStr.length() <= MAX_CHARACTERS){
+                if(_passwordStr.equals(_confirmPasswordStr)){
+                    return true;
+                }
+                else{
+                    setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
+            }
+            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
+        }
+        else{
+            setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
+
+        return false;
+
+         */
+
+
+
+        if(_usernameStr.length() >= 0 && _usernameStr.length() <=MAX_CHARACTERS){
+            if(_passwordStr.length() >= 0 && _passwordStr.length() <= MAX_CHARACTERS){
                 if(_passwordStr.equals(_confirmPasswordStr)){
                     return true;
                 }

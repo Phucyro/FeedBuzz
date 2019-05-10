@@ -214,7 +214,7 @@ public class ArticleListController extends Application {
      * Method that opens an article when the user click on it
      */
     @FXML
-    private void openArticleWindow() {
+    private void openArticleWindow()throws de.l3s.boilerpipe.BoilerpipeProcessingException {
         try {
             FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
             DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();

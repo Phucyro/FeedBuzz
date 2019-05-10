@@ -28,6 +28,7 @@
  
  - Section d'aide.
  - Division de la section d'aide en plusieurs sections illustrées par des images.
+ - Mise en place d'un systeme de recommendations
  
 ##Motivation des choix:
  - Choix d'utiliser le programme Scene Builder pour faciliter la création des différentes interfaces graphiques pour afficher la liste d'articles et lire ceux-ci.
@@ -35,6 +36,7 @@
  - Choix d'utiliser la librairie java.awt pour copier un texte dans le presse-papier.
  - Choix d'utiliser la librairie Jsoup pour parser du html.
  - Choix d'utiliser des "menu items" dans Scene Builder pour construire la section d'aide.
+ - Utilisation du concept des similarité cosine pour l'analyse des articles afin de determiner la catégorie du centre d'interet le plus probable auquel l'article appartient
 
 ##Difficultés rencontrées:
  - Difficultés pour traiter les articles en HTML à partir du flux RSS.
