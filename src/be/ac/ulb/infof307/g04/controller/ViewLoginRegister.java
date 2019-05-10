@@ -1,5 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 
+import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.UserManager;
 import be.ac.ulb.infof307.g04.view.ArticleListController;
 import javafx.application.Application;
@@ -62,6 +63,7 @@ public class ViewLoginRegister extends Application{
     public void initialize(){
         Stage userAgreementView = new Stage();
         userAgreementView.setTitle("Contrat de license");
+        ArticleLabelizer mk = new ArticleLabelizer();
 
         WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();

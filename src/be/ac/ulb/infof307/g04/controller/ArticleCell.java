@@ -121,7 +121,89 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         DisplayPreview(gridPane, summaryText);
     }
 
-    /**
+    /**. absorb
+
+     3. access
+
+     4. accessibility
+
+     5. achievable
+
+     6. acquire
+
+     7. acquiring
+
+     8. actinochemistry
+
+     9. adapt
+
+     10. adapting
+
+     11. adaptive radiation
+
+     12. adopt
+
+     13. adopting
+
+     14. adoption
+
+     15. advance
+
+     16. advanced
+
+     17. advancement
+
+     18. advancements
+
+     19. advances
+
+     20. advancing
+
+     21. advent
+
+     22. aeromedicine
+
+     23. Aeronautical
+
+     24. Aeronautical Engineer
+
+     25. Aeronautical Engineering
+
+     26. aerospace
+
+     27. affordable
+
+     28. Afrl
+
+     29. agribusiness
+
+     30. agricultural
+
+     31. ahead
+
+     32. ahpcrc
+
+     33. air force research laboratory
+
+     34. aits
+
+     35. algorithms
+
+     36. allows
+
+     37. alpha test
+
+     38. Amish
+
+     39. analog computer
+
+     40. animatronics
+
+     41. antiquated
+
+     42. application
+
+
      * Function called to make the preview of the article
      * @param _articlePane article pane where show the preview
      * @param _summary description of the article
