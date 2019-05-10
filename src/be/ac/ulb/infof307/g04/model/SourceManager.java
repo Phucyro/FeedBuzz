@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -61,29 +60,23 @@ public class SourceManager {
     /**
      * @param _source
      *          _source that will be added
-     * @return boolean to inform if the _source has been added
      */
-    public boolean addSource(DatabaseSource _source) {
+    public void addSource(DatabaseSource _source) {
         try {
             jsonDBTemplate.insert(_source);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            return false;
         }
     }
 
     /**
      * @param _source
      *             _source to update
-     * @return boolean to inform if the sources has been updated
      */
-    public boolean updateSource(DatabaseSource _source){
+    public void updateSource(DatabaseSource _source){
         try{
             jsonDBTemplate.upsert(_source);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -95,13 +88,12 @@ public class SourceManager {
      * @param _articleManager
      *                  article manager to see what articles can we load
      */
-    public void download(ArticleManager _articleManager) {
+    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
                 System.out.println(source.getSourceName());
-                try {
                     int counter = source.getNumberToDownload();
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                     for (DatabaseArticle articleToSave : articles) {
@@ -125,14 +117,8 @@ public class SourceManager {
                             } else {
                                 System.out.println("Existing article");
                             }
-                        } else {
-                            break;
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //TODO cas offline
-                }
 
             }
         }

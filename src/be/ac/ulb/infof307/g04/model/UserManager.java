@@ -5,7 +5,7 @@ import io.jsondb.JsonDBTemplate;
 
 public class UserManager {
 
-    private JsonDBTemplate jsonDBTemplate;
+    private final JsonDBTemplate jsonDBTemplate;
 
     /**
      * @param database_path path to the database
@@ -31,7 +31,7 @@ public class UserManager {
     }
 
     /**
-     * @param _username
+     * @param _username username of the user that will be deleted
      * @return inform if the user has been deleted
      */
     public boolean deleteUser(String _username) {
@@ -48,9 +48,8 @@ public class UserManager {
 
     /**
      * @param _username username to add
-     * @return inform if the user has been added
      */
-    public boolean addUser(String _username, String _password) {
+    public void addUser(String _username, String _password) {
         try {
 
             DatabaseUser user = new DatabaseUser();
@@ -58,9 +57,7 @@ public class UserManager {
             user.setUsername(_username);
 
             jsonDBTemplate.insert(user);
-            return true;
         } catch (InvalidJsonDbApiUsageException e) {
-            return false;
         }
     }
 
@@ -75,20 +72,19 @@ public class UserManager {
 
     /**
      * search an user in the database
-     * @param _username
+     * @param _username name of the user that we are looking for
      * @return found user
      */
-    public DatabaseUser findUserByUsername(String _username){
+    private DatabaseUser findUserByUsername(String _username){
         try {
-            DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
-            return user;
+            return jsonDBTemplate.findById(_username, DatabaseUser.class);
         } catch (Exception e) {
             return null;
         }
     }
     /**
      * search an user in the database
-     * @param _username
+     * @param _username name of the user that we are looking for
      * @return found user
      */
     public DatabaseUser findUser(String _username, String _password){

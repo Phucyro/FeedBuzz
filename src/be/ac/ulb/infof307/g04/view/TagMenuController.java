@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Optional;
 
 
 public class TagMenuController extends Application {
-    private TagManager tagManager;
+    private final TagManager tagManager;
     @FXML
     private Button addButton;
     @FXML
@@ -69,11 +68,7 @@ public class TagMenuController extends Application {
      */
     @FXML
     public void add() {
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("Add");
-        dialog.setHeaderText("Add a tag");
-        dialog.setContentText("Please enter the name of the new tag");
-
+        TextInputDialog dialog = initInputDialog("Add", "Add a tag", "Please enter the name of the new tag");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent() && !result.get().isEmpty()){
             DatabaseTag tag = new DatabaseTag();
@@ -84,6 +79,20 @@ public class TagMenuController extends Application {
             alertDialog();
         }
         initList();
+    }
+
+    /**
+     * @return return the dialog with all the fields initialized
+     * @param _titleText title of the window
+     * @param _headerText header of the window
+     * @param _contextText description of the action
+     */
+    private TextInputDialog initInputDialog(String _titleText, String _headerText, String _contextText) {
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle(_titleText);
+        dialog.setHeaderText(_headerText);
+        dialog.setContentText(_contextText);
+        return dialog;
     }
 
     /**
@@ -111,11 +120,8 @@ public class TagMenuController extends Application {
             DatabaseTag newTag = new DatabaseTag();
             oldTag.setName(tagsListview.getSelectionModel().getSelectedItem());
 
-            TextInputDialog dialog = new TextInputDialog("");
-            dialog.setTitle("Modify tag");
-            dialog.setHeaderText("Modification of a tag name");
-            dialog.setContentText("Change the tag "+"\""+ tagsListview.getSelectionModel().getSelectedItem()+"\" to: ");
-
+            TextInputDialog dialog = initInputDialog("Modify tag", "Modification of a tag name",
+                        "Change the tag " + "\"" + tagsListview.getSelectionModel().getSelectedItem() + "\" to: ");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());

@@ -22,8 +22,8 @@ public class ViewLoginRegister extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
-    private String DB_ROOT = "./article_db/";
-    UserManager userManager = new UserManager("./article_db","password");
+    private final String DB_ROOT = "./article_db/";
+    final UserManager userManager = new UserManager("./article_db","password");
 
 
     @FXML
@@ -76,14 +76,11 @@ public class ViewLoginRegister extends Application{
                 webView.getPrefHeight());
 
         userAgreementView.setScene(scene);
-        userAgreementLink.setOnAction(e -> {
-            userAgreementView.show();
-        });
+        userAgreementLink.setOnAction(e -> userAgreementView.show());
 
     }
     /**
      * Start javafx window
-     * @param primaryStage
      */
     @Override
     public void start(Stage primaryStage) {
@@ -244,7 +241,7 @@ public class ViewLoginRegister extends Application{
         FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
         ArticleListController controller = new ArticleListController(_dbPath, _password);
         loader.setController(controller);
-        Parent root = (Parent) loader.load();
+        Parent root = loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);

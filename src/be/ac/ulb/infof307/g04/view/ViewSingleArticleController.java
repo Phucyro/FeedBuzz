@@ -4,9 +4,7 @@ import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
-import be.ac.ulb.infof307.g04.model.TagManager;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,14 +34,15 @@ import java.util.TimerTask;
  */
 
 public class ViewSingleArticleController extends Application{
-    private DatabaseArticle article;
+    private static final String POLYGON_URL = "https://www.polygon.com/rss/index.xml";
+    private final DatabaseArticle article;
 
     //Boolean fot the validity of the article
     private boolean isValid;
 
     //Manager that could allow to delete an article
-    private ArticleManager articleManager;
-    private Timer timer;
+    private final ArticleManager articleManager;
+    private final Timer timer;
     private boolean windowActive;
 
     @FXML
@@ -69,8 +70,7 @@ public class ViewSingleArticleController extends Application{
       *@param _article article to view
       *article that has to be viewed
       */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword)
-            throws IOException, ParserConfigurationException, SAXException, ParseException {
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) {
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
@@ -91,12 +91,8 @@ public class ViewSingleArticleController extends Application{
      */
     @Override
     public void start(Stage _primaryStage) {
-        _primaryStage.setOnHidden(e -> {
-            stop();
-        });
-        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            windowActive = newValue;
-        });
+        _primaryStage.setOnHidden(e -> stop());
+        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
     }
 
     @Override
@@ -107,15 +103,18 @@ public class ViewSingleArticleController extends Application{
     /**
      * Initialize the text and the title of the article
      * Modify the integrity circle and text
-     * @throws IOException : if article wasn't found
      */
-    public void initialize() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        if(InternetTester.testInternet()) {
-            articleView.getEngine().load(article.getLink());
+    public void initialize() throws IOException {
+        String htmlFile;
+        if(InternetTester.testInternet() && !article.getSourceUrl().equals(POLYGON_URL)) {
+            Document doc = Jsoup.connect(article.getLink()).get();
+            doc.getElementsByClass("m-privacy-consent").remove();
+            htmlFile = doc.toString();
         }
         else {
-            articleView.getEngine().loadContent(article.getHtmlContent());
+            htmlFile = article.getHtmlContent();
         }
+        articleView.getEngine().loadContent(htmlFile);
 
         setFields();
         startTimer();
@@ -141,47 +140,18 @@ public class ViewSingleArticleController extends Application{
     /**
      * set integrity and tag files
      */
-    private void setFields() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    private void setFields() {
         //handleIntegrity(); Not supported yet
         tagsLabel.setText("Tags: " + article.getTags());
-        updateLikeDislikeButton();
-
-    }
-
-    private void handleIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        //if article is integer -> green ; else -> red
         if (InternetTester.testInternet()){
-            if (this.isValid) {
-                integrityLabel.setText("DatabaseArticle intègre");
-                integrityCircle.setFill(Color.web("0x00FF66"));
-            } else {
-                integrityLabel.setText("Non intègre!");
-                integrityCircle.setFill(Color.RED);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Erreur intégrité");
-                alert.setHeaderText("L'article n'est pas intègre!");
-                alert.setContentText("Voulez-vous mettre à jour l'article et les informations le concernant ?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    verification.correctArticle();
-                }
-            }
-        }
-        else{
+            integrityLabel.setText("Connected to internet");
+            integrityCircle.setFill(Color.GREEN);
+        } else {
             integrityLabel.setText("No connexion");
             integrityCircle.setFill(Color.ORANGE);
         }
-    }
+        updateLikeDislikeButton();
 
-    /**
-     * validity of the article
-     */
-    private void checkIntegrity() throws IOException, ParserConfigurationException, SAXException, ParseException {
-        if (InternetTester.testInternet()) {
-            ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-            this.isValid = verification.isValid();
-        }
     }
 
 

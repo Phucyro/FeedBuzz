@@ -19,11 +19,11 @@ class HTMLArticleDownloaderTest {
     public static final String MEDIA_FOLDER = "media/";
     public static final String FOLDER_NAME = "articleTest";
     public String resultantHtml; //String containing the resulting html from the fetched article
-    DataForTests dataForTests = new DataForTests();
+    final DataForTests dataForTests = new DataForTests();
     Document doc; //Document containing the fetched article
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         String url = "https://www.theverge.com/2012/12/5/3729722/amazon-kindle-freetime-unlimited-subscription-kids";
         String folderName = FOLDER_NAME;
         new File(MEDIA_FOLDER).mkdir();

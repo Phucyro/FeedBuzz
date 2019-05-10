@@ -26,8 +26,8 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private final Spinner<Integer> sourceNumberOfArticles = new Spinner<>();
     private final ComboBox<String> sourceTag = new ComboBox<>();
     private DatabaseSource item;
-    private String dbPath;
-    private String dbPassword;
+    private final String dbPath;
+    private final String dbPassword;
 
     public SourceCell(String _dbPath, String _dbPassword) {
         dbPath = _dbPath;
@@ -76,7 +76,6 @@ public class SourceCell extends ListCell<DatabaseSource>{
     /**
      * Initialize the tags in the comboBox
      * @see TagManager
-     * @throws java.io.IOException : if an article doesn't have a tag -> default
      */
     private void initTag() {
         TagManager tagManager = new TagManager(dbPath, dbPassword);

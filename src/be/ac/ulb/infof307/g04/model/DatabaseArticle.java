@@ -116,21 +116,19 @@ public class DatabaseArticle implements Serializable {
     public boolean isDeleted() {
         return deleted;
     }
-
+    /**
+     * Test if an article is equal to another
+     * @return boolean
+     */
     public boolean equals(DatabaseArticle _articleToCompare){
-        /**
-         * Test if an article is equal to another
-         * @return boolean
-         * @throws
-         */
+
         if (_articleToCompare == this) {
             return true;
         }
         if (_articleToCompare == null) {
             return false;
         }
-        DatabaseArticle cc = (DatabaseArticle)_articleToCompare;
-        return cc.hashCode() == this.hashCode();
+        return _articleToCompare.hashCode() == this.hashCode();
     }
 
     public int hashCode() {

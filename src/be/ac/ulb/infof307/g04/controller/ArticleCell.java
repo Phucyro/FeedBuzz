@@ -13,9 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Popup;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,7 +23,7 @@ import java.net.URISyntaxException;
  */
 public class ArticleCell extends ListCell<DatabaseArticle> {
 
-    public static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
+    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
@@ -37,7 +34,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     /**
      * Constructor of the article cell
      *
-     * @version 3.0
      * @see GridPane
      * @see ImageView
      * @see Label
@@ -85,21 +81,16 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             } catch (Exception ignored) {
             }
             articleIcon.setImage(icon);
-            linkLabel.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    if (java.awt.Desktop.isDesktopSupported()) {
-                        new Thread(() -> {
-                            try {
-                                java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
-                            } catch (IOException | URISyntaxException e1) {
-                                e1.printStackTrace();
-                            }
-                        }).start();
-                    }
+            linkLabel.setOnAction(e -> {
+                if (java.awt.Desktop.isDesktopSupported()) {
+                    new Thread(() -> {
+                        try {
+                            java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
+                        } catch (IOException | URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
+                    }).start();
                 }
-
-
             });
             setText(null);
             setGraphic(content);

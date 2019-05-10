@@ -6,11 +6,8 @@ import be.ac.ulb.infof307.g04.model.SourceManager;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 
 
 public class SourceMenuController extends Application {
-    private SourceManager sourceManager;
+    private final SourceManager sourceManager;
     @FXML
     private Button cancelButton;
     @FXML
@@ -31,8 +28,8 @@ public class SourceMenuController extends Application {
     @FXML
     private ListView listViewSources;
 
-    private String dbPath;
-    private String dbPassword;
+    private final String dbPath;
+    private final String dbPassword;
 
     public SourceMenuController(String _dbPath, String _password) {
         dbPath = _dbPath;
@@ -41,9 +38,9 @@ public class SourceMenuController extends Application {
     }
 
     public void initialize() {
-        /**
-         * Constructor of the Menu
-         * @throws IOException : if there's no source
+        /*
+          Constructor of the Menu
+          @throws IOException : if there's no source
          */
         listViewSources.setCellFactory(lv -> new SourceCell(dbPath, dbPassword));
         displaySources(sourceManager.loadSources());
@@ -67,8 +64,8 @@ public class SourceMenuController extends Application {
     public void confirm(){
         ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
         //System.out.println(itemsList);
-        for (int i = 0; i < itemsList.size(); i++) {
-            sourceManager.updateSource(itemsList.get(i));
+        for (DatabaseSource anItemsList : itemsList) {
+            sourceManager.updateSource(anItemsList);
         }
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();

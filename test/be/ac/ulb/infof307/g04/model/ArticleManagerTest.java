@@ -73,7 +73,7 @@ class ArticleManagerTest {
     }
 
     /**
-     * @param file
+     * @param file directory that need to be deleted
      * @see <a href="https://www.baeldung.com/java-delete-directory">source</a>
      */
     void deleteDir(File file) {

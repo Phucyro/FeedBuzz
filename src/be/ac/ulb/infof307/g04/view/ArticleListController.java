@@ -6,6 +6,7 @@ import be.ac.ulb.infof307.g04.controller.ArticleCell;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -54,9 +55,9 @@ public class ArticleListController extends Application {
     private Button CloseSearchButton;
     private TextField searchField;
     private Label match_count;
-    private String dbPath;
-    private String password;
-    private ArrayList <Stage> stageArrayList = new ArrayList<Stage>();
+    private final String dbPath;
+    private final String password;
+    private final ArrayList <Stage> stageArrayList = new ArrayList<>();
     private Stage mainStage;
 
 
@@ -92,6 +93,39 @@ public class ArticleListController extends Application {
         article_manager = new ArticleManager(dbPath, password);
         init_db();
         source = new SourceManager(dbPath, password);
+        initJavaFX();
+        downloadArticles();
+        displayArticles(article_manager.loadArticles());
+
+    }
+
+    /**
+     * download articles and show an error box if necessary
+     */
+    private void downloadArticles() {
+        if (InternetTester.testInternet()) {
+            try {
+                source.download(article_manager);
+
+                article_manager.verifyArticles();
+            } catch (ParserConfigurationException e) {
+                showErrorBox("Parser Configuration exception");
+            } catch (ParseException e) {
+                showErrorBox("Parse exception");
+            } catch (SAXException e) {
+                showErrorBox("SAX Exception");
+            } catch (IOException e) {
+                showErrorBox("IO Exception");
+            }
+        }else{
+            showErrorBox("Pas d'internet");
+        }
+    }
+
+    /**
+     * initialize the javaFX elements
+     */
+    private void initJavaFX() {
         searchBar = new ToolBar();
         init_searchBar(40, 200);
 
@@ -105,21 +139,6 @@ public class ArticleListController extends Application {
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
         setHelpImages();
-
-        if (InternetTester.testInternet()) {
-            try {
-                source.download(article_manager);
-
-                article_manager.verifyArticles();
-            } catch (Exception ignored) {
-
-            }
-        }else{
-            //cas sans internet
-        }
-
-        displayArticles(article_manager.loadArticles());
-
     }
 
 
@@ -128,8 +147,8 @@ public class ArticleListController extends Application {
      */
     @FXML
     public void disconnect() {
-        for (int i = 0; i < stageArrayList.size(); i++) {
-            stageArrayList.get(i).close();
+        for (Stage aStageArrayList : stageArrayList) {
+            aStageArrayList.close();
         }
 
         mainStage.close();
@@ -138,13 +157,13 @@ public class ArticleListController extends Application {
     /**
      * relaunches the application after the disconnecting of windows
      * goes to logging screen
-     * @throws Exception
+     * @throws Exception exception caused by main
      */
     @FXML
     public void relaunch() throws Exception {
         disconnect();
-        Main mymain = new Main();
-        mymain.start(new Stage());
+        Main myMain = new Main();
+        myMain.start(new Stage());
     }
 
     /**
@@ -193,7 +212,6 @@ public class ArticleListController extends Application {
 
     /**
      * Method that opens an article when the user click on it
-     * @throws Exception : when no article has been selected
      */
     @FXML
     private void openArticleWindow() {
@@ -203,23 +221,15 @@ public class ArticleListController extends Application {
             ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle(articleToRead.getTitle());
             controller.start(stage);
             setStage(root, stage);
             stageArrayList.add(stage);
 
-        }catch(NullPointerException e){
+        }catch(NullPointerException | IOException e){
             showErrorBox("No article selected");
-        }catch(ParserConfigurationException e){
-            showErrorBox("Parser configuration error");
-        }catch(IOException e){
-            showErrorBox("No article selected");
-        }catch(SAXException e){
-            showErrorBox("SAX Error");
-        }catch (ParseException e) {
-            showErrorBox("Parse error");
         }
     }
 
@@ -251,6 +261,11 @@ public class ArticleListController extends Application {
         }
     }
 
+    @FXML
+    private void quit(){
+        Platform.exit();
+    }
+
     /**
      * @param _loader _loader
      * @param _title_window title of the window
@@ -258,7 +273,7 @@ public class ArticleListController extends Application {
      */
     public void openWindow(FXMLLoader _loader, String _title_window, String _title){
         try {
-            Parent root = (Parent) _loader.load();
+            Parent root = _loader.load();
             Stage stage = new Stage();
             stage.setTitle(_title_window);
             setStage(root, stage);
@@ -270,15 +285,15 @@ public class ArticleListController extends Application {
 
 
     /**
-     * @param actionEvent opens the SourceWindow (download settings)
+     * @param _actionEvent opens the SourceWindow (download settings)
      */
     @FXML
-    public void openSourceWindow(ActionEvent actionEvent) {
+    public void openSourceWindow(ActionEvent _actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             Stage stage = new Stage();
             setStage(root, stage);
 
@@ -316,13 +331,13 @@ public class ArticleListController extends Application {
 
     /**
      * Initialize searchbar parameters
-     * @param height
-     * @param width
+     * @param _height
+     * @param _width
      */
-    private void init_searchBar(int height, int width){
+    private void init_searchBar(int _height, int _width){
 
-        searchBar.setPrefHeight(height);
-        searchBar.setPrefWidth(width);
+        searchBar.setPrefHeight(_height);
+        searchBar.setPrefWidth(_width);
         GridPane.setConstraints(searchBar, 0, 0);
     }
 
@@ -330,27 +345,18 @@ public class ArticleListController extends Application {
      * Initialize "close" button from search bar
      */
     private void init_closeSearchButton() {
-        CloseSearchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeSearchBarStatus();
-            }
-        });
+        CloseSearchButton.setOnAction(event -> changeSearchBarStatus());
     }
 
     /**
      * Initialize searchField
      */
     private void init_searchField() {
-        searchField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
 
-                ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
-                displayArticles(articles);
-                match_count.setText(articles.size() + " matches");
-            }
+            ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
+            displayArticles(articles);
+            match_count.setText(articles.size() + " matches");
         });
     }
 
@@ -362,8 +368,8 @@ public class ArticleListController extends Application {
         String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
         TagManager tagManager = new TagManager(dbPath, password);
         DatabaseTag tag = new DatabaseTag();
-        for(int i = 0; i < tags.length; i++){
-            tag.setName(tags[i]);
+        for (String tag1 : tags) {
+            tag.setName(tag1);
             tagManager.addTag(tag);
         }
     }
@@ -376,7 +382,7 @@ public class ArticleListController extends Application {
         ArrayList<DatabaseSource> sources = new ArrayList<>();
         sources.add(new DatabaseSource("The Verge", "https://www.theverge.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
-        sources.add(new DatabaseSource("JeuxVideo.com", "http://www.jeuxvideo.com/rss/rss.xml", "Technology"));
+        sources.add(new DatabaseSource("Polygon", "https://www.polygon.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("Vox", "https://www.vox.com/rss/world/index.xml"));
         sources.add(new DatabaseSource("CNN Money", "http://rss.cnn.com/rss/money_topstories.rss","Business"));
         sources.forEach(sourceManager::addSource);

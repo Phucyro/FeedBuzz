@@ -20,7 +20,7 @@ public class ViewLoginRegisterTest {
     private String valid_username;
     private String valid_password;
 
-    private ViewLoginRegister loginregister = new ViewLoginRegister();
+    private final ViewLoginRegister loginregister = new ViewLoginRegister();
 
     @BeforeAll
     void setupBeforeArticleVerification() throws IOException, ParserConfigurationException, SAXException, ParseException {

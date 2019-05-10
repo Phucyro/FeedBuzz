@@ -42,16 +42,14 @@ public class ParserRss {
         if (InternetTester.testInternet()) {
             atom = false;
 
-            URL url = null;
+            URL url;
 
             url = new URL(_urlName);
 
 
-            if (url != null) {
-                getXmlFile(url);
-                checkAtom();
-                return parseArticles();
-            }
+            getXmlFile(url);
+            checkAtom();
+            return parseArticles();
         }
         return new ArrayList<>();
     }
