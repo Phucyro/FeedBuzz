@@ -7,9 +7,11 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -62,18 +64,22 @@ public class ViewLoginRegister extends Application{
      */
     public void initialize(){
         Stage userAgreementView = new Stage();
-        userAgreementView.setTitle("Contrat de license");
+        userAgreementView.setTitle("User agreement and services terms");
 
+        VBox labelContainer = new VBox();
+        Label pageTitle = new Label("Here are the conditions the user have to comply to in order to use our software:");
+        Label pageText = new Label("-Do not modify any data of the app or the app folder\n" +
+                "-Ask for permission if you intend to reuse some parts of the application\n");
+        pageTitle.setWrapText(true);
+        pageText.setWrapText(true);
+        pageTitle.setStyle("-fx-font: 16 arial; -fx-underline: true;");
+        pageText.setStyle("-fx-font: 12 arial;");
+        pageTitle.setAlignment(Pos.CENTER);
+        labelContainer.setSpacing(30);
+        labelContainer.getChildren().addAll(pageTitle,pageText);
+        labelContainer.setAlignment(Pos.TOP_CENTER);
 
-        WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
-
-        // load the html page containing the user terms
-        webEngine.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
-
-
-        Scene scene = new Scene(webView, webView.getPrefWidth(),
-                webView.getPrefHeight());
+        Scene scene = new Scene(labelContainer,500, 200);
 
         userAgreementView.setScene(scene);
         userAgreementLink.setOnAction(e -> userAgreementView.show());
@@ -98,7 +104,6 @@ public class ViewLoginRegister extends Application{
     public void makeUserDirectory(String _username){
         File file = new File(DB_ROOT + _username);
         if (file.exists()) { file.delete();}
-
         if (file.mkdir())  {
             System.out.println("Successfully made folder" + file.getAbsolutePath());
         } else {

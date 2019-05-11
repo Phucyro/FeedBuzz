@@ -107,7 +107,7 @@ public class SourceManager {
                                 articleToSave.setTags(source.getTag());
                                 try {
                                     System.out.println("Downloading article");
-                                    articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink()));
+                                    articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink(), articleToSave.getDescription()));
                                     System.out.println("Downloaded");
                                 } catch (IOException e) {
                                     System.out.println("Erreur");

@@ -77,7 +77,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             popupOverArticle(item);
             Image icon = new Image(DEFAULT_ICON);
             try {
-                icon = new Image(getIconUrl(item.getLink(), item.getDescription()));
+                icon = new Image(getIconUrl(item.getLink()));
             } catch (Exception ignored) {
             }
             articleIcon.setImage(icon);
@@ -267,11 +267,12 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Retrieve first icon url in html text
-     * @param _descriptionHtml html file to parse
      * @return url to an image
      */
-    private String getIconUrl(String _articleLink, String _descriptionHtml) throws IOException {
-        return HTMLArticleDownloader.getIconFromDescription(_articleLink, _descriptionHtml);
+    private String getIconUrl(String _articleLink) throws IOException {
+        String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
+        iconUrl = "file://" + iconUrl;
+        return iconUrl;
     }
 
     /**

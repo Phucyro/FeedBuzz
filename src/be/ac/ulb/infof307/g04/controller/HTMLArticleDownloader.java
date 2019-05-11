@@ -1,5 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 
+import be.ac.ulb.infof307.g04.model.ArticleManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,16 +23,16 @@ public class HTMLArticleDownloader {
 
     /**
      * Extract all the links and sort them by type
-     * @param _articleLink link of the article
-     * @param _descriptionHtml description of the article
+     * @param _link link of the article
+     * @param _description description of the article
      * @return url of the image
      * @throws IOException exception due
      */
-    static String getIconFromDescription(String _articleLink, String _descriptionHtml) throws IOException {
-        String folder_name = getFolderName(_articleLink);
+    static void getIconFromDescription(String _link, String _description) throws IOException {
+        String folder_name = getFolderName(_link);
         new File(MEDIA_FOLDER).mkdir(); //TODO delete this
         new File(MEDIA_FOLDER + folder_name).mkdir();
-        Document doc = Jsoup.parse(_descriptionHtml);
+        Document doc = Jsoup.parse(_description);
         Elements images = doc.select("img[src]");
 
         String img_url = "";
@@ -40,9 +41,7 @@ public class HTMLArticleDownloader {
 
         }
 
-        img_url = downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
-
-        return img_url;
+        downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
     }
 
 
@@ -70,9 +69,9 @@ public class HTMLArticleDownloader {
      * @param _url url of the article
      * @return return the modified html to stock
      */
-    public static String ArticleLocalifier(String _url) throws IOException {
+    public static String ArticleLocalifier(String _url, String _description) throws IOException {
         String folder_name = getFolderName(_url);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this
+        new File(MEDIA_FOLDER).mkdir(); //TODO delete this test if folder already exists
         new File(MEDIA_FOLDER + folder_name).mkdir();
 
         Document doc = Jsoup.connect(_url).get();
@@ -84,6 +83,9 @@ public class HTMLArticleDownloader {
         replaceLinksHref(links, "#");
         downloadReplaceElementsFromTag(media, folder_name, SRC_TAG);
         downloadReplaceElementsFromTag(imports, folder_name, HREF_TAG);
+
+        //Downloads article icon
+        getIconFromDescription(_url, _description);
 
         return downloadReplaceRemainingLinks(doc.toString(), folder_name);
     }
