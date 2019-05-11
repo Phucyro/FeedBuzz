@@ -55,13 +55,14 @@ public class HTMLArticleDownloader {
         String articleLinkCurated = sanitizeString(_articleLink);
         articleLinkCurated = "media/"+articleLinkCurated;
         File folder = new File(articleLinkCurated);
-        File[] listOfFiles = folder.listFiles();
+
         File[] matchingFiles = folder.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.startsWith("icon.");
             }
         });
-        if (matchingFiles.length == 0) {
+
+        if (matchingFiles.length == 0 || matchingFiles[0].getName().equals("icon.")) {
             throw new FileNotFoundException();
         }
         else {
