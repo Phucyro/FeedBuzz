@@ -282,19 +282,13 @@ public class ArticleListController extends Application {
      */
     @FXML
     private void openSuggestionPopup() {
-        String link1 = "https://www.bbc.co.uk/news/world-us-canada-48235940";
-        //
-
-        String link2 = "https://www.theverge.com/2019/5/10/18564136/us-military-defense-media-activity-websites-colonel-paul-haverstick";
-        //
-
-        String link3 = "https://www.vox.com/2019/5/9/18517095/patrick-shanahan-defense-secretary-nomination-pentagon-mattis-trump";
-        //
+        ArrayList<DatabaseArticle> articleListTemp = new ArrayList<>();
+        articleListTemp = article_manager.loadArticles();
 
         ArrayList<DatabaseArticle> suggestedArticlesList = new ArrayList<>();
-        suggestedArticlesList.add(article_manager.findArticle(link1));
-        suggestedArticlesList.add(article_manager.findArticle(link2));
-        suggestedArticlesList.add(article_manager.findArticle(link3));
+        for (int i=0; i<3; i++) {
+            suggestedArticlesList.add(articleListTemp.get(i));
+        }
 
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
