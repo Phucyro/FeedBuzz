@@ -5,9 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -45,6 +43,30 @@ public class HTMLArticleDownloader {
         img_url = downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
 
         return img_url;
+    }
+
+
+    /**
+     * <a href>https://stackoverflow.com/questions/4852531/find-files-in-a-folder-using-java</a>
+     * @param _articleLink link of the article to get icon from
+     * @return uri of the file that contains the icon
+     */
+    public static String getIconUrlFromArticleUrl(String _articleLink) throws FileNotFoundException {
+        String articleLinkCurated = sanitizeString(_articleLink);
+        articleLinkCurated = "media/"+articleLinkCurated;
+        File folder = new File(articleLinkCurated);
+        File[] listOfFiles = folder.listFiles();
+        File[] matchingFiles = folder.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.startsWith("icon.");
+            }
+        });
+        if (matchingFiles.length == 0) {
+            throw new FileNotFoundException();
+        }
+        else {
+            return matchingFiles[0].getAbsolutePath();
+        }
     }
 
     /**

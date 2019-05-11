@@ -3,6 +3,7 @@ package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.Main;
 import be.ac.ulb.infof307.g04.controller.ArticleCell;
+import be.ac.ulb.infof307.g04.controller.HTMLArticleDownloader;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
@@ -13,24 +14,32 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.xml.sax.SAXException;
 
+import javax.swing.text.html.HTML;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -59,6 +68,7 @@ public class ArticleListController extends Application {
     private final String password;
     private final ArrayList <Stage> stageArrayList = new ArrayList<>();
     private Stage mainStage;
+    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
 
 
     @FXML
@@ -210,20 +220,26 @@ public class ArticleListController extends Application {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);
     }
 
+    @FXML
+    private void getArticleAndOpen() throws de.l3s.boilerpipe.BoilerpipeProcessingException{
+        DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
+        openArticleWindow(articleToRead);
+    }
+
+
     /**
      * Method that opens an article when the user click on it
      */
     @FXML
-    private void openArticleWindow()throws de.l3s.boilerpipe.BoilerpipeProcessingException {
+    private void openArticleWindow(DatabaseArticle _articleToRead) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
         try {
             FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
-            DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
-            ViewSingleArticleController controller = new ViewSingleArticleController(articleToRead, dbPath, password);
+            ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle(articleToRead.getTitle());
+            stage.setTitle(_articleToRead.getTitle());
             controller.start(stage);
             setStage(root, stage);
             stageArrayList.add(stage);
@@ -259,6 +275,106 @@ public class ArticleListController extends Application {
         } catch (Exception e) {
             showErrorBox("Error while copying link to clipboard");
         }
+    }
+
+    /**
+     * open the window to give suggestion of articles
+     */
+    @FXML
+    private void openSuggestionPopup() {
+        String link1 = "https://www.bbc.co.uk/news/world-us-canada-48235940";
+        //
+
+        String link2 = "https://www.theverge.com/2019/5/10/18564136/us-military-defense-media-activity-websites-colonel-paul-haverstick";
+        //
+
+        String link3 = "https://www.vox.com/2019/5/9/18517095/patrick-shanahan-defense-secretary-nomination-pentagon-mattis-trump";
+        //
+
+        ArrayList<DatabaseArticle> suggestedArticlesList = new ArrayList<>();
+        suggestedArticlesList.add(article_manager.findArticle(link1));
+        suggestedArticlesList.add(article_manager.findArticle(link2));
+        suggestedArticlesList.add(article_manager.findArticle(link3));
+
+        final Stage suggestionWindow = new Stage();
+        suggestionWindow.setTitle("Suggestions");
+        GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
+
+        ArrayList<Button> buttonList = new ArrayList<>();
+        for (int i = 0; i < suggestedArticlesList.size(); i++){
+            fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
+        }
+
+        for (int j = 0; j < buttonList.size(); j++) {
+            DatabaseArticle articleToButton = suggestedArticlesList.get(j);
+            buttonList.get(j).setOnAction(event -> {
+                try{
+                    openArticleWindow(articleToButton);
+                } catch (de.l3s.boilerpipe.BoilerpipeProcessingException e) {
+                    //TODO gestion de l'erreur/ne pas devoir le faire parce que le traitement du texte ne doit aps se faire a l'ouverture de l'article
+                }
+            });
+        }
+        Scene dialogScene = new Scene(gridPane, 450, 200);
+        suggestionWindow.setScene(dialogScene);
+        //dialog.setResizable(false);
+        //dialog.sizeToScene();
+        suggestionWindow.show();
+    }
+
+    /**
+     * @param suggestionStage is the Stage that will be modified
+     * @return the modified Stage
+     */
+    private GridPane setSuggestionPanelConstraint(Stage suggestionStage) {
+        suggestionStage.initModality(Modality.WINDOW_MODAL);
+        suggestionStage.initOwner(mainStage);
+        GridPane gridPane = new GridPane();
+        ColumnConstraints col1Constraints = new ColumnConstraints();
+        col1Constraints.setPercentWidth(30);
+        ColumnConstraints col2Constraints = new ColumnConstraints();
+        col2Constraints.setPercentWidth(30);
+        ColumnConstraints col3Constraints = new ColumnConstraints();
+        col3Constraints.setPercentWidth(30);
+        gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints, col3Constraints);
+        gridPane.setHgap(20);
+        gridPane.setVgap(5);
+        gridPane.setAlignment(Pos.CENTER);
+        return gridPane;
+    }
+
+    /**
+     * @param suggestedArticle list of suggested articles
+     * @param gridPane pane to display suggestions
+     * @param buttonList list of buttons to use to open articles
+     * @param columnIndex is the index of the column that needs to be modified
+     */
+    private void fillSuggestionPanel(DatabaseArticle suggestedArticle, GridPane gridPane, ArrayList<Button> buttonList, int columnIndex) {
+        String iconUrl = setSuggestionIconUrl(suggestedArticle);
+        Image icon = new Image(iconUrl, 100, 100, true, true);
+        ImageView articleImage = new ImageView(icon);
+        gridPane.add(articleImage,columnIndex,0);
+        Label articleText = new Label(suggestedArticle.getTitle());
+        articleText.setWrapText(true);
+        gridPane.add(articleText,columnIndex,1);
+        Button articleReadButton = new Button("Lire cet article");
+        buttonList.add(articleReadButton);
+        gridPane.add(articleReadButton,columnIndex,2);
+    }
+
+    /**
+     * @param suggestedArticle article that is suggested to display
+     * @return string that contains the uri of the article's icon
+     */
+    private String setSuggestionIconUrl(DatabaseArticle suggestedArticle) {
+        String iconUrl = "";
+        try {
+            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(suggestedArticle.getLink());
+            iconUrl = "file://" + iconUrl;
+        } catch(FileNotFoundException e) {
+            iconUrl = DEFAULT_ICON;
+        }
+        return iconUrl;
     }
 
     @FXML
