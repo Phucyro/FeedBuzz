@@ -56,11 +56,7 @@ public class HTMLArticleDownloader {
         articleLinkCurated = "media/"+articleLinkCurated;
         File folder = new File(articleLinkCurated);
 
-        File[] matchingFiles = folder.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith("icon.");
-            }
-        });
+        File[] matchingFiles = folder.listFiles((dir, name) -> name.startsWith("icon."));
 
         if (matchingFiles.length == 0 || matchingFiles[0].getName().equals("icon.")) {
             throw new FileNotFoundException();
