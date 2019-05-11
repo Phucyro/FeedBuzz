@@ -66,13 +66,10 @@ public class TagManager {
      *          _tag that will be removed from the database
      * @return boolean to inform if the _tag has been deleted
      */
-    public void deleteTag(DatabaseTag _tag){
-        try {
-            jsonDBTemplate.remove(_tag, DatabaseTag.class);
-            update("_tag", _tag.getName(), "Default", DatabaseSource.class);
-            update("category", _tag.getName(), "Default", DatabaseArticle.class);
-        } catch (InvalidJsonDbApiUsageException e){
-        }
+    public void deleteTag(DatabaseTag _tag) throws InvalidJsonDbApiUsageException {
+        jsonDBTemplate.remove(_tag, DatabaseTag.class);
+        update("_tag", _tag.getName(), "Default", DatabaseSource.class);
+        update("category", _tag.getName(), "Default", DatabaseArticle.class);
     }
 
     /**
@@ -81,7 +78,6 @@ public class TagManager {
      *          the _tag that will be modified
      * @param _newTag
      *          the _tag that will replace the original _tag
-     * @return boolean to inform if the _tag has well been deleted
      */
     public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag){
         try {
@@ -137,32 +133,44 @@ public class TagManager {
     /**
      * delete all tags
      */
-    public void deleteAll(){
+    void deleteAll(){
         ArrayList<DatabaseTag> tags = getAll();
         tags.forEach(this::deleteTag);
     }
 
-    public void removeDislike(String _tag) {
+    public String getBest(){
+        String best = "";
+        int maxValue = -1;
+        for(DatabaseTag tag: getAll()){
+            if (tag.getScore() > maxValue){
+                maxValue = tag.getScore();
+                best = tag.getName();
+            }
+        }
+        return best;
+    }
+
+    void removeDislike(String _tag) {
         editScore(_tag, -DISLIKEWEIGHT);
     }
 
-    public void addDislike(String _tag) {
+    void addDislike(String _tag) {
         editScore(_tag, DISLIKEWEIGHT);
     }
 
-    public void removeLike(String _tag) {
+    void removeLike(String _tag) {
         editScore(_tag, -LIKEWEIGHT);
     }
 
-    public void addLike(String _tag) {
+    void addLike(String _tag) {
         editScore(_tag, LIKEWEIGHT);
     }
 
-    public void addTime(String _tag, int sec) {
+    void addTime(String _tag, int sec) {
         editScore(_tag, sec* SECWEIGHT);
     }
 
-    public void addView(String _tag) {
+    void addView(String _tag) {
         editScore(_tag, VIEWWEIGHT);
     }
 }

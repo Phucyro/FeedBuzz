@@ -8,33 +8,24 @@ import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.xml.sax.SAXException;
 
-import javax.swing.text.html.HTML;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -57,7 +48,7 @@ public class ArticleListController extends Application {
     @FXML
     private VBox VBox;
 
-    private static ArticleManager article_manager;
+    private static ArticleManager articleManager;
     private static SourceManager source;
 
     private ToolBar searchBar;
@@ -100,12 +91,12 @@ public class ArticleListController extends Application {
     @FXML
     public void initialize() {
 
-        article_manager = new ArticleManager(dbPath, password);
+        articleManager = new ArticleManager(dbPath, password);
         init_db();
         source = new SourceManager(dbPath, password);
         initJavaFX();
         downloadArticles();
-        displayArticles(article_manager.loadArticles());
+        displayArticles(articleManager.loadArticles());
 
     }
 
@@ -115,9 +106,9 @@ public class ArticleListController extends Application {
     private void downloadArticles() {
         if (InternetTester.testInternet()) {
             try {
-                source.download(article_manager);
+                source.download(articleManager);
 
-                article_manager.verifyArticles();
+                articleManager.verifyArticles();
             } catch (ParserConfigurationException e) {
                 showErrorBox("Parser Configuration exception");
             } catch (ParseException e) {
@@ -282,44 +273,43 @@ public class ArticleListController extends Application {
      */
     @FXML
     private void openSuggestionPopup() {
-        String link1 = "https://www.bbc.co.uk/news/world-us-canada-48235940";
-        //
-
-        String link2 = "https://www.theverge.com/2019/5/10/18564136/us-military-defense-media-activity-websites-colonel-paul-haverstick";
-        //
-
-        String link3 = "https://www.vox.com/2019/5/9/18517095/patrick-shanahan-defense-secretary-nomination-pentagon-mattis-trump";
-        //
-
-        ArrayList<DatabaseArticle> suggestedArticlesList = new ArrayList<>();
-        suggestedArticlesList.add(article_manager.findArticle(link1));
-        suggestedArticlesList.add(article_manager.findArticle(link2));
-        suggestedArticlesList.add(article_manager.findArticle(link3));
+        TagManager tagManager = new TagManager(dbPath, password);
+        ArticleManager articleManager = new ArticleManager(dbPath, password);
+        ArrayList<DatabaseArticle> suggestedArticlesList;
+        suggestedArticlesList = articleManager.getSuggestion(tagManager.getBest());
 
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
         GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
 
         ArrayList<Button> buttonList = new ArrayList<>();
-        for (int i = 0; i < suggestedArticlesList.size(); i++){
+        int size = (suggestedArticlesList.size() < 3) ? suggestedArticlesList.size(): 3;
+        for (int i = 0; i < size; i++){
             fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
         }
 
-        for (int j = 0; j < buttonList.size(); j++) {
-            DatabaseArticle articleToButton = suggestedArticlesList.get(j);
-            buttonList.get(j).setOnAction(event -> {
+        initButtonSuggested(suggestedArticlesList, buttonList);
+
+        Scene dialogScene = new Scene(gridPane, 450, 200);
+        suggestionWindow.setScene(dialogScene);
+        suggestionWindow.show();
+    }
+
+    /**
+     * @param _suggestedArticlesList List of the suggested articles
+     * @param _buttonList List of the buttons linked to the article
+     */
+    private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
+        for (int j = 0; j < _buttonList.size(); j++) {
+            DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
+            _buttonList.get(j).setOnAction(event -> {
                 try{
                     openArticleWindow(articleToButton);
                 } catch (de.l3s.boilerpipe.BoilerpipeProcessingException e) {
-                    //TODO gestion de l'erreur/ne pas devoir le faire parce que le traitement du texte ne doit aps se faire a l'ouverture de l'article
+                    //TODO gestion de l'erreur/ne pas devoir le faire parce que le traitement du texte ne doit pas se faire a l'ouverture de l'article
                 }
             });
         }
-        Scene dialogScene = new Scene(gridPane, 450, 200);
-        suggestionWindow.setScene(dialogScene);
-        //dialog.setResizable(false);
-        //dialog.sizeToScene();
-        suggestionWindow.show();
     }
 
     /**
@@ -433,7 +423,7 @@ public class ArticleListController extends Application {
             match_count.setText("");
         } else {
             VBox.getChildren().remove(searchBar);
-            displayArticles(article_manager.loadArticles());
+            displayArticles(articleManager.loadArticles());
         }
     }
 
@@ -470,7 +460,7 @@ public class ArticleListController extends Application {
     private void init_searchField() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
 
-            ArrayList<DatabaseArticle> articles = article_manager.loadArticles(newValue);
+            ArrayList<DatabaseArticle> articles = articleManager.loadArticles(newValue);
             displayArticles(articles);
             match_count.setText(articles.size() + " matches");
         });

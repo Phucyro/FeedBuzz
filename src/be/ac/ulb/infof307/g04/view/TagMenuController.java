@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.DatabaseTag;
 import be.ac.ulb.infof307.g04.model.TagManager;
+import io.jsondb.InvalidJsonDbApiUsageException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -99,11 +100,7 @@ public class TagMenuController extends Application {
      * alert message when encoding problem
      */
     private void alertDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error!");
-        alert.setHeaderText("New tag name empty");
-        alert.setContentText("Please enter a name for the new tag");
-        alert.showAndWait();
+        displayErrorWindow("Error!", "New tag name empty", "Please enter a name for the new tag");
     }
 
 
@@ -113,7 +110,7 @@ public class TagMenuController extends Application {
     @FXML
     public void modify() {
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
-            displayErrorWindow();
+            displayErrorWindow("Erreur!", "Erreur de sélection!", "Vous n'avez pas selectionné de tag!");
         }
         else {
             DatabaseTag oldTag = new DatabaseTag();
@@ -140,13 +137,17 @@ public class TagMenuController extends Application {
     @FXML
     public void delete() {
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
-            displayErrorWindow();
+            displayErrorWindow("Erreur!", "Erreur de sélection!", "Vous n'avez pas selectionné de tag!");
         }
         else {
-            DatabaseTag tag = new DatabaseTag();
-            tag.setName(tagsListview.getSelectionModel().getSelectedItem());
-            tagManager.deleteTag(tag);
-            initList();
+            try {
+                DatabaseTag tag = new DatabaseTag();
+                tag.setName(tagsListview.getSelectionModel().getSelectedItem());
+                tagManager.deleteTag(tag);
+                initList();
+            } catch (InvalidJsonDbApiUsageException e){
+                displayErrorWindow("Erreur!", "Erreur de suppression!", "Un erreur a eu lieu lors de la suppression");
+            }
         }
     }
 
@@ -154,11 +155,12 @@ public class TagMenuController extends Application {
      * Cases where there might be an error
      * @see Alert
      */
-    private void displayErrorWindow(){
+    private void displayErrorWindow(String _title, String _header, String _content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Erreur!");
-        alert.setHeaderText("Erreur de sélection!");
-        alert.setContentText("Vous n'avez pas selectionné de tag!");
+        alert.setTitle(_title);
+        alert.setHeaderText(_header);
+        alert.setContentText(
+                _content);
         alert.showAndWait();
     }
 }

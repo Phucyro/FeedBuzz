@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class DatabaseArticle Manager, used to handle the display of all the articles
@@ -218,6 +219,16 @@ public class ArticleManager{
         }
         _article.setLikeState(NEUTRAL);
         this.upsertArticle(_article);
+    }
+
+    public ArrayList<DatabaseArticle> getSuggestion(String _tag){
+        ArrayList<DatabaseArticle> suggestedArticles = new ArrayList<>();
+        for (DatabaseArticle article: loadArticles()) {
+            if(article.getTags().equals(_tag) && !article.getViewed()){
+                suggestedArticles.add(article);
+            }
+        }
+        return suggestedArticles;
     }
 
     public void addTimeWatched(DatabaseArticle _article, int _sec){
