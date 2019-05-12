@@ -31,10 +31,9 @@ public class ArticleManager{
     public ArticleManager(String _databasePath, String _password) {
         tagManager = new TagManager(_databasePath, _password);
         tagManager.actualizeScore();
-<<<<<<< HEAD
-=======
+
         sourceManager = new SourceManager(_databasePath, _password);
->>>>>>> 7649036d7c47f6afe1ad9dd858567bfe6354bdd5
+
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 

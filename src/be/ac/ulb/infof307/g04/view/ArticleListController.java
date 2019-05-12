@@ -92,9 +92,8 @@ public class ArticleListController extends Application {
      */
     @FXML
     public void initialize() {
-
-        articleManager = new ArticleManager(dbPath, password);
         init_db();
+        articleManager = new ArticleManager(dbPath, password);
         source = new SourceManager(dbPath, password);
         initJavaFX();
         downloadArticles();

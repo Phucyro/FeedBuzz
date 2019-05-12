@@ -36,7 +36,6 @@ public class TagManager {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
-            //actualizeScore();
         } catch (Exception e){
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
@@ -151,40 +150,12 @@ public class TagManager {
         }
     }
 
-<<<<<<< HEAD
-    public void actualizeScore() {
-        //System.out.println("ICIIII");
-        Date current_date = new Date();
-        DatabaseTag checkTime = getTag("Business");
-        Date verifyDate = checkTime.getLastActualisationDate();
-
-        long diff = current_date.getTime() - verifyDate.getTime();
-        int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
-        if (diffDays >= 1 ) {
-            String[] tags_list = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
-            for ( String _tagName : tags_list){
-                DatabaseTag toEdit = getTag(_tagName);
-                if (toEdit != null){
-                    float current_score = toEdit.getScore();
-                    current_score -= (current_score/100)*DAYWEIGHT;
-                    toEdit.setScore(current_score);
-                    jsonDBTemplate.upsert(toEdit);
-                }
-
-                toEdit.setLastActualisationDate(current_date);
-            }
-        }
-
-
-    }
-
-=======
     /**
      * get a tag of the database from his name
      * @param tagName name of the tag
      * @return tag we are looking for
      */
->>>>>>> 7649036d7c47f6afe1ad9dd858567bfe6354bdd5
+
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
