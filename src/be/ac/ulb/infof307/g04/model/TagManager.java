@@ -56,6 +56,7 @@ public class TagManager {
      */
     public void addTag(DatabaseTag _tag){
         try {
+            _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
         } catch (InvalidJsonDbApiUsageException e){
         }
