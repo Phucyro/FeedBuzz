@@ -65,10 +65,7 @@ public class ViewSingleArticleController extends Application{
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
-        ArticleLabelizer mk = new ArticleLabelizer(article);
-        mk.labelize();
         timer = new Timer();
-        setFields();
     }
 
     public void setArticlesWindows(ArticleListController _articlesWindows) {
@@ -84,6 +81,7 @@ public class ViewSingleArticleController extends Application{
         primaryStage = _primaryStage;
         _primaryStage.setOnHidden(e -> stop());
         _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
+        setFields();
     }
 
     @Override

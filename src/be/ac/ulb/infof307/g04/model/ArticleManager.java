@@ -30,6 +30,7 @@ public class ArticleManager{
      */
     public ArticleManager(String _databasePath, String _password) {
         tagManager = new TagManager(_databasePath, _password);
+        tagManager.actualizeScore();
         sourceManager = new SourceManager(_databasePath, _password);
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
@@ -107,8 +108,7 @@ public class ArticleManager{
 
     /**
      * Add an _article from the database
-     * @param _article
-     *              _article the will be added
+     * @param _article the article that will be added
      */
     public void addArticle(DatabaseArticle _article) {
         DatabaseArticle dbArticle = _article;
