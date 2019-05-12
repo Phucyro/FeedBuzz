@@ -6,6 +6,7 @@ import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
+import java.util.Date;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class TagManager {
     private static final int LIKEWEIGHT = 1;
     private static final int SECWEIGHT = 1;
     private static final int VIEWWEIGHT = 1;
+    private static final int DAYWEIGHT = 1;
     private JsonDBTemplate jsonDBTemplate;
 
     /**
@@ -34,12 +36,14 @@ public class TagManager {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
+            //actualizeScore();
         } catch (Exception e){
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseTag.class)) {
             createCollection();
+
         }
     }
 
@@ -55,6 +59,7 @@ public class TagManager {
      */
     public void addTag(DatabaseTag _tag){
         try {
+            _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
         } catch (InvalidJsonDbApiUsageException e){
         }
@@ -115,6 +120,32 @@ public class TagManager {
         }
     }
 
+    public void actualizeScore() {
+        //System.out.println("ICIIII");
+        Date current_date = new Date();
+        DatabaseTag checkTime = getTag("Business");
+        Date verifyDate = checkTime.getLastActualisationDate();
+
+        long diff = current_date.getTime() - verifyDate.getTime();
+        int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+        if (diffDays >= 1 ) {
+            String[] tags_list = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
+            for ( String _tagName : tags_list){
+                DatabaseTag toEdit = getTag(_tagName);
+                if (toEdit != null){
+                    float current_score = toEdit.getScore();
+                    current_score -= (current_score/100)*DAYWEIGHT;
+                    toEdit.setScore(current_score);
+                    jsonDBTemplate.upsert(toEdit);
+                }
+
+                toEdit.setLastActualisationDate(current_date);
+            }
+        }
+
+
+    }
+
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
@@ -140,7 +171,7 @@ public class TagManager {
 
     public String getBest(){
         String best = "";
-        int maxValue = -1;
+        float maxValue = -1;
         for(DatabaseTag tag: getAll()){
             if (tag.getScore() > maxValue){
                 maxValue = tag.getScore();
