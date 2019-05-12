@@ -234,7 +234,6 @@ public class ArticleListController extends Application {
             controller.start(stage);
             setStage(root, stage);
             stageArrayList.add(stage);
-
         }catch(NullPointerException | IOException e){
             e.printStackTrace();
             MessageBoxes.showErrorBox("No article selected");
