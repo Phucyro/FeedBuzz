@@ -1,10 +1,9 @@
 package be.ac.ulb.infof307.g04.view;
 
-import be.ac.ulb.infof307.g04.controller.ArticleVerification;
 import be.ac.ulb.infof307.g04.controller.InternetTester;
-import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
+import be.ac.ulb.infof307.g04.model.SourceManager;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,12 +23,11 @@ import java.util.TimerTask;
  * Class ViewSingleArticleController, show what an article looks like when you click on it in the article cell
  * @see DatabaseArticle
  * @see ArticleManager
- * @see ArticleVerification
  * @version 4.0
  */
 
 public class ViewSingleArticleController extends Application{
-    private final DatabaseArticle article;
+    private DatabaseArticle article;
 
     //Boolean fot the validity of the article
     private boolean isValid;
@@ -38,6 +36,7 @@ public class ViewSingleArticleController extends Application{
     private final ArticleManager articleManager;
     private final Timer timer;
     private boolean windowActive;
+    private Stage primaryStage;
 
     @FXML
     private Label integrityLabel;
@@ -56,9 +55,6 @@ public class ViewSingleArticleController extends Application{
 
     private ArticleListController articlesWindow; //window that contains the article
 
-    private ArticleVerification verification;
-
-
     /**
       *Constructor of the view of a single article
       *@param _article article to view
@@ -71,10 +67,7 @@ public class ViewSingleArticleController extends Application{
         ArticleLabelizer mk = new ArticleLabelizer(article);
         mk.labelize();
         timer = new Timer();
-        if (InternetTester.testInternet()) {
-            //ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());
-            //checkIntegrity(); Not supported yet
-        }
+        setFields();
     }
 
     public void setArticlesWindows(ArticleListController _articlesWindows) {
@@ -87,6 +80,7 @@ public class ViewSingleArticleController extends Application{
      */
     @Override
     public void start(Stage _primaryStage) {
+        primaryStage = _primaryStage;
         _primaryStage.setOnHidden(e -> stop());
         _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
     }
@@ -112,7 +106,6 @@ public class ViewSingleArticleController extends Application{
         }
         articleView.getEngine().loadContent(htmlFile);
 
-        setFields();
         startTimer();
     }
 
@@ -137,17 +130,38 @@ public class ViewSingleArticleController extends Application{
      * set integrity and tag files
      */
     private void setFields() {
-        //handleIntegrity(); Not supported yet
+        primaryStage.setTitle(article.getTitle());
         tagsLabel.setText("Tags: " + article.getTags());
-        if (InternetTester.testInternet()){
-            integrityLabel.setText("Connected to internet");
+        System.out.println(article.hashCode());
+        System.out.println(article.getIntegrityHash());
+        if (Integer.toString(article.hashCode()).equals(article.getIntegrityHash())) {
+            integrityLabel.setText("Untampered article");
             integrityCircle.setFill(Color.GREEN);
         } else {
-            integrityLabel.setText("No connection");
-            integrityCircle.setFill(Color.ORANGE);
+            if (InternetTester.testInternet()){
+                if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")){
+                    try {
+                        article = SourceManager.redownloadArticle(article, articleManager.getArticleSource(article));
+                        System.out.println(article.getTitle());
+                        articleManager.upsertArticle(article);
+                        System.out.println("Article updated");
+                        setFields();
+                    } catch (Exception e) {
+                        if (MessageBoxes.showConfirmationBox("Unable to redownload article, would you like to delete it?")) {
+                            deleteArticle();
+                        }
+                    }
+                } else {
+                    integrityLabel.setText("Article should be redownloaded");
+                    integrityCircle.setFill(Color.ORANGE);
+                }
+            } else {
+                MessageBoxes.showErrorBox("The article has been tampered with. You are currently offline, it cannot be redownloaded :'<");
+                integrityLabel.setText("Tampered article");
+                integrityCircle.setFill(Color.RED);
+            }
         }
         updateLikeDislikeButton();
-
     }
 
 
@@ -156,6 +170,10 @@ public class ViewSingleArticleController extends Application{
      */
     @FXML
     public void deleteButtonPressed(){
+        deleteArticle();
+    }
+
+    private void deleteArticle() {
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
         System.out.println("DatabaseArticle supprimé");
