@@ -18,7 +18,7 @@ public class DatabaseArticle implements Serializable {
     private String link;
     private Date publishedDate;
     private Date updatedDate;
-    @Secret
+
     private String title;
     @Secret
     private String description;
@@ -37,6 +37,8 @@ public class DatabaseArticle implements Serializable {
     private Date downloadDate;
     private int likeState;
     private boolean viewed;
+    @Secret
+    private String integrityHash;
 
 
     public DatabaseArticle() {
@@ -60,6 +62,7 @@ public class DatabaseArticle implements Serializable {
         this.setHtmlContent(_item.getHtmlContent());
         this.setLikeState(_item.getLikeState());
         this.setViewed(_item.getViewed());
+        this.setIntegrityHash(_item.getIntegrityHash());
     }
 
     /*
@@ -99,7 +102,9 @@ public class DatabaseArticle implements Serializable {
     public int getLikeState() { return this.likeState; }
     public void setLikeState(int _likeState) { this.likeState = _likeState; }
     public boolean getViewed() { return viewed; }
-    public void setViewed(boolean viewed) { this.viewed = viewed; }
+    public void setViewed(boolean _viewed) { this.viewed = _viewed; }
+    public String getIntegrityHash() { return  integrityHash; }
+    public void setIntegrityHash(String _integrityHash) { this.integrityHash = _integrityHash; }
 
     /**
      * Tests if an article is outdated (based on his download date and the days to save the article)
@@ -121,7 +126,6 @@ public class DatabaseArticle implements Serializable {
      * @return boolean
      */
     public boolean equals(DatabaseArticle _articleToCompare){
-
         if (_articleToCompare == this) {
             return true;
         }
@@ -131,17 +135,24 @@ public class DatabaseArticle implements Serializable {
         return _articleToCompare.hashCode() == this.hashCode();
     }
 
-    public int hashCode() {
-        int hash = this.getPublishedDate().hashCode();
-        hash = hash ^ this.getTitle().hashCode();
-        hash = hash ^ getUpdatedDate().hashCode();
-        hash = hash ^ getDescription().hashCode();
-        hash = hash ^ getLink().hashCode();
-        hash = hash ^ getAuthor().hashCode();
-        hash = hash ^ getHtmlContent().hashCode();
-        hash = hash ^ getSourceUrl().hashCode();
-        hash = hash ^ getHtmlContent().hashCode();
+    private <T> int addToHash(int hash, T attribute){
+        if (attribute != null) {
+            return hash ^ attribute.hashCode();
+        } else {
+            return hash;
+        }
+    }
 
+    public int hashCode() {
+        int hash = 0;
+        hash = addToHash(hash, getPublishedDate());
+        hash = addToHash(hash, getTitle());
+        hash = addToHash(hash, getUpdatedDate());
+        hash = addToHash(hash, getDescription());
+        hash = addToHash(hash, getLink());
+        hash = addToHash(hash, getAuthor());
+        hash = addToHash(hash, getHtmlContent());
+        hash = addToHash(hash, getSourceUrl());
         return hash;
     }
 }

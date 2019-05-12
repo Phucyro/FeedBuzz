@@ -1,13 +1,13 @@
 package be.ac.ulb.infof307.g04.model;
 
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
@@ -35,7 +35,7 @@ public class ArticleLabelizer {
             ArrayList<Integer> word_counts_each_category = new ArrayList<>();
             JSONParser parser = new JSONParser();
             try{
-                Object objectparser = parser.parse(new FileReader("./article_db/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+                Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
                 JSONObject object = (JSONObject) objectparser;
 
                 // iterate through the keys of the JSONObject
@@ -80,7 +80,7 @@ public class ArticleLabelizer {
         int most_probable_label_index=0;
         double scores[] = new double[labels.size()];
 
-            
+            article.getHtmlContent();
             String article_content = CommonExtractors.ARTICLE_EXTRACTOR.getText(article.getHtmlContent()); // boilerpipe extract the text content of the article
             for (String word: article_content.toLowerCase().split(" ")) {
                 index = bag_of_word.indexOf(word);
@@ -109,7 +109,6 @@ public class ArticleLabelizer {
                 if(scores[i]>scores[most_probable_label_index]){
                     most_probable_label_index = i;
                 }
-                System.out.println(scores[i]);
             }
             System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
             article.setTags(labels.get(most_probable_label_index));

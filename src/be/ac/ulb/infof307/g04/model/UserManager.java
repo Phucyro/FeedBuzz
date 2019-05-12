@@ -61,6 +61,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * add an user in the db
+     * @param _user user to add
+     * @return return true if the insert worked well
+     */
     public boolean addUser(DatabaseUser _user) {
         try {
             jsonDBTemplate.insert(_user);
@@ -101,6 +106,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Check if an username is already in the database
+     * @param _username username to test
+     * @return return true if the username is already used
+     */
     public boolean existUsername(String _username){
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
@@ -111,6 +121,12 @@ public class UserManager {
         }
     }
 
+    /**
+     * check if an user is already in the database
+     * @param _username name of the user
+     * @param _password password of the user
+     * @return return true if the user is already in the database
+     */
     public boolean existUser(String _username, String _password){
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);

@@ -112,6 +112,11 @@ public class TagManager {
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
     }
 
+    /**
+     * edit the score of a specific tag
+     * @param _tagName tag that will be edited
+     * @param _score new score of the tag
+     */
     private void editScore(String _tagName, int _score){
         DatabaseTag toEdit = getTag(_tagName);
         if (toEdit != null){
@@ -119,7 +124,34 @@ public class TagManager {
             jsonDBTemplate.upsert(toEdit);
         }
     }
+    
+    /**
+     * edit score if the last actualisation date was longer than 
+     */
+    public void actualizeScore() {
+        Date current_date = new Date();
+        DatabaseTag checkTime = getTag("Business");
+        Date verifyDate = checkTime.getLastActualisationDate();
 
+        long diff = current_date.getTime() - verifyDate.getTime();
+        int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+        if (diffDays >= 1 ) {
+            String[] tags_list = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
+            for ( String _tagName : tags_list){
+                DatabaseTag toEdit = getTag(_tagName);
+                if (toEdit != null){
+                    float current_score = toEdit.getScore();
+                    current_score -= (current_score/100)*DAYWEIGHT;
+                    toEdit.setScore(current_score);
+                    jsonDBTemplate.upsert(toEdit);
+                }
+
+                toEdit.setLastActualisationDate(current_date);
+            }
+        }
+    }
+
+<<<<<<< HEAD
     public void actualizeScore() {
         //System.out.println("ICIIII");
         Date current_date = new Date();
@@ -146,6 +178,13 @@ public class TagManager {
 
     }
 
+=======
+    /**
+     * get a tag of the database from his name
+     * @param tagName name of the tag
+     * @return tag we are looking for
+     */
+>>>>>>> 7649036d7c47f6afe1ad9dd858567bfe6354bdd5
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
@@ -169,6 +208,10 @@ public class TagManager {
         tags.forEach(this::deleteTag);
     }
 
+    /**
+     * get the tag with the highest score
+     * @return the best tag
+     */
     public String getBest(){
         String best = "";
         float maxValue = -1;
@@ -181,26 +224,50 @@ public class TagManager {
         return best;
     }
 
+    /**
+     * remove a dislike (add point)
+     * @param _tag tag to apply the action to
+     */
     void removeDislike(String _tag) {
         editScore(_tag, -DISLIKEWEIGHT);
     }
 
+    /**
+     * add a dislike (remove point)
+     * @param _tag tag to apply the action to
+     */
     void addDislike(String _tag) {
         editScore(_tag, DISLIKEWEIGHT);
     }
 
+    /**
+     * remove a like (remove point)
+     * @param _tag tag to apply the action to
+     */
     void removeLike(String _tag) {
         editScore(_tag, -LIKEWEIGHT);
     }
 
+    /**
+     * add a like (add point)
+     * @param _tag tag to apply the action to
+     */
     void addLike(String _tag) {
         editScore(_tag, LIKEWEIGHT);
     }
 
+    /**
+     * add point from the time passed on an article of a specific tag
+     * @param _tag tag to apply the action to
+     */
     void addTime(String _tag, int sec) {
         editScore(_tag, sec* SECWEIGHT);
     }
 
+    /**
+     * add point from the opening of an article
+     * @param _tag tag to apply the action to
+     */
     void addView(String _tag) {
         editScore(_tag, VIEWWEIGHT);
     }

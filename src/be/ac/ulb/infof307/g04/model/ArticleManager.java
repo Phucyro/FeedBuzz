@@ -1,18 +1,12 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.ArticleVerification;
+
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class DatabaseArticle Manager, used to handle the display of all the articles
@@ -28,6 +22,7 @@ public class ArticleManager{
     public static final int NEUTRAL = 0;
     private JsonDBTemplate jsonDBTemplate;
     private final TagManager tagManager;
+    private final SourceManager sourceManager;
     /**
      * Constructor with the path to the database and the _password
      * @param _databasePath path to the database
@@ -36,6 +31,10 @@ public class ArticleManager{
     public ArticleManager(String _databasePath, String _password) {
         tagManager = new TagManager(_databasePath, _password);
         tagManager.actualizeScore();
+<<<<<<< HEAD
+=======
+        sourceManager = new SourceManager(_databasePath, _password);
+>>>>>>> 7649036d7c47f6afe1ad9dd858567bfe6354bdd5
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -98,7 +97,11 @@ public class ArticleManager{
         }
     }
 
-    private void upsertArticle(DatabaseArticle _article){
+    /**
+     * upsert an article in the database
+     * @param _article article to upsert
+     */
+    public void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
         } catch (InvalidJsonDbApiUsageException e){
@@ -106,32 +109,8 @@ public class ArticleManager{
     }
 
     /**
-     * check the integrity of all articles. If not valid (because it was modified): try to correct it
-     * replace it if possible or delete it
-     */
-    public void verifyArticles() throws IOException, ParserConfigurationException, SAXException, ParseException {
-
-        ArrayList<DatabaseArticle> articles = loadArticles();
-        for(DatabaseArticle article : articles){
-            ArticleVerification articleVerification = new ArticleVerification(article,article.getSourceUrl());
-            if(!articleVerification.isValid()){
-                if(articleVerification.isCorrectable()){
-                    articleVerification.correctArticle();
-                    replaceArticle(article, articleVerification.getArticle());
-                }
-                else{
-                    deleteArticle(article);
-                }
-            }
-
-        }
-    }
-
-    /**
      * Add an _article from the database
-     * @param _article
-     *              _article the will be added
-     * @return inform if the _article has been added
+     * @param _article the article that will be added
      */
     public void addArticle(DatabaseArticle _article) {
         DatabaseArticle dbArticle = _article;
@@ -147,7 +126,7 @@ public class ArticleManager{
      *          the _link of the article
      * @return found article
      */
-    public DatabaseArticle findArticle(String _link){
+    DatabaseArticle findArticle(String _link){
         try {
             return jsonDBTemplate.findById(_link, DatabaseArticle.class);
         } catch (Exception e) {
@@ -179,6 +158,10 @@ public class ArticleManager{
         return (result);
     }
 
+    public DatabaseSource getArticleSource(DatabaseArticle article) {
+        return sourceManager.findSource(article.getSourceUrl());
+    }
+
     /**
      * delete the expired articles
      */
@@ -193,6 +176,10 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * called when the dislike button is clicked
+     * @param _article article to dislike
+     */
     public void dislikeArticle(DatabaseArticle _article){
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
@@ -202,6 +189,10 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * called when the like button is clicked
+     * @param _article article to like
+     */
     public void likeArticle(DatabaseArticle _article){
         if (_article.getLikeState() == DISLIKED) {
             tagManager.removeDislike(_article.getTags());
@@ -211,6 +202,10 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * called when an article is neither liked and disliked
+     * @param _article article to set to neutral
+     */
     public void setNeutralLike(DatabaseArticle _article){
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
@@ -221,6 +216,11 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * get all the suggested articles
+     * @param _tag tag to get the suggestion from
+     * @return array containing all the suggested articles
+     */
     public ArrayList<DatabaseArticle> getSuggestion(String _tag){
         ArrayList<DatabaseArticle> suggestedArticles = new ArrayList<>();
         for (DatabaseArticle article: loadArticles()) {
@@ -231,10 +231,19 @@ public class ArticleManager{
         return suggestedArticles;
     }
 
+    /**
+     * set the number of time passed on the article
+     * @param _article article the user was looking at
+     * @param _sec time passed on the article
+     */
     public void addTimeWatched(DatabaseArticle _article, int _sec){
         tagManager.addTime(_article.getTags(), _sec);
     }
 
+    /**
+     * open a specific article
+     * @param _article article to open
+     */
     public void openArticle(DatabaseArticle _article) {
         tagManager.addView(_article.getTags());
         _article.setViewed(true);
