@@ -98,7 +98,7 @@ public class ArticleManager{
      * upsert an article in the database
      * @param _article article to upsert
      */
-    private void upsertArticle(DatabaseArticle _article){
+    public void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
         } catch (InvalidJsonDbApiUsageException e){

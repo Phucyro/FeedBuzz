@@ -35,7 +35,7 @@ public class ArticleLabelizer {
             ArrayList<Integer> word_counts_each_category = new ArrayList<>();
             JSONParser parser = new JSONParser();
             try{
-                Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+                Object objectparser = parser.parse(new FileReader("./groupe04/src/be/ac/ulb/infof307/g04/model/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
                 JSONObject object = (JSONObject) objectparser;
 
                 // iterate through the keys of the JSONObject

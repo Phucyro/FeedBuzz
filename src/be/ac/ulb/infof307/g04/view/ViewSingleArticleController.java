@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.controller.InternetTester;
+import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.model.SourceManager;
