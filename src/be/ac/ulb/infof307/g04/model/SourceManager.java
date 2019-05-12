@@ -105,14 +105,9 @@ public class SourceManager {
                                 articleToSave.setDownloadDate(new Date());
                                 articleToSave.setSourceUrl(source.getUrl());
                                 articleToSave.setTags(source.getTag());
-                                try {
-                                    System.out.println("Downloading article");
-                                    articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink()));
-                                    System.out.println("Downloaded");
-                                } catch (IOException e) {
-                                    System.out.println("Erreur");
-                                    articleToSave.setHtmlContent("");
-                                }
+                                System.out.println("Downloading article");
+                                articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink(), articleToSave.getDescription()));
+                                System.out.println("Downloaded");
                                 _articleManager.addArticle(articleToSave);
                             } else {
                                 System.out.println("Existing article");

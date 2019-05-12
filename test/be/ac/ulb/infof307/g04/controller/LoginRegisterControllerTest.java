@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 
+import be.ac.ulb.infof307.g04.view.LoginRegisterController;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ViewLoginRegisterTest {
+public class LoginRegisterControllerTest {
 
     private String valid_username;
     private String valid_password;
 
-    private final ViewLoginRegister loginregister = new ViewLoginRegister();
+    private final LoginRegisterController loginregister = new LoginRegisterController();
 
     @BeforeAll
     void setupBeforeArticleVerification() throws IOException, ParserConfigurationException, SAXException, ParseException {

@@ -1,9 +1,8 @@
 package be.ac.ulb.infof307.g04;
 
 
-import be.ac.ulb.infof307.g04.controller.*;
+import be.ac.ulb.infof307.g04.view.LoginRegisterController;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/LoginRegister.fxml"));
-        ViewLoginRegister controller = new ViewLoginRegister();
+        LoginRegisterController controller = new LoginRegisterController();
         loader.setController(controller);
         Parent loginRoot = loader.load();
         Stage stage = new Stage();

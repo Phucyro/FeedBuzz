@@ -143,7 +143,7 @@ public class ViewSingleArticleController extends Application{
             integrityLabel.setText("Connected to internet");
             integrityCircle.setFill(Color.GREEN);
         } else {
-            integrityLabel.setText("No connexion");
+            integrityLabel.setText("No connection");
             integrityCircle.setFill(Color.ORANGE);
         }
         updateLikeDislikeButton();

@@ -1,5 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 
+import be.ac.ulb.infof307.g04.model.ArticleManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,16 +23,16 @@ public class HTMLArticleDownloader {
 
     /**
      * Extract all the links and sort them by type
-     * @param _articleLink link of the article
-     * @param _descriptionHtml description of the article
+     * @param _link link of the article
+     * @param _description description of the article
      * @return url of the image
      * @throws IOException exception due
      */
-    static String getIconFromDescription(String _articleLink, String _descriptionHtml) throws IOException {
-        String folder_name = getFolderName(_articleLink);
+    static void getIconFromDescription(String _link, String _description) throws IOException {
+        String folder_name = getFolderName(_link);
         new File(MEDIA_FOLDER).mkdir(); //TODO delete this
         new File(MEDIA_FOLDER + folder_name).mkdir();
-        Document doc = Jsoup.parse(_descriptionHtml);
+        Document doc = Jsoup.parse(_description);
         Elements images = doc.select("img[src]");
 
         String img_url = "";
@@ -40,9 +41,7 @@ public class HTMLArticleDownloader {
 
         }
 
-        img_url = downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
-
-        return img_url;
+        downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
     }
 
 
@@ -56,11 +55,7 @@ public class HTMLArticleDownloader {
         articleLinkCurated = "media/"+articleLinkCurated;
         File folder = new File(articleLinkCurated);
 
-        File[] matchingFiles = folder.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith("icon.");
-            }
-        });
+        File[] matchingFiles = folder.listFiles((dir, name) -> name.startsWith("icon."));
 
         if (matchingFiles.length == 0 || matchingFiles[0].getName().equals("icon.")) {
             throw new FileNotFoundException();
@@ -74,9 +69,9 @@ public class HTMLArticleDownloader {
      * @param _url url of the article
      * @return return the modified html to stock
      */
-    public static String ArticleLocalifier(String _url) throws IOException {
+    public static String ArticleLocalifier(String _url, String _description) throws IOException {
         String folder_name = getFolderName(_url);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this
+        new File(MEDIA_FOLDER).mkdir(); //TODO delete this test if folder already exists
         new File(MEDIA_FOLDER + folder_name).mkdir();
 
         Document doc = Jsoup.connect(_url).get();
@@ -88,6 +83,9 @@ public class HTMLArticleDownloader {
         replaceLinksHref(links, "#");
         downloadReplaceElementsFromTag(media, folder_name, SRC_TAG);
         downloadReplaceElementsFromTag(imports, folder_name, HREF_TAG);
+
+        //Downloads article icon
+        getIconFromDescription(_url, _description);
 
         return downloadReplaceRemainingLinks(doc.toString(), folder_name);
     }
@@ -173,12 +171,16 @@ public class HTMLArticleDownloader {
             filename = getHashedFilename(_url);
         }
         String complete_path = MEDIA_FOLDER + _folderName + "/" + filename;
-        InputStream in = new URL(_url).openStream();
-        if (!new File(complete_path).exists()) {
-            Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
-        }
+        try {
+            InputStream in = new URL(_url).openStream();
+            if (!new File(complete_path).exists()) {
+                Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
+            }
 
-        return new File(complete_path).toURI().toString();
+            return new File(complete_path).toURI().toString();
+        } catch (IOException e) {
+            return "#";
+        }
     }
 
     /**

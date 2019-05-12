@@ -34,7 +34,6 @@ public class DatabaseArticle implements Serializable {
     private boolean deleted;
     @Secret
     private String sourceUrl;
-    private String label;
     private Date downloadDate;
     private int likeState;
     private boolean viewed;
@@ -101,8 +100,6 @@ public class DatabaseArticle implements Serializable {
     public void setLikeState(int _likeState) { this.likeState = _likeState; }
     public boolean getViewed() { return viewed; }
     public void setViewed(boolean viewed) { this.viewed = viewed; }
-    public String getLabel() { return label; }
-    public void setLabel(String _label) { this.label = _label; }
 
     /**
      * Tests if an article is outdated (based on his download date and the days to save the article)

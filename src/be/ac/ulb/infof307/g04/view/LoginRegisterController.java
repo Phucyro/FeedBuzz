@@ -1,4 +1,4 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.UserManager;
@@ -7,9 +7,11 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -18,7 +20,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 
-public class ViewLoginRegister extends Application{
+public class LoginRegisterController extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
@@ -53,7 +55,7 @@ public class ViewLoginRegister extends Application{
 
 
 
-    public ViewLoginRegister(){ }
+    public LoginRegisterController(){ }
 
 
     /**
@@ -62,18 +64,22 @@ public class ViewLoginRegister extends Application{
      */
     public void initialize(){
         Stage userAgreementView = new Stage();
-        userAgreementView.setTitle("Contrat de license");
+        userAgreementView.setTitle("User agreement and services terms");
 
+        VBox labelContainer = new VBox();
+        Label pageTitle = new Label("Here are the conditions the user have to comply to in order to use our software:");
+        Label pageText = new Label("-Do not modify any data of the app or the app folder\n" +
+                "-Ask for permission if you intend to reuse some parts of the application\n");
+        pageTitle.setWrapText(true);
+        pageText.setWrapText(true);
+        pageTitle.setStyle("-fx-font: 16 arial; -fx-underline: true;");
+        pageText.setStyle("-fx-font: 12 arial;");
+        pageTitle.setAlignment(Pos.CENTER);
+        labelContainer.setSpacing(30);
+        labelContainer.getChildren().addAll(pageTitle,pageText);
+        labelContainer.setAlignment(Pos.TOP_CENTER);
 
-        WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
-
-        // load the html page containing the user terms
-        webEngine.load(getClass().getResource("/be/ac/ulb/infof307/g04/html/userterms.html").toExternalForm());
-
-
-        Scene scene = new Scene(webView, webView.getPrefWidth(),
-                webView.getPrefHeight());
+        Scene scene = new Scene(labelContainer,500, 200);
 
         userAgreementView.setScene(scene);
         userAgreementLink.setOnAction(e -> userAgreementView.show());
@@ -87,10 +93,6 @@ public class ViewLoginRegister extends Application{
     }
 
 
-
-
-
-
     /**
      * Make a directory to contain the user database (articles,sources and tags)
      * @param _username article the name of the folder to make
@@ -98,11 +100,8 @@ public class ViewLoginRegister extends Application{
     public void makeUserDirectory(String _username){
         File file = new File(DB_ROOT + _username);
         if (file.exists()) { file.delete();}
-
-        if (file.mkdir())  {
-            System.out.println("Successfully made folder" + file.getAbsolutePath());
-        } else {
-            System.out.println("Failed making the folder " + file.getAbsolutePath());
+        if (!file.mkdir())  {
+            setWarningAndDisplay(registerWarning, "Erreur lors de la création du fichier utilisateur");
         }
     }
 
@@ -152,9 +151,7 @@ public class ViewLoginRegister extends Application{
      */
     public boolean registerInputsValid(String _usernameStr, String _passwordStr, String _confirmPasswordStr) {
         // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
-
-        /*
-        if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <=MAX_CHARACTERS){
+        if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <= MAX_CHARACTERS){
             if(_passwordStr.length() >= MIN_CHARACTERS && _passwordStr.length() <= MAX_CHARACTERS){
                 if(_passwordStr.equals(_confirmPasswordStr)){
                     return true;
@@ -162,26 +159,7 @@ public class ViewLoginRegister extends Application{
                 else{
                     setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
             }
-            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
-        }
-        else{
-            setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
-
-        return false;
-
-         */
-
-
-
-        if(_usernameStr.length() >= 0 && _usernameStr.length() <=MAX_CHARACTERS){
-            if(_passwordStr.length() >= 0 && _passwordStr.length() <= MAX_CHARACTERS){
-                if(_passwordStr.equals(_confirmPasswordStr)){
-                    return true;
-                }
-                else{
-                    setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
-            }
-            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
+            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");}
         }
         else{
             setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
@@ -195,7 +173,6 @@ public class ViewLoginRegister extends Application{
         if(userAgreementCheckbox.isSelected()){
             return true;
         }
-
         else{
             setWarningAndDisplay(registerWarning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
             return false;
@@ -233,7 +210,6 @@ public class ViewLoginRegister extends Application{
      * Try to register the user
      */
     public void registerButtonPressed() throws IOException {
-
         registerWarning.setVisible(false);
         String username = registerUsername.getText();
         String password = registerPassword.getText();

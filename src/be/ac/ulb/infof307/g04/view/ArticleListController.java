@@ -69,6 +69,8 @@ public class ArticleListController extends Application {
     @FXML
     private MenuItem copyArticleLinkImage;
     @FXML
+    private MenuItem suggestionImage;
+    @FXML
     private MenuItem configureSourcesImage;
     @FXML
     private MenuItem configureTagsImage;
@@ -206,6 +208,7 @@ public class ArticleListController extends Application {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png", 250, 400, copyArticleLinkImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Suggestions.png",350,550,suggestionImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png", 380, 530, configureSourcesImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png", 350, 550, configureTagsImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);
@@ -280,19 +283,23 @@ public class ArticleListController extends Application {
 
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
-        GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
-
-        ArrayList<Button> buttonList = new ArrayList<>();
-        int size = (suggestedArticlesList.size() < 3) ? suggestedArticlesList.size(): 3;
-        for (int i = 0; i < size; i++){
-            fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
+        if (suggestedArticlesList.size() == 0){
+            showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
         }
+        else {
+            GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
 
-        initButtonSuggested(suggestedArticlesList, buttonList);
+            ArrayList<Button> buttonList = new ArrayList<>();
+            int size = (suggestedArticlesList.size() < 3) ? suggestedArticlesList.size() : 3;
+            for (int i = 0; i < size; i++) {
+                fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
+            }
 
-        Scene dialogScene = new Scene(gridPane, 450, 200);
-        suggestionWindow.setScene(dialogScene);
-        suggestionWindow.show();
+            initButtonSuggested(suggestedArticlesList, buttonList);
+            Scene suggestionScene = new Scene(gridPane, 450, 200);
+            suggestionWindow.setScene(suggestionScene);
+            suggestionWindow.show();
+        }
     }
 
     /**
@@ -302,6 +309,7 @@ public class ArticleListController extends Application {
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
+            System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
                 try{
                     openArticleWindow(articleToButton);
@@ -313,12 +321,12 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param suggestionStage is the Stage that will be modified
+     * @param _suggestionStage is the Stage that will be modified
      * @return the modified Stage
      */
-    private GridPane setSuggestionPanelConstraint(Stage suggestionStage) {
-        suggestionStage.initModality(Modality.WINDOW_MODAL);
-        suggestionStage.initOwner(mainStage);
+    private GridPane setSuggestionPanelConstraint(Stage _suggestionStage) {
+        _suggestionStage.initModality(Modality.WINDOW_MODAL);
+        _suggestionStage.initOwner(mainStage);
         GridPane gridPane = new GridPane();
         ColumnConstraints col1Constraints = new ColumnConstraints();
         col1Constraints.setPercentWidth(30);
@@ -334,32 +342,32 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param suggestedArticle list of suggested articles
-     * @param gridPane pane to display suggestions
-     * @param buttonList list of buttons to use to open articles
-     * @param columnIndex is the index of the column that needs to be modified
+     * @param _suggestedArticle list of suggested articles
+     * @param _gridPane pane to display suggestions
+     * @param _buttonList list of buttons to use to open articles
+     * @param _columnIndex is the index of the column that needs to be modified
      */
-    private void fillSuggestionPanel(DatabaseArticle suggestedArticle, GridPane gridPane, ArrayList<Button> buttonList, int columnIndex) {
-        String iconUrl = setSuggestionIconUrl(suggestedArticle);
+    private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
+        String iconUrl = setSuggestionIconUrl(_suggestedArticle);
         Image icon = new Image(iconUrl, 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
-        gridPane.add(articleImage,columnIndex,0);
-        Label articleText = new Label(suggestedArticle.getTitle());
+        _gridPane.add(articleImage,_columnIndex,0);
+        Label articleText = new Label(_suggestedArticle.getTitle());
         articleText.setWrapText(true);
-        gridPane.add(articleText,columnIndex,1);
+        _gridPane.add(articleText,_columnIndex,1);
         Button articleReadButton = new Button("Lire cet article");
-        buttonList.add(articleReadButton);
-        gridPane.add(articleReadButton,columnIndex,2);
+        _buttonList.add(articleReadButton);
+        _gridPane.add(articleReadButton,_columnIndex,2);
     }
 
     /**
-     * @param suggestedArticle article that is suggested to display
+     * @param _suggestedArticle article that is suggested to display
      * @return string that contains the uri of the article's icon
      */
-    private String setSuggestionIconUrl(DatabaseArticle suggestedArticle) {
+    private String setSuggestionIconUrl(DatabaseArticle _suggestedArticle) {
         String iconUrl = "";
         try {
-            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(suggestedArticle.getLink());
+            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
             iconUrl = "file://" + iconUrl;
         } catch(FileNotFoundException e) {
             iconUrl = DEFAULT_ICON;

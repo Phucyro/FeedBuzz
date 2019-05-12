@@ -1,16 +1,13 @@
 package be.ac.ulb.infof307.g04.model;
 
 
-//import org.json.JSONObject;
-
-import de.l3s.boilerpipe.extractors.CommonExtractors;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import de.l3s.boilerpipe.extractors.CommonExtractors;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import java.io.FileReader;
 
 /**
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
@@ -38,21 +35,19 @@ public class ArticleLabelizer {
             ArrayList<Integer> word_counts_each_category = new ArrayList<>();
             JSONParser parser = new JSONParser();
             try{
-                Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+                Object objectparser = parser.parse(new FileReader("./article_db/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
                 JSONObject object = (JSONObject) objectparser;
 
                 // iterate through the keys of the JSONObject
-                for(Iterator iterator = object.keySet().iterator(); iterator.hasNext();) {
+                for (Object o : object.keySet()) {
 
-                    String label = (String) iterator.next();
+                    String label = (String) o;
                     labels.add(label);
                     JSONArray array = (JSONArray) object.get(label); // get the array associated with the key
 
                     // iterate through the words of the wordlist
-                    Iterator<String> iter =  array.iterator();
-                    while(iter.hasNext()) {
-                        bag_of_word.add(iter.next()); // add the word to the bag of words
-                    }
+                    // add the word to the bag of words
+                    bag_of_word.addAll(array);
                     word_counts_each_category.add(array.size());
                 }
 
@@ -68,13 +63,9 @@ public class ArticleLabelizer {
                     }
                     word_count+= word_counts_each_category.get(i); //
                 }
+            } catch(java.io.IOException | org.json.simple.parser.ParseException e){
+                System.out.println(e);
             }
-
-            catch(java.io.FileNotFoundException e){ System.out.println(e); }
-            catch(java.io.IOException e){System.out.println(e); }
-            catch(org.json.simple.parser.ParseException e){ System.out.println(e); }
-
-
 
 
     }
@@ -121,7 +112,7 @@ public class ArticleLabelizer {
                 System.out.println(scores[i]);
             }
             System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
-            article.setLabel(labels.get(most_probable_label_index));
+            article.setTags(labels.get(most_probable_label_index));
 
 
     }
