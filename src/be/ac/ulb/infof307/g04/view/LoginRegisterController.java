@@ -1,4 +1,4 @@
-package be.ac.ulb.infof307.g04.controller;
+package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.UserManager;
@@ -20,7 +20,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 
-public class ViewLoginRegister extends Application{
+public class LoginRegisterController extends Application{
 
     static final int MIN_CHARACTERS = 5;
     static final int MAX_CHARACTERS = 17;
@@ -55,7 +55,7 @@ public class ViewLoginRegister extends Application{
 
 
 
-    public ViewLoginRegister(){ }
+    public LoginRegisterController(){ }
 
 
     /**
