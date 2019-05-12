@@ -69,6 +69,8 @@ public class ArticleListController extends Application {
     @FXML
     private MenuItem copyArticleLinkImage;
     @FXML
+    private MenuItem suggestionImage;
+    @FXML
     private MenuItem configureSourcesImage;
     @FXML
     private MenuItem configureTagsImage;
@@ -206,6 +208,7 @@ public class ArticleListController extends Application {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png", 250, 400, copyArticleLinkImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Suggestions.png",350,550,suggestionImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png", 380, 530, configureSourcesImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png", 350, 550, configureTagsImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);

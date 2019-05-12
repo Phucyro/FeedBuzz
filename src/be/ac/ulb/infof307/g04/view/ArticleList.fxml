@@ -49,6 +49,11 @@
                 <MenuItem mnemonicParsing="false" fx:id="copyArticleLinkImage" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Open suggestions window">
+              <items>
+                <MenuItem mnemonicParsing="false" text="" fx:id="suggestionImage" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Configure sources">
               <items>
                 <MenuItem mnemonicParsing="false" fx:id="configureSourcesImage" />
