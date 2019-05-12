@@ -144,6 +144,7 @@ public class ArticleListController extends Application {
 
         listViewArticles.setCellFactory(lv -> new ArticleCell());
         setHelpImages();
+
     }
 
 
@@ -155,7 +156,6 @@ public class ArticleListController extends Application {
         for (Stage aStageArrayList : stageArrayList) {
             aStageArrayList.close();
         }
-
         mainStage.close();
     }
 
@@ -389,14 +389,8 @@ public class ArticleListController extends Application {
             ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle(_articleToRead.getTitle());
-            controller.start(stage);
-            setStage(root, stage);
-            stageArrayList.add(stage);
-
-        }catch(NullPointerException | IOException e){
+            openWindow(loader, _articleToRead.getTitle(), "article");
+        } catch (Exception e){
             showErrorBox("No article selected");
         }
     }
@@ -425,7 +419,7 @@ public class ArticleListController extends Application {
             loader.setController(controller);
             openWindow(loader,"Manage sources","sources");
         } catch (Exception e) {
-            e.printStackTrace();
+            showErrorBox("Error while opening the Source window!");
         }
     }
 
@@ -504,7 +498,6 @@ public class ArticleListController extends Application {
                 tag = new DatabaseTag();
                 String label = (String) o;
                 tag.setName(label);
-
                 tagManager.addTag(tag);
             }
         } catch (org.json.simple.parser.ParseException | IOException e) {
