@@ -18,6 +18,7 @@ public class TagManager {
     private static final int LIKEWEIGHT = 1;
     private static final int SECWEIGHT = 1;
     private static final int VIEWWEIGHT = 1;
+    private static final int DAYWEIGHT = 1;
     private JsonDBTemplate jsonDBTemplate;
 
     /**
@@ -117,6 +118,32 @@ public class TagManager {
         if (toEdit != null){
             toEdit.setScore(toEdit.getScore() + _score);
             jsonDBTemplate.upsert(toEdit);
+        }
+    }
+    
+    /**
+     * edit score if the last actualisation date was longer than 
+     */
+    public void actualizeScore() {
+        Date current_date = new Date();
+        DatabaseTag checkTime = getTag("Business");
+        Date verifyDate = checkTime.getLastActualisationDate();
+
+        long diff = current_date.getTime() - verifyDate.getTime();
+        int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+        if (diffDays >= 1 ) {
+            String[] tags_list = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
+            for ( String _tagName : tags_list){
+                DatabaseTag toEdit = getTag(_tagName);
+                if (toEdit != null){
+                    float current_score = toEdit.getScore();
+                    current_score -= (current_score/100)*DAYWEIGHT;
+                    toEdit.setScore(current_score);
+                    jsonDBTemplate.upsert(toEdit);
+                }
+
+                toEdit.setLastActualisationDate(current_date);
+            }
         }
     }
 
