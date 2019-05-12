@@ -6,6 +6,8 @@ import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
+
+import javax.xml.crypto.Data;
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class TagManager {
     private static final int VIEWWEIGHT = 1;
     private static final int DAYWEIGHT = 1;
     private JsonDBTemplate jsonDBTemplate;
+
 
     /**
      * @param _databasePath
@@ -128,26 +131,25 @@ public class TagManager {
      * edit score if the last actualisation date was longer than 
      */
     public void actualizeScore() {
-        /*Date current_date = new Date();
-        DatabaseTag checkTime = getTag("Business");
+        Date current_date = new Date();
+        DatabaseTag checkTime = getTag("art");
         Date verifyDate = checkTime.getLastActualisationDate();
 
         long diff = current_date.getTime() - verifyDate.getTime();
         int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
         if (diffDays >= 1 ) {
-            String[] tags_list = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
-            for ( String _tagName : tags_list){
-                DatabaseTag toEdit = getTag(_tagName);
+            ArrayList<DatabaseTag> tags_list = getAll();
+            for ( DatabaseTag toEdit : tags_list){
                 if (toEdit != null){
                     float current_score = toEdit.getScore();
-                    current_score -= (current_score/100)*DAYWEIGHT;
+                    current_score -= (current_score/100)*(DAYWEIGHT*diff);
                     toEdit.setScore(current_score);
                     jsonDBTemplate.upsert(toEdit);
                 }
 
                 toEdit.setLastActualisationDate(current_date);
             }
-        }*/
+        }
     }
 
     /**

@@ -112,17 +112,18 @@ public class ArticleListController extends Application {
         if (InternetTester.testInternet()) {
             try {
                 source.download(articleManager);
+
             } catch (ParserConfigurationException e) {
-                MessageBoxes.showErrorBox("Parser Configuration exception");
+                showErrorBox("Parser Configuration exception");
             } catch (ParseException e) {
-                MessageBoxes.showErrorBox("Parse exception");
+                showErrorBox("Parse exception");
             } catch (SAXException e) {
-                MessageBoxes.showErrorBox("SAX Exception");
+                showErrorBox("SAX Exception");
             } catch (IOException e) {
-                MessageBoxes.showErrorBox("IO Exception");
+                showErrorBox("IO Exception");
             }
         }else{
-            MessageBoxes.showErrorBox("Pas d'internet");
+            showErrorBox("Pas d'internet");
         }
     }
 
@@ -222,25 +223,18 @@ public class ArticleListController extends Application {
     }
 
 
+
     /**
-     * Method that opens an article when the user click on it
+     * show a eroor box with a message
+     * @param _errorMessage the error message to print
      */
-    @FXML
-    private void openArticleWindow(DatabaseArticle _articleToRead) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
-        try {
-            FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
-            ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
-            loader.setController(controller);
-            controller.setArticlesWindows(this);
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            controller.start(stage);
-            setStage(root, stage);
-            stageArrayList.add(stage);
-        }catch(NullPointerException | IOException e){
-            e.printStackTrace();
-            MessageBoxes.showErrorBox("No article selected");
-        }
+    private void showErrorBox(String _errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(_errorMessage);
+
+        alert.showAndWait();
     }
 
     /**
@@ -254,7 +248,7 @@ public class ArticleListController extends Application {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while copying link to clipboard");
+            showErrorBox("Error while copying link to clipboard");
         }
     }
 
@@ -271,7 +265,7 @@ public class ArticleListController extends Application {
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
         if (suggestedArticlesList.size() == 0){
-            MessageBoxes.showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
+            showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
         }
         else {
             GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
@@ -281,10 +275,10 @@ public class ArticleListController extends Application {
             for (int i = 0; i < size; i++) {
                 fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
             }
+
             initButtonSuggested(suggestedArticlesList, buttonList);
             Scene suggestionScene = new Scene(gridPane, 450, 200);
             suggestionWindow.setScene(suggestionScene);
-            suggestionWindow.setResizable(false);
             suggestionWindow.show();
         }
     }
@@ -296,6 +290,7 @@ public class ArticleListController extends Application {
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
+            System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
                 try{
                     openArticleWindow(articleToButton);
@@ -334,7 +329,8 @@ public class ArticleListController extends Application {
      * @param _columnIndex is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
-        Image icon = new Image(HTMLArticleDownloader.getIconUrl(_suggestedArticle.getLink()), 100, 100, true, true);
+        String iconUrl = setSuggestionIconUrl(_suggestedArticle);
+        Image icon = new Image(iconUrl, 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
         _gridPane.add(articleImage,_columnIndex,0);
         Label articleText = new Label(_suggestedArticle.getTitle());
@@ -343,6 +339,21 @@ public class ArticleListController extends Application {
         Button articleReadButton = new Button("Lire cet article");
         _buttonList.add(articleReadButton);
         _gridPane.add(articleReadButton,_columnIndex,2);
+    }
+
+    /**
+     * @param _suggestedArticle article that is suggested to display
+     * @return string that contains the uri of the article's icon
+     */
+    private String setSuggestionIconUrl(DatabaseArticle _suggestedArticle) {
+        String iconUrl = "";
+        try {
+            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
+            iconUrl = "file://" + iconUrl;
+        } catch(FileNotFoundException e) {
+            iconUrl = DEFAULT_ICON;
+        }
+        return iconUrl;
     }
 
     @FXML
@@ -364,10 +375,44 @@ public class ArticleListController extends Application {
             stageArrayList.add(stage);
         }
         catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while opening " + _title + " window!");
+            showErrorBox("Error while opening "+ _title + " window!");
         }
     }
 
+    /**
+     * Method that opens an article when the user click on it
+     */
+    @FXML
+    private void openArticleWindow(DatabaseArticle _articleToRead) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
+        try {
+            FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
+            ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
+            loader.setController(controller);
+            controller.setArticlesWindows(this);
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(_articleToRead.getTitle());
+            controller.start(stage);
+            setStage(root, stage);
+            stageArrayList.add(stage);
+
+        }catch(NullPointerException | IOException e){
+            showErrorBox("No article selected");
+        }
+    }
+    /**
+     * open the tag window
+     */
+    public void openTagWindow(ActionEvent _actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
+            TagMenuController controller = new TagMenuController(dbPath, password);
+            loader.setController(controller);
+            openWindow(loader, "Manage tags", "tag");
+        } catch (Exception e) {
+            showErrorBox("Error while opening the tag window!");
+        }
+    }
 
     /**
      * @param _actionEvent opens the SourceWindow (download settings)
@@ -378,11 +423,7 @@ public class ArticleListController extends Application {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            setStage(root, stage);
-            stageArrayList.add(stage);
-
+            openWindow(loader,"Manage sources","sources");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -485,22 +526,6 @@ public class ArticleListController extends Application {
         sources.forEach(sourceManager::addSource);
     }
 
-    /**
-     * open the tag window
-     */
-    public void openTagWindow(ActionEvent _actionEvent) {
-        /*
-        Open the tag window
-         */
-        try {
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/TagMenuController.fxml"));
-            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
-            TagMenuController controller = new TagMenuController(dbPath, password);
-            loader.setController(controller);
-            openWindow(loader, "Manage tags", "tag");
-        } catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while opening the tag window!");
-        }
-    }
+
 
 };
