@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Popup;
 import org.jsoup.Jsoup;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -75,11 +76,8 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             tagLabel.setText("Tags: "+ item.getTags()); // show tags
             linkLabel.setText(item.getLink());
             popupOverArticle(item);
-            Image icon = new Image(DEFAULT_ICON);
-            try {
-                icon = new Image(getIconUrl(item.getLink()));
-            } catch (Exception ignored) {
-            }
+            Image icon;
+            icon = getIcon(item.getLink());
             articleIcon.setImage(icon);
             linkLabel.setOnAction(e -> {
                 if (java.awt.Desktop.isDesktopSupported()) {
@@ -269,10 +267,16 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      * Retrieve first icon url in html text
      * @return url to an image
      */
-    private String getIconUrl(String _articleLink) throws IOException {
-        String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
-        iconUrl = "file://" + iconUrl;
-        return iconUrl;
+    private Image getIcon (String _articleLink) {
+        Image icon;
+        try {
+            String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
+            iconUrl = "file://" + iconUrl;
+            icon = new Image(iconUrl);
+        } catch (FileNotFoundException e) {
+            icon = new Image(DEFAULT_ICON);
+        }
+        return icon;
     }
 
     /**

@@ -21,7 +21,7 @@
   <children>
     <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
-        <Tab text="Se connecter">
+        <Tab text="Connection">
           <content>
             <AnchorPane maxHeight="372.0" maxWidth="642.0" minHeight="167.0" minWidth="400.0" prefHeight="372.0" prefWidth="642.0">
               <children>
@@ -40,13 +40,13 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                           <children>
-                            <Label text="Nom d'utilisateur:   " />
+                            <Label text="Username:" />
                             <TextField fx:id="loginUsername" />
                           </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                           <children>
-                            <Label text="Mot de passe :        " />
+                            <Label text="Password:" />
                             <PasswordField fx:id="loginPassword" />
                           </children>
                         </HBox>
@@ -72,7 +72,7 @@
             </AnchorPane>
           </content>
         </Tab>
-        <Tab text="S'inscrire">
+        <Tab text="Registration">
           <content>
             <AnchorPane maxHeight="-1.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="630.0">
               <children>
@@ -80,31 +80,31 @@
                   <children>
                     <HBox alignment="CENTER" prefHeight="161.0" prefWidth="618.0">
                       <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" font="$x1" text="Inscription" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" font="$x1" text="Registration" />
                       </children>
                     </HBox>
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                       <children>
-                        <Label text="Nom d'utilisateur:            " />
+                        <Label text="Username:" />
                         <TextField fx:id="registerUsername" />
                       </children>
                     </HBox>
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                       <children>
-                        <Label text="Mot de passe :                 " />
+                        <Label text="Password:" />
                         <PasswordField fx:id="registerPassword" />
                       </children>
                     </HBox>
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                       <children>
-                        <Label text="Confirmer mot de passe: " />
+                        <Label text="Repeat password:" />
                         <PasswordField fx:id="registerConfirmPassword" />
                       </children>
                     </HBox>
                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                       <children>
-                        <CheckBox fx:id="userAgreementCheckbox" mnemonicParsing="false" text="J'ai lu et j'approuve " />
-                        <Hyperlink fx:id="userAgreementLink" style="-fx-background-color: lightgrey" text="les termes de services" />
+                        <CheckBox fx:id="userAgreementCheckbox" mnemonicParsing="false" text="I read and agree with the" />
+                        <Hyperlink fx:id="userAgreementLink" style="-fx-background-color: lightgrey" text="terms of service" />
                       </children>
                     </HBox>
                     <Label fx:id="registerWarning" text="" textFill="#d74646" visible="false">
