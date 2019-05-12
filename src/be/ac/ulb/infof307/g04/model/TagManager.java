@@ -107,6 +107,11 @@ public class TagManager {
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
     }
 
+    /**
+     * edit the score of a specific tag
+     * @param _tagName tag that will be edited
+     * @param _score new score of the tag
+     */
     private void editScore(String _tagName, int _score){
         DatabaseTag toEdit = getTag(_tagName);
         if (toEdit != null){
@@ -115,6 +120,11 @@ public class TagManager {
         }
     }
 
+    /**
+     * get a tag of the database from his name
+     * @param tagName name of the tag
+     * @return tag we are looking for
+     */
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
@@ -138,6 +148,10 @@ public class TagManager {
         tags.forEach(this::deleteTag);
     }
 
+    /**
+     * get the tag with the highest score
+     * @return the best tag
+     */
     public String getBest(){
         String best = "";
         int maxValue = -1;
@@ -150,26 +164,50 @@ public class TagManager {
         return best;
     }
 
+    /**
+     * remove a dislike (add point)
+     * @param _tag tag to apply the action to
+     */
     void removeDislike(String _tag) {
         editScore(_tag, -DISLIKEWEIGHT);
     }
 
+    /**
+     * add a dislike (remove point)
+     * @param _tag tag to apply the action to
+     */
     void addDislike(String _tag) {
         editScore(_tag, DISLIKEWEIGHT);
     }
 
+    /**
+     * remove a like (remove point)
+     * @param _tag tag to apply the action to
+     */
     void removeLike(String _tag) {
         editScore(_tag, -LIKEWEIGHT);
     }
 
+    /**
+     * add a like (add point)
+     * @param _tag tag to apply the action to
+     */
     void addLike(String _tag) {
         editScore(_tag, LIKEWEIGHT);
     }
 
+    /**
+     * add point from the time passed on an article of a specific tag
+     * @param _tag tag to apply the action to
+     */
     void addTime(String _tag, int sec) {
         editScore(_tag, sec* SECWEIGHT);
     }
 
+    /**
+     * add point from the opening of an article
+     * @param _tag tag to apply the action to
+     */
     void addView(String _tag) {
         editScore(_tag, VIEWWEIGHT);
     }
