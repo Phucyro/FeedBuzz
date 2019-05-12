@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
+import java.util.Date;
 
 import java.io.Serializable;
 
@@ -14,7 +15,8 @@ import java.io.Serializable;
 public class DatabaseTag implements Serializable {
     @Id
     private String name;
-    private int score;
+    private float score;
+    private Date actualisationDate;
 
     public DatabaseTag(){
         score = 0;
@@ -23,6 +25,8 @@ public class DatabaseTag implements Serializable {
 
     public String getName() { return name; }
     public void setName(String _name) { this.name = _name; }
-    public int getScore() { return score; }
-    public void setScore(int _score) { this.score = _score; }
+    public float getScore() { return score; }
+    public void setScore(float _score) { this.score = _score; }
+    public Date getLastActualisationDate() {return actualisationDate; }
+    public void setLastActualisationDate(Date _newDate) { this.actualisationDate = _newDate; }
 }
