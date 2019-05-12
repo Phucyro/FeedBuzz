@@ -7,9 +7,7 @@ import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,12 +15,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,8 +68,8 @@ public class ViewSingleArticleController extends Application{
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
-        //ArticleLabelizer mk = new ArticleLabelizer(article);
-        //mk.labelize();
+        ArticleLabelizer mk = new ArticleLabelizer(article);
+        mk.labelize();
         timer = new Timer();
         if (InternetTester.testInternet()) {
             //ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());

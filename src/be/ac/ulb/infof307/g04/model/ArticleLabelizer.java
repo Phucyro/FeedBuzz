@@ -3,20 +3,14 @@ package be.ac.ulb.infof307.g04.model;
 
 //import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-
-import de.l3s.boilerpipe.document.TextDocument;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
-import de.l3s.boilerpipe.sax.BoilerpipeSAXInput;
-import de.l3s.boilerpipe.sax.HTMLDocument;
-import de.l3s.boilerpipe.sax.HTMLFetcher;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
@@ -44,7 +38,7 @@ public class ArticleLabelizer {
             ArrayList<Integer> word_counts_each_category = new ArrayList<>();
             JSONParser parser = new JSONParser();
             try{
-                Object objectparser = parser.parse(new FileReader("./article_db/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+                Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
                 JSONObject object = (JSONObject) objectparser;
 
                 // iterate through the keys of the JSONObject
