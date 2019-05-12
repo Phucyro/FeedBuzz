@@ -171,12 +171,16 @@ public class HTMLArticleDownloader {
             filename = getHashedFilename(_url);
         }
         String complete_path = MEDIA_FOLDER + _folderName + "/" + filename;
-        InputStream in = new URL(_url).openStream();
-        if (!new File(complete_path).exists()) {
-            Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
-        }
+        try {
+            InputStream in = new URL(_url).openStream();
+            if (!new File(complete_path).exists()) {
+                Files.copy(in, Paths.get(complete_path), StandardCopyOption.REPLACE_EXISTING);
+            }
 
-        return new File(complete_path).toURI().toString();
+            return new File(complete_path).toURI().toString();
+        } catch (IOException e) {
+            return "#";
+        }
     }
 
     /**

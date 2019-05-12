@@ -74,8 +74,6 @@ public class ViewSingleArticleController extends Application{
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
-        //ArticleLabelizer mk = new ArticleLabelizer(article);
-        //mk.labelize();
         timer = new Timer();
         if (InternetTester.testInternet()) {
             //ArticleVerification verification = new ArticleVerification(article, article.getSourceUrl());

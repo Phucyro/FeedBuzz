@@ -93,10 +93,6 @@ public class LoginRegisterController extends Application{
     }
 
 
-
-
-
-
     /**
      * Make a directory to contain the user database (articles,sources and tags)
      * @param _username article the name of the folder to make
@@ -104,10 +100,8 @@ public class LoginRegisterController extends Application{
     public void makeUserDirectory(String _username){
         File file = new File(DB_ROOT + _username);
         if (file.exists()) { file.delete();}
-        if (file.mkdir())  {
-            System.out.println("Successfully made folder" + file.getAbsolutePath());
-        } else {
-            System.out.println("Failed making the folder " + file.getAbsolutePath());
+        if (!file.mkdir())  {
+            setWarningAndDisplay(registerWarning, "Erreur lors de la création du fichier utilisateur");
         }
     }
 
@@ -157,9 +151,7 @@ public class LoginRegisterController extends Application{
      */
     public boolean registerInputsValid(String _usernameStr, String _passwordStr, String _confirmPasswordStr) {
         // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
-
-        /*
-        if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <=MAX_CHARACTERS){
+        if(_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <= MAX_CHARACTERS){
             if(_passwordStr.length() >= MIN_CHARACTERS && _passwordStr.length() <= MAX_CHARACTERS){
                 if(_passwordStr.equals(_confirmPasswordStr)){
                     return true;
@@ -167,26 +159,7 @@ public class LoginRegisterController extends Application{
                 else{
                     setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
             }
-            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
-        }
-        else{
-            setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
-
-        return false;
-
-         */
-
-
-
-        if(_usernameStr.length() >= 0 && _usernameStr.length() <=MAX_CHARACTERS){
-            if(_passwordStr.length() >= 0 && _passwordStr.length() <= MAX_CHARACTERS){
-                if(_passwordStr.equals(_confirmPasswordStr)){
-                    return true;
-                }
-                else{
-                    setWarningAndDisplay(registerWarning, "Les mots de passe ne correspondent pas");}
-            }
-            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");};
+            else{ setWarningAndDisplay(registerWarning, "Le mot de passe doit etre compris entre 5 et 22 caracteres");}
         }
         else{
             setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");}
@@ -200,7 +173,6 @@ public class LoginRegisterController extends Application{
         if(userAgreementCheckbox.isSelected()){
             return true;
         }
-
         else{
             setWarningAndDisplay(registerWarning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
             return false;
@@ -238,7 +210,6 @@ public class LoginRegisterController extends Application{
      * Try to register the user
      */
     public void registerButtonPressed() throws IOException {
-
         registerWarning.setVisible(false);
         String username = registerUsername.getText();
         String password = registerPassword.getText();

@@ -1,18 +1,9 @@
 package be.ac.ulb.infof307.g04.model;
 
 
-//import org.json.JSONObject;
-
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-
-import de.l3s.boilerpipe.document.TextDocument;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
-import de.l3s.boilerpipe.sax.BoilerpipeSAXInput;
-import de.l3s.boilerpipe.sax.HTMLDocument;
-import de.l3s.boilerpipe.sax.HTMLFetcher;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -48,17 +39,15 @@ public class ArticleLabelizer {
                 JSONObject object = (JSONObject) objectparser;
 
                 // iterate through the keys of the JSONObject
-                for(Iterator iterator = object.keySet().iterator(); iterator.hasNext();) {
+                for (Object o : object.keySet()) {
 
-                    String label = (String) iterator.next();
+                    String label = (String) o;
                     labels.add(label);
                     JSONArray array = (JSONArray) object.get(label); // get the array associated with the key
 
                     // iterate through the words of the wordlist
-                    Iterator<String> iter =  array.iterator();
-                    while(iter.hasNext()) {
-                        bag_of_word.add(iter.next()); // add the word to the bag of words
-                    }
+                    // add the word to the bag of words
+                    bag_of_word.addAll(array);
                     word_counts_each_category.add(array.size());
                 }
 
@@ -74,13 +63,9 @@ public class ArticleLabelizer {
                     }
                     word_count+= word_counts_each_category.get(i); //
                 }
+            } catch(java.io.IOException | org.json.simple.parser.ParseException e){
+                System.out.println(e);
             }
-
-            catch(java.io.FileNotFoundException e){ System.out.println(e); }
-            catch(java.io.IOException e){System.out.println(e); }
-            catch(org.json.simple.parser.ParseException e){ System.out.println(e); }
-
-
 
 
     }
@@ -127,7 +112,7 @@ public class ArticleLabelizer {
                 System.out.println(scores[i]);
             }
             System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
-            article.setLabel(labels.get(most_probable_label_index));
+            article.setTags(labels.get(most_probable_label_index));
 
 
     }
