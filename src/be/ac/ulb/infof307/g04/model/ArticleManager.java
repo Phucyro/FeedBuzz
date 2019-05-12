@@ -75,7 +75,7 @@ public class ArticleManager{
         DatabaseArticle to_replace = new DatabaseArticle();
         to_replace.setLink(_article.getLink());
         to_replace.setDeleted(true);
-        return replaceArticle(_article,to_replace); // TODO replace by upsert
+        return replaceArticle(_article,to_replace);
     }
 
     /**
@@ -94,7 +94,11 @@ public class ArticleManager{
         }
     }
 
-    public void upsertArticle(DatabaseArticle _article){
+    /**
+     * upsert an article in the database
+     * @param _article article to upsert
+     */
+    private void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
         } catch (InvalidJsonDbApiUsageException e){
@@ -105,7 +109,6 @@ public class ArticleManager{
      * Add an _article from the database
      * @param _article
      *              _article the will be added
-     * @return inform if the _article has been added
      */
     public void addArticle(DatabaseArticle _article) {
         DatabaseArticle dbArticle = _article;
@@ -121,7 +124,7 @@ public class ArticleManager{
      *          the _link of the article
      * @return found article
      */
-    public DatabaseArticle findArticle(String _link){
+    DatabaseArticle findArticle(String _link){
         try {
             return jsonDBTemplate.findById(_link, DatabaseArticle.class);
         } catch (Exception e) {
@@ -171,6 +174,10 @@ public class ArticleManager{
         }
     }
 
+    /**
+     * called when the dislike button is clicked
+     * @param _article article to dislike
+     */
     public void dislikeArticle(DatabaseArticle _article){
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
@@ -180,6 +187,10 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * called when the like button is clicked
+     * @param _article article to like
+     */
     public void likeArticle(DatabaseArticle _article){
         if (_article.getLikeState() == DISLIKED) {
             tagManager.removeDislike(_article.getTags());
@@ -189,6 +200,10 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * called when an article is neither liked and disliked
+     * @param _article article to set to neutral
+     */
     public void setNeutralLike(DatabaseArticle _article){
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
@@ -199,6 +214,11 @@ public class ArticleManager{
         this.upsertArticle(_article);
     }
 
+    /**
+     * get all the suggested articles
+     * @param _tag tag to get the suggestion from
+     * @return array containing all the suggested articles
+     */
     public ArrayList<DatabaseArticle> getSuggestion(String _tag){
         ArrayList<DatabaseArticle> suggestedArticles = new ArrayList<>();
         for (DatabaseArticle article: loadArticles()) {
@@ -209,10 +229,19 @@ public class ArticleManager{
         return suggestedArticles;
     }
 
+    /**
+     * set the number of time passed on the article
+     * @param _article article the user was looking at
+     * @param _sec time passed on the article
+     */
     public void addTimeWatched(DatabaseArticle _article, int _sec){
         tagManager.addTime(_article.getTags(), _sec);
     }
 
+    /**
+     * open a specific article
+     * @param _article article to open
+     */
     public void openArticle(DatabaseArticle _article) {
         tagManager.addView(_article.getTags());
         _article.setViewed(true);
