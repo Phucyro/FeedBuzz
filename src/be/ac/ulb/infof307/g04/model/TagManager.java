@@ -9,6 +9,7 @@ import io.jsondb.query.Update;
 import java.util.Date;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class TagManger to handle all the tags stored in the database (or even create new ones)
@@ -128,7 +129,7 @@ public class TagManager {
      * edit score if the last actualisation date was longer than 
      */
     public void actualizeScore() {
-        Date current_date = new Date();
+        /*Date current_date = new Date();
         DatabaseTag checkTime = getTag("Business");
         Date verifyDate = checkTime.getLastActualisationDate();
 
@@ -147,7 +148,7 @@ public class TagManager {
 
                 toEdit.setLastActualisationDate(current_date);
             }
-        }
+        }*/
     }
 
     /**

@@ -24,13 +24,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.xml.sax.SAXException;
 
+import javax.swing.text.html.HTML;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -447,12 +451,23 @@ public class ArticleListController extends Application {
      * Initialize all the tags
      */
     private void init_tags() {
-        String[] tags = {"Business", "Default", "Entertainment", "Health", "Science", "Sports", "Technology"};
         TagManager tagManager = new TagManager(dbPath, password);
-        DatabaseTag tag = new DatabaseTag();
-        for (String tag1 : tags) {
-            tag.setName(tag1);
-            tagManager.addTag(tag);
+        JSONParser parser = new JSONParser();
+        try {
+            Object objectParser = parser.parse(new FileReader("src/be/ac/ulb/infof307/g04/model/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+            JSONObject object = (JSONObject) objectParser;
+
+            DatabaseTag tag;
+            // iterate through the keys of the JSONObject
+            for (Object o : object.keySet()) {
+                tag = new DatabaseTag();
+                String label = (String) o;
+                tag.setName(label);
+
+                tagManager.addTag(tag);
+            }
+        } catch (org.json.simple.parser.ParseException | IOException e) {
+            e.printStackTrace();
         }
     }
 
