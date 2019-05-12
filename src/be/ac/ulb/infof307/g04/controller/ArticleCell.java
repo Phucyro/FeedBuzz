@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Popup;
 import org.jsoup.Jsoup;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -205,8 +206,14 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         Image icon;
         try {
             String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
-            iconUrl = "file://" + iconUrl;
-            icon = new Image(iconUrl);
+            if(System.getProperty("os.name").contains("Windows")){
+                File iconFileUrl = new File(iconUrl);
+                icon = new Image(iconFileUrl.toURI().toString());
+            }
+            else{
+                iconUrl = "file://" + iconUrl;
+                icon = new Image(iconUrl);
+            }
         } catch (FileNotFoundException e) {
             icon = new Image(DEFAULT_ICON);
         }
