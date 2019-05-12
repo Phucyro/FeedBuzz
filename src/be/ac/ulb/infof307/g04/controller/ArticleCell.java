@@ -1,8 +1,6 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -16,6 +14,7 @@ import org.jsoup.Jsoup;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -43,11 +42,20 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      */
     public ArticleCell() {
 
+        initIcon();
+        initLabels();
+        setAnchorPane();
+        content.getChildren().add(gridPane);
+    }
+
+    private void initIcon() {
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
         GridPane.setConstraints(articleIcon, 0, 0, 1, 2);
         GridPane.setValignment(articleIcon, VPos.TOP);
+    }
 
+    private void initLabels() {
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
         tagLabel.setStyle("-fx-font-size: 0.9em;");
@@ -56,9 +64,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
         setGridPane();
         gridPane.getChildren().setAll(articleIcon, titleLabel, tagLabel, linkLabel);
-
-        setAnchorPane();
-        content.getChildren().add(gridPane);
     }
 
 
@@ -72,28 +77,39 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         setText(null);
         setContentDisplay(ContentDisplay.LEFT);
         if (!_empty && item != null) {
-            titleLabel.setText(item.getTitle());
-            tagLabel.setText("Tags: "+ item.getTags()); // show tags
-            linkLabel.setText(item.getLink());
+            setLabels(item);
             popupOverArticle(item);
-            Image icon;
-            icon = getIcon(item.getLink());
-            articleIcon.setImage(icon);
-            linkLabel.setOnAction(e -> {
-                if (java.awt.Desktop.isDesktopSupported()) {
-                    new Thread(() -> {
-                        try {
-                            java.awt.Desktop.getDesktop().browse(new URI(item.getLink()));
-                        } catch (IOException | URISyntaxException e1) {
-                            e1.printStackTrace();
-                        }
-                    }).start();
-                }
-            });
+            setImage(item);
+            initActionLabel(item);
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
+    }
+
+    private void setLabels(DatabaseArticle _item) {
+        titleLabel.setText(_item.getTitle());
+        tagLabel.setText("Tags: "+ _item.getTags()); // show tags
+        linkLabel.setText(_item.getLink());
+    }
+
+    private void setImage(DatabaseArticle _item) {
+        Image icon;
+        icon = getIcon(_item.getLink());
+        articleIcon.setImage(icon);
+    }
+
+    private void initActionLabel(DatabaseArticle _item) {
+        linkLabel.setOnAction(e -> {
+            if (java.awt.Desktop.isDesktopSupported()) {
+                new Thread(() -> {
+                    try {
+                        java.awt.Desktop.getDesktop().browse(new URI(_item.getLink()));
+                    } catch (IOException | URISyntaxException exception) {
+                        throw new UncheckedIOException((IOException) exception);}
+                }).start();
+            }
+        });
     }
 
     /**
@@ -110,89 +126,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         DisplayPreview(gridPane, summaryText);
     }
 
-    /**. absorb
-
-     3. access
-
-     4. accessibility
-
-     5. achievable
-
-     6. acquire
-
-     7. acquiring
-
-     8. actinochemistry
-
-     9. adapt
-
-     10. adapting
-
-     11. adaptive radiation
-
-     12. adopt
-
-     13. adopting
-
-     14. adoption
-
-     15. advance
-
-     16. advanced
-
-     17. advancement
-
-     18. advancements
-
-     19. advances
-
-     20. advancing
-
-     21. advent
-
-     22. aeromedicine
-
-     23. Aeronautical
-
-     24. Aeronautical Engineer
-
-     25. Aeronautical Engineering
-
-     26. aerospace
-
-     27. affordable
-
-     28. Afrl
-
-     29. agribusiness
-
-     30. agricultural
-
-     31. ahead
-
-     32. ahpcrc
-
-     33. air force research laboratory
-
-     34. aits
-
-     35. algorithms
-
-     36. allows
-
-     37. alpha test
-
-     38. Amish
-
-     39. analog computer
-
-     40. animatronics
-
-     41. antiquated
-
-     42. application
-
-
+    /**
      * Function called to make the preview of the article
      * @param _articlePane article pane where show the preview
      * @param _summary description of the article

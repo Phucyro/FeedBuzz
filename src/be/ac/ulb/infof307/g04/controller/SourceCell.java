@@ -68,8 +68,6 @@ public class SourceCell extends ListCell<DatabaseSource>{
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-
-
         }
     }
 

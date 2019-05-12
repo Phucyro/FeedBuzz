@@ -93,29 +93,35 @@ public class SourceManager {
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                System.out.println(source.getSourceName());
-                    int counter = source.getNumberToDownload();
-                    ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
-                    for (DatabaseArticle articleToSave : articles) {
-                        if (counter-- > 0) {
-
-                            if (_articleManager.findArticle(articleToSave.getLink()) == null) {
-                                articleToSave.setDaysToSave(source.getLifeSpanDefault());
-                                articleToSave.setCategory(source.getTag());
-                                articleToSave.setDownloadDate(new Date());
-                                articleToSave.setSourceUrl(source.getUrl());
-                                articleToSave.setTags(source.getTag());
-                                System.out.println("Downloading article");
-                                articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink(), articleToSave.getDescription()));
-                                System.out.println("Downloaded");
-                                _articleManager.addArticle(articleToSave);
-                            } else {
-                                System.out.println("Existing article");
-                            }
+                int counter = source.getNumberToDownload();
+                ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
+                for (DatabaseArticle articleToSave : articles) {
+                    if (counter-- > 0) {
+                        if (_articleManager.findArticle(articleToSave.getLink()) == null) {
+                            addArticleToDB(_articleManager, source, articleToSave);
+                        } else {
+                            System.out.println("Existing article");
                         }
                     }
-
+                }
             }
         }
+    }
+
+    /**
+     * add an article to the database
+     * @param _articleManager manager used to add the article to the database
+     * @param _source source of the article
+     * @param _articleToSave article to add to the database
+     * @throws IOException exception throws when we add the article to the database
+     */
+    private void addArticleToDB(ArticleManager _articleManager, DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
+        _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
+        _articleToSave.setCategory(_source.getTag());
+        _articleToSave.setDownloadDate(new Date());
+        _articleToSave.setSourceUrl(_source.getUrl());
+        _articleToSave.setTags(_source.getTag());
+        _articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription()));
+        _articleManager.addArticle(_articleToSave);
     }
 }
