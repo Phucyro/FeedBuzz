@@ -6,6 +6,7 @@ import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
+import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.Date;
