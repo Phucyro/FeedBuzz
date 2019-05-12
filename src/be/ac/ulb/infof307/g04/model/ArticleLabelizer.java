@@ -30,7 +30,9 @@ public class ArticleLabelizer {
 
         ArrayList<Integer> word_counts_each_category = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        parseJson(word_counts_each_category, parser);
+        if (labels.size() == 0){
+            parseJson(word_counts_each_category, parser);
+        }
         String res = "Probleme labelize";
         try {
             res = labelize(_article);
@@ -68,6 +70,8 @@ public class ArticleLabelizer {
 
             // for each histogram associated with each category, increment the index if the word of the bow come from this category and normalize the histogram
             for(int i = 0; i<labels.size() ; i++){
+                System.out.println(labels.size());
+                System.out.println(i);
                 for(int j= word_count; j<word_count+word_counts_each_category.get(i); j++){
                     histogram_topics[i][j] = 1.0/Math.sqrt(word_counts_each_category.get(i));
                 }
@@ -88,9 +92,6 @@ public class ArticleLabelizer {
         int words_count = 0;
         int most_probable_label_index=0;
         double scores[] = new double[labels.size()];
-            System.out.println("TestTest");
-            System.out.println(labels.size());
-            System.out.println(labels.get(0));
             String article_content = CommonExtractors.ARTICLE_EXTRACTOR.getText(_article.getHtmlContent()); // boilerpipe extract the text content of the article
             for (String word: article_content.toLowerCase().split(" ")) {
                 index = bag_of_word.indexOf(word);
