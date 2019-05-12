@@ -110,7 +110,7 @@ public class TagMenuController extends Application {
     @FXML
     public void modify() {
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
-            displayErrorWindow("Erreur!", "Erreur de sélection!", "Vous n'avez pas selectionné de tag!");
+            displayErrorWindow("Error!", "Selection error!", "No tag selected!");
         }
         else {
             DatabaseTag oldTag = new DatabaseTag();
@@ -137,7 +137,7 @@ public class TagMenuController extends Application {
     @FXML
     public void delete() {
         if(tagsListview.getSelectionModel().getSelectedItem() == null){
-            displayErrorWindow("Erreur!", "Erreur de sélection!", "Vous n'avez pas selectionné de tag!");
+            displayErrorWindow("Error!", "Selection error!", "No tag selected!");
         }
         else {
             try {
@@ -146,7 +146,7 @@ public class TagMenuController extends Application {
                 tagManager.deleteTag(tag);
                 initList();
             } catch (InvalidJsonDbApiUsageException e){
-                displayErrorWindow("Erreur!", "Erreur de suppression!", "Un erreur a eu lieu lors de la suppression");
+                displayErrorWindow("Error!", "Tag removal error!", "An error happened while deleting tag, please try again");
             }
         }
     }
