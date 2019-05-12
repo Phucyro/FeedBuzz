@@ -278,7 +278,6 @@ public class ArticleListController extends Application {
             for (int i = 0; i < size; i++) {
                 fillSuggestionPanel(suggestedArticlesList.get(i), gridPane, buttonList, i);
             }
-
             initButtonSuggested(suggestedArticlesList, buttonList);
             Scene suggestionScene = new Scene(gridPane, 450, 200);
             suggestionWindow.setScene(suggestionScene);
@@ -294,7 +293,6 @@ public class ArticleListController extends Application {
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
-            System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
                 try{
                     openArticleWindow(articleToButton);
@@ -333,8 +331,7 @@ public class ArticleListController extends Application {
      * @param _columnIndex is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
-        String iconUrl = setSuggestionIconUrl(_suggestedArticle);
-        Image icon = new Image(iconUrl, 100, 100, true, true);
+        Image icon = new Image(HTMLArticleDownloader.getIconUrl(_suggestedArticle.getLink()), 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
         _gridPane.add(articleImage,_columnIndex,0);
         Label articleText = new Label(_suggestedArticle.getTitle());
@@ -343,21 +340,6 @@ public class ArticleListController extends Application {
         Button articleReadButton = new Button("Lire cet article");
         _buttonList.add(articleReadButton);
         _gridPane.add(articleReadButton,_columnIndex,2);
-    }
-
-    /**
-     * @param _suggestedArticle article that is suggested to display
-     * @return string that contains the uri of the article's icon
-     */
-    private String setSuggestionIconUrl(DatabaseArticle _suggestedArticle) {
-        String iconUrl = "";
-        try {
-            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
-            iconUrl = "file://" + iconUrl;
-        } catch(FileNotFoundException e) {
-            iconUrl = DEFAULT_ICON;
-        }
-        return iconUrl;
     }
 
     @FXML
@@ -376,6 +358,7 @@ public class ArticleListController extends Application {
             Stage stage = new Stage();
             stage.setTitle(_title_window);
             setStage(root, stage);
+            stageArrayList.add(stage);
         }
         catch (Exception e) {
             MessageBoxes.showErrorBox("Error while opening " + _title + " window!");
@@ -395,6 +378,7 @@ public class ArticleListController extends Application {
             Parent root = loader.load();
             Stage stage = new Stage();
             setStage(root, stage);
+            stageArrayList.add(stage);
 
         } catch (Exception e) {
             e.printStackTrace();

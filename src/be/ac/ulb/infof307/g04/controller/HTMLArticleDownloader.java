@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.model.ArticleManager;
+import javafx.scene.image.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +18,8 @@ import java.util.regex.Pattern;
 
 
 public class HTMLArticleDownloader {
+
+    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private static final String HREF_TAG = "href";
     private static final String SRC_TAG = "src";
     private static final String MEDIA_FOLDER = "media/";
@@ -62,6 +65,26 @@ public class HTMLArticleDownloader {
         }
         else {
             return matchingFiles[0].getAbsolutePath();
+        }
+    }
+
+    /**
+     * Retrieve first icon url in html text
+     * @return url to an image
+     */
+    public static String getIconUrl(String _articleLink) {
+        try {
+            String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
+            if(System.getProperty("os.name").contains("Windows")){
+                File iconFileUrl = new File(iconUrl);
+                return iconFileUrl.toURI().toString();
+            }
+            else{
+                iconUrl = "file://" + iconUrl;
+                return iconUrl;
+            }
+        } catch (FileNotFoundException e) {
+            return DEFAULT_ICON;
         }
     }
 
