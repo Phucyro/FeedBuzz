@@ -46,6 +46,19 @@ public class SourceManager {
         }
     }
 
+    public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source)
+            throws Exception {
+        ParserRss source_parser = new ParserRss();
+        ArrayList<DatabaseArticle> articles = source_parser.parse(_article.getSourceUrl());
+        for (DatabaseArticle articleToSave : articles) {
+            if (articleToSave.getLink().equals(_article.getLink())) {
+                setArticleToSave(_source, articleToSave);
+                return articleToSave;
+            }
+        }
+        throw new Exception("No article found");
+    }
+
     private void createCollection() {
         jsonDBTemplate.createCollection(DatabaseSource.class);
     }
@@ -80,6 +93,18 @@ public class SourceManager {
         }
     }
 
+    private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
+        _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
+        _articleToSave.setCategory(_source.getTag()); //TODO change with article labelizer
+        _articleToSave.setDownloadDate(new Date());
+        _articleToSave.setSourceUrl(_source.getUrl());
+        _articleToSave.setTags(_source.getTag());
+        System.out.println("Downloading article");
+        _articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription()));
+        _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
+        System.out.println("Downloaded");
+    }
+
     /**
      * Download the articles
      * @see ArticleManager
@@ -98,24 +123,23 @@ public class SourceManager {
                     ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                     for (DatabaseArticle articleToSave : articles) {
                         if (counter-- > 0) {
-
                             if (_articleManager.findArticle(articleToSave.getLink()) == null) {
-                                articleToSave.setDaysToSave(source.getLifeSpanDefault());
-                                articleToSave.setCategory(source.getTag());
-                                articleToSave.setDownloadDate(new Date());
-                                articleToSave.setSourceUrl(source.getUrl());
-                                articleToSave.setTags(source.getTag());
-                                System.out.println("Downloading article");
-                                articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(articleToSave.getLink(), articleToSave.getDescription()));
-                                System.out.println("Downloaded");
+                                setArticleToSave(source, articleToSave);
                                 _articleManager.addArticle(articleToSave);
                             } else {
                                 System.out.println("Existing article");
                             }
                         }
                     }
-
             }
+        }
+    }
+
+    DatabaseSource findSource(String _link) {
+        try {
+            return jsonDBTemplate.findById(_link, DatabaseSource.class);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

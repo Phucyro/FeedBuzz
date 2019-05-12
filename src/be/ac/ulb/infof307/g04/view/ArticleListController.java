@@ -109,19 +109,17 @@ public class ArticleListController extends Application {
         if (InternetTester.testInternet()) {
             try {
                 source.download(articleManager);
-
-                articleManager.verifyArticles();
             } catch (ParserConfigurationException e) {
-                showErrorBox("Parser Configuration exception");
+                MessageBoxes.showErrorBox("Parser Configuration exception");
             } catch (ParseException e) {
-                showErrorBox("Parse exception");
+                MessageBoxes.showErrorBox("Parse exception");
             } catch (SAXException e) {
-                showErrorBox("SAX Exception");
+                MessageBoxes.showErrorBox("SAX Exception");
             } catch (IOException e) {
-                showErrorBox("IO Exception");
+                MessageBoxes.showErrorBox("IO Exception");
             }
         }else{
-            showErrorBox("Pas d'internet");
+            MessageBoxes.showErrorBox("Pas d'internet");
         }
     }
 
@@ -233,27 +231,14 @@ public class ArticleListController extends Application {
             controller.setArticlesWindows(this);
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle(_articleToRead.getTitle());
             controller.start(stage);
             setStage(root, stage);
             stageArrayList.add(stage);
 
         }catch(NullPointerException | IOException e){
-            showErrorBox("No article selected");
+            e.printStackTrace();
+            MessageBoxes.showErrorBox("No article selected");
         }
-    }
-
-    /**
-     * show a eroor box with a message
-     * @param _errorMessage the error message to print
-     */
-    private void showErrorBox(String _errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(_errorMessage);
-
-        alert.showAndWait();
     }
 
     /**
@@ -267,7 +252,7 @@ public class ArticleListController extends Application {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            showErrorBox("Error while copying link to clipboard");
+            MessageBoxes.showErrorBox("Error while copying link to clipboard");
         }
     }
 
@@ -284,7 +269,7 @@ public class ArticleListController extends Application {
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
         if (suggestedArticlesList.size() == 0){
-            showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
+            MessageBoxes.showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
         }
         else {
             GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
@@ -298,6 +283,7 @@ public class ArticleListController extends Application {
             initButtonSuggested(suggestedArticlesList, buttonList);
             Scene suggestionScene = new Scene(gridPane, 450, 200);
             suggestionWindow.setScene(suggestionScene);
+            suggestionWindow.setResizable(false);
             suggestionWindow.show();
         }
     }
@@ -393,7 +379,7 @@ public class ArticleListController extends Application {
             setStage(root, stage);
         }
         catch (Exception e) {
-            showErrorBox("Error while opening "+ _title + " window!");
+            MessageBoxes.showErrorBox("Error while opening " + _title + " window!");
         }
     }
 
@@ -516,7 +502,7 @@ public class ArticleListController extends Application {
             loader.setController(controller);
             openWindow(loader, "Manage tags", "tag");
         } catch (Exception e) {
-            showErrorBox("Error while opening the tag window!");
+            MessageBoxes.showErrorBox("Error while opening the tag window!");
         }
     }
 

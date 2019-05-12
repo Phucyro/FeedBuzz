@@ -1,18 +1,12 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.controller.ArticleVerification;
+
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class DatabaseArticle Manager, used to handle the display of all the articles
@@ -28,6 +22,7 @@ public class ArticleManager{
     public static final int NEUTRAL = 0;
     private JsonDBTemplate jsonDBTemplate;
     private final TagManager tagManager;
+    private final SourceManager sourceManager;
     /**
      * Constructor with the path to the database and the _password
      * @param _databasePath path to the database
@@ -35,6 +30,7 @@ public class ArticleManager{
      */
     public ArticleManager(String _databasePath, String _password) {
         tagManager = new TagManager(_databasePath, _password);
+        sourceManager = new SourceManager(_databasePath, _password);
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
 
@@ -79,7 +75,7 @@ public class ArticleManager{
         DatabaseArticle to_replace = new DatabaseArticle();
         to_replace.setLink(_article.getLink());
         to_replace.setDeleted(true);
-        return replaceArticle(_article,to_replace);
+        return replaceArticle(_article,to_replace); // TODO replace by upsert
     }
 
     /**
@@ -98,32 +94,10 @@ public class ArticleManager{
         }
     }
 
-    private void upsertArticle(DatabaseArticle _article){
+    public void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
         } catch (InvalidJsonDbApiUsageException e){
-        }
-    }
-
-    /**
-     * check the integrity of all articles. If not valid (because it was modified): try to correct it
-     * replace it if possible or delete it
-     */
-    public void verifyArticles() throws IOException, ParserConfigurationException, SAXException, ParseException {
-
-        ArrayList<DatabaseArticle> articles = loadArticles();
-        for(DatabaseArticle article : articles){
-            ArticleVerification articleVerification = new ArticleVerification(article,article.getSourceUrl());
-            if(!articleVerification.isValid()){
-                if(articleVerification.isCorrectable()){
-                    articleVerification.correctArticle();
-                    replaceArticle(article, articleVerification.getArticle());
-                }
-                else{
-                    deleteArticle(article);
-                }
-            }
-
         }
     }
 
@@ -177,6 +151,10 @@ public class ArticleManager{
             }
         }
         return (result);
+    }
+
+    public DatabaseSource getArticleSource(DatabaseArticle article) {
+        return sourceManager.findSource(article.getSourceUrl());
     }
 
     /**
