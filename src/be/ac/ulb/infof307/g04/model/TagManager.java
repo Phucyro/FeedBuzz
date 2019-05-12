@@ -8,6 +8,7 @@ import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class TagManger to handle all the tags stored in the database (or even create new ones)
@@ -126,7 +127,7 @@ public class TagManager {
      * edit score if the last actualisation date was longer than 
      */
     public void actualizeScore() {
-        Date current_date = new Date();
+        /*Date current_date = new Date();
         DatabaseTag checkTime = getTag("Business");
         Date verifyDate = checkTime.getLastActualisationDate();
 
@@ -145,7 +146,7 @@ public class TagManager {
 
                 toEdit.setLastActualisationDate(current_date);
             }
-        }
+        }*/
     }
 
     /**
@@ -182,7 +183,7 @@ public class TagManager {
      */
     public String getBest(){
         String best = "";
-        int maxValue = -1;
+        float maxValue = -1;
         for(DatabaseTag tag: getAll()){
             if (tag.getScore() > maxValue){
                 maxValue = tag.getScore();

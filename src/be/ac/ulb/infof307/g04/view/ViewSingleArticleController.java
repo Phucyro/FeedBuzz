@@ -61,7 +61,7 @@ public class ViewSingleArticleController extends Application{
       *@param _article article to view
       *article that has to be viewed
       */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) throws de.l3s.boilerpipe.BoilerpipeProcessingException{
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword){
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);

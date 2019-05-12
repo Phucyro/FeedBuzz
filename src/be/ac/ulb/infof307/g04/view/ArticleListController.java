@@ -455,7 +455,7 @@ public class ArticleListController extends Application {
         TagManager tagManager = new TagManager(dbPath, password);
         JSONParser parser = new JSONParser();
         try {
-            Object objectParser = parser.parse(new FileReader("./groupe04/src/be/ac/ulb/infof307/g04/model/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
+            Object objectParser = parser.parse(new FileReader("src/be/ac/ulb/infof307/g04/model/wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
             JSONObject object = (JSONObject) objectParser;
 
             DatabaseTag tag;
