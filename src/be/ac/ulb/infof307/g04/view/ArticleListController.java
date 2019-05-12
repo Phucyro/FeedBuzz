@@ -359,6 +359,7 @@ public class ArticleListController extends Application {
             Stage stage = new Stage();
             stage.setTitle(_title_window);
             setStage(root, stage);
+            stageArrayList.add(stage);
         }
         catch (Exception e) {
             MessageBoxes.showErrorBox("Error while opening " + _title + " window!");
@@ -378,6 +379,7 @@ public class ArticleListController extends Application {
             Parent root = loader.load();
             Stage stage = new Stage();
             setStage(root, stage);
+            stageArrayList.add(stage);
 
         } catch (Exception e) {
             e.printStackTrace();
