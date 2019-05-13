@@ -174,7 +174,6 @@ public class ViewSingleArticleController extends Application {
     private void deleteArticle() {
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
-        System.out.println("DatabaseArticle supprimé");
         //close the article page when deleted
         Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();
