@@ -411,7 +411,6 @@ public class ArticleListController extends Application {
             UserPreferencesController controller = new UserPreferencesController(dbPath, password);
             loader.setController(controller);
             Stage userPreferencesStage = openWindow(loader, "Edit use preferences", "user preferences");
-            userPreferencesStage.setResizable(false);
             controller.start(userPreferencesStage);
         } catch (Exception e) {
             MessageBoxes.showErrorBox("Error while opening the tag window!");
