@@ -2,7 +2,6 @@ package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
-import io.jsondb.annotation.Secret;
 
 import java.io.Serializable;
 
@@ -17,6 +16,7 @@ public class DatabaseUser implements Serializable {
 
     /**
      * Constructor of Database User
+     *
      * @param _username username of the user
      * @param _password password of the user
      */
@@ -36,10 +36,13 @@ public class DatabaseUser implements Serializable {
     /**
      * @return name of the user
      */
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * When a user determine his username
+     *
      * @param _username name that the user will use
      */
     public void setUsername(String _username) {
@@ -54,16 +57,16 @@ public class DatabaseUser implements Serializable {
     }
 
     /**
-     * @param _password password that the user will choose
-     */
-    public void setPassword(String _password) {
-        this.hashedPassword = _password.hashCode();
-    }
-
-    /**
      * @param _password password that the user will choose (only numbers)
      */
     public void setPassword(int _password) {
         this.hashedPassword = _password;
+    }
+
+    /**
+     * @param _password password that the user will choose
+     */
+    public void setPassword(String _password) {
+        this.hashedPassword = _password.hashCode();
     }
 }

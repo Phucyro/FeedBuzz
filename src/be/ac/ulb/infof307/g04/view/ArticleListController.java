@@ -110,6 +110,7 @@ public class ArticleListController extends Application {
 
     /**
      * download articles and show an error box if necessary
+     *
      * @throws ParserConfigurationException
      * @throws ParseException
      * @throws SAXException
@@ -270,14 +271,15 @@ public class ArticleListController extends Application {
             }
 
             initButtonSuggested(suggestedArticlesList, buttonList);
-            showSuggestionScene(gridPane,suggestionWindow);
+            showSuggestionScene(gridPane, suggestionWindow);
         }
     }
+
     /**
-     * @param gridPane gridPane of the window
+     * @param gridPane         gridPane of the window
      * @param suggestionWindow Stage of the window
      */
-    private void showSuggestionScene(GridPane gridPane, Stage suggestionWindow){
+    private void showSuggestionScene(GridPane gridPane, Stage suggestionWindow) {
         Scene suggestionScene = new Scene(gridPane, 450, 200);
         suggestionWindow.setScene(suggestionScene);
         suggestionWindow.show();
@@ -290,7 +292,6 @@ public class ArticleListController extends Application {
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
-            System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
                 openArticleWindow(articleToButton);
             });
@@ -358,9 +359,9 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param _loader       _loader
+     * @param _loader      _loader
      * @param _titleWindow title of the window
-     * @param _title        parameter use for the error message
+     * @param _title       parameter use for the error message
      */
     public Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
         Stage stage = new Stage();
@@ -425,8 +426,7 @@ public class ArticleListController extends Application {
     }
 
     /**
-     *
-     * @param root root of the scene
+     * @param root  root of the scene
      * @param stage stage of the scene
      */
     private void setStage(Parent root, Stage stage) {
@@ -460,7 +460,7 @@ public class ArticleListController extends Application {
      * Initialize searchbar parameters
      *
      * @param _height height of the searchbar
-     * @param _width width of the searchbar
+     * @param _width  width of the searchbar
      */
     private void init_searchBar(int _height, int _width) {
 

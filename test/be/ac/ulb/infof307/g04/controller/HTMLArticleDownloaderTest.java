@@ -58,7 +58,6 @@ class HTMLArticleDownloaderTest {
      */
     @Test
     void testNumberOfArticlesDownloaded(){
-        System.out.println(MEDIA_FOLDER+FOLDER_NAME);
         int expectedNumberOfImages = new File(MEDIA_FOLDER+FOLDER_NAME).listFiles().length;
         assertEquals(17,expectedNumberOfImages);
     }
@@ -120,7 +119,6 @@ class HTMLArticleDownloaderTest {
      */
     @AfterAll
     public static void tearDown() {
-        System.out.println(MEDIA_FOLDER + FOLDER_NAME);
         File directory = new File(MEDIA_FOLDER + FOLDER_NAME);
         String[]entries = directory.list();
         for(String s: entries){
