@@ -79,9 +79,12 @@ public class ViewSingleArticleController extends Application{
     @Override
     public void start(Stage _primaryStage) {
         primaryStage = _primaryStage;
-        _primaryStage.setOnHidden(e -> stop());
-        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
+        primaryStage.setOnHidden(e -> stop());
+        primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            windowActive = newValue;
+        });
         setFields();
+        startTimer();
     }
 
     @Override
@@ -104,8 +107,6 @@ public class ViewSingleArticleController extends Application{
             htmlFile = article.getHtmlContent();
         }
         articleView.getEngine().loadContent(htmlFile);
-
-        startTimer();
     }
 
     private void startTimer() {
@@ -116,6 +117,7 @@ public class ViewSingleArticleController extends Application{
                 if (windowActive) {
                     articleManager.addTimeWatched(article, 1);
                 }
+                System.out.println("After if");
             }
         };
         timer.schedule(task,0,1000);

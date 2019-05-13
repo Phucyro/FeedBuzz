@@ -25,15 +25,17 @@ public class ArticleLabelizer {
     /**
      * Constructor that construct the bag containing the words from the wordlists, and construct the histogram associated with each category
      */
-    public static String labeLizeArticle(DatabaseArticle _article){
+    public static String labeLizeArticle(String _HTMLContent){
         //static{
 
         ArrayList<Integer> word_counts_each_category = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        parseJson(word_counts_each_category, parser);
-        String res = "Probleme labelize";
+        if (labels.size() == 0){
+            parseJson(word_counts_each_category, parser);
+        }
+        String res = "";
         try {
-            res = labelize(_article);
+            res = labelize(_HTMLContent);
         } catch (de.l3s.boilerpipe.BoilerpipeProcessingException e) {
             e.printStackTrace();
             //TODO Gerer cette erreur
@@ -44,7 +46,6 @@ public class ArticleLabelizer {
     private static void parseJson(ArrayList<Integer> word_counts_each_category, JSONParser parser) {
         try{
             //Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
-            System.out.println(new File(".").getAbsolutePath());
             Object objectparser = parser.parse(new FileReader("src/be/ac/ulb/infof307/g04/model/wordlists.json"));
             JSONObject object = (JSONObject) objectparser;
 
@@ -83,45 +84,42 @@ public class ArticleLabelizer {
      * Use the cosine similarity (check the theory behind it : https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50)
      * to assign a score for each category (the most probable category based on the article content), then it labels the article with that category
      */
-    private static String labelize(DatabaseArticle _article) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
+    private static String labelize(String _HTMLContent) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
         int index;
         int words_count = 0;
         int most_probable_label_index=0;
         double scores[] = new double[labels.size()];
-            System.out.println("TestTest");
-            System.out.println(labels.size());
-            System.out.println(labels.get(0));
-            String article_content = CommonExtractors.ARTICLE_EXTRACTOR.getText(_article.getHtmlContent()); // boilerpipe extract the text content of the article
-            for (String word: article_content.toLowerCase().split(" ")) {
-                index = bag_of_word.indexOf(word);
-                if(index!=-1){ // if the current word of the article is found in the bag of word, it increments the index of the histogram associated with that word
-                    histogram_article[index]+=1;
-                }
+        String article_content = CommonExtractors.ARTICLE_EXTRACTOR.getText(_HTMLContent); // boilerpipe extract the text content of the article
+        for (String word: article_content.toLowerCase().split(" ")) {
+            index = bag_of_word.indexOf(word);
+            if(index!=-1){ // if the current word of the article is found in the bag of word, it increments the index of the histogram associated with that word
+                histogram_article[index]+=1;
             }
+        }
 
 
-            // sum up the square of each terms to normalize the vector sqrt(d1^2 + d2^2 + .. + dn^2)
-            for(int i=0; i<bag_of_word.size();i++){
-                words_count += Math.pow(histogram_article[i], 2);
-            }
-            // apply the square root of the sum
-            for(int i=0; i<bag_of_word.size();i++){
-                histogram_article[i] = histogram_article[i]/Math.sqrt(words_count);
-            }
+        // sum up the square of each terms to normalize the vector sqrt(d1^2 + d2^2 + .. + dn^2)
+        for(int i=0; i<bag_of_word.size();i++){
+            words_count += Math.pow(histogram_article[i], 2);
+        }
+        // apply the square root of the sum
+        for(int i=0; i<bag_of_word.size();i++){
+            histogram_article[i] = histogram_article[i]/Math.sqrt(words_count);
+        }
 
 
-            // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
-            // the highest score is the most probable category
-            for(int i=0; i<labels.size(); i++){
-                for(int j=0; j<bag_of_word.size(); j++){
-                    scores[i] += histogram_article[j]*histogram_topics[i][j];
-                }
-                if(scores[i]>scores[most_probable_label_index]){
-                    most_probable_label_index = i;
-                }
+        // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
+        // the highest score is the most probable category
+        for(int i=0; i<labels.size(); i++){
+            for(int j=0; j<bag_of_word.size(); j++){
+                scores[i] += histogram_article[j]*histogram_topics[i][j];
             }
-            System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
-            return labels.get(most_probable_label_index);
+            if(scores[i]>scores[most_probable_label_index]){
+                most_probable_label_index = i;
+            }
+        }
+        System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
+        return labels.get(most_probable_label_index);
 
 
     }
