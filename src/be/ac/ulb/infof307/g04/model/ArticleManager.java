@@ -46,8 +46,6 @@ public class ArticleManager{
             createCollection();
         }
         deleteExpired();
-        tagManager.actualizeScore();
-
     }
 
     /**
