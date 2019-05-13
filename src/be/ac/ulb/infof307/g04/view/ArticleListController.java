@@ -31,7 +31,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,6 +39,8 @@ import java.util.ArrayList;
 public class ArticleListController extends Application {
 
 
+    public static final int SEARCHBAR_HEIGHT = 40;
+    public static final int SEARCHBAR_WIDTH = 200;
     private static ArticleManager articleManager;
     private static SourceManager source;
     private final String dbPath;
@@ -72,7 +73,7 @@ public class ArticleListController extends Application {
     private MenuItem exitAppImage;
 
 
-    public ArticleListController(String _pathToDB, String _password) {
+    ArticleListController(String _pathToDB, String _password) {
         dbPath = _pathToDB;
         password = _password;
     }
@@ -131,7 +132,7 @@ public class ArticleListController extends Application {
      */
     private void initJavaFX() {
         searchBar = new ToolBar();
-        init_searchBar(40, 200);
+        init_searchBar();
 
         CloseSearchButton = new Button("Close");
         init_closeSearchButton();
@@ -177,7 +178,7 @@ public class ArticleListController extends Application {
      * @param _articles _articles that haven't been deleted in the DB
      */
     @FXML
-    public void displayArticles(ArrayList<DatabaseArticle> _articles) {
+    void displayArticles(ArrayList<DatabaseArticle> _articles) {
         listViewArticles.getItems().clear();
         for (DatabaseArticle item : _articles) {
             listViewArticles.getItems().add(item);
@@ -198,7 +199,7 @@ public class ArticleListController extends Application {
         _readArticleImage.setGraphic(readIcon);
     }
 
-    public void setMainStage(Stage _stage) {
+    void setMainStage(Stage _stage) {
         mainStage = _stage;
     }
 
@@ -339,7 +340,7 @@ public class ArticleListController extends Application {
      * @param _titleWindow title of the window
      * @param _title       parameter use for the error message
      */
-    public Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
+    private Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
         Stage stage = new Stage();
         try {
             Parent root = _loader.load();
@@ -414,7 +415,7 @@ public class ArticleListController extends Application {
      * If the search bar is available or not. When you close it, it loads all the articles again
      */
     @FXML
-    public void changeSearchBarStatus() {
+    private void changeSearchBarStatus() {
         if (VBox.getChildren().indexOf(searchBar) == -1) {
             VBox.getChildren().add(searchBar);
             match_count.setText("");
@@ -426,14 +427,10 @@ public class ArticleListController extends Application {
 
     /**
      * Initialize searchbar parameters
-     *
-     * @param _height height of the searchbar
-     * @param _width  width of the searchbar
-     */
-    private void init_searchBar(int _height, int _width) {
-
-        searchBar.setPrefHeight(_height);
-        searchBar.setPrefWidth(_width);
+     *  */
+    private void init_searchBar() {
+        searchBar.setPrefHeight(SEARCHBAR_HEIGHT);
+        searchBar.setPrefWidth(SEARCHBAR_WIDTH);
         GridPane.setConstraints(searchBar, 0, 0);
     }
 

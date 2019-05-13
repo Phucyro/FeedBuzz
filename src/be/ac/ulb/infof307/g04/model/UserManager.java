@@ -45,16 +45,13 @@ public class UserManager {
     /**
      * @param _username username to add
      */
-    public void addUser(String _username, String _password) {
-        try {
+    public void addUser(String _username, String _password) throws InvalidJsonDbApiUsageException {
 
-            DatabaseUser user = new DatabaseUser();
-            user.setPassword(_password);
-            user.setUsername(_username);
+        DatabaseUser user = new DatabaseUser();
+        user.setPassword(_password);
+        user.setUsername(_username);
 
-            jsonDBTemplate.insert(user);
-        } catch (InvalidJsonDbApiUsageException e) {
-        }
+        jsonDBTemplate.insert(user);
     }
 
     /**

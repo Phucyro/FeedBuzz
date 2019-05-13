@@ -1,8 +1,6 @@
 package be.ac.ulb.infof307.g04.model;
 
-import be.ac.ulb.infof307.g04.model.DatabaseTag;
-import be.ac.ulb.infof307.g04.model.TagManager;
-import be.ac.ulb.infof307.g04.view.ArticleListController;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
