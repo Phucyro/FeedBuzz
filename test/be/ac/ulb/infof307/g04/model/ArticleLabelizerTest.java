@@ -1,7 +1,6 @@
 package be.ac.ulb.infof307.g04.model;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArticleLabelizerTest {
@@ -21,14 +20,14 @@ class ArticleLabelizerTest {
 
     @Test
     void labeLizeArticleTestAmericaNegative() {
-        String textTest = "   Movies are a favorite pastime throughout America. There are many different types of movies, and people prefer different ones. Whether it is drama, comedy, or suspense, it seems like they are all equally preferred. The three best movies of the year were the comedy, Meet The Parents, the drama, Ghost, and the suspenseful, Final Destination.";
+        String textTest = "Movies are a favorite pastime throughout America. There are many different types of movies, and people prefer different ones. Whether it is drama, comedy, or suspense, it seems like they are all equally preferred. The three best movies of the year were the comedy, Meet The Parents, the drama, Ghost, and the suspenseful, Final Destination.";
         String res = ArticleLabelizer.labelizeArticle(textTest);
         assertNotEquals("America", res);
     }
 
     @Test
     void labeLizeArticleTestMoviePositive() {
-        String textTest = "   Movies are a favorite pastime throughout America. There are many different types of movies, and people prefer different ones. Whether it is drama, comedy, or suspense, it seems like they are all equally preferred. The three best movies of the year were the comedy, Meet The Parents, the drama, Ghost, and the suspenseful, Final Destination.";
+        String textTest = "Movies are a favorite pastime throughout America. There are many different types of movies, and people prefer different ones. Whether it is drama, comedy, or suspense, it seems like they are all equally preferred. The three best movies of the year were the comedy, Meet The Parents, the drama, Ghost, and the suspenseful, Final Destination.";
         String res = ArticleLabelizer.labelizeArticle(textTest);
         assertEquals("Cinema/Series", res);
     }
@@ -44,7 +43,6 @@ class ArticleLabelizerTest {
     void labeLizeArticleTestEmpty() {
         String textTest = "";
         String res = ArticleLabelizer.labelizeArticle(textTest);
-        System.out.println(res);
         assertEquals("Default", res);
     }
 
@@ -52,7 +50,7 @@ class ArticleLabelizerTest {
     void labeLizeArticleTestAlmostEmpty() {
         String textTest = "a";
         String res = ArticleLabelizer.labelizeArticle(textTest);
-        System.out.println(res);
+        assertEquals("Default", res);
     }
 
 

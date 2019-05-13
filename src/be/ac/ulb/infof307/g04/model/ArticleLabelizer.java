@@ -54,6 +54,8 @@ public class ArticleLabelizer {
      * Method called once that open the json "wordlists.json" file and parse it into the word arrays
      *
      * @param _parser is the JSON parser that is used to read the json file
+     * @throws java.io.IOException
+     * @throws org.json.simple.parser.ParseException
      */
     private static void parseJson(JSONParser _parser) {
         wordCountsEachCategory = new ArrayList<>();
@@ -151,22 +153,20 @@ public class ArticleLabelizer {
     private static int findMostProbableLabel() {
         int mostProbableLabelIndex = 0;
         double scores[] = new double[tags.size()];
+        boolean foundOneResult = false;
         // the highest score is the most probable category
         for (int i = 0; i < tags.size(); i++) {
             for (int j = 0; j < bagOfWord.size(); j++) {
                 scores[i] += histogramArticle[j] * histogramTopics[i][j];
             }
             if (scores[i] > scores[mostProbableLabelIndex]) {
+                foundOneResult = true;
                 mostProbableLabelIndex = i;
             }
         }
-        System.out.println(mostProbableLabelIndex);
-        System.out.println(scores[mostProbableLabelIndex]);
-        if (scores[mostProbableLabelIndex] == 0){
-            //System.out.println("BBBBBBB");
+        if (!foundOneResult){
             return -1;
         } else {
-            //System.out.println("AAAAAAA");
             return mostProbableLabelIndex;
         }
     }
