@@ -166,10 +166,10 @@ public class SourceCell extends ListCell<DatabaseSource> {
                 item.setEnabled(sourceEnabled.isSelected()));
         //listener that reacts when the left spinner value (number of articles to load) is modified
         sourceNumberOfArticles.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setNumberToDownload(sourceNumberOfArticles.getValue()));
+                item.setArticlesToDownload(sourceNumberOfArticles.getValue()));
         //listener that reacts when the right spinner value (lifespan of an article) is modified
         sourceLifespan.valueProperty().addListener((obs, oldValue, newValue) ->
-                item.setLifeSpanDefault(sourceLifespan.getValue()));
+                item.setLifeSpan(sourceLifespan.getValue()));
         //listener that reacts when the combobox value (tags) is modified
         sourceTag.valueProperty().addListener((obs, oldValue, newValue) ->
                 item.setTag(sourceTag.getValue()));
@@ -180,9 +180,9 @@ public class SourceCell extends ListCell<DatabaseSource> {
      */
     private void updateSource() {
         sourceEnabled.setSelected(item.isEnabled());
-        SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getNumberToDownload());
+        SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getArticlesToDownload());
         sourceNumberOfArticles.setValueFactory(valueFactoryNumber);
-        SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpanDefault());
+        SpinnerValueFactory<Integer> valueFactoryLifespan = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getLifeSpan());
         sourceLifespan.setValueFactory(valueFactoryLifespan);
     }
 }
