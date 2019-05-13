@@ -112,10 +112,10 @@ class TagManagerTest {
         tag2.setScore(score2);
         tagManager.addTag(tag);
         assertEquals(score,tag.getScore());
-        tagManager.actualizeScore(0);
+        tagManager.actualizeScore();
         assertEquals(score,tag.getScore());
         assertEquals(score2,tag2.getScore());
-        tagManager.actualizeScore(2);
+        tagManager.actualizeScore();
         assertEquals(98,tag.getScore());
         assertEquals(35.28,tag2.getScore());
     }

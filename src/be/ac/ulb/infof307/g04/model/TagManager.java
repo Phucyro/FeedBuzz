@@ -46,7 +46,7 @@ public class TagManager {
         if (!this.jsonDBTemplate.collectionExists(DatabaseTag.class)) {
             createCollection();
         }
-        actualizationInterval();
+        actualizeScore();
     }
 
     private void createCollection() {
@@ -126,39 +126,33 @@ public class TagManager {
             jsonDBTemplate.upsert(toEdit);
         }
     }
-    public void actualizationInterval(){
-        Date current_date = new Date();
-        DatabaseTag checkTime = getTag("Health"); //TODO utiliser un autre mecanisme pour avoir la derniere valeur
-        Date verifyDate = checkTime.getLastActualisationDate();
-
-        long diff = current_date.getTime() - verifyDate.getTime();
-        int interval =  (int) (diff/(24 * 60 * 60 * 1000));
-        actualizeScore(interval);
-    }
     
     /**
      * edit score if the last actualisation date was longer than 1 day
      */
-    public void actualizeScore(int interval) {
-        if (interval >= 1 ) {
-            ArrayList<DatabaseTag> tags_list = getAll();
-            for ( DatabaseTag toEdit : tags_list){
-                if (toEdit != null){
-                    float current_score = toEdit.getScore();
-                    current_score -= (current_score/100)*(DAYWEIGHT*interval);
-                    toEdit.setScore(current_score);
-                    jsonDBTemplate.upsert(toEdit);
-                    toEdit.setLastActualisationDate(new Date());
-                }
+    public void actualizeScore() {
+        Date current_date = new Date();
+        ArrayList<DatabaseTag> tags_list = getAll();
+        for ( DatabaseTag checkedTag : tags_list){
+            long diff = current_date.getTime() - checkedTag.getLastActualisationDate().getTime();
+            int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+            if (diffDays >= 1 ) {
+                float current_score = checkedTag.getScore();
+                current_score = Math.max(current_score-((current_score/100)*(DAYWEIGHT*diffDays)),0);
+                checkedTag.setScore(current_score);
+                checkedTag.setLastActualisationDate(current_date);
+                jsonDBTemplate.upsert(checkedTag);
             }
         }
     }
 
+
+
     /**
-     * get a tag of the database from his name
-     * @param tagName name of the tag
-     * @return tag we are looking for
-     */
+         * get a tag of the database from his name
+         * @param tagName name of the tag
+         * @return tag we are looking for
+         */
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
