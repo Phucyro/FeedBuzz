@@ -27,6 +27,7 @@ public class Main extends Application {
         loader.setController(controller);
         Parent loginRoot = loader.load();
         Stage stage = new Stage();
+        stage.setTitle("Login or Register");
         stage.setScene(new Scene(loginRoot));
         stage.show();
     }
