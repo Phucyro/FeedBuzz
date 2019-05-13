@@ -1,15 +1,15 @@
 package be.ac.ulb.infof307.g04.controller;
 
-import be.ac.ulb.infof307.g04.model.ArticleManager;
-import javafx.scene.image.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -26,7 +26,8 @@ public class HTMLArticleDownloader {
 
     /**
      * Extract all the links and sort them by type
-     * @param _link link of the article
+     *
+     * @param _link        link of the article
      * @param _description description of the article
      * @return url of the image
      * @throws IOException exception due
@@ -50,36 +51,36 @@ public class HTMLArticleDownloader {
 
     /**
      * <a href>https://stackoverflow.com/questions/4852531/find-files-in-a-folder-using-java</a>
+     *
      * @param _articleLink link of the article to get icon from
      * @return uri of the file that contains the icon
      */
     public static String getIconUrlFromArticleUrl(String _articleLink) throws FileNotFoundException {
         String articleLinkCurated = sanitizeString(_articleLink);
-        articleLinkCurated = "media/"+articleLinkCurated;
+        articleLinkCurated = "media/" + articleLinkCurated;
         File folder = new File(articleLinkCurated);
 
         File[] matchingFiles = folder.listFiles((dir, name) -> name.startsWith("icon."));
 
         if (matchingFiles.length == 0 || matchingFiles[0].getName().equals("icon.")) {
             throw new FileNotFoundException();
-        }
-        else {
+        } else {
             return matchingFiles[0].getAbsolutePath();
         }
     }
 
     /**
      * Retrieve first icon url in html text
+     *
      * @return url to an image
      */
     public static String getIconUrl(String _articleLink) {
         try {
             String iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_articleLink);
-            if(System.getProperty("os.name").contains("Windows")){
+            if (System.getProperty("os.name").contains("Windows")) {
                 File iconFileUrl = new File(iconUrl);
                 return iconFileUrl.toURI().toString();
-            }
-            else{
+            } else {
                 iconUrl = "file://" + iconUrl;
                 return iconUrl;
             }
@@ -123,8 +124,9 @@ public class HTMLArticleDownloader {
 
     /**
      * replace the remaining links
+     *
      * @param _htmlContent html content
-     * @param _folderName folder name
+     * @param _folderName  folder name
      * @return new html content
      */
     static String downloadReplaceRemainingLinks(String _htmlContent, String _folderName) throws IOException {
@@ -140,6 +142,7 @@ public class HTMLArticleDownloader {
 
     /**
      * remove special characters from the url
+     *
      * @param _url url to sanitize
      * @return sanitized url
      */
@@ -169,7 +172,8 @@ public class HTMLArticleDownloader {
 
     /**
      * download and replace elements from a specific tag
-     * @param _elements elements to download and replace
+     *
+     * @param _elements   elements to download and replace
      * @param _folderName name of the folder
      */
     protected static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
@@ -182,9 +186,9 @@ public class HTMLArticleDownloader {
     }
 
     /**
-     * @param _url url of the article
+     * @param _url        url of the article
      * @param _folderName name of the folder of the article
-     * @param _filename name of the file
+     * @param _filename   name of the file
      * @return html content
      * @throws IOException exception to handle the opening of files
      */
@@ -208,7 +212,8 @@ public class HTMLArticleDownloader {
 
     /**
      * overload of downloader
-     * @param _url url of the article
+     *
+     * @param _url        url of the article
      * @param _folderName name of the folder of the article
      * @return html content
      * @throws IOException exception to handle the opening of files
@@ -233,7 +238,7 @@ public class HTMLArticleDownloader {
      */
     private static String getFileExtension(String _url) {
         String[] urlSplitted = _url.split("/");
-        urlSplitted = urlSplitted[urlSplitted.length-1].split("\\.");
+        urlSplitted = urlSplitted[urlSplitted.length - 1].split("\\.");
         if (urlSplitted.length > 1) {
             return urlSplitted[urlSplitted.length - 1];
         }

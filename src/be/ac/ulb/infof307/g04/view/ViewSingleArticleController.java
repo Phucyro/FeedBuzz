@@ -1,7 +1,6 @@
 package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.controller.InternetTester;
-import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.model.SourceManager;
@@ -22,20 +21,19 @@ import java.util.TimerTask;
 
 /**
  * Class ViewSingleArticleController, show what an article looks like when you click on it in the article cell
+ *
+ * @version 4.0
  * @see DatabaseArticle
  * @see ArticleManager
- * @version 4.0
  */
 
-public class ViewSingleArticleController extends Application{
-    private DatabaseArticle article;
-
-    //Boolean fot the validity of the article
-    private boolean isValid;
-
+public class ViewSingleArticleController extends Application {
     //Manager that could allow to delete an article
     private final ArticleManager articleManager;
     private final Timer timer;
+    private DatabaseArticle article;
+    //Boolean fot the validity of the article
+    private boolean isValid;
     private boolean windowActive;
     private Stage primaryStage;
 
@@ -57,11 +55,12 @@ public class ViewSingleArticleController extends Application{
     private ArticleListController articlesWindow; //window that contains the article
 
     /**
-      *Constructor of the view of a single article
-      *@param _article article to view
-      *article that has to be viewed
-      */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword){
+     * Constructor of the view of a single article
+     *
+     * @param _article article to view
+     *                 article that has to be viewed
+     */
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) {
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
@@ -86,7 +85,7 @@ public class ViewSingleArticleController extends Application{
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         stopTimer();
     }
 
@@ -96,28 +95,25 @@ public class ViewSingleArticleController extends Application{
      */
     public void initialize() throws IOException {
         String htmlFile;
-        if(InternetTester.testInternet()) {
+        if (InternetTester.testInternet()) {
             Document doc = Jsoup.connect(article.getLink()).get();
             doc.getElementsByClass("m-privacy-consent").remove();
             htmlFile = doc.toString();
-        }
-        else {
+        } else {
             htmlFile = article.getHtmlContent();
         }
         articleView.getEngine().loadContent(htmlFile);
     }
 
     private void startTimer() {
-        TimerTask task = new TimerTask()
-        {
-            public void run()
-            {
+        TimerTask task = new TimerTask() {
+            public void run() {
                 if (windowActive) {
                     articleManager.addTimeWatched(article, 1);
                 }
             }
         };
-        timer.schedule(task,0,1000);
+        timer.schedule(task, 0, 1000);
     }
 
     private void stopTimer() {
@@ -133,8 +129,8 @@ public class ViewSingleArticleController extends Application{
         if (Integer.toString(article.hashCode()).equals(article.getIntegrityHash())) {
             setIntegrityColorText("Untampered article", Color.LIGHTGREEN);
         } else {
-            if (InternetTester.testInternet()){
-                if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")){
+            if (InternetTester.testInternet()) {
+                if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")) {
                     try {
                         article = SourceManager.redownloadArticle(article, articleManager.getArticleSource(article));
                         articleManager.upsertArticle(article);
@@ -157,7 +153,8 @@ public class ViewSingleArticleController extends Application{
 
     /**
      * Change the text and color of the integrity label
-     * @param s is the string to set the integrity label to
+     *
+     * @param s     is the string to set the integrity label to
      * @param color is the color to set the integrity label to
      */
     private void setIntegrityColorText(String s, Color color) {
@@ -170,7 +167,7 @@ public class ViewSingleArticleController extends Application{
      * function called when the delete button is pressed
      */
     @FXML
-    public void deleteButtonPressed(){
+    public void deleteButtonPressed() {
         deleteArticle();
     }
 
@@ -184,7 +181,7 @@ public class ViewSingleArticleController extends Application{
     }
 
     @FXML
-    private void updateLikeDislikeButton(){
+    private void updateLikeDislikeButton() {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
             dislikeButton.setStyle("-fx-background-color: #ff0000; ");
             likeButton.setStyle("");
@@ -198,7 +195,7 @@ public class ViewSingleArticleController extends Application{
     }
 
     @FXML
-    public void dislikeButtonPressed(){
+    public void dislikeButtonPressed() {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
             articleManager.setNeutralLike(article);
         } else {
@@ -208,7 +205,7 @@ public class ViewSingleArticleController extends Application{
     }
 
     @FXML
-    public void likeButtonPressed(){
+    public void likeButtonPressed() {
         if (article.getLikeState() == ArticleManager.LIKED) {
             articleManager.setNeutralLike(article);
         } else {

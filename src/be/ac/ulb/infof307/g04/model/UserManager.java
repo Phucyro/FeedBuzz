@@ -9,7 +9,7 @@ public class UserManager {
 
     /**
      * @param database_path path to the database
-     * @param _password password of the database
+     * @param _password     password of the database
      */
     public UserManager(String database_path, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
@@ -40,7 +40,7 @@ public class UserManager {
         try {
             this.jsonDBTemplate.remove(user, DatabaseUser.class);
             return true;
-        } catch (InvalidJsonDbApiUsageException e){
+        } catch (InvalidJsonDbApiUsageException e) {
             return false;
         }
     }
@@ -63,6 +63,7 @@ public class UserManager {
 
     /**
      * add an user in the db
+     *
      * @param _user user to add
      * @return return true if the insert worked well
      */
@@ -77,28 +78,30 @@ public class UserManager {
 
     /**
      * search an user in the database
+     *
      * @param _username name of the user that we are looking for
      * @return found user
      */
-    private DatabaseUser findUserByUsername(String _username){
+    private DatabaseUser findUserByUsername(String _username) {
         try {
             return jsonDBTemplate.findById(_username, DatabaseUser.class);
         } catch (Exception e) {
             return null;
         }
     }
+
     /**
      * search an user in the database
+     *
      * @param _username name of the user that we are looking for
      * @return found user
      */
-    public DatabaseUser findUser(String _username, String _password){
+    public DatabaseUser findUser(String _username, String _password) {
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
-            if(user.getPassword() == _password.hashCode()){
+            if (user.getPassword() == _password.hashCode()) {
                 return user;
-            }
-            else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -108,10 +111,11 @@ public class UserManager {
 
     /**
      * Check if an username is already in the database
+     *
      * @param _username username to test
      * @return return true if the username is already used
      */
-    public boolean existUsername(String _username){
+    public boolean existUsername(String _username) {
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
             return user != null;
@@ -123,11 +127,12 @@ public class UserManager {
 
     /**
      * check if an user is already in the database
+     *
      * @param _username name of the user
      * @param _password password of the user
      * @return return true if the user is already in the database
      */
-    public boolean existUser(String _username, String _password){
+    public boolean existUser(String _username, String _password) {
         try {
             DatabaseUser user = jsonDBTemplate.findById(_username, DatabaseUser.class);
             return user.getPassword() == _password.hashCode();
@@ -135,7 +140,6 @@ public class UserManager {
             return false;
         }
     }
-
 
 
 }

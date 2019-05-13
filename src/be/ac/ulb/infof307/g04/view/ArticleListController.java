@@ -19,16 +19,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.xml.sax.SAXException;
 
-import javax.swing.text.html.HTML;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -43,29 +44,23 @@ import java.util.ArrayList;
 public class ArticleListController extends Application {
 
 
-    @FXML
-    private ListView<DatabaseArticle> listViewArticles;
-
-    @FXML
-    private MenuItem QuitButton;
-
-    @FXML
-    private VBox VBox;
-
+    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private static ArticleManager articleManager;
     private static SourceManager source;
-
+    private final String dbPath;
+    private final String password;
+    private final ArrayList<Stage> stageArrayList = new ArrayList<>();
+    @FXML
+    private ListView<DatabaseArticle> listViewArticles;
+    @FXML
+    private MenuItem QuitButton;
+    @FXML
+    private VBox VBox;
     private ToolBar searchBar;
     private Button CloseSearchButton;
     private TextField searchField;
     private Label match_count;
-    private final String dbPath;
-    private final String password;
-    private final ArrayList <Stage> stageArrayList = new ArrayList<>();
     private Stage mainStage;
-    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
-
-
     @FXML
     private MenuItem readArticleImage;
     @FXML
@@ -82,7 +77,7 @@ public class ArticleListController extends Application {
     private MenuItem exitAppImage;
 
 
-    public ArticleListController(String _pathToDB, String _password){
+    public ArticleListController(String _pathToDB, String _password) {
         dbPath = _pathToDB;
         password = _password;
     }
@@ -91,7 +86,7 @@ public class ArticleListController extends Application {
     public void start(Stage primaryStage) {
         primaryStage.focusedProperty().addListener((observable, oldValue, newValue) ->
         {
-            if(newValue){
+            if (newValue) {
                 articleManager = new ArticleManager(dbPath, password);
                 displayArticles(articleManager.loadArticles());
             }
@@ -130,7 +125,7 @@ public class ArticleListController extends Application {
             } catch (IOException e) {
                 MessageBoxes.showErrorBox("IO Exception");
             }
-        }else{
+        } else {
             MessageBoxes.showErrorBox("Pas d'internet");
         }
     }
@@ -170,6 +165,7 @@ public class ArticleListController extends Application {
     /**
      * relaunches the application after the disconnecting of windows
      * goes to logging screen
+     *
      * @throws Exception exception caused by main
      */
     @FXML
@@ -181,8 +177,8 @@ public class ArticleListController extends Application {
 
     /**
      * Display all the valid _articles in the window
-     * @param _articles
-     *              _articles that haven't been deleted in the DB
+     *
+     * @param _articles _articles that haven't been deleted in the DB
      */
     @FXML
     public void displayArticles(ArrayList<DatabaseArticle> _articles) {
@@ -194,9 +190,9 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param _path path of the image
-     * @param _height height of the image
-     * @param _width width of the image
+     * @param _path             path of the image
+     * @param _height           height of the image
+     * @param _width            width of the image
      * @param _readArticleImage place to put the image
      */
     private void setImage(String _path, int _height, int _width, MenuItem _readArticleImage) {
@@ -206,7 +202,7 @@ public class ArticleListController extends Application {
         _readArticleImage.setGraphic(readIcon);
     }
 
-    public void setMainStage(Stage _stage){
+    public void setMainStage(Stage _stage) {
         mainStage = _stage;
     }
 
@@ -218,14 +214,14 @@ public class ArticleListController extends Application {
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ReadArticle.png", 250, 400, readArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/SearchByTitle.png", 280, 380, searchArticleImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/CopyToClipboard.png", 250, 400, copyArticleLinkImage);
-        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Suggestions.png",350,550,suggestionImage);
+        setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Suggestions.png", 350, 550, suggestionImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureSources.png", 380, 530, configureSourcesImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/ConfigureTags.png", 350, 550, configureTagsImage);
         setImage("/be/ac/ulb/infof307/g04/pictures/Help_Pictures/Exit.png", 200, 350, exitAppImage);
     }
 
     @FXML
-    private void getArticleAndOpen() throws de.l3s.boilerpipe.BoilerpipeProcessingException{
+    private void getArticleAndOpen() throws de.l3s.boilerpipe.BoilerpipeProcessingException {
         DatabaseArticle articleToRead = listViewArticles.getSelectionModel().getSelectedItem();
         openArticleWindow(articleToRead);
     }
@@ -258,10 +254,9 @@ public class ArticleListController extends Application {
 
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
-        if (suggestedArticlesList.size() == 0){
+        if (suggestedArticlesList.size() == 0) {
             MessageBoxes.showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
-        }
-        else {
+        } else {
             GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
 
             ArrayList<Button> buttonList = new ArrayList<>();
@@ -279,18 +274,14 @@ public class ArticleListController extends Application {
 
     /**
      * @param _suggestedArticlesList List of the suggested articles
-     * @param _buttonList List of the buttons linked to the article
+     * @param _buttonList            List of the buttons linked to the article
      */
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
             System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
-                try{
-                    openArticleWindow(articleToButton);
-                } catch (de.l3s.boilerpipe.BoilerpipeProcessingException e) {
-                    //TODO gestion de l'erreur/ne pas devoir le faire parce que le traitement du texte ne doit pas se faire a l'ouverture de l'article
-                }
+                openArticleWindow(articleToButton);
             });
         }
     }
@@ -318,21 +309,21 @@ public class ArticleListController extends Application {
 
     /**
      * @param _suggestedArticle list of suggested articles
-     * @param _gridPane pane to display suggestions
-     * @param _buttonList list of buttons to use to open articles
-     * @param _columnIndex is the index of the column that needs to be modified
+     * @param _gridPane         pane to display suggestions
+     * @param _buttonList       list of buttons to use to open articles
+     * @param _columnIndex      is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
         String iconUrl = setSuggestionIconUrl(_suggestedArticle);
         Image icon = new Image(iconUrl, 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
-        _gridPane.add(articleImage,_columnIndex,0);
+        _gridPane.add(articleImage, _columnIndex, 0);
         Label articleText = new Label(_suggestedArticle.getTitle());
         articleText.setWrapText(true);
-        _gridPane.add(articleText,_columnIndex,1);
+        _gridPane.add(articleText, _columnIndex, 1);
         Button articleReadButton = new Button("Lire cet article");
         _buttonList.add(articleReadButton);
-        _gridPane.add(articleReadButton,_columnIndex,2);
+        _gridPane.add(articleReadButton, _columnIndex, 2);
     }
 
     /**
@@ -344,23 +335,23 @@ public class ArticleListController extends Application {
         try {
             iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
             iconUrl = "file://" + iconUrl;
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             iconUrl = DEFAULT_ICON;
         }
         return iconUrl;
     }
 
     @FXML
-    private void quit(){
+    private void quit() {
         Platform.exit();
     }
 
     /**
-     * @param _loader _loader
+     * @param _loader       _loader
      * @param _title_window title of the window
-     * @param _title parameter use for the error message
+     * @param _title        parameter use for the error message
      */
-    public Stage openWindow(FXMLLoader _loader, String _title_window, String _title){
+    public Stage openWindow(FXMLLoader _loader, String _title_window, String _title) {
         Stage stage = new Stage();
         try {
             Parent root = _loader.load();
@@ -368,9 +359,8 @@ public class ArticleListController extends Application {
             stage.setTitle(_title_window);
             setStage(root, stage);
             stageArrayList.add(stage);
-        }
-        catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while opening "+ _title + " window!");
+        } catch (Exception e) {
+            MessageBoxes.showErrorBox("Error while opening " + _title + " window!");
         }
         return stage;
     }
@@ -379,7 +369,7 @@ public class ArticleListController extends Application {
      * Method that opens an article when the user click on it
      */
     @FXML
-    private void openArticleWindow(DatabaseArticle _articleToRead) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
+    private void openArticleWindow(DatabaseArticle _articleToRead) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewSingleArticleController.class.getResource("ViewSingleArticle.fxml"));
             ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
@@ -387,10 +377,11 @@ public class ArticleListController extends Application {
             controller.setArticlesWindows(this);
             Stage articleStage = openWindow(loader, _articleToRead.getTitle(), "article");
             controller.start(articleStage);
-        } catch (Exception e){
-            MessageBoxes.showErrorBox("No article selected");
+        } catch (Exception e) {
+            MessageBoxes.showErrorBox("Error while opening the article. Is an article selected?");
         }
     }
+
     /**
      * open the tag window
      */
@@ -415,7 +406,7 @@ public class ArticleListController extends Application {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
-            Stage sourceStage = openWindow(loader,"Manage sources","sources");
+            Stage sourceStage = openWindow(loader, "Manage sources", "sources");
             controller.start(sourceStage);
         } catch (Exception e) {
             MessageBoxes.showErrorBox("Error while opening the Source window!");
@@ -428,10 +419,10 @@ public class ArticleListController extends Application {
     }
 
     /**
-     *  If the search bar is available or not. When you close it, it loads all the articles again
+     * If the search bar is available or not. When you close it, it loads all the articles again
      */
     @FXML
-    public void changeSearchBarStatus(){
+    public void changeSearchBarStatus() {
         if (VBox.getChildren().indexOf(searchBar) == -1) {
             VBox.getChildren().add(searchBar);
             match_count.setText("");
@@ -451,10 +442,11 @@ public class ArticleListController extends Application {
 
     /**
      * Initialize searchbar parameters
+     *
      * @param _height
      * @param _width
      */
-    private void init_searchBar(int _height, int _width){
+    private void init_searchBar(int _height, int _width) {
 
         searchBar.setPrefHeight(_height);
         searchBar.setPrefWidth(_width);
@@ -514,10 +506,9 @@ public class ArticleListController extends Application {
         sources.add(new DatabaseSource("BBC world news", "http://feeds.bbci.co.uk/news/world/rss.xml"));
         sources.add(new DatabaseSource("Polygon", "https://www.polygon.com/rss/index.xml", "Technology"));
         sources.add(new DatabaseSource("Vox", "https://www.vox.com/rss/world/index.xml"));
-        sources.add(new DatabaseSource("CNN Money", "http://rss.cnn.com/rss/money_topstories.rss","Business"));
+        sources.add(new DatabaseSource("CNN Money", "http://rss.cnn.com/rss/money_topstories.rss", "Business"));
         sources.forEach(sourceManager::addSource);
     }
-
 
 
 };
