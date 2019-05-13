@@ -243,6 +243,7 @@ public class LoginRegisterController extends Application{
         loader.setController(controller);
         Parent root = loader.load();
         Stage stage = new Stage();
+        stage.setTitle("List of articles");
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);
         stage.show();

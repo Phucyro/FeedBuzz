@@ -21,34 +21,38 @@ public class ArticleLabelizer {
     private static int bag_size;
     private static double[] histogram_article;   // histogramme d'occurence de chaque mot du bag of word
     private static double[][] histogram_topics;  // liste des histogramme de chaque topic
+    private static ArrayList<Integer> word_counts_each_category;
+    private static boolean jsonParsed = false;
 
+
+    private static void setJsonParsed(boolean newValue){ jsonParsed = newValue;}
+    private static boolean getJsonParsed(){ return jsonParsed;}
     /**
      * Constructor that construct the bag containing the words from the wordlists, and construct the histogram associated with each category
      */
     public static String labeLizeArticle(String _HTMLContent){
         //static{
 
-        ArrayList<Integer> word_counts_each_category = new ArrayList<>();
-        JSONParser parser = new JSONParser();
-        if (labels.size() == 0){
-            parseJson(word_counts_each_category, parser);
+        if (!getJsonParsed()) {
+            JSONParser parser = new JSONParser();
+            parseJson(parser);
         }
-        String res = "";
+        setHistogram();
+        String res = "Default";
         try {
             res = labelize(_HTMLContent);
-        } catch (de.l3s.boilerpipe.BoilerpipeProcessingException e) {
-            e.printStackTrace();
-            //TODO Gerer cette erreur
+        } catch (de.l3s.boilerpipe.BoilerpipeProcessingException ignore) {
+            //Si une erreur est causee par Boilerpipe, le tag est laisse a "Default"
         }
         return res;
     }
 
-    private static void parseJson(ArrayList<Integer> word_counts_each_category, JSONParser parser) {
+    private static void parseJson(JSONParser parser) {
+        word_counts_each_category = new ArrayList<>();
         try{
             //Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
             Object objectparser = parser.parse(new FileReader("src/be/ac/ulb/infof307/g04/model/wordlists.json"));
             JSONObject object = (JSONObject) objectparser;
-
             // iterate through the keys of the JSONObject
             for (Object o : object.keySet()) {
 
@@ -61,21 +65,26 @@ public class ArticleLabelizer {
                 bag_of_word.addAll(array);
                 word_counts_each_category.add(array.size());
             }
-
-            bag_size = bag_of_word.size();
-            histogram_article = new double[bag_size]; // allocation of the histogram of the article;
-            histogram_topics = new double[labels.size()][bag_size]; // allocations of each histograms associated with each categories
-            int word_count=0;
-
-            // for each histogram associated with each category, increment the index if the word of the bow come from this category and normalize the histogram
-            for(int i = 0; i<labels.size() ; i++){
-                for(int j= word_count; j<word_count+word_counts_each_category.get(i); j++){
-                    histogram_topics[i][j] = 1.0/Math.sqrt(word_counts_each_category.get(i));
-                }
-                word_count+= word_counts_each_category.get(i); //
-            }
         } catch(java.io.IOException | org.json.simple.parser.ParseException e){
-            System.out.println(e);
+            System.out.println(e); //TODO gerer cette erreur
+        }
+
+        setJsonParsed(true);
+    }
+
+    private static void setHistogram(){
+        bag_size = bag_of_word.size();
+        histogram_article = new double[bag_size]; // allocation of the histogram of the article;
+        histogram_topics = new double[labels.size()][bag_size]; // allocations of each histograms associated with each categories
+        int word_count=0;
+
+        // for each histogram associated with each category, increment the index if the word of the bow come from this category and normalize the histogram
+        for(int i = 0; i<labels.size() ; i++){
+            for(int j= word_count; j<word_count+word_counts_each_category.get(i); j++){
+                histogram_topics[i][j] = 1.0/Math.sqrt(word_counts_each_category.get(i));
+            }
+            word_count+= word_counts_each_category.get(i); //
+
         }
     }
 
@@ -91,6 +100,7 @@ public class ArticleLabelizer {
         double scores[] = new double[labels.size()];
         String article_content = CommonExtractors.ARTICLE_EXTRACTOR.getText(_HTMLContent); // boilerpipe extract the text content of the article
         for (String word: article_content.toLowerCase().split(" ")) {
+            //Read the text word by word
             index = bag_of_word.indexOf(word);
             if(index!=-1){ // if the current word of the article is found in the bag of word, it increments the index of the histogram associated with that word
                 histogram_article[index]+=1;
