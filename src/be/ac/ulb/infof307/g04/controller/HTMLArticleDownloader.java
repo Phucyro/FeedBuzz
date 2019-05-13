@@ -32,7 +32,7 @@ public class HTMLArticleDownloader {
      * @return url of the image
      * @throws IOException exception due
      */
-    static void getIconFromDescription(String _link, String _description) throws IOException {
+    public static void getIconFromDescription(String _link, String _description) throws IOException {
         String folder_name = getFolderName(_link);
         new File(MEDIA_FOLDER).mkdir(); //TODO delete this
         new File(MEDIA_FOLDER + folder_name).mkdir();

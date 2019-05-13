@@ -1,5 +1,6 @@
 package be.ac.ulb.infof307.g04.view;
 
+import be.ac.ulb.infof307.g04.model.InitDatabase;
 import be.ac.ulb.infof307.g04.model.UserManager;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -202,16 +203,42 @@ public class LoginRegisterController extends Application {
         if (registerInputsValid(username, password, confirmPassword) && isCheckedUserAgreements()) {
             if (!userManager.existUsername(username)) {
                 userManager.addUser(username, password);
-                String db_user_path = DB_ROOT + username;
+                String dbUserPath = DB_ROOT + username;
 
                 makeUserDirectory(username);
-                launchMainApp(db_user_path, password);
+
+                //Initialize the database before opening the windows
+                InitDatabase.InitTagAndSourceDatabase(dbUserPath,password);
+                launchUserPreferences(dbUserPath, password);
+                launchMainApp(dbUserPath, password);
             } else {
                 setWarningAndDisplay(registerWarning, "Le nom d'utilisateur existe déja");
             }
         }
     }
 
+
+    /**
+     * launch the main menu of the app with the path to the connected user's database
+     *
+     * @param _dbPath the path to the user database
+     */
+    private void launchUserPreferences(String _dbPath, String _password) throws java.io.IOException {
+        Window currentWindow = loginWarning.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("UserPreferences.fxml"));
+        UserPreferencesController controller = new UserPreferencesController(_dbPath, _password);
+        loader.setController(controller);
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Please set user preferences");
+        stage.setScene(new Scene(root));
+        controller.start(stage);
+        stage.setOnCloseRequest(e -> Platform.exit());
+        stage.showAndWait();
+
+        currentWindow.hide();
+    }
 
     /**
      * launch the main menu of the app with the path to the connected user's database
@@ -232,7 +259,5 @@ public class LoginRegisterController extends Application {
         controller.start(stage);
         stage.setOnCloseRequest(e -> Platform.exit());
         stage.show();
-
-        currentWindow.hide();
     }
 }
