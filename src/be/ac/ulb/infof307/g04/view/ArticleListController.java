@@ -283,12 +283,6 @@ public class ArticleListController extends Application {
         suggestionWindow.show();
     }
 
-    private void showSuggestionScene(GridPane gridPane, Stage suggestionWindow){
-        Scene suggestionScene = new Scene(gridPane, 450, 200);
-        suggestionWindow.setScene(suggestionScene);
-        suggestionWindow.show();
-    }
-
     /**
      * @param _suggestedArticlesList List of the suggested articles
      * @param _buttonList            List of the buttons linked to the article

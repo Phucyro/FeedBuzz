@@ -7,12 +7,13 @@ import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
 
-import java.util.ArrayList;
+import javax.xml.crypto.Data;
 import java.util.Date;
+
+import java.util.ArrayList;
 
 /**
  * Class TagManger to handle all the tags stored in the database (or even create new ones)
- *
  * @see DatabaseTag
  */
 public class TagManager {
@@ -25,8 +26,10 @@ public class TagManager {
 
 
     /**
-     * @param _databasePath path to the database
-     * @param _password     _password of the database
+     * @param _databasePath
+     *                  path to the database
+     * @param _password
+     *                  _password of the database
      */
     public TagManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
@@ -36,7 +39,7 @@ public class TagManager {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
-        } catch (Exception e) {
+        } catch (Exception e){
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
@@ -52,22 +55,22 @@ public class TagManager {
 
     /**
      * add a _tag to the database
-     *
-     * @param _tag _tag that will be added to the database
+     * @param _tag
+     *          _tag that will be added to the database
      * @return boolean to inform if the _tag has been added
      */
-    public void addTag(DatabaseTag _tag) {
+    public void addTag(DatabaseTag _tag){
         try {
             _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
-        } catch (InvalidJsonDbApiUsageException e) {
+        } catch (InvalidJsonDbApiUsageException ignored){
         }
     }
 
     /**
      * delete a _tag from the database
      *
-     * @param _tag _tag that will be removed from the database
+     *          _tag that will be removed from the database
      * @return boolean to inform if the _tag has been deleted
      */
     public void deleteTag(DatabaseTag _tag) throws InvalidJsonDbApiUsageException {
@@ -78,30 +81,34 @@ public class TagManager {
 
     /**
      * modify a _tag from the database with an other
-     *
-     * @param _tag    the _tag that will be modified
-     * @param _newTag the _tag that will replace the original _tag
+     * @param _tag
+     *          the _tag that will be modified
+     * @param _newTag
+     *          the _tag that will replace the original _tag
      */
-    public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag) {
+    public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag){
         try {
             update("name", _tag.getName(), _newTag.getName(), DatabaseTag.class);
             update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
             update("category", _tag.getName(), _newTag.getName(), DatabaseArticle.class);
             deleteTag(_tag);
-        } catch (InvalidJsonDbApiUsageException e) {
+        } catch(InvalidJsonDbApiUsageException e){
             deleteTag(_tag);
         }
     }
 
     /**
      * update a value in a database
-     *
-     * @param _key         the _key of the field in the db
-     * @param _oldValue    the old value that we want to change
-     * @param _newValue    the new value
-     * @param _entityClass the database in which we work
+     * @param _key
+     *          the _key of the field in the db
+     * @param _oldValue
+     *          the old value that we want to change
+     * @param _newValue
+     *          the new value
+     * @param _entityClass
+     *          the database in which we work
      */
-    private void update(String _key, String _oldValue, String _newValue, Class _entityClass) {
+    private void update(String _key, String _oldValue, String _newValue, Class _entityClass){
         Update update = Update.update(_key, _newValue);
         String jxQuery = String.format("/.[%s='%s']", _key, _oldValue);
         jsonDBTemplate.findAllAndModify(jxQuery, update, _entityClass);
@@ -109,30 +116,29 @@ public class TagManager {
 
     /**
      * edit the score of a specific tag
-     *
      * @param _tagName tag that will be edited
-     * @param _score   new score of the tag
+     * @param _score new score of the tag
      */
-    private void editScore(String _tagName, int _score) {
+    private void editScore(String _tagName, int _score){
         DatabaseTag toEdit = getTag(_tagName);
-        if (toEdit != null) {
+        if (toEdit != null){
             toEdit.setScore(toEdit.getScore() + _score);
             jsonDBTemplate.upsert(toEdit);
         }
     }
-
+    
     /**
      * edit score if the last actualisation date was longer than 1 day
      */
     public void actualizeScore() {
         Date current_date = new Date();
         ArrayList<DatabaseTag> tags_list = getAll();
-        for (DatabaseTag checkedTag : tags_list) {
+        for ( DatabaseTag checkedTag : tags_list){
             long diff = current_date.getTime() - checkedTag.getLastActualisationDate().getTime();
-            int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
-            if (diffDays >= 1) {
+            int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+            if (diffDays >= 1 ) {
                 float current_score = checkedTag.getScore();
-                current_score = Math.max(current_score - ((current_score / 100) * (DAYWEIGHT * diffDays)), 0);
+                current_score = Math.max(current_score-((current_score/100)*(DAYWEIGHT*diffDays)),0);
                 checkedTag.setScore(current_score);
                 checkedTag.setLastActualisationDate(current_date);
                 jsonDBTemplate.upsert(checkedTag);
@@ -141,16 +147,16 @@ public class TagManager {
     }
 
 
+
     /**
-     * get a tag of the database from his name
-     *
-     * @param tagName name of the tag
-     * @return tag we are looking for
-     */
+         * get a tag of the database from his name
+         * @param tagName name of the tag
+         * @return tag we are looking for
+         */
     private DatabaseTag getTag(String tagName) {
         try {
             return jsonDBTemplate.findById(tagName, DatabaseTag.class);
-        } catch (InvalidJsonDbApiUsageException e) {
+        } catch(InvalidJsonDbApiUsageException e){
             return null;
         }
     }
@@ -165,21 +171,20 @@ public class TagManager {
     /**
      * delete all tags
      */
-    void deleteAll() {
+    void deleteAll(){
         ArrayList<DatabaseTag> tags = getAll();
         tags.forEach(this::deleteTag);
     }
 
     /**
      * get the tag with the highest score
-     *
      * @return the best tag
      */
-    public String getBest() {
+    public String getBest(){
         String best = "";
         float maxValue = -1;
-        for (DatabaseTag tag : getAll()) {
-            if (tag.getScore() > maxValue) {
+        for(DatabaseTag tag: getAll()){
+            if (tag.getScore() > maxValue){
                 maxValue = tag.getScore();
                 best = tag.getName();
             }
@@ -189,7 +194,6 @@ public class TagManager {
 
     /**
      * remove a dislike (add point)
-     *
      * @param _tag tag to apply the action to
      */
     void removeDislike(String _tag) {
@@ -198,7 +202,6 @@ public class TagManager {
 
     /**
      * add a dislike (remove point)
-     *
      * @param _tag tag to apply the action to
      */
     void addDislike(String _tag) {
@@ -207,7 +210,6 @@ public class TagManager {
 
     /**
      * remove a like (remove point)
-     *
      * @param _tag tag to apply the action to
      */
     void removeLike(String _tag) {
@@ -216,7 +218,6 @@ public class TagManager {
 
     /**
      * add a like (add point)
-     *
      * @param _tag tag to apply the action to
      */
     void addLike(String _tag) {
@@ -225,16 +226,14 @@ public class TagManager {
 
     /**
      * add point from the time passed on an article of a specific tag
-     *
      * @param _tag tag to apply the action to
      */
     void addTime(String _tag, int sec) {
-        editScore(_tag, sec * SECWEIGHT);
+        editScore(_tag, sec* SECWEIGHT);
     }
 
     /**
      * add point from the opening of an article
-     *
      * @param _tag tag to apply the action to
      */
     void addView(String _tag) {

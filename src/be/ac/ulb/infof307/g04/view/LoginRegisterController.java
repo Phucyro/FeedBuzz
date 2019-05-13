@@ -227,7 +227,6 @@ public class LoginRegisterController extends Application {
     public void launchMainApp(String _dbPath, String _password) throws java.io.IOException {
         Window currentWindow = loginWarning.getScene().getWindow();
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleListController.fxml"));
         FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
         ArticleListController controller = new ArticleListController(_dbPath, _password);
         loader.setController(controller);

@@ -92,7 +92,7 @@ public class SourceManager {
     public void addSource(DatabaseSource _source) {
         try {
             jsonDBTemplate.insert(_source);
-        } catch (InvalidJsonDbApiUsageException e) {
+        } catch (InvalidJsonDbApiUsageException ignored) {
         }
     }
 
