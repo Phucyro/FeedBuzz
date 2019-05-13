@@ -240,7 +240,7 @@ public class HTMLArticleDownloader {
         String[] urlSplitted = _url.split("/");
         urlSplitted = urlSplitted[urlSplitted.length - 1].split("\\.");
         if (urlSplitted.length > 1) {
-            return urlSplitted[urlSplitted.length - 1];
+            return sanitizeString(urlSplitted[urlSplitted.length - 1]);
         }
         return "";
     }
