@@ -21,7 +21,9 @@ Librairies utilisées:
 
 ## Compilation
 
-Pour compiler, il faut utiliser les options de compilation suivantes:  
+Pour compiler, il faut utiliser les options de compilation suivantes: 
+ 
+ --module-path "./lib/javafx-sdk-11.0.2/lib" 
  --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
 
 ## Démarrage 
