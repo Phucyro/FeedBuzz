@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
+import io.jsondb.annotation.Secret;
 
 import java.io.Serializable;
 
@@ -12,13 +13,17 @@ import java.io.Serializable;
  */
 @Document(collection = "sources", schemaVersion = "1.0")
 public class DatabaseSource implements Serializable {
+    public static final int ARTICLES_TO_DOWNLOAD = 1;
+    public static final int LIFE_SPAN_DEFAULT = 7;
     @Id
     private String url;
+    @Secret
     private String sourceName;
     private boolean enabled;
-    private int numberToDownload;
-    private int lifeSpanDefault;
+    @Secret
     private String tag;
+    private int lifeSpan;
+    private int articlesToDownload;
 
     public DatabaseSource() {
     }
@@ -31,13 +36,12 @@ public class DatabaseSource implements Serializable {
      * @param _tag        tag of the source
      */
     public DatabaseSource(String _sourceName, String _url, String _tag) {
-
         sourceName = _sourceName;
         url = _url;
         enabled = true;
-        numberToDownload = 1;
-        lifeSpanDefault = 7;
         tag = _tag;
+        lifeSpan = LIFE_SPAN_DEFAULT;
+        articlesToDownload = ARTICLES_TO_DOWNLOAD;
     }
 
     /**
@@ -73,31 +77,31 @@ public class DatabaseSource implements Serializable {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setEnabled(boolean _enabled) {
+        this.enabled = _enabled;
     }
 
-    public int getLifeSpanDefault() {
-        return lifeSpanDefault;
+    public int getLifeSpan() {
+        return lifeSpan;
     }
 
-    public void setLifeSpanDefault(int lifeSpanDefault) {
-        this.lifeSpanDefault = lifeSpanDefault;
+    public void setLifeSpan(int _lifeSpan) {
+        this.lifeSpan = _lifeSpan;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTag(String _tag) {
+        this.tag = _tag;
     }
 
-    public int getNumberToDownload() {
-        return numberToDownload;
+    public int getArticlesToDownload() {
+        return articlesToDownload;
     }
 
-    public void setNumberToDownload(int numberToDownload) {
-        this.numberToDownload = numberToDownload;
+    public void setArticlesToDownload(int _articlesToDownload) {
+        this.articlesToDownload = _articlesToDownload;
     }
 }

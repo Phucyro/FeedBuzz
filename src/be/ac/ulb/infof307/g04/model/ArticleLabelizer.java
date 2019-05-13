@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.model;
 
-
 import be.ac.ulb.infof307.g04.view.MessageBoxes;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
 import org.json.simple.JSONArray;

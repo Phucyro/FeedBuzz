@@ -18,9 +18,9 @@ import java.io.IOException;
 
 public class LoginRegisterController extends Application {
 
-    static final int MIN_CHARACTERS = 5;
-    static final int MAX_CHARACTERS = 17;
-    final UserManager userManager = new UserManager("./article_db", "password");
+    private static final int MIN_CHARACTERS = 5;
+    private static final int MAX_CHARACTERS = 17;
+    private final UserManager userManager = new UserManager("./article_db", "password");
     private final String DB_ROOT = "./article_db/";
     @FXML
     private TextField loginUsername;
@@ -43,11 +43,8 @@ public class LoginRegisterController extends Application {
     @FXML
     private Hyperlink userAgreementLink;
 
-    private Stage mainStage;
 
-
-    public LoginRegisterController() {
-    }
+    public LoginRegisterController() { }
 
 
     /**
@@ -90,7 +87,7 @@ public class LoginRegisterController extends Application {
      *
      * @param _username article the name of the folder to make
      */
-    public void makeUserDirectory(String _username) {
+    private void makeUserDirectory(String _username) {
         File file = new File(DB_ROOT + _username);
         if (file.exists()) {
             file.delete();
@@ -107,7 +104,7 @@ public class LoginRegisterController extends Application {
      * @param _labelWarning the label used to display the warning
      * @param _warning      the message warning
      */
-    public void setWarningAndDisplay(Label _labelWarning, String _warning) {
+    private void setWarningAndDisplay(Label _labelWarning, String _warning) {
         if (_labelWarning != null) {
             _labelWarning.setText(_warning);
             _labelWarning.setVisible(true);
@@ -163,7 +160,7 @@ public class LoginRegisterController extends Application {
     }
 
 
-    public boolean isCheckedUserAgreements() {
+    private boolean isCheckedUserAgreements() {
         if (userAgreementCheckbox.isSelected()) {
             return true;
         } else {
@@ -192,9 +189,6 @@ public class LoginRegisterController extends Application {
     }
 
 
-    public void appClosed() {
-        mainStage.close();
-    }
 
     /**
      * Try to register the user
@@ -224,10 +218,9 @@ public class LoginRegisterController extends Application {
      *
      * @param _dbPath the path to the user database
      */
-    public void launchMainApp(String _dbPath, String _password) throws java.io.IOException {
+    private void launchMainApp(String _dbPath, String _password) throws java.io.IOException {
         Window currentWindow = loginWarning.getScene().getWindow();
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/be/ac/ulb/infof307/g04/view/ArticleListController.fxml"));
         FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
         ArticleListController controller = new ArticleListController(_dbPath, _password);
         loader.setController(controller);
@@ -237,7 +230,7 @@ public class LoginRegisterController extends Application {
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);
         controller.start(stage);
-        stage.setOnCloseRequest(e-> Platform.exit());
+        stage.setOnCloseRequest(e -> Platform.exit());
         stage.show();
 
         currentWindow.hide();

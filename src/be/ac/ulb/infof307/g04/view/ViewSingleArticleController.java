@@ -97,6 +97,7 @@ public class ViewSingleArticleController extends Application {
         String htmlFile;
         if (InternetTester.testInternet()) {
             Document doc = Jsoup.connect(article.getLink()).get();
+            doc.select("script").remove();
             doc.getElementsByClass("m-privacy-consent").remove();
             htmlFile = doc.toString();
         } else {
@@ -174,7 +175,6 @@ public class ViewSingleArticleController extends Application {
     private void deleteArticle() {
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
-        System.out.println("DatabaseArticle supprimé");
         //close the article page when deleted
         Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();
@@ -185,7 +185,7 @@ public class ViewSingleArticleController extends Application {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
             dislikeButton.setStyle("-fx-background-color: #ff0000; ");
             likeButton.setStyle("");
-        } else if (article.getLikeState() == articleManager.LIKED) {
+        } else if (article.getLikeState() == ArticleManager.LIKED) {
             likeButton.setStyle("-fx-background-color: #0cff00; ");
             dislikeButton.setStyle("");
         } else {

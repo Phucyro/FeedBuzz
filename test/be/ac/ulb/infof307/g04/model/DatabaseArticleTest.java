@@ -12,27 +12,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DatabaseArticleTest {
 
-    private Date testDate;
-    private DatabaseArticle testArticle;
+    private Date test_date;
+    private DatabaseArticle test_article;
 
     @BeforeAll
-    void setupBeforeArticle() {
+    void setup_before_article() {
         Date now = new Date();
-        testDate = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
-        System.out.println(testDate);
-        testArticle = new DatabaseArticle();
-        testArticle.setDownloadDate(testDate);
+        test_date = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
+        test_article = new DatabaseArticle();
     }
 
     @Test
-    void needToBeDeletedFalse() {
-        testArticle.setDaysToSave(3);
-        assertFalse(testArticle.needToBeDeleted());
+    void need_to_be_deleted_false() {
+        test_article.setPublishedDate(test_date);
+        test_article.setDaysToSave(3);
+        assertFalse(test_article.needToBeDeleted());
     }
 
     @Test
-    void needToBeDeletedTrue() {
-        testArticle.setDaysToSave(1);
-        assertTrue(testArticle.needToBeDeleted());
+    void need_to_be_deleted_true() {
+        test_article.setPublishedDate(test_date);
+        test_article.setDaysToSave(1);
+        assertTrue(test_article.needToBeDeleted());
     }
 }
