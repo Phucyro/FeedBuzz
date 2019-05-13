@@ -232,6 +232,7 @@ public class LoginRegisterController extends Application {
         stage.setScene(new Scene(root));
         controller.start(stage);
         stage.setOnCloseRequest(e -> Platform.exit());
+        stage.setResizable(false);
         stage.showAndWait();
 
         currentWindow.hide();
