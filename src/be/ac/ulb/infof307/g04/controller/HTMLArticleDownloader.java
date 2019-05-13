@@ -25,7 +25,7 @@ public class HTMLArticleDownloader {
     private static final String MEDIA_FOLDER = "media/";
 
     /**
-     * Extract all the links and sort them by type
+     * Get icon url from the description of an article
      * @param _link link of the article
      * @param _description description of the article
      * @return url of the image
@@ -90,9 +90,10 @@ public class HTMLArticleDownloader {
 
     /**
      * @param _url url of the article
+     * @param _description description of the article
      * @return return the modified html to stock
      */
-    public static String ArticleLocalifier(String _url, String _description) throws IOException {
+    public static String articleLocalifier(String _url, String _description) throws IOException {
         String folder_name = getFolderName(_url);
         new File(MEDIA_FOLDER).mkdir(); //TODO delete this test if folder already exists
         new File(MEDIA_FOLDER + folder_name).mkdir();
@@ -159,6 +160,8 @@ public class HTMLArticleDownloader {
 
     /**
      * Replace the href reference in the links
+     * @param _links
+     * @param _toReplace string to replace
      */
     protected static void replaceLinksHref(Elements _links, String _toReplace) {
         for (Element link : _links) {
@@ -171,6 +174,7 @@ public class HTMLArticleDownloader {
      * download and replace elements from a specific tag
      * @param _elements elements to download and replace
      * @param _folderName name of the folder
+     * @param _tag tag
      */
     protected static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
         for (Element element : _elements) {
@@ -208,6 +212,9 @@ public class HTMLArticleDownloader {
 
     /**
      * overload of downloader
+     * @param _url url
+     * @param _folderName name of the folder
+     * @return download
      */
     private static String downloader(String _url, String _folderName) throws IOException {
         return downloader(_url, _folderName, null);

@@ -139,7 +139,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             summaryText = htmlToPlain(_item.getDescription());
         }
 
-        DisplayPreview(gridPane, summaryText);
+        displayPreview(gridPane, summaryText);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      * @param _articlePane article pane where show the preview
      * @param _summary description of the article
      */
-    private void DisplayPreview(GridPane _articlePane, String _summary) {
+    private void displayPreview(GridPane _articlePane, String _summary) {
         StackPane previewPane = makeSummaryPane();
         Popup popup = makePreviewPopup(_summary, previewPane);
         showsWhenMouseOver(_articlePane, previewPane, popup);
