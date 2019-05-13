@@ -19,7 +19,6 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
     private final GridPane gridPane = new GridPane();
     private final Label tagLabel = new Label();
     private final AnchorPane content = new AnchorPane();
-    //private final Spinner<Integer> tagImportance = new Spinner<>();
     private final Slider tagImportance = new Slider();
     private final String dbPath;
     private final String dbPassword;
@@ -67,8 +66,6 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
      * initialize the label
      */
     private void initLabel(){
-        //SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getUserPreference());
-        //tagImportance.setValueFactory(valueFactoryNumber);
         tagImportance.setMin(0);
         tagImportance.setMax(99);
         tagImportance.setValue(item.getUserPreference());
