@@ -44,9 +44,7 @@ public class LoginRegisterController extends Application {
     private Hyperlink userAgreementLink;
 
 
-
-    public LoginRegisterController() {
-    }
+    public LoginRegisterController() { }
 
 
     /**
