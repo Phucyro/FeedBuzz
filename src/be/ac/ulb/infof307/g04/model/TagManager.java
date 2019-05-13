@@ -46,6 +46,7 @@ public class TagManager {
         if (!this.jsonDBTemplate.collectionExists(DatabaseTag.class)) {
             createCollection();
         }
+        actualizationInterval();
     }
 
     private void createCollection() {
