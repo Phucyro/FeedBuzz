@@ -103,7 +103,7 @@ public class SourceManager {
         _articleToSave.setSourceUrl(_source.getUrl());
         _articleToSave.setTags(_source.getTag());
         String HTMLContent = HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
-        _articleToSave.setTags(ArticleLabelizer.labeLizeArticle(HTMLContent));
+        _articleToSave.setTags(ArticleLabelizer.labelizeArticle(HTMLContent));
         _articleToSave.setHtmlContent(HTMLContent);
         _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
         System.out.println("Downloaded");
