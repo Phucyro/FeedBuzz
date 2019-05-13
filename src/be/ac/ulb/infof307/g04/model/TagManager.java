@@ -129,7 +129,7 @@ public class TagManager {
      * edit score if the last actualisation date was longer than 
      */
     public void actualizeScore() {
-        /*Date current_date = new Date();
+        Date current_date = new Date();
         DatabaseTag checkTime = getTag("Business");
         Date verifyDate = checkTime.getLastActualisationDate();
 
@@ -148,7 +148,7 @@ public class TagManager {
 
                 toEdit.setLastActualisationDate(current_date);
             }
-        }*/
+        }
     }
 
     /**
