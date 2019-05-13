@@ -54,8 +54,6 @@ public class ArticleLabelizer {
      * Method called once that open the json "wordlists.json" file and parse it into the word arrays
      *
      * @param _parser is the JSON parser that is used to read the json file
-     * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
      */
     private static void parseJson(JSONParser _parser) {
         wordCountsEachCategory = new ArrayList<>();

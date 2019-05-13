@@ -46,8 +46,7 @@ public class SourceManager {
         }
     }
 
-    public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source)
-            throws Exception {
+    public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source) throws Exception {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseArticle> articles = source_parser.parse(_article.getSourceUrl());
         for (DatabaseArticle articleToSave : articles) {
