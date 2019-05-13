@@ -31,8 +31,8 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
               </GridPane.margin>
             </Button>
-            <Circle fx:id="integrityCircle" fill="#00ff66" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label fx:id="integrityLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style=" -fx-border-color:black; -fx-border-width: 0.1; -fx-border-style: solid;" text="Article intègre" GridPane.columnIndex="1" />
+            <Circle fx:id="integrityCircle" fill="WHITE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="integrityLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style=" -fx-border-color:black; -fx-border-width: 0.1; -fx-border-style: solid;" text="" GridPane.columnIndex="1" />
             <Label fx:id="tagsLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="191.0" text="Tags:" GridPane.columnIndex="2" />
             <Button fx:id="dislikeButton" font="$x1" mnemonicParsing="false" onAction="#dislikeButtonPressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Dislike" wrapText="false" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Button fx:id="likeButton" font="$x1" mnemonicParsing="false" onAction="#likeButtonPressed" style="-fx-border-width:0.5; -fx-border-color:black;" text="Like" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
