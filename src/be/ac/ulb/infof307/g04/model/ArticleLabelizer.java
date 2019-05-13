@@ -113,7 +113,7 @@ public class ArticleLabelizer {
         int index;
         int wordsCount = 0;
         int mostProbableLabelIndex = 0;
-        double scores[] = new double[tags.size()];
+        double[] scores = new double[tags.size()];
         String articleContent = CommonExtractors.ARTICLE_EXTRACTOR.getText(_HTMLContent); // boilerpipe extract the text content of the article
         for (String word : articleContent.toLowerCase().split(" ")) {
             //Read the text word by word

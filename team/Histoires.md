@@ -15,7 +15,7 @@ Un point correspond à une heure de travail par binôme (approximatif). Par ité
 |   | /3 | Récupération des articles à partir des sources extérieures |  |  |  | 30 |
 |   | 4 | Récupération des articles à partir de pages web |  |  |  | 34 |
 | 2 | 2 | Recherche et filtres sur les articles stockés localement | 3 | 3 | 25 | 24 |
-|   | 5 | Création d’un système de recommandation |  |  |  | 44 + 6 |
+| 2 | 5 | Création d’un système de recommandation | 3 | 3 | 54 | 55 |
 | 2 | /7 | Intégrité des données | 2 | 2 | 15 | 16 |
 |   | 9 | Vérification de la fiabilité d’un article |  |  |  | 40 |
 |   |10 | Gestion des articles |  |  |  | 36 + 19 |
@@ -124,3 +124,18 @@ Un point correspond à une heure de travail par binôme (approximatif). Par ité
 **Choix d'implémentations:**
 - Rajout dans la fenêtre principale
 - Utilisation de screenshots pour illustrer les différentes manières d'utiliser l'application
+
+### Création d’un système de recommendation
+
+**Instructions originales:**       
+- Système de recommendation pour l'utilisateur
+
+**Question:** 
+- _Pas de question._
+
+**Choix d'implémentations:**
+- recommendation sur base du temps passé sur un article, d'un système de like/dislike et le tag de l'article.
+
+**Instructions supplémentaires:**
+- Révision du système d'assignation des tags
+- Implémentation d'une word list pour déterminer les tags.

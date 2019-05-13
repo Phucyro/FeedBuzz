@@ -527,4 +527,4 @@ public class ArticleListController extends Application {
     }
 
 
-};
+}
