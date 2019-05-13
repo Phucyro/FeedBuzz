@@ -60,9 +60,8 @@ public class SourceManager {
         throw new Exception("No article found");
     }
 
-    private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
+    private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException, org.json.simple.parser.ParseException {
         _articleToSave.setDaysToSave(_source.getLifeSpan());
-
         _articleToSave.setDownloadDate(new Date());
         _articleToSave.setSourceUrl(_source.getUrl());
         _articleToSave.setTags(_source.getTag());
@@ -116,7 +115,7 @@ public class SourceManager {
      * @see ParserRss
      * @see DatabaseArticle
      */
-    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException {
+    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException, org.json.simple.parser.ParseException {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {

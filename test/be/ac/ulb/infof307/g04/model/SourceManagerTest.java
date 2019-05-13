@@ -31,7 +31,7 @@ class SourceManagerTest {
     }
 
     @Test
-    void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    void download() throws IOException, ParserConfigurationException, SAXException, ParseException, org.json.simple.parser.ParseException {
         SourceManager sourceManager = new SourceManager("./article_test_db", "password");
         ArticleManager articleManager = new ArticleManager("./article_test_db", "password");
         sourceManager.download(articleManager);

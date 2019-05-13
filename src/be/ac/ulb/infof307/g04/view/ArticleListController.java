@@ -106,11 +106,6 @@ public class ArticleListController extends Application {
 
     /**
      * download articles and show an error box if necessary
-     *
-     * @throws ParserConfigurationException
-     * @throws ParseException
-     * @throws SAXException
-     * @throws IOException
      */
     private void downloadArticles() {
         if (InternetTester.testInternet()) {
@@ -125,6 +120,8 @@ public class ArticleListController extends Application {
                 MessageBoxes.showErrorBox("SAX Exception");
             } catch (IOException e) {
                 MessageBoxes.showErrorBox("IO Exception");
+            } catch (org.json.simple.parser.ParseException e) {
+                MessageBoxes.showErrorBox("Json Parse exception");
             }
         } else {
             MessageBoxes.showErrorBox("Pas d'internet");

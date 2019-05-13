@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 public class SourceCell extends ListCell<DatabaseSource> {
 
 
+    private static final int GAP_LENGTH = 6;
     private final GridPane gridPane = new GridPane();
     private final Label titleLabel = new Label();
     private final Label urlLabel = new Label();
@@ -81,7 +82,6 @@ public class SourceCell extends ListCell<DatabaseSource> {
 
     /**
      * Initialize the tags in the comboBox
-     *
      * @see TagManager
      */
     private void initTag() {
@@ -104,18 +104,16 @@ public class SourceCell extends ListCell<DatabaseSource> {
         initGridPaneConstraints();
         initGridPaneColumnConstraints();
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        setGridPaneHAndV(6);
+        setGridPaneHAndV();
         gridPane.getChildren().setAll(titleLabel, urlLabel, sourceEnabled, sourceNumberOfArticles, sourceLifespan, sourceTag);
     }
 
     /**
      * used to set the length of a vertical and horizontal gridPane
-     *
-     * @param length length of the vertical and horizontal gridPane
      */
-    private void setGridPaneHAndV(int length) {
-        gridPane.setVgap(length);
-        gridPane.setHgap(length);
+    private void setGridPaneHAndV() {
+        gridPane.setVgap(GAP_LENGTH);
+        gridPane.setHgap(GAP_LENGTH);
     }
 
     /**
