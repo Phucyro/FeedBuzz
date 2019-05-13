@@ -256,5 +256,7 @@ public class LoginRegisterController extends Application {
         controller.start(stage);
         stage.setOnCloseRequest(e -> Platform.exit());
         stage.show();
+
+        currentWindow.hide();
     }
 }
