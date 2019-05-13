@@ -14,6 +14,7 @@ import java.util.Optional;
 
 /**
  * Class TagMenuController when all the tags are displayed. We can assign tag to a certain source
+ *
  * @see TagManager
  */
 
@@ -40,15 +41,16 @@ public class TagMenuController extends Application {
         tagManager = new TagManager(_dbPath, _password);
     }
 
-    public void initialize(){
-        initList();
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void start(Stage _primaryStage) {}
+    public void initialize() {
+        initList();
+    }
+
+    public void start(Stage _primaryStage) {
+    }
 
     /**
      * initialize the list of tags
@@ -71,22 +73,21 @@ public class TagMenuController extends Application {
     public void add() {
         TextInputDialog dialog = initInputDialog("Add", "Add a tag", "Please enter the name of the new tag");
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent() && !result.get().isEmpty()){
+        if (result.isPresent() && !result.get().isEmpty()) {
             DatabaseTag tag = new DatabaseTag();
             tag.setName(result.get());
             tagManager.addTag(tag);
-        }
-        else{
+        } else {
             alertDialog();
         }
         initList();
     }
 
     /**
-     * @return return the dialog with all the fields initialized
-     * @param _titleText title of the window
-     * @param _headerText header of the window
+     * @param _titleText   title of the window
+     * @param _headerText  header of the window
      * @param _contextText description of the action
+     * @return return the dialog with all the fields initialized
      */
     private TextInputDialog initInputDialog(String _titleText, String _headerText, String _contextText) {
         TextInputDialog dialog = new TextInputDialog("");
@@ -109,22 +110,20 @@ public class TagMenuController extends Application {
      */
     @FXML
     public void modify() {
-        if(tagsListview.getSelectionModel().getSelectedItem() == null){
+        if (tagsListview.getSelectionModel().getSelectedItem() == null) {
             displayErrorWindow("Error!", "Selection error!", "No tag selected!");
-        }
-        else {
+        } else {
             DatabaseTag oldTag = new DatabaseTag();
             DatabaseTag newTag = new DatabaseTag();
             oldTag.setName(tagsListview.getSelectionModel().getSelectedItem());
 
             TextInputDialog dialog = initInputDialog("Modify tag", "Modification of a tag name",
-                        "Change the tag " + "\"" + tagsListview.getSelectionModel().getSelectedItem() + "\" to: ");
+                    "Change the tag " + "\"" + tagsListview.getSelectionModel().getSelectedItem() + "\" to: ");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());
                 tagManager.modifyTag(oldTag, newTag);
-            }
-            else{
+            } else {
                 alertDialog();
             }
             initList();
@@ -136,16 +135,15 @@ public class TagMenuController extends Application {
      */
     @FXML
     public void delete() {
-        if(tagsListview.getSelectionModel().getSelectedItem() == null){
+        if (tagsListview.getSelectionModel().getSelectedItem() == null) {
             displayErrorWindow("Error!", "Selection error!", "No tag selected!");
-        }
-        else {
+        } else {
             try {
                 DatabaseTag tag = new DatabaseTag();
                 tag.setName(tagsListview.getSelectionModel().getSelectedItem());
                 tagManager.deleteTag(tag);
                 initList();
-            } catch (InvalidJsonDbApiUsageException e){
+            } catch (InvalidJsonDbApiUsageException e) {
                 displayErrorWindow("Error!", "Tag removal error!", "An error happened while deleting tag, please try again");
             }
         }
@@ -153,9 +151,10 @@ public class TagMenuController extends Application {
 
     /**
      * Cases where there might be an error
+     *
      * @see Alert
      */
-    private void displayErrorWindow(String _title, String _header, String _content){
+    private void displayErrorWindow(String _title, String _header, String _content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(_title);
         alert.setHeaderText(_header);

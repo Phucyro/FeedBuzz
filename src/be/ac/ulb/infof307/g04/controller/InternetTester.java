@@ -7,10 +7,10 @@ import java.net.URLConnection;
 
 public class InternetTester {
     /**
-     * @see <a href=https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java>Source</a>
      * @return true if internet is up
+     * @see <a href=https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java>Source</a>
      */
-    public static boolean testInternet(){
+    public static boolean testInternet() {
         try {
             final URL url = new URL("http://www.google.com");
             final URLConnection conn = url.openConnection();

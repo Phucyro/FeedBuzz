@@ -123,7 +123,8 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
                     try {
                         java.awt.Desktop.getDesktop().browse(new URI(_item.getLink()));
                     } catch (IOException | URISyntaxException exception) {
-                        throw new UncheckedIOException((IOException) exception);}
+                        throw new UncheckedIOException((IOException) exception);
+                    }
                 }).start();
             }
         });

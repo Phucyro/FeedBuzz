@@ -40,10 +40,11 @@ public class DatabaseUser implements Serializable {
         return hashedPassword;
     }
 
-    public void setPassword(String _password) {
-        this.hashedPassword = _password.hashCode();
-    }
     public void setPassword(int _password) {
         this.hashedPassword = _password;
+    }
+
+    public void setPassword(String _password) {
+        this.hashedPassword = _password.hashCode();
     }
 }
