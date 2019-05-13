@@ -4,6 +4,7 @@ import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.UserManager;
 import be.ac.ulb.infof307.g04.view.ArticleListController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -247,6 +248,7 @@ public class LoginRegisterController extends Application{
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);
         controller.start(stage);
+        stage.setOnCloseRequest(e-> Platform.exit());
         stage.show();
 
         currentWindow.hide();
