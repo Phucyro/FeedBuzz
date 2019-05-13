@@ -132,7 +132,7 @@ public class TagManager {
      */
     public void actualizeScore() {
         Date current_date = new Date();
-        DatabaseTag checkTime = getTag("art");
+        DatabaseTag checkTime = getTag("Health"); //TODO utiliser un autre mecanisme pour avoir la derniere valeur
         Date verifyDate = checkTime.getLastActualisationDate();
 
         long diff = current_date.getTime() - verifyDate.getTime();

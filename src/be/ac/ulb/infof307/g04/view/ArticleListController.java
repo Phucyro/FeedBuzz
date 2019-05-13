@@ -366,17 +366,21 @@ public class ArticleListController extends Application {
      * @param _title_window title of the window
      * @param _title parameter use for the error message
      */
-    public void openWindow(FXMLLoader _loader, String _title_window, String _title){
+    public Stage openWindow(FXMLLoader _loader, String _title_window, String _title){
+        Stage stage = new Stage();
         try {
             Parent root = _loader.load();
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setTitle(_title_window);
             setStage(root, stage);
             stageArrayList.add(stage);
         }
         catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Generic error");
             showErrorBox("Error while opening "+ _title + " window!");
         }
+        return stage;
     }
 
     /**
@@ -389,8 +393,10 @@ public class ArticleListController extends Application {
             ViewSingleArticleController controller = new ViewSingleArticleController(_articleToRead, dbPath, password);
             loader.setController(controller);
             controller.setArticlesWindows(this);
-            openWindow(loader, _articleToRead.getTitle(), "article");
+            Stage articleStage = openWindow(loader, _articleToRead.getTitle(), "article");
+            controller.start(articleStage);
         } catch (Exception e){
+            System.out.println("No article selected");
             showErrorBox("No article selected");
         }
     }
@@ -402,7 +408,8 @@ public class ArticleListController extends Application {
             FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
             TagMenuController controller = new TagMenuController(dbPath, password);
             loader.setController(controller);
-            openWindow(loader, "Manage tags", "tag");
+            Stage tagStage = openWindow(loader, "Manage tags", "tag");
+            controller.start(tagStage);
         } catch (Exception e) {
             showErrorBox("Error while opening the tag window!");
         }
@@ -417,7 +424,8 @@ public class ArticleListController extends Application {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
             loader.setController(controller);
-            openWindow(loader,"Manage sources","sources");
+            Stage sourceStage = openWindow(loader,"Manage sources","sources");
+            controller.start(sourceStage);
         } catch (Exception e) {
             showErrorBox("Error while opening the Source window!");
         }
