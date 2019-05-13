@@ -28,7 +28,7 @@
  
  - Section d'aide.
  - Division de la section d'aide en plusieurs sections illustrées par des images.
- - Mise en place d'un systeme de recommendations
+ - Mise en place d'un système de recommendations.
  
 ##Motivation des choix:
  - Choix d'utiliser le programme Scene Builder pour faciliter la création des différentes interfaces graphiques pour afficher la liste d'articles et lire ceux-ci.
@@ -36,7 +36,9 @@
  - Choix d'utiliser la librairie java.awt pour copier un texte dans le presse-papier.
  - Choix d'utiliser la librairie Jsoup pour parser du html.
  - Choix d'utiliser des "menu items" dans Scene Builder pour construire la section d'aide.
- - Utilisation du concept des similarité cosine pour l'analyse des articles afin de determiner la catégorie du centre d'interet le plus probable auquel l'article appartient
+ - Utilisation du concept des similarités cosines pour l'analyse des articles afin de déterminer la catégorie du centre d'intéret le plus probable auquel l'article appartient.
+ - Choix de baser le système de recommendation sur les tags des articles, un sysème de like/dislike et le temps passé sur l'article.
+ - Création d'une word list pour déterminer le tag d'un article.
 
 ##Difficultés rencontrées:
  - Difficultés pour traiter les articles en HTML à partir du flux RSS.
@@ -44,4 +46,6 @@
  - Difficultés pour afficher la description d'un article dans sa preview.
  - Difficultés pour afficher l'image d'un article dans sa preview.
  - Difficultés pour la déconnexion d'un utilisateur.
+ - Difficultés pour trouver à quoi associer le système de recommandation.
+ - Diffculté pour déterminer un tag.
  
