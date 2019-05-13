@@ -8,7 +8,6 @@ import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -373,26 +372,11 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * open the tag window
+     * Open the window to set user preferences
      */
-    public void openTagWindow(ActionEvent _actionEvent) {
+    public void openUserPreferencesWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
-            TagMenuController controller = new TagMenuController(dbPath, password);
-            loader.setController(controller);
-            Stage tagStage = openWindow(loader, "Manage tags", "tag");
-            controller.start(tagStage);
-        } catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while opening the tag window!");
-        }
-    }
-
-    /**
-     * opens the tag window
-     */
-    public void openUserPreferencesWindow(ActionEvent _actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("UserPreferences.fxml"));
+            FXMLLoader loader = new FXMLLoader(UserPreferencesController.class.getResource("UserPreferences.fxml"));
             UserPreferencesController controller = new UserPreferencesController(dbPath, password);
             loader.setController(controller);
             Stage userPreferencesStage = openWindow(loader, "Edit use preferences", "user preferences");
@@ -403,10 +387,10 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param _actionEvent opens the SourceWindow (download settings)
+     * Open the window to set sources
      */
     @FXML
-    public void openSourceWindow(ActionEvent _actionEvent) {
+    public void openSourceWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);

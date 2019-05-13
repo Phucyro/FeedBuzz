@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Document(collection = "sources", schemaVersion = "1.0")
 public class DatabaseSource implements Serializable {
-    public static final int ARTICLES_TO_DOWNLOAD = 1;
+    public static final int ARTICLES_TO_DOWNLOAD = 3;
     public static final int LIFE_SPAN_DEFAULT = 7;
     @Id
     private String url;
