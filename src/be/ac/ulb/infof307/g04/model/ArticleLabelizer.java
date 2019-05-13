@@ -47,10 +47,13 @@ public class ArticleLabelizer {
         return res;
     }
 
+    /**
+     * Method called once that open the json "wordlists.json" file and parse it into the word arrays
+     * @param parser is the JSON parser that is used to read the json file
+     */
     private static void parseJson(JSONParser parser) {
         word_counts_each_category = new ArrayList<>();
         try{
-            //Object objectparser = parser.parse(new FileReader(".\\src\\be\\ac\\ulb\\infof307\\g04\\model\\wordlists.json")); // parse the json, each entry has the label as the key and an array of words as value
             Object objectparser = parser.parse(new FileReader("src/be/ac/ulb/infof307/g04/model/wordlists.json"));
             JSONObject object = (JSONObject) objectparser;
             // iterate through the keys of the JSONObject
@@ -68,10 +71,12 @@ public class ArticleLabelizer {
         } catch(java.io.IOException | org.json.simple.parser.ParseException e){
             System.out.println(e); //TODO gerer cette erreur
         }
-
         setJsonParsed(true);
     }
 
+    /**
+     * method that reset the values that have been put in the histogram_article array
+     */
     private static void setHistogram(){
         bag_size = bag_of_word.size();
         histogram_article = new double[bag_size]; // allocation of the histogram of the article;
@@ -106,9 +111,15 @@ public class ArticleLabelizer {
                 histogram_article[index]+=1;
             }
         }
+        doCalculations(words_count);
+        most_probable_label_index = findMostProbableLabel(most_probable_label_index, scores);
+        System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
+        return labels.get(most_probable_label_index);
+    }
 
-
+    private static void doCalculations(int words_count) {
         // sum up the square of each terms to normalize the vector sqrt(d1^2 + d2^2 + .. + dn^2)
+        // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
         for(int i=0; i<bag_of_word.size();i++){
             words_count += Math.pow(histogram_article[i], 2);
         }
@@ -116,9 +127,9 @@ public class ArticleLabelizer {
         for(int i=0; i<bag_of_word.size();i++){
             histogram_article[i] = histogram_article[i]/Math.sqrt(words_count);
         }
+    }
 
-
-        // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
+    private static int findMostProbableLabel(int most_probable_label_index, double[] scores) {
         // the highest score is the most probable category
         for(int i=0; i<labels.size(); i++){
             for(int j=0; j<bag_of_word.size(); j++){
@@ -128,10 +139,7 @@ public class ArticleLabelizer {
                 most_probable_label_index = i;
             }
         }
-        System.out.println("Most probable category : "+ labels.get(most_probable_label_index));
-        return labels.get(most_probable_label_index);
-
-
+        return most_probable_label_index;
     }
 
 

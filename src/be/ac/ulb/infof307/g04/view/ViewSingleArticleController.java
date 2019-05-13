@@ -117,7 +117,6 @@ public class ViewSingleArticleController extends Application{
                 if (windowActive) {
                     articleManager.addTimeWatched(article, 1);
                 }
-                System.out.println("After if");
             }
         };
         timer.schedule(task,0,1000);
