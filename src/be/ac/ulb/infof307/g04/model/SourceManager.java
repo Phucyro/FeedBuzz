@@ -23,9 +23,10 @@ import java.util.Date;
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
-    /**
-     * @param _databasePath
-     *                  path to the database
+    /** Constructor
+     * @param _databasePath path to the database
+     * @param _password password
+     *
      */
     public SourceManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
@@ -46,6 +47,13 @@ public class SourceManager {
         }
     }
 
+    /**
+     * redownload the article
+     * @param _article
+     * @param _source
+     * @return
+     * @throws Exception
+     */
     public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source)
             throws Exception {
         ParserRss source_parser = new ParserRss();
@@ -70,9 +78,9 @@ public class SourceManager {
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
-    /**
-     * @param _source
-     *          _source that will be added
+    /** add the source
+     * @param _source source that will be added
+     *
      */
     public void addSource(DatabaseSource _source) {
         try {
@@ -81,9 +89,8 @@ public class SourceManager {
         }
     }
 
-    /**
-     * @param _source
-     *             _source to update
+    /** update the source
+     * @param _source _source to update
      */
     public void updateSource(DatabaseSource _source){
         try{
@@ -93,6 +100,12 @@ public class SourceManager {
         }
     }
 
+    /**
+     * set the article to save
+     * @param _source
+     * @param _articleToSave
+     * @throws IOException
+     */
     private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
         _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
 
@@ -100,7 +113,7 @@ public class SourceManager {
         _articleToSave.setDownloadDate(new Date());
         _articleToSave.setSourceUrl(_source.getUrl());
         _articleToSave.setTags(_source.getTag());
-        String HTMLContent = HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
+        String HTMLContent = HTMLArticleDownloader.articleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
         _articleToSave.setTags(ArticleLabelizer.labeLizeArticle(HTMLContent));
         _articleToSave.setHtmlContent(HTMLContent);
         _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
@@ -136,6 +149,12 @@ public class SourceManager {
             }
         }
     }
+
+    /**
+     * find the source
+     * @param _link
+     * @return DatabaseSource
+     */
 
     DatabaseSource findSource(String _link) {
         try {

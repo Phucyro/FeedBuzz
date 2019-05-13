@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Class Parser Rss, used to parse an RSS link
+ * Class ParserRss, used to parse an RSS link
  */
 
 public class ParserRss {
