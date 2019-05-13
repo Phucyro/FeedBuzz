@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
  */
 
-public class ArticleLabelizer {
+class ArticleLabelizer {
     private static final String WORDLISTS_FILENAME = "src/be/ac/ulb/infof307/g04/model/wordlists.json";
     private static ArrayList<String> bagOfWord = new ArrayList<String>();
     private static ArrayList<String> tags = new ArrayList<>();
@@ -141,7 +141,7 @@ public class ArticleLabelizer {
      */
     private static int findMostProbableLabel() {
         int mostProbableLabelIndex = 0;
-        double scores[] = new double[tags.size()];
+        double[] scores = new double[tags.size()];
         boolean foundOneResult = false;
         // the highest score is the most probable category
         for (int i = 0; i < tags.size(); i++) {

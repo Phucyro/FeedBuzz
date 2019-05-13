@@ -29,12 +29,11 @@ public class HTMLArticleDownloader {
      *
      * @param _link        link of the article
      * @param _description description of the article
-     * @return url of the image
      * @throws IOException exception due
      */
     public static void getIconFromDescription(String _link, String _description) throws IOException {
         String folder_name = getFolderName(_link);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this
+        new File(MEDIA_FOLDER).mkdir();
         new File(MEDIA_FOLDER + folder_name).mkdir();
         Document doc = Jsoup.parse(_description);
         Elements images = doc.select("img[src]");
@@ -42,9 +41,7 @@ public class HTMLArticleDownloader {
         String img_url = "";
         if (images.size() > 0) {
             img_url = images.get(0).attr("abs:src");
-
         }
-
         downloader(img_url, folder_name, "icon." + getFileExtension(img_url));
     }
 
@@ -55,7 +52,7 @@ public class HTMLArticleDownloader {
      * @param _articleLink link of the article to get icon from
      * @return uri of the file that contains the icon
      */
-    public static String getIconUrlFromArticleUrl(String _articleLink) throws FileNotFoundException {
+    private static String getIconUrlFromArticleUrl(String _articleLink) throws FileNotFoundException {
         String articleLinkCurated = sanitizeString(_articleLink);
         articleLinkCurated = "media/" + articleLinkCurated;
         File folder = new File(articleLinkCurated);
@@ -95,7 +92,7 @@ public class HTMLArticleDownloader {
      */
     public static String ArticleLocalifier(String _url, String _description) throws IOException {
         String folder_name = getFolderName(_url);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this test if folder already exists
+        new File(MEDIA_FOLDER).mkdir();
         new File(MEDIA_FOLDER + folder_name).mkdir();
 
         Document doc = Jsoup.connect(_url).get();
@@ -146,7 +143,7 @@ public class HTMLArticleDownloader {
      * @param _url url to sanitize
      * @return sanitized url
      */
-    protected static String sanitizeString(String _url) {
+    private static String sanitizeString(String _url) {
         _url = _url.replace("/", "");
         _url = _url.replace("<", "");
         _url = _url.replace(">", "");
@@ -163,7 +160,7 @@ public class HTMLArticleDownloader {
     /**
      * Replace the href reference in the links
      */
-    protected static void replaceLinksHref(Elements _links, String _toReplace) {
+    static void replaceLinksHref(Elements _links, String _toReplace) {
         for (Element link : _links) {
             link.attr(HREF_TAG, _toReplace);
         }
@@ -176,7 +173,7 @@ public class HTMLArticleDownloader {
      * @param _elements   elements to download and replace
      * @param _folderName name of the folder
      */
-    protected static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
+    static void downloadReplaceElementsFromTag(Elements _elements, String _folderName, String _tag) {
         for (Element element : _elements) {
             try {
                 element.attr(SRC_TAG, downloader(element.attr(SRC_TAG), _folderName));

@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.InitDatabase;
 import be.ac.ulb.infof307.g04.model.UserManager;
+import io.jsondb.InvalidJsonDbApiUsageException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -199,7 +200,11 @@ public class LoginRegisterController extends Application {
 
         if (registerInputsValid(username, password, confirmPassword) && isCheckedUserAgreements()) {
             if (!userManager.existUsername(username)) {
-                userManager.addUser(username, password);
+                try{
+                    userManager.addUser(username, password);
+                } catch ( InvalidJsonDbApiUsageException e){
+                    MessageBoxes.showErrorBox("Error while adding a user");
+                }
                 String dbUserPath = DB_ROOT + username;
 
                 makeUserDirectory(username);

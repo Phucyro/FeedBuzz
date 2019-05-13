@@ -8,7 +8,6 @@ import be.ac.ulb.infof307.g04.controller.InternetTester;
 import be.ac.ulb.infof307.g04.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -32,7 +31,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -41,7 +39,8 @@ import java.util.ArrayList;
 public class ArticleListController extends Application {
 
 
-    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
+    public static final int SEARCHBAR_HEIGHT = 40;
+    public static final int SEARCHBAR_WIDTH = 200;
     private static ArticleManager articleManager;
     private static SourceManager source;
     private final String dbPath;
@@ -74,7 +73,7 @@ public class ArticleListController extends Application {
     private MenuItem exitAppImage;
 
 
-    public ArticleListController(String _pathToDB, String _password) {
+    ArticleListController(String _pathToDB, String _password) {
         dbPath = _pathToDB;
         password = _password;
     }
@@ -133,7 +132,7 @@ public class ArticleListController extends Application {
      */
     private void initJavaFX() {
         searchBar = new ToolBar();
-        init_searchBar(40, 200);
+        init_searchBar();
 
         CloseSearchButton = new Button("Close");
         init_closeSearchButton();
@@ -179,7 +178,7 @@ public class ArticleListController extends Application {
      * @param _articles _articles that haven't been deleted in the DB
      */
     @FXML
-    public void displayArticles(ArrayList<DatabaseArticle> _articles) {
+    void displayArticles(ArrayList<DatabaseArticle> _articles) {
         listViewArticles.getItems().clear();
         for (DatabaseArticle item : _articles) {
             listViewArticles.getItems().add(item);
@@ -200,7 +199,7 @@ public class ArticleListController extends Application {
         _readArticleImage.setGraphic(readIcon);
     }
 
-    public void setMainStage(Stage _stage) {
+    void setMainStage(Stage _stage) {
         mainStage = _stage;
     }
 
@@ -319,8 +318,7 @@ public class ArticleListController extends Application {
      * @param _columnIndex      is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
-        String iconUrl = setSuggestionIconUrl(_suggestedArticle);
-        Image icon = new Image(iconUrl, 100, 100, true, true);
+        Image icon = new Image(HTMLArticleDownloader.getIconUrl(_suggestedArticle.getLink()), 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
         _gridPane.add(articleImage, _columnIndex, 0);
         Label articleText = new Label(_suggestedArticle.getTitle());
@@ -331,20 +329,6 @@ public class ArticleListController extends Application {
         _gridPane.add(articleReadButton, _columnIndex, 2);
     }
 
-    /**
-     * @param _suggestedArticle article that is suggested to display
-     * @return string that contains the uri of the article's icon
-     */
-    private String setSuggestionIconUrl(DatabaseArticle _suggestedArticle) {
-        String iconUrl = "";
-        try {
-            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
-            iconUrl = "file://" + iconUrl;
-        } catch (FileNotFoundException e) {
-            iconUrl = DEFAULT_ICON;
-        }
-        return iconUrl;
-    }
 
     @FXML
     private void quit() {
@@ -356,7 +340,7 @@ public class ArticleListController extends Application {
      * @param _titleWindow title of the window
      * @param _title       parameter use for the error message
      */
-    public Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
+    private Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
         Stage stage = new Stage();
         try {
             Parent root = _loader.load();
@@ -388,26 +372,11 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * open the tag window
+     * Open the window to set user preferences
      */
-    public void openTagWindow(ActionEvent _actionEvent) {
+    public void openUserPreferencesWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("TagMenu.fxml"));
-            TagMenuController controller = new TagMenuController(dbPath, password);
-            loader.setController(controller);
-            Stage tagStage = openWindow(loader, "Manage tags", "tag");
-            controller.start(tagStage);
-        } catch (Exception e) {
-            MessageBoxes.showErrorBox("Error while opening the tag window!");
-        }
-    }
-
-    /**
-     * opens the tag window
-     */
-    public void openUserPreferencesWindow(ActionEvent _actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("UserPreferences.fxml"));
+            FXMLLoader loader = new FXMLLoader(UserPreferencesController.class.getResource("UserPreferences.fxml"));
             UserPreferencesController controller = new UserPreferencesController(dbPath, password);
             loader.setController(controller);
             Stage userPreferencesStage = openWindow(loader, "Edit use preferences", "user preferences");
@@ -418,10 +387,10 @@ public class ArticleListController extends Application {
     }
 
     /**
-     * @param _actionEvent opens the SourceWindow (download settings)
+     * Open the window to set sources
      */
     @FXML
-    public void openSourceWindow(ActionEvent _actionEvent) {
+    public void openSourceWindow() {
         try {
             FXMLLoader loader = new FXMLLoader(SourceMenuController.class.getResource("SourceMenu.fxml"));
             SourceMenuController controller = new SourceMenuController(dbPath, password);
@@ -446,7 +415,7 @@ public class ArticleListController extends Application {
      * If the search bar is available or not. When you close it, it loads all the articles again
      */
     @FXML
-    public void changeSearchBarStatus() {
+    private void changeSearchBarStatus() {
         if (VBox.getChildren().indexOf(searchBar) == -1) {
             VBox.getChildren().add(searchBar);
             match_count.setText("");
@@ -458,14 +427,10 @@ public class ArticleListController extends Application {
 
     /**
      * Initialize searchbar parameters
-     *
-     * @param _height height of the searchbar
-     * @param _width  width of the searchbar
-     */
-    private void init_searchBar(int _height, int _width) {
-
-        searchBar.setPrefHeight(_height);
-        searchBar.setPrefWidth(_width);
+     *  */
+    private void init_searchBar() {
+        searchBar.setPrefHeight(SEARCHBAR_HEIGHT);
+        searchBar.setPrefWidth(SEARCHBAR_WIDTH);
         GridPane.setConstraints(searchBar, 0, 0);
     }
 

@@ -40,7 +40,8 @@ Si vous êtes sur OSX:
   
 ## Démarrage 
 
-Exécuter le fichier JAR g04-iteration-3.jar dans le dossier dist
+Exécuter le fichier JAR g04-iteration-3.jar dans le dossier dist  
+!Attention! Lors du premier démarrage à la création de compte, le programme prend du temps à afficher la liste des articles car il doit la télécharger
 <!-- TO DO: Informations sur le démarrage -->
 
 # Configuration :

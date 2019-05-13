@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
  */
 public class ArticleCell extends ListCell<DatabaseArticle> {
 
-    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
+    private static final int GAP_LENGTH = 6;
     private final GridPane gridPane = new GridPane();
     private final ImageView articleIcon = new ImageView();
     private final Label titleLabel = new Label();
@@ -145,7 +145,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
             summaryText = htmlToPlain(_item.getDescription());
         }
 
-        DisplayPreview(gridPane, summaryText);
+        displayPreview(gridPane, summaryText);
     }
 
     /**
@@ -154,7 +154,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      * @param _articlePane article pane where show the preview
      * @param _summary     description of the article
      */
-    private void DisplayPreview(GridPane _articlePane, String _summary) {
+    private void displayPreview(GridPane _articlePane, String _summary) {
         StackPane previewPane = makeSummaryPane();
         Popup popup = makePreviewPopup(_summary, previewPane);
         showsWhenMouseOver(_articlePane, previewPane, popup);
@@ -238,18 +238,17 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         setGridPaneColumnConstraints();
         setGridPaneRowConstraints();
         setGridPaneRowConstraints();
-        setGridPaneHAndV(6);
+        setGridPaneHAndV();
 
     }
 
     /**
      * used to set the length of a vertical and horizontal gridPane
      *
-     * @param length length of the vertical and horizontal gridPane
      */
-    private void setGridPaneHAndV(int length) {
-        gridPane.setVgap(length);
-        gridPane.setHgap(length);
+    private void setGridPaneHAndV() {
+        gridPane.setVgap(GAP_LENGTH);
+        gridPane.setHgap(GAP_LENGTH);
     }
 
     /**
