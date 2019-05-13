@@ -141,7 +141,7 @@ class ArticleLabelizer {
      */
     private static int findMostProbableLabel() {
         int mostProbableLabelIndex = 0;
-        double scores[] = new double[tags.size()];
+        double[] scores = new double[tags.size()];
         boolean foundOneResult = false;
         // the highest score is the most probable category
         for (int i = 0; i < tags.size(); i++) {

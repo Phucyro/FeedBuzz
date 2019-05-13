@@ -33,7 +33,7 @@ public class HTMLArticleDownloader {
      */
     public static void getIconFromDescription(String _link, String _description) throws IOException {
         String folder_name = getFolderName(_link);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this
+        new File(MEDIA_FOLDER).mkdir();
         new File(MEDIA_FOLDER + folder_name).mkdir();
         Document doc = Jsoup.parse(_description);
         Elements images = doc.select("img[src]");
@@ -92,7 +92,7 @@ public class HTMLArticleDownloader {
      */
     public static String ArticleLocalifier(String _url, String _description) throws IOException {
         String folder_name = getFolderName(_url);
-        new File(MEDIA_FOLDER).mkdir(); //TODO delete this test if folder already exists
+        new File(MEDIA_FOLDER).mkdir();
         new File(MEDIA_FOLDER + folder_name).mkdir();
 
         Document doc = Jsoup.connect(_url).get();
