@@ -97,6 +97,7 @@ public class ViewSingleArticleController extends Application {
         String htmlFile;
         if (InternetTester.testInternet()) {
             Document doc = Jsoup.connect(article.getLink()).get();
+            doc.select("script").remove();
             doc.getElementsByClass("m-privacy-consent").remove();
             htmlFile = doc.toString();
         } else {
