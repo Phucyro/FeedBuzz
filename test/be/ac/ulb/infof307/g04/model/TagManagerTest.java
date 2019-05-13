@@ -105,22 +105,6 @@ class TagManagerTest {
 
 
     @Test
-    void actualizeScore() {
-        tag.setScore(score);
-        DatabaseTag tag2 = new DatabaseTag();
-        float score2 = 36;
-        tag2.setScore(score2);
-        tagManager.addTag(tag);
-        assertEquals(score,tag.getScore());
-        tagManager.actualizeScore();
-        assertEquals(score,tag.getScore());
-        assertEquals(score2,tag2.getScore());
-        tagManager.actualizeScore();
-        assertEquals(98,tag.getScore());
-        assertEquals(35.28,tag2.getScore());
-    }
-
-    @Test
     void getBest() {
         tag.setName(TAG_1);
         DatabaseTag tag2 = new DatabaseTag();
