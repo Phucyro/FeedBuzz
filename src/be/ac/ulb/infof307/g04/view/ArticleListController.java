@@ -110,6 +110,10 @@ public class ArticleListController extends Application {
 
     /**
      * download articles and show an error box if necessary
+     * @throws ParserConfigurationException
+     * @throws ParseException
+     * @throws SAXException
+     * @throws IOException
      */
     private void downloadArticles() {
         if (InternetTester.testInternet()) {
@@ -266,10 +270,14 @@ public class ArticleListController extends Application {
             }
 
             initButtonSuggested(suggestedArticlesList, buttonList);
-            Scene suggestionScene = new Scene(gridPane, 450, 200);
-            suggestionWindow.setScene(suggestionScene);
-            suggestionWindow.show();
+            showSuggestionScene(gridPane,suggestionWindow);
         }
+    }
+
+    private void showSuggestionScene(GridPane gridPane, Stage suggestionWindow){
+        Scene suggestionScene = new Scene(gridPane, 450, 200);
+        suggestionWindow.setScene(suggestionScene);
+        suggestionWindow.show();
     }
 
     /**
@@ -413,6 +421,11 @@ public class ArticleListController extends Application {
         }
     }
 
+    /**
+     *
+     * @param root root of the scene
+     * @param stage stage of the scene
+     */
     private void setStage(Parent root, Stage stage) {
         stage.setScene(new Scene(root));
         stage.show();
@@ -443,8 +456,8 @@ public class ArticleListController extends Application {
     /**
      * Initialize searchbar parameters
      *
-     * @param _height
-     * @param _width
+     * @param _height height of the searchbar
+     * @param _width width of the searchbar
      */
     private void init_searchBar(int _height, int _width) {
 
