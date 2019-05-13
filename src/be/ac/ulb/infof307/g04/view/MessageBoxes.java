@@ -5,13 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 
-class MessageBoxes {
+public class MessageBoxes {
     /**
-     * show a eroor box with a message
+     * show a error box with a message
      *
      * @param _errorMessage the error message to print
      */
-    static void showErrorBox(String _errorMessage) {
+    public static void showErrorBox(String _errorMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);

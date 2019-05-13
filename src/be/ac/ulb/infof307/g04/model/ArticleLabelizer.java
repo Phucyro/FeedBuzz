@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.model;
 
 
+import be.ac.ulb.infof307.g04.view.MessageBoxes;
 import de.l3s.boilerpipe.extractors.CommonExtractors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,8 +19,8 @@ public class ArticleLabelizer {
     private static ArrayList<String> bagOfWord = new ArrayList<String>();
     private static ArrayList<String> tags = new ArrayList<>();
     private static int bagSize;
-    private static double[] histogramArticle;   // histogramme d'occurence de chaque mot du bag of word
-    private static double[][] histogramTopics;  // liste des histogramme de chaque topic
+    private static double[] histogramArticle; //occurence histogram for each words of the bagOfWord
+    private static double[][] histogramTopics; //list of the histograms for each topic
     private static ArrayList<Integer> wordCountsEachCategory;
     private static boolean jsonParsed = false;
 
@@ -39,7 +40,7 @@ public class ArticleLabelizer {
         try {
             res = labelize(_HTMLContent);
         } catch (de.l3s.boilerpipe.BoilerpipeProcessingException | RuntimeException ignore) {
-            //Si une erreur est causee par Boilerpipe, le tag est laisse a "Default"
+            // If error caused by Boilerpipe, tag stays at Default
             res = "Default";
         }
         return res;
@@ -48,6 +49,8 @@ public class ArticleLabelizer {
     /**
      * Method called once that open the json "wordlists.json" file and parse it into the word arrays
      * @param _parser is the JSON parser that is used to read the json file
+     * @throws java.io.IOException
+     * @throws org.json.simple.parser.ParseException
      */
     private static void parseJson(JSONParser _parser) {
         wordCountsEachCategory = new ArrayList<>();
@@ -67,7 +70,7 @@ public class ArticleLabelizer {
                 wordCountsEachCategory.add(array.size());
             }
         } catch(java.io.IOException | org.json.simple.parser.ParseException e){
-            System.out.println(e); //TODO gerer cette erreur
+            MessageBoxes.showErrorBox("Parse exception");
         }
         setJsonParsed(true);
     }
@@ -95,6 +98,7 @@ public class ArticleLabelizer {
      * Use the bag of word method to construct an histogram of occurence of word from the bag of words from the article content
      * Use the cosine similarity (check the theory behind it : https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50)
      * to assign a score for each category (the most probable category based on the article content), then it tags the article with that category
+     * @param _HTMLContent html linl
      */
     private static String labelize(String _HTMLContent) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
         if (_HTMLContent.isEmpty()){
