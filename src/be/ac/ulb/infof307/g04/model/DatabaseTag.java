@@ -16,7 +16,7 @@ public class DatabaseTag implements Serializable {
     @Id
     private String name;
     private float score;
-    private Date actualisationDate;
+    private Date lastActualisationDate;
 
     public DatabaseTag(){
         score = 0;
@@ -28,6 +28,6 @@ public class DatabaseTag implements Serializable {
     public void setName(String _name) { this.name = _name; }
     public float getScore() { return score; }
     public void setScore(float _score) { this.score = _score; }
-    public Date getLastActualisationDate() {return actualisationDate; }
-    public void setLastActualisationDate(Date _newDate) { this.actualisationDate = _newDate; }
+    public Date getLastActualisationDate() {return lastActualisationDate; }
+    public void setLastActualisationDate(Date _newDate) { this.lastActualisationDate = _newDate; }
 }

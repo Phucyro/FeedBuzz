@@ -137,9 +137,7 @@ public class ViewSingleArticleController extends Application{
                 if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")){
                     try {
                         article = SourceManager.redownloadArticle(article, articleManager.getArticleSource(article));
-                        System.out.println(article.getTitle());
                         articleManager.upsertArticle(article);
-                        System.out.println("Article updated");
                         setFields();
                     } catch (Exception e) {
                         if (MessageBoxes.showConfirmationBox("Unable to redownload article, would you like to delete it?")) {

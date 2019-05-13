@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -17,6 +16,7 @@ class TagManagerTest {
     private String dbpath;
     private TagManager tagManager;
     private DatabaseTag tag;
+    private float score = 100;
 
     @BeforeAll
     void setupBeforeTagManager() {
@@ -103,5 +103,93 @@ class TagManagerTest {
         deleteDir(new File(dbpath));
     }
 
+
+    @Test
+    void actualizeScore() {
+        tag.setScore(score);
+        DatabaseTag tag2 = new DatabaseTag();
+        float score2 = 36;
+        tag2.setScore(score2);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.actualizeScore(0);
+        assertEquals(score,tag.getScore());
+        assertEquals(score2,tag2.getScore());
+        tagManager.actualizeScore(2);
+        assertEquals(98,tag.getScore());
+        assertEquals(35.28,tag2.getScore());
+    }
+
+    @Test
+    void getBest() {
+        tag.setName(TAG_1);
+        DatabaseTag tag2 = new DatabaseTag();
+        tag2.setName(TAG_2);
+        tag.setScore(39);
+        tag2.setScore(40);
+        tagManager.addTag(tag);
+        tagManager.addTag(tag2);
+        assertEquals(tag2.getName(),tagManager.getBest());
+    }
+
+    @Test
+    void removeDislike() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.removeDislike(TAG_1);
+        assertEquals(score+1,tag.getScore());
+    }
+
+    @Test
+    void addDislike() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.addDislike(TAG_1);
+        assertEquals(score-1,tag.getScore());
+    }
+
+    @Test
+    void removeLike() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.removeLike(TAG_1);
+        assertEquals(score-1,tag.getScore());
+    }
+
+    @Test
+    void addLike() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.addLike(TAG_1);
+        assertEquals(score+1,tag.getScore());
+    }
+
+    @Test
+    void addTime() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.addTime(TAG_1,2);
+        assertEquals(score +2,tag.getScore());
+    }
+
+    @Test
+    void addView() {
+        tag.setName(TAG_1);
+        tag.setScore(score);
+        tagManager.addTag(tag);
+        assertEquals(score,tag.getScore());
+        tagManager.addView(TAG_1);
+        assertEquals(score+1,tag.getScore());
+    }
 
 }
