@@ -69,10 +69,6 @@ public class DatabaseSource implements Serializable {
         return sourceName;
     }
 
-    public void setSourceName(String _sourceName) {
-        this.sourceName = _sourceName;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
