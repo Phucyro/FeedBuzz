@@ -319,8 +319,7 @@ public class ArticleListController extends Application {
      * @param _columnIndex      is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
-        String iconUrl = setSuggestionIconUrl(_suggestedArticle);
-        Image icon = new Image(iconUrl, 100, 100, true, true);
+        Image icon = new Image(HTMLArticleDownloader.getIconUrl(_suggestedArticle.getLink()), 100, 100, true, true);
         ImageView articleImage = new ImageView(icon);
         _gridPane.add(articleImage, _columnIndex, 0);
         Label articleText = new Label(_suggestedArticle.getTitle());
@@ -331,20 +330,6 @@ public class ArticleListController extends Application {
         _gridPane.add(articleReadButton, _columnIndex, 2);
     }
 
-    /**
-     * @param _suggestedArticle article that is suggested to display
-     * @return string that contains the uri of the article's icon
-     */
-    private String setSuggestionIconUrl(DatabaseArticle _suggestedArticle) {
-        String iconUrl = "";
-        try {
-            iconUrl = HTMLArticleDownloader.getIconUrlFromArticleUrl(_suggestedArticle.getLink());
-            iconUrl = "file://" + iconUrl;
-        } catch (FileNotFoundException e) {
-            iconUrl = DEFAULT_ICON;
-        }
-        return iconUrl;
-    }
 
     @FXML
     private void quit() {
