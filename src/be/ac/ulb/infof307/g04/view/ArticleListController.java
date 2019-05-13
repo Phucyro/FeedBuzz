@@ -255,7 +255,6 @@ public class ArticleListController extends Application {
         }
         else {
             GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
-
             ArrayList<Button> buttonList = new ArrayList<>();
             int size = (suggestedArticlesList.size() < 3) ? suggestedArticlesList.size() : 3;
             for (int i = 0; i < size; i++) {
@@ -263,10 +262,15 @@ public class ArticleListController extends Application {
             }
 
             initButtonSuggested(suggestedArticlesList, buttonList);
-            Scene suggestionScene = new Scene(gridPane, 450, 200);
-            suggestionWindow.setScene(suggestionScene);
-            suggestionWindow.show();
+
+            setPopup(suggestionWindow, gridPane);
         }
+    }
+
+    private void setPopup(Stage suggestionWindow, GridPane gridPane) {
+        Scene suggestionScene = new Scene(gridPane, 450, 200);
+        suggestionWindow.setScene(suggestionScene);
+        suggestionWindow.show();
     }
 
     /**
@@ -294,7 +298,20 @@ public class ArticleListController extends Application {
     private GridPane setSuggestionPanelConstraint(Stage _suggestionStage) {
         _suggestionStage.initModality(Modality.WINDOW_MODAL);
         _suggestionStage.initOwner(mainStage);
+
         GridPane gridPane = new GridPane();
+        setColumnsConstraints(gridPane);
+        setGridPaneLayout(gridPane);
+        gridPane.setAlignment(Pos.CENTER);
+        return gridPane;
+    }
+
+    private void setGridPaneLayout(GridPane gridPane) {
+        gridPane.setHgap(20);
+        gridPane.setVgap(5);
+    }
+
+    private void setColumnsConstraints(GridPane gridPane) {
         ColumnConstraints col1Constraints = new ColumnConstraints();
         col1Constraints.setPercentWidth(30);
         ColumnConstraints col2Constraints = new ColumnConstraints();
@@ -302,10 +319,6 @@ public class ArticleListController extends Application {
         ColumnConstraints col3Constraints = new ColumnConstraints();
         col3Constraints.setPercentWidth(30);
         gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints, col3Constraints);
-        gridPane.setHgap(20);
-        gridPane.setVgap(5);
-        gridPane.setAlignment(Pos.CENTER);
-        return gridPane;
     }
 
     /**
@@ -315,16 +328,30 @@ public class ArticleListController extends Application {
      * @param _columnIndex is the index of the column that needs to be modified
      */
     private void fillSuggestionPanel(DatabaseArticle _suggestedArticle, GridPane _gridPane, ArrayList<Button> _buttonList, int _columnIndex) {
+
         String iconUrl = setSuggestionIconUrl(_suggestedArticle);
-        Image icon = new Image(iconUrl, 100, 100, true, true);
-        ImageView articleImage = new ImageView(icon);
-        _gridPane.add(articleImage,_columnIndex,0);
+        ImageView articleImage = getImageView(iconUrl);
+
         Label articleText = new Label(_suggestedArticle.getTitle());
+
+        Button articleReadButton = getButton(_buttonList);
+
         articleText.setWrapText(true);
+
         _gridPane.add(articleText,_columnIndex,1);
+        _gridPane.add(articleImage,_columnIndex,0);
+        _gridPane.add(articleReadButton,_columnIndex,2);
+    }
+
+    private Button getButton(ArrayList<Button> _buttonList) {
         Button articleReadButton = new Button("Lire cet article");
         _buttonList.add(articleReadButton);
-        _gridPane.add(articleReadButton,_columnIndex,2);
+        return articleReadButton;
+    }
+
+    private ImageView getImageView(String iconUrl) {
+        Image icon = new Image(iconUrl, 100, 100, true, true);
+        return new ImageView(icon);
     }
 
     /**
@@ -486,14 +513,24 @@ public class ArticleListController extends Application {
             DatabaseTag tag;
             // iterate through the keys of the JSONObject
             for (Object o : object.keySet()) {
-                tag = new DatabaseTag();
-                String label = (String) o;
-                tag.setName(label);
-                tagManager.addTag(tag);
+                setTag(tagManager, (String) o);
             }
         } catch (org.json.simple.parser.ParseException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * set Tag
+     * @param tagManager
+     * @param lab label
+     */
+    private void setTag(TagManager tagManager, String lab) {
+        DatabaseTag tag;
+        tag = new DatabaseTag();
+        String label = lab;
+        tag.setName(label);
+        tagManager.addTag(tag);
     }
 
     /**
