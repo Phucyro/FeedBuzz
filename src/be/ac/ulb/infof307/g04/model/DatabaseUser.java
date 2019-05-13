@@ -9,9 +9,7 @@ import java.io.Serializable;
 @Document(collection = "users", schemaVersion = "1.0")
 public class DatabaseUser implements Serializable {
     @Id
-    @Secret
     private String username;
-    @Secret
     private int hashedPassword;
 
     public DatabaseUser() {

@@ -62,9 +62,9 @@ public class SourceMenuController extends Application {
      */
     @FXML
     public void confirm() {
-        ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
-        for (DatabaseSource anItemsList : itemsList) {
-            sourceManager.updateSource(anItemsList);
+        ObservableList itemsList = listViewSources.getItems();
+        for (Object anItemsList : itemsList) {
+            sourceManager.updateSource((DatabaseSource) anItemsList);
         }
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();

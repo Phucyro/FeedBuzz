@@ -51,7 +51,7 @@ public class TagManager {
     }
 
     /**
-     * add a _tag to the database
+     * Add a _tag to the database
      *
      * @param _tag _tag that will be added to the database
      * @return boolean to inform if the _tag has been added
@@ -65,7 +65,7 @@ public class TagManager {
     }
 
     /**
-     * delete a _tag from the database
+     * Delete a _tag from the database
      *
      * @param _tag _tag that will be removed from the database
      * @return boolean to inform if the _tag has been deleted
@@ -77,7 +77,7 @@ public class TagManager {
     }
 
     /**
-     * modify a _tag from the database with an other
+     * Modify a _tag from the database with an other
      *
      * @param _tag    the _tag that will be modified
      * @param _newTag the _tag that will replace the original _tag
@@ -94,7 +94,7 @@ public class TagManager {
     }
 
     /**
-     * update a value in a database
+     * Update a value in a database
      *
      * @param _key         the _key of the field in the db
      * @param _oldValue    the old value that we want to change
@@ -108,7 +108,7 @@ public class TagManager {
     }
 
     /**
-     * edit the score of a specific tag
+     * Edit the score of a specific tag
      *
      * @param _tagName tag that will be edited
      * @param _score   new score of the tag
@@ -122,7 +122,7 @@ public class TagManager {
     }
 
     /**
-     * edit score if the last actualisation date was longer than 1 day
+     * Edit score if the last actualisation date was longer than 1 day
      */
     public void actualizeScore() {
         Date current_date = new Date();
@@ -144,12 +144,12 @@ public class TagManager {
     /**
      * get a tag of the database from his name
      *
-     * @param tagName name of the tag
+     * @param _tagManager name of the tag
      * @return tag we are looking for
      */
-    private DatabaseTag getTag(String tagName) {
+    private DatabaseTag getTag(String _tagManager) {
         try {
-            return jsonDBTemplate.findById(tagName, DatabaseTag.class);
+            return jsonDBTemplate.findById(_tagManager, DatabaseTag.class);
         } catch (InvalidJsonDbApiUsageException e) {
             return null;
         }

@@ -2,18 +2,29 @@ package be.ac.ulb.infof307.g04.model;
 
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
+import io.jsondb.crypto.CryptoUtil;
+import io.jsondb.crypto.DefaultAESCBCCipher;
+import io.jsondb.crypto.ICipher;
 
 public class UserManager {
 
-    private final JsonDBTemplate jsonDBTemplate;
+    private JsonDBTemplate jsonDBTemplate;
 
     /**
-     * @param database_path path to the database
+     * @param _databasePath path to the database
      * @param _password     password of the database
      */
-    public UserManager(String database_path, String _password) {
+    public UserManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
-        this.jsonDBTemplate = new JsonDBTemplate(database_path, baseScanPackage);
+        this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+
+        try {
+            String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
+            ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
+        } catch (Exception e) {
+            this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
+        }
 
         if (!this.jsonDBTemplate.collectionExists(DatabaseUser.class)) {
             createCollection();

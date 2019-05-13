@@ -18,9 +18,9 @@ import java.io.IOException;
 
 public class LoginRegisterController extends Application {
 
-    static final int MIN_CHARACTERS = 5;
-    static final int MAX_CHARACTERS = 17;
-    final UserManager userManager = new UserManager("./article_db", "password");
+    private static final int MIN_CHARACTERS = 5;
+    private static final int MAX_CHARACTERS = 17;
+    private final UserManager userManager = new UserManager("./article_db", "password");
     private final String DB_ROOT = "./article_db/";
     @FXML
     private TextField loginUsername;
