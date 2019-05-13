@@ -29,6 +29,11 @@ public class SourceCell extends ListCell<DatabaseSource>{
     private final String dbPath;
     private final String dbPassword;
 
+    /**
+     * Constructor of a source
+     * @param _dbPath path of the source in the database
+     * @param _dbPassword path of the password in the database
+     */
     public SourceCell(String _dbPath, String _dbPassword) {
         dbPath = _dbPath;
         dbPassword = _dbPassword;
@@ -95,9 +100,17 @@ public class SourceCell extends ListCell<DatabaseSource>{
         initGridPaneConstraints();
         initGridPaneColumnConstraints();
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.setHgap(6);
-        gridPane.setVgap(6);
+        setGridPaneHAndV(6);
         gridPane.getChildren().setAll(titleLabel, urlLabel, sourceEnabled, sourceNumberOfArticles, sourceLifespan, sourceTag);
+    }
+
+    /**
+     * used to set the length of a vertical and horizontal gridPane
+     * @param length length of the vertical and horizontal gridPane
+     */
+    private void setGridPaneHAndV(int length) {
+        gridPane.setVgap(length);
+        gridPane.setHgap(length);
     }
 
     /**

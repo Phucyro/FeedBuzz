@@ -20,6 +20,7 @@ public class DatabaseTag implements Serializable {
 
     public DatabaseTag(){
         score = 0;
+        //actualisationDate = new Date();
     }
 
 
