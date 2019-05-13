@@ -43,7 +43,6 @@ public class LoginRegisterController extends Application {
     @FXML
     private Hyperlink userAgreementLink;
 
-    private Stage mainStage;
 
 
     public LoginRegisterController() {
@@ -90,7 +89,7 @@ public class LoginRegisterController extends Application {
      *
      * @param _username article the name of the folder to make
      */
-    public void makeUserDirectory(String _username) {
+    private void makeUserDirectory(String _username) {
         File file = new File(DB_ROOT + _username);
         if (file.exists()) {
             file.delete();
@@ -107,7 +106,7 @@ public class LoginRegisterController extends Application {
      * @param _labelWarning the label used to display the warning
      * @param _warning      the message warning
      */
-    public void setWarningAndDisplay(Label _labelWarning, String _warning) {
+    private void setWarningAndDisplay(Label _labelWarning, String _warning) {
         if (_labelWarning != null) {
             _labelWarning.setText(_warning);
             _labelWarning.setVisible(true);
@@ -163,7 +162,7 @@ public class LoginRegisterController extends Application {
     }
 
 
-    public boolean isCheckedUserAgreements() {
+    private boolean isCheckedUserAgreements() {
         if (userAgreementCheckbox.isSelected()) {
             return true;
         } else {
@@ -192,9 +191,6 @@ public class LoginRegisterController extends Application {
     }
 
 
-    public void appClosed() {
-        mainStage.close();
-    }
 
     /**
      * Try to register the user
@@ -224,7 +220,7 @@ public class LoginRegisterController extends Application {
      *
      * @param _dbPath the path to the user database
      */
-    public void launchMainApp(String _dbPath, String _password) throws java.io.IOException {
+    private void launchMainApp(String _dbPath, String _password) throws java.io.IOException {
         Window currentWindow = loginWarning.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader(ArticleListController.class.getResource("ArticleList.fxml"));
