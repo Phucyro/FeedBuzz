@@ -1,6 +1,5 @@
 package be.ac.ulb.infof307.g04.model;
 
-
 import io.jsondb.InvalidJsonDbApiUsageException;
 import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
@@ -21,7 +20,7 @@ public class ArticleManager {
 
     public static final int DISLIKED = -1;
     public static final int LIKED = 1;
-    public static final int NEUTRAL = 0;
+    private static final int NEUTRAL = 0;
     private final TagManager tagManager;
     private final SourceManager sourceManager;
     private JsonDBTemplate jsonDBTemplate;

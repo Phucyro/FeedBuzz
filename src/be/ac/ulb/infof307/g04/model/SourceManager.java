@@ -62,7 +62,7 @@ public class SourceManager {
     }
 
     private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
-        _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
+        _articleToSave.setDaysToSave(_source.getLifeSpan());
 
         System.out.println("Downloading article");
         _articleToSave.setDownloadDate(new Date());
@@ -121,7 +121,7 @@ public class SourceManager {
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
                 System.out.println(source.getSourceName());
-                int counter = source.getNumberToDownload();
+                int counter = source.getArticlesToDownload();
                 ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                 for (DatabaseArticle articleToSave : articles) {
                     if (counter-- > 0) {

@@ -359,15 +359,15 @@ public class ArticleListController extends Application {
 
     /**
      * @param _loader       _loader
-     * @param _title_window title of the window
+     * @param _titleWindow title of the window
      * @param _title        parameter use for the error message
      */
-    public Stage openWindow(FXMLLoader _loader, String _title_window, String _title) {
+    public Stage openWindow(FXMLLoader _loader, String _titleWindow, String _title) {
         Stage stage = new Stage();
         try {
             Parent root = _loader.load();
             stage = new Stage();
-            stage.setTitle(_title_window);
+            stage.setTitle(_titleWindow);
             setStage(root, stage);
             stageArrayList.add(stage);
         } catch (Exception e) {

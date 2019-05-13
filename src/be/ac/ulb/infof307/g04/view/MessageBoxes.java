@@ -6,7 +6,7 @@ import javafx.scene.layout.Region;
 
 public class MessageBoxes {
     /**
-     * show a error box with a message
+     * Show an error box with a message
      *
      * @param _errorMessage the error message to print
      */
@@ -19,6 +19,12 @@ public class MessageBoxes {
         alert.showAndWait();
     }
 
+    /**
+     * Show an question box
+     *
+     * @param _message the error message to print
+     * @return The choice made by the user
+     */
     static boolean showConfirmationBox(String _message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, _message, ButtonType.NO, ButtonType.YES);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

@@ -185,7 +185,7 @@ public class ViewSingleArticleController extends Application {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
             dislikeButton.setStyle("-fx-background-color: #ff0000; ");
             likeButton.setStyle("");
-        } else if (article.getLikeState() == articleManager.LIKED) {
+        } else if (article.getLikeState() == ArticleManager.LIKED) {
             likeButton.setStyle("-fx-background-color: #0cff00; ");
             dislikeButton.setStyle("");
         } else {
