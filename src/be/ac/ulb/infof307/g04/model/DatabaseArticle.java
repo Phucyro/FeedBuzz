@@ -40,9 +40,15 @@ public class DatabaseArticle implements Serializable {
     @Secret
     private String integrityHash;
 
-
+    /**
+     *Constructor of Database Article
+     */
     public DatabaseArticle() {}
 
+    /**
+     *Constructor of Database Article
+     * @param _item article in the database
+     */
     public DatabaseArticle(DatabaseArticle _item) {
         this.setPublishedDate(_item.getPublishedDate());
         this.setUpdatedDate(_item.getUpdatedDate());
@@ -105,7 +111,6 @@ public class DatabaseArticle implements Serializable {
 
     /**
      * Tests if an article is outdated (based on his download date and the days to save the article)
-     *
      * @return boolean if an article has to be deleted
      * @see Date
      */
@@ -132,6 +137,12 @@ public class DatabaseArticle implements Serializable {
         return _articleToCompare.hashCode() == this.hashCode();
     }
 
+    /**
+     *
+     * @param hash hash of an article
+     * @param attribute an element that will be added to the hash
+     * @return the hash of an article
+     */
     private <T> int addToHash(int hash, T attribute){
         if (attribute != null) {
             return hash ^ attribute.hashCode();
@@ -140,6 +151,9 @@ public class DatabaseArticle implements Serializable {
         }
     }
 
+    /**
+     * @return an hash of an article
+     */
     public int hashCode() {
         int hash = 0;
         hash = addToHash(hash, getPublishedDate());
