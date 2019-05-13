@@ -410,6 +410,21 @@ public class ArticleListController extends Application {
     }
 
     /**
+     * opens the tag window
+     */
+    public void openUserPreferencesWindow(ActionEvent _actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(TagMenuController.class.getResource("UserPreferences.fxml"));
+            UserPreferencesController controller = new UserPreferencesController(dbPath, password);
+            loader.setController(controller);
+            Stage tagStage = openWindow(loader, "Edit use preferences", "user preferences");
+            controller.start(tagStage);
+        } catch (Exception e) {
+            MessageBoxes.showErrorBox("Error while opening the tag window!");
+        }
+    }
+
+    /**
      * @param _actionEvent opens the SourceWindow (download settings)
      */
     @FXML

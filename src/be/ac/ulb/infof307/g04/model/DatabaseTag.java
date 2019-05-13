@@ -8,7 +8,6 @@ import java.util.Date;
 
 /**
  * Class DatabaseTag where all tags are stored
- *
  * @see TagManager
  */
 
@@ -18,9 +17,11 @@ public class DatabaseTag implements Serializable {
     private String name;
     private float score;
     private Date lastActualisationDate;
+    private int userPreference;
 
     public DatabaseTag() {
         score = 0;
+        userPreference = 50;
     }
 
 
@@ -46,5 +47,13 @@ public class DatabaseTag implements Serializable {
 
     public void setLastActualisationDate(Date _newDate) {
         this.lastActualisationDate = _newDate;
+    }
+
+    public int getUserPreference() {
+        return userPreference;
+    }
+
+    public void setUserPreference(int userPreference) {
+        this.userPreference = userPreference;
     }
 }

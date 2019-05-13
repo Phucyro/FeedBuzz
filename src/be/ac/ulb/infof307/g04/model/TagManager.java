@@ -76,6 +76,7 @@ public class TagManager {
         update("category", _tag.getName(), "Default", DatabaseArticle.class);
     }
 
+
     /**
      * Modify a _tag from the database with an other
      *
@@ -84,13 +85,17 @@ public class TagManager {
      */
     public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag) {
         try {
+            this.jsonDBTemplate.upsert(_newTag);
+        } catch (InvalidJsonDbApiUsageException ignored) {
+        }
+        /*try {
             update("name", _tag.getName(), _newTag.getName(), DatabaseTag.class);
             update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
             update("category", _tag.getName(), _newTag.getName(), DatabaseArticle.class);
             deleteTag(_tag);
         } catch (InvalidJsonDbApiUsageException e) {
             deleteTag(_tag);
-        }
+        }*/
     }
 
     /**
@@ -179,7 +184,8 @@ public class TagManager {
         String best = "";
         float maxValue = -1;
         for (DatabaseTag tag : getAll()) {
-            if (tag.getScore() > maxValue) {
+            //The score of the tag is multiplied by the user preference to promote subjects that fits to user preferences more
+            if (tag.getScore()*tag.getUserPreference() > maxValue) {
                 maxValue = tag.getScore();
                 best = tag.getName();
             }

@@ -45,7 +45,7 @@ public class ArticleLabelizer {
             res = labelize(_HTMLContent);
         } catch (de.l3s.boilerpipe.BoilerpipeProcessingException | RuntimeException ignore) {
             // If error caused by Boilerpipe, tag stays at Default
-            res = "Default";
+             res = "Default";
         }
         return res;
     }
@@ -112,8 +112,6 @@ public class ArticleLabelizer {
         }
         int index;
         int wordsCount = 0;
-        int mostProbableLabelIndex = 0;
-        double[] scores = new double[tags.size()];
         String articleContent = CommonExtractors.ARTICLE_EXTRACTOR.getText(_HTMLContent); // boilerpipe extract the text content of the article
         for (String word : articleContent.toLowerCase().split(" ")) {
             //Read the text word by word
@@ -123,8 +121,12 @@ public class ArticleLabelizer {
             }
         }
         doCalculations(wordsCount);
-        mostProbableLabelIndex = findMostProbableLabel(mostProbableLabelIndex, scores);
-        return tags.get(mostProbableLabelIndex);
+        int resultIndex = findMostProbableLabel();
+        if (resultIndex == -1){
+            return ("Default");
+        } else {
+            return tags.get(resultIndex);
+        }
     }
 
     /**
@@ -145,20 +147,29 @@ public class ArticleLabelizer {
     }
 
     /**
-     * @param _mostProbableLabelIndex is the index of the most probable label for a given text
      * @param _scores                 is the score of a given label
      * @return the index of the label that is most probable for a given text
      */
-    private static int findMostProbableLabel(int _mostProbableLabelIndex, double[] _scores) {
+    private static int findMostProbableLabel() {
+        int mostProbableLabelIndex = 0;
+        double scores[] = new double[tags.size()];
         // the highest score is the most probable category
         for (int i = 0; i < tags.size(); i++) {
             for (int j = 0; j < bagOfWord.size(); j++) {
-                _scores[i] += histogramArticle[j] * histogramTopics[i][j];
+                scores[i] += histogramArticle[j] * histogramTopics[i][j];
             }
-            if (_scores[i] > _scores[_mostProbableLabelIndex]) {
-                _mostProbableLabelIndex = i;
+            if (scores[i] > scores[mostProbableLabelIndex]) {
+                mostProbableLabelIndex = i;
             }
         }
-        return _mostProbableLabelIndex;
+        System.out.println(mostProbableLabelIndex);
+        System.out.println(scores[mostProbableLabelIndex]);
+        if (scores[mostProbableLabelIndex] == 0){
+            //System.out.println("BBBBBBB");
+            return -1;
+        } else {
+            //System.out.println("AAAAAAA");
+            return mostProbableLabelIndex;
+        }
     }
 }

@@ -44,7 +44,16 @@ class ArticleLabelizerTest {
     void labeLizeArticleTestEmpty() {
         String textTest = "";
         String res = ArticleLabelizer.labelizeArticle(textTest);
+        System.out.println(res);
         assertEquals("Default", res);
     }
+
+    @Test
+    void labeLizeArticleTestAlmostEmpty() {
+        String textTest = "a";
+        String res = ArticleLabelizer.labelizeArticle(textTest);
+        System.out.println(res);
+    }
+
 
 }
