@@ -41,10 +41,7 @@ public class DatabaseArticle implements Serializable {
     private String integrityHash;
 
 
-    public DatabaseArticle() {
-        this.setLikeState(ArticleManager.NEUTRAL);
-        this.setViewed(false);
-    }
+    public DatabaseArticle() {}
 
     public DatabaseArticle(DatabaseArticle _item) {
         this.setPublishedDate(_item.getPublishedDate());

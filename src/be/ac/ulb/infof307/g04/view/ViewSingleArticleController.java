@@ -80,9 +80,7 @@ public class ViewSingleArticleController extends Application{
     public void start(Stage _primaryStage) {
         primaryStage = _primaryStage;
         primaryStage.setOnHidden(e -> stop());
-        primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            windowActive = newValue;
-        });
+        primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
         setFields();
         startTimer();
     }
@@ -132,8 +130,6 @@ public class ViewSingleArticleController extends Application{
     private void setFields() {
         primaryStage.setTitle(article.getTitle());
         tagsLabel.setText("Tags: " + article.getTags());
-        System.out.println(article.hashCode());
-        System.out.println(article.getIntegrityHash());
         if (Integer.toString(article.hashCode()).equals(article.getIntegrityHash())) {
             integrityLabel.setText("Untampered article");
             integrityCircle.setFill(Color.GREEN);

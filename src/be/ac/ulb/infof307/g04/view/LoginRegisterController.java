@@ -246,6 +246,7 @@ public class LoginRegisterController extends Application{
         stage.setTitle("List of articles");
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);
+        controller.start(stage);
         stage.show();
 
         currentWindow.hide();

@@ -88,7 +88,15 @@ public class ArticleListController extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception { }
+    public void start(Stage primaryStage) {
+        primaryStage.focusedProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if(newValue){
+                articleManager = new ArticleManager(dbPath, password);
+                displayArticles(articleManager.loadArticles());
+            }
+        });
+    }
 
 
     /**

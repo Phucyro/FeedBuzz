@@ -53,6 +53,8 @@ public class SourceManager {
         for (DatabaseArticle articleToSave : articles) {
             if (articleToSave.getLink().equals(_article.getLink())) {
                 setArticleToSave(_source, articleToSave);
+                articleToSave.setLikeState(_article.getLikeState());
+                articleToSave.setViewed(_article.getViewed());
                 return articleToSave;
             }
         }
