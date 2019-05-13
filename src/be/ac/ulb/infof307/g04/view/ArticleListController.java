@@ -114,16 +114,16 @@ public class ArticleListController extends Application {
                 source.download(articleManager);
 
             } catch (ParserConfigurationException e) {
-                showErrorBox("Parser Configuration exception");
+                MessageBoxes.showErrorBox("Parser Configuration exception");
             } catch (ParseException e) {
-                showErrorBox("Parse exception");
+                MessageBoxes.showErrorBox("Parse exception");
             } catch (SAXException e) {
-                showErrorBox("SAX Exception");
+                MessageBoxes.showErrorBox("SAX Exception");
             } catch (IOException e) {
-                showErrorBox("IO Exception");
+                MessageBoxes.showErrorBox("IO Exception");
             }
         }else{
-            showErrorBox("Pas d'internet");
+            MessageBoxes.showErrorBox("Pas d'internet");
         }
     }
 
@@ -223,20 +223,6 @@ public class ArticleListController extends Application {
     }
 
 
-
-    /**
-     * show a eroor box with a message
-     * @param _errorMessage the error message to print
-     */
-    private void showErrorBox(String _errorMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(_errorMessage);
-
-        alert.showAndWait();
-    }
-
     /**
      * copy the link of the article
      */
@@ -248,7 +234,7 @@ public class ArticleListController extends Application {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
         } catch (Exception e) {
-            showErrorBox("Error while copying link to clipboard");
+            MessageBoxes.showErrorBox("Error while copying link to clipboard");
         }
     }
 
@@ -265,7 +251,7 @@ public class ArticleListController extends Application {
         final Stage suggestionWindow = new Stage();
         suggestionWindow.setTitle("Suggestions");
         if (suggestedArticlesList.size() == 0){
-            showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
+            MessageBoxes.showErrorBox("All suggested articles have been read, you should download more articles with the 'Sources' window");
         }
         else {
             GridPane gridPane = setSuggestionPanelConstraint(suggestionWindow);
@@ -376,9 +362,7 @@ public class ArticleListController extends Application {
             stageArrayList.add(stage);
         }
         catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Generic error");
-            showErrorBox("Error while opening "+ _title + " window!");
+            MessageBoxes.showErrorBox("Error while opening "+ _title + " window!");
         }
         return stage;
     }
@@ -396,8 +380,7 @@ public class ArticleListController extends Application {
             Stage articleStage = openWindow(loader, _articleToRead.getTitle(), "article");
             controller.start(articleStage);
         } catch (Exception e){
-            System.out.println("No article selected");
-            showErrorBox("No article selected");
+            MessageBoxes.showErrorBox("No article selected");
         }
     }
     /**
@@ -411,7 +394,7 @@ public class ArticleListController extends Application {
             Stage tagStage = openWindow(loader, "Manage tags", "tag");
             controller.start(tagStage);
         } catch (Exception e) {
-            showErrorBox("Error while opening the tag window!");
+            MessageBoxes.showErrorBox("Error while opening the tag window!");
         }
     }
 
@@ -427,7 +410,7 @@ public class ArticleListController extends Application {
             Stage sourceStage = openWindow(loader,"Manage sources","sources");
             controller.start(sourceStage);
         } catch (Exception e) {
-            showErrorBox("Error while opening the Source window!");
+            MessageBoxes.showErrorBox("Error while opening the Source window!");
         }
     }
 
