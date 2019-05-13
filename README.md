@@ -21,9 +21,23 @@ Librairies utilisées:
 
 ## Compilation
 
-Pour compiler, il faut utiliser les options de compilation suivantes:  
- --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing
+Pour compiler, il faut utiliser les options de compilation suivantes: 
 
+Si vous êtes sur Linux:
+ 
+ --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing  
+ --module-path "./lib/javafx-sdk-11.0.2-linux/lib" 
+
+Si vous êtes sur Windows:
+ 
+  --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing  
+ --module-path "./lib/javafx-sdk-11.0.2-win/lib" 
+  
+Si vous êtes sur OSX:
+
+  --add-modules=javafx.controls,javafx.graphics,javafx.base,javafx.fxml,javafx.web,javafx.swing  
+ --module-path "./lib/javafx-sdk-11.0.2-osx/lib" 
+  
 ## Démarrage 
 
 Exécuter le fichier JAR g04-iteration-3.jar dans le dossier dist
