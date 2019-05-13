@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 /**
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
- * @see DatabaseArticle
  */
 
 public class ArticleLabelizer {
@@ -31,8 +30,6 @@ public class ArticleLabelizer {
      * Constructor that construct the bag containing the words from the wordlists, and construct the histogram associated with each category
      */
     public static String labeLizeArticle(String _HTMLContent){
-        //static{
-
         if (!getJsonParsed()) {
             JSONParser parser = new JSONParser();
             parseJson(parser);
@@ -75,7 +72,7 @@ public class ArticleLabelizer {
     }
 
     /**
-     * method that reset the values that have been put in the histogram_article array
+     * Method that reset the values that have been put in the histogram_article array
      */
     private static void setHistogram(){
         bag_size = bag_of_word.size();
@@ -117,6 +114,10 @@ public class ArticleLabelizer {
         return labels.get(most_probable_label_index);
     }
 
+    /**
+     * Method that does the calculations related to finding the right label for the text
+     * @param words_count Is a variable that counts the relevant words
+     */
     private static void doCalculations(int words_count) {
         // sum up the square of each terms to normalize the vector sqrt(d1^2 + d2^2 + .. + dn^2)
         // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
@@ -129,6 +130,11 @@ public class ArticleLabelizer {
         }
     }
 
+    /**
+     * @param most_probable_label_index is the index of the most probable label for a given text
+     * @param scores is the score of a given label
+     * @return the index of the label that is most probable for a given text
+     */
     private static int findMostProbableLabel(int most_probable_label_index, double[] scores) {
         // the highest score is the most probable category
         for(int i=0; i<labels.size(); i++){
