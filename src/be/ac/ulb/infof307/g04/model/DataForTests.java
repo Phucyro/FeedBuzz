@@ -1017,10 +1017,11 @@ public class DataForTests {
             " </body>\n" +
             "</html>";
 
-    public DataForTests(){
+    public DataForTests() {
         htmlForDownloaderTests += htmlForDownloaderTestPart2;
     }
-    public String getHtmlForDownloaderTests(){
+
+    public String getHtmlForDownloaderTests() {
         return htmlForDownloaderTests;
     }
 }

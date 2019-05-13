@@ -26,10 +26,10 @@
             <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" fx:id="quitButton" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Source">
+        <Menu mnemonicParsing="false" text="Edit preferences">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#openSourceWindow" text="Configure sources" />
-            <MenuItem mnemonicParsing="false" onAction="#openTagWindow" text="Configure tags" />
+            <MenuItem mnemonicParsing="false" onAction="#openSourceWindow" text="Edit sources" />
+            <MenuItem mnemonicParsing="false" onAction="#openUserPreferencesWindow" text="Edit user preferences" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

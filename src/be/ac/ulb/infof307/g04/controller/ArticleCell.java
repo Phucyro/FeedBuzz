@@ -72,11 +72,12 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called when an item is modified
-     * @param item represents an article
+     *
+     * @param item   represents an article
      * @param _empty verify if there's something to update or not
      */
     @Override
-    protected void updateItem(DatabaseArticle item, boolean _empty){
+    protected void updateItem(DatabaseArticle item, boolean _empty) {
         super.updateItem(item, _empty);
         setGraphic(null);
         setText(null);
@@ -94,16 +95,18 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Set the title, tags and link for an article
+     *
      * @param _item represents an article in the database
      */
     private void setLabels(DatabaseArticle _item) {
         titleLabel.setText(_item.getTitle());
-        tagLabel.setText("Tags: "+ _item.getTags()); // show tags
+        tagLabel.setText("Tags: " + _item.getTags()); // show tags
         linkLabel.setText(_item.getLink());
     }
 
     /**
      * Set the icon
+     *
      * @param _item represents an article in the database
      */
     private void setImage(DatabaseArticle _item) {
@@ -114,6 +117,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Allows us to click on the article that we want
+     *
      * @param _item represents an article
      */
     private void initActionLabel(DatabaseArticle _item) {
@@ -123,7 +127,8 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
                     try {
                         java.awt.Desktop.getDesktop().browse(new URI(_item.getLink()));
                     } catch (IOException | URISyntaxException exception) {
-                        throw new UncheckedIOException((IOException) exception);}
+                        throw new UncheckedIOException((IOException) exception);
+                    }
                 }).start();
             }
         });
@@ -131,6 +136,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to create a popup that only shows when the mouse is over
+     *
      * @param _item represents an article
      */
     private void popupOverArticle(DatabaseArticle _item) {
@@ -144,8 +150,9 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to make the preview of the article
+     *
      * @param _articlePane article pane where show the preview
-     * @param _summary description of the article
+     * @param _summary     description of the article
      */
     private void displayPreview(GridPane _articlePane, String _summary) {
         StackPane previewPane = makeSummaryPane();
@@ -155,9 +162,10 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to make the popup appear and disappear
+     *
      * @param _articlePane article pane where show the preview
      * @param _previewPane preview pane where show the preview
-     * @param _popup popup where to show the preview
+     * @param _popup       popup where to show the preview
      */
     private void showsWhenMouseOver(GridPane _articlePane, StackPane _previewPane, Popup _popup) {
 
@@ -176,7 +184,8 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to create the popup
-     * @param _summary summary to print in the popup
+     *
+     * @param _summary     summary to print in the popup
      * @param _previewPane preview pane where the summary is shown
      * @return Popup
      */
@@ -200,6 +209,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to create the previewPane
+     *
      * @return Stackpane
      */
     private StackPane makeSummaryPane() {
@@ -211,17 +221,17 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * get the plain text of a html string
+     *
      * @param html html file
      */
-    private String htmlToPlain(String html)
-    {
+    private String htmlToPlain(String html) {
         return Jsoup.parse(html).text();
     }
 
     /**
      * Initialize Gridpane
      */
-    private void setGridPane(){
+    private void setGridPane() {
         setGridPaneColumnConstraints();
         setGridPaneColumnConstraints();
         setGridPaneColumnConstraints();
@@ -234,6 +244,7 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * used to set the length of a vertical and horizontal gridPane
+     *
      * @param length length of the vertical and horizontal gridPane
      */
     private void setGridPaneHAndV(int length) {
@@ -252,14 +263,14 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
     /**
      * Initialize Gridpane row constraints
      */
-    private void setGridPaneRowConstraints(){
+    private void setGridPaneRowConstraints() {
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
     }
 
     /**
      * Initialize Anchorpane
      */
-    private void setAnchorPane(){
+    private void setAnchorPane() {
         AnchorPane.setTopAnchor(gridPane, 0d);
         AnchorPane.setLeftAnchor(gridPane, 0d);
         AnchorPane.setBottomAnchor(gridPane, 0d);

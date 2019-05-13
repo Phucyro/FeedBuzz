@@ -21,7 +21,7 @@ class SourceManagerTest {
         DatabaseSource databaseSource = new DatabaseSource();
         databaseSource.setUrl("http://static.userland.com/gems/backend/rssMarkPilgrimExample.xml");
         databaseSource.setEnabled(true);
-        databaseSource.setNumberToDownload(3);
+        databaseSource.setArticlesToDownload(3);
         //Ajout de cette source dans la base de donnée
         SourceManager source = new SourceManager("./article_test_db", "password");
         source.addSource(databaseSource);
@@ -31,7 +31,7 @@ class SourceManagerTest {
     }
 
     @Test
-    void download() throws IOException, ParserConfigurationException, SAXException, ParseException {
+    void download() throws IOException, ParserConfigurationException, SAXException, ParseException, org.json.simple.parser.ParseException {
         SourceManager sourceManager = new SourceManager("./article_test_db", "password");
         ArticleManager articleManager = new ArticleManager("./article_test_db", "password");
         sourceManager.download(articleManager);

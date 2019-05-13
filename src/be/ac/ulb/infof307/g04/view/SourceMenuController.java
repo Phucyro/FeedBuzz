@@ -10,17 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Class SourceMenuController where all the sources are displayed
+ *
  * @see SourceManager
  */
 
 
 public class SourceMenuController extends Application {
     private final SourceManager sourceManager;
+    private final String dbPath;
+    private final String dbPassword;
     @FXML
     private Button cancelButton;
     @FXML
@@ -28,25 +30,21 @@ public class SourceMenuController extends Application {
     @FXML
     private ListView listViewSources;
 
-    private final String dbPath;
-    private final String dbPassword;
-
     public SourceMenuController(String _dbPath, String _password) {
         dbPath = _dbPath;
         dbPassword = _password;
         sourceManager = new SourceManager(_dbPath, _password);
     }
-
+    /**
+     * Constructor of the Menu
+     */
     public void initialize() {
-        /*
-          Constructor of the Menu
-          @throws IOException : if there's no source
-         */
         listViewSources.setCellFactory(lv -> new SourceCell(dbPath, dbPassword));
         displaySources(sourceManager.loadSources());
     }
 
-    public void start(Stage _primaryStage) {}
+    public void start(Stage _primaryStage) {
+    }
 
     /**
      * cancel button of the menu
@@ -61,11 +59,10 @@ public class SourceMenuController extends Application {
      * confirm button on the menu when adding sources
      */
     @FXML
-    public void confirm(){
-        ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
-        //System.out.println(itemsList);
-        for (DatabaseSource anItemsList : itemsList) {
-            sourceManager.updateSource(anItemsList);
+    public void confirm() {
+        ObservableList itemsList = listViewSources.getItems();
+        for (Object anItemsList : itemsList) {
+            sourceManager.updateSource((DatabaseSource) anItemsList);
         }
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
@@ -74,7 +71,7 @@ public class SourceMenuController extends Application {
     /**
      * @param _sources list of all the sources
      */
-    public void displaySources(ArrayList<DatabaseSource> _sources) {
+    private void displaySources(ArrayList<DatabaseSource> _sources) {
         /*
         show all the _sources
          */

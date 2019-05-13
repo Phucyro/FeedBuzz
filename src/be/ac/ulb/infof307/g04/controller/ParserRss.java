@@ -1,12 +1,11 @@
 package be.ac.ulb.infof307.g04.controller;
 
+import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
-import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,24 +28,24 @@ public class ParserRss {
     private boolean atom;
     private String updated;
 
-    public ParserRss() {}
+    /**
+     * Constructor of Parser Rss
+     */
+    public ParserRss() {
+    }
 
     /**
      * parse an rss feed
+     *
      * @param _urlName url of the rss feed
-     * @throws MalformedURLException : if the url is not valid
      * @return a list of articles
+     * @throws MalformedURLException : if the url is not valid
      */
     public ArrayList<DatabaseArticle> parse(String _urlName) throws IOException, SAXException, ParserConfigurationException, ParseException {
 
         if (InternetTester.testInternet()) {
             atom = false;
-
-            URL url;
-
-            url = new URL(_urlName);
-
-
+            URL url = new URL(_urlName);
             getXmlFile(url);
             checkAtom();
             return parseArticles();
@@ -56,29 +55,29 @@ public class ParserRss {
 
     /**
      * Get the updated field of an entry
+     *
      * @param _element the entry
      */
     private void getUpdated(Element _element) {
 
         NodeList elementNodes;
-        if(atom) {
+        if (atom) {
             elementNodes = _element.getElementsByTagName("updated");
-        }
-        else {
+        } else {
             elementNodes = _element.getElementsByTagName("lastBuildDate");
         }
         if (elementNodes.getLength() > 0) {
             this.updated = elementNodes.item(0).getTextContent().trim();
-        }
-        else{
+        } else {
             this.updated = null;
         }
     }
 
     /**
      * download the xml file of the rss feed
-     * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
+     *
      * @param _url _url of the feed
+     * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
      */
     private void getXmlFile(URL _url) throws ParserConfigurationException, IOException, SAXException {
 
@@ -102,13 +101,13 @@ public class ParserRss {
 
     /**
      * Parse a load of articles
+     *
      * @return list of the articles
      */
     private ArrayList<DatabaseArticle> parseArticles() throws ParseException {
 
         NodeList entryList;
         ArrayList<DatabaseArticle> articles = new ArrayList<>();
-
         if (atom) {
             entryList = getNodeList("feed", "entry");
         } else {
@@ -123,7 +122,8 @@ public class ParserRss {
 
     /**
      * get all the entries of the feed
-     * @param _feedName name of the principal entry (feed of channel)
+     *
+     * @param _feedName  name of the principal entry (feed of channel)
      * @param _entryName name of the articles entries (entry of item)
      * @return xml nodes
      */
@@ -137,6 +137,7 @@ public class ParserRss {
 
     /**
      * parse a specific article
+     *
      * @param _entry xml article _entry
      * @return an article
      */
@@ -156,7 +157,8 @@ public class ParserRss {
 
     /**
      * specific parse for atom feeds
-     * @param _entry xml _article _entry
+     *
+     * @param _entry   xml _article _entry
      * @param _article _article that is being built
      */
     private void parseArticleAtom(Element _entry, DatabaseArticle _article) {
@@ -168,7 +170,8 @@ public class ParserRss {
 
     /**
      * specific parse for rss2.0 feeds
-     * @param _item xml _article _item
+     *
+     * @param _item    xml _article _item
      * @param _article article that is being built
      */
     private void parseArticleRss(Element _item, DatabaseArticle _article) {
@@ -180,20 +183,21 @@ public class ParserRss {
 
     /**
      * get a date from a string
+     *
      * @param _date string containing the date
      * @return date object
      */
     private Date getDate(String _date) {
         Date res = null;
-        try{
-            if (_date !=null){
+        try {
+            if (_date != null) {
                 if (atom) {
                     res = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(_date);
                 } else {
                     res = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z", new Locale("en")).parse(_date);
                 }
             }
-        } catch (ParseException e){
+        } catch (ParseException e) {
             res = new Date();
         }
         return res;
@@ -201,6 +205,7 @@ public class ParserRss {
 
     /**
      * get the link of an atom feed
+     *
      * @param _entry xml article _entry
      * @return link of the atom
      */
@@ -215,17 +220,17 @@ public class ParserRss {
 
     /**
      * get the string of a tag of an entry
+     *
      * @param _entry xml article _entry
-     * @param _tag tag of the xml _entry
+     * @param _tag   tag of the xml _entry
      * @return text of the specific _tag
      */
     private String getString(Element _entry, String _tag) {
 
         NodeList tagNode = _entry.getElementsByTagName(_tag);
-        if(tagNode.getLength() > 0) {
+        if (tagNode.getLength() > 0) {
             return tagNode.item(0).getTextContent().trim();
-        }
-        else{
+        } else {
             return null;
         }
     }

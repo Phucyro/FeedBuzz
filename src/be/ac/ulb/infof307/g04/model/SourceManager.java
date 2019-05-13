@@ -17,16 +17,15 @@ import java.util.Date;
 
 /**
  * Class SourceManager where we can handle all the sources
+ *
  * @see DatabaseSource
  */
 
 public class SourceManager {
     private JsonDBTemplate jsonDBTemplate;
 
-    /** Constructor
+    /**
      * @param _databasePath path to the database
-     * @param _password password
-     *
      */
     public SourceManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
@@ -38,7 +37,7 @@ public class SourceManager {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
@@ -47,24 +46,33 @@ public class SourceManager {
         }
     }
 
-    /**
-     * redownload the article
-     * @param _article
-     * @param _source
-     * @return
-     * @throws Exception
-     */
-    public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source)
-            throws Exception {
+    public static DatabaseArticle redownloadArticle(DatabaseArticle _article, DatabaseSource _source) throws Exception {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseArticle> articles = source_parser.parse(_article.getSourceUrl());
         for (DatabaseArticle articleToSave : articles) {
             if (articleToSave.getLink().equals(_article.getLink())) {
                 setArticleToSave(_source, articleToSave);
+                articleToSave.setLikeState(_article.getLikeState());
+                articleToSave.setViewed(_article.getViewed());
                 return articleToSave;
             }
         }
         throw new Exception("No article found");
+    }
+
+    private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException, org.json.simple.parser.ParseException {
+        _articleToSave.setDaysToSave(_source.getLifeSpan());
+        _articleToSave.setDownloadDate(new Date());
+        _articleToSave.setSourceUrl(_source.getUrl());
+        _articleToSave.setTags(_source.getTag());
+        String HTMLContent = HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
+        String tags = ArticleLabelizer.labelizeArticle(HTMLContent);
+        if (tags.equals("Default")){
+            tags = _source.getTag();
+        }
+        _articleToSave.setTags(tags);
+        _articleToSave.setHtmlContent(HTMLContent);
+        _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
     }
 
     private void createCollection() {
@@ -78,22 +86,21 @@ public class SourceManager {
         return (ArrayList<DatabaseSource>) jsonDBTemplate.findAll(DatabaseSource.class);
     }
 
-    /** add the source
-     * @param _source source that will be added
-     *
+    /**
+     * @param _source _source that will be added
      */
     public void addSource(DatabaseSource _source) {
         try {
             jsonDBTemplate.insert(_source);
-        } catch (InvalidJsonDbApiUsageException e) {
+        } catch (InvalidJsonDbApiUsageException ignored) {
         }
     }
 
-    /** update the source
+    /**
      * @param _source _source to update
      */
-    public void updateSource(DatabaseSource _source){
-        try{
+    public void updateSource(DatabaseSource _source) {
+        try {
             jsonDBTemplate.upsert(_source);
         } catch (InvalidJsonDbApiUsageException e) {
             e.printStackTrace();
@@ -101,60 +108,31 @@ public class SourceManager {
     }
 
     /**
-     * set the article to save
-     * @param _source
-     * @param _articleToSave
-     * @throws IOException
-     */
-    private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
-        _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
-
-        System.out.println("Downloading article");
-        _articleToSave.setDownloadDate(new Date());
-        _articleToSave.setSourceUrl(_source.getUrl());
-        _articleToSave.setTags(_source.getTag());
-        String HTMLContent = HTMLArticleDownloader.articleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
-        _articleToSave.setTags(ArticleLabelizer.labeLizeArticle(HTMLContent));
-        _articleToSave.setHtmlContent(HTMLContent);
-        _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
-        System.out.println("Downloaded");
-    }
-
-    /**
      * Download the articles
+     *
+     * @param _articleManager article manager to see what articles can we load
      * @see ArticleManager
      * @see ParserRss
      * @see DatabaseArticle
-     * @param _articleManager
-     *                  article manager to see what articles can we load
      */
-    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException {
+    public void download(ArticleManager _articleManager) throws SAXException, ParserConfigurationException, ParseException, IOException, org.json.simple.parser.ParseException {
         ParserRss source_parser = new ParserRss();
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                System.out.println(source.getSourceName());
-                    int counter = source.getNumberToDownload();
-                    ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
-                    for (DatabaseArticle articleToSave : articles) {
-                        if (counter-- > 0) {
-                            if (_articleManager.findArticle(articleToSave.getLink()) == null) {
-                                setArticleToSave(source, articleToSave);
-                                _articleManager.addArticle(articleToSave);
-                            } else {
-                                System.out.println("Existing article");
-                            }
+                int counter = source.getArticlesToDownload();
+                ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
+                for (DatabaseArticle articleToSave : articles) {
+                    if (counter-- > 0) {
+                        if (_articleManager.findArticle(articleToSave.getLink()) == null) {
+                            setArticleToSave(source, articleToSave);
+                            _articleManager.addArticle(articleToSave);
                         }
                     }
+                }
             }
         }
     }
-
-    /**
-     * find the source
-     * @param _link
-     * @return DatabaseSource
-     */
 
     DatabaseSource findSource(String _link) {
         try {
