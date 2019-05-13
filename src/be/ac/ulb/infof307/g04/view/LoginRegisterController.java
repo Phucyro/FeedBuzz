@@ -2,6 +2,7 @@ package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.model.UserManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -236,6 +237,7 @@ public class LoginRegisterController extends Application {
         stage.setScene(new Scene(root));
         controller.setMainStage(stage);
         controller.start(stage);
+        stage.setOnCloseRequest(e-> Platform.exit());
         stage.show();
 
         currentWindow.hide();
