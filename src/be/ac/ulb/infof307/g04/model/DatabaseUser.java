@@ -17,32 +17,54 @@ public class DatabaseUser implements Serializable {
     public DatabaseUser() {
     }
 
+    /**
+     * Constructor of Database User
+     * @param _username username of the user
+     * @param _password password of the user
+     */
     public DatabaseUser(String _username, String _password) {
         this.username = _username;
         this.hashedPassword = _password.hashCode();
     }
 
-
+    /**
+     * @param _user user in the database
+     */
     public DatabaseUser(DatabaseUser _user) {
         this.setUsername(_user.getUsername());
         this.setPassword(_user.getPassword());
     }
 
-    public String getUsername() {
-        return username;
-    }
+    /**
+     * @return name of the user
+     */
+    public String getUsername() { return username; }
 
+    /**
+     * When a user determine his username
+     * @param _username name that the user will use
+     */
     public void setUsername(String _username) {
         this.username = _username;
     }
 
+    /**
+     * @return password of the user
+     */
     public int getPassword() {
         return hashedPassword;
     }
 
+    /**
+     * @param _password password that the user will choose
+     */
     public void setPassword(String _password) {
         this.hashedPassword = _password.hashCode();
     }
+
+    /**
+     * @param _password password that the user will choose (only numbers)
+     */
     public void setPassword(int _password) {
         this.hashedPassword = _password;
     }

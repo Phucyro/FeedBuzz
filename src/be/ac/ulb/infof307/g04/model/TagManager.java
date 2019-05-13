@@ -69,7 +69,7 @@ public class TagManager {
 
     /**
      * delete a _tag from the database
-     * @param _tag
+     *
      *          _tag that will be removed from the database
      * @return boolean to inform if the _tag has been deleted
      */

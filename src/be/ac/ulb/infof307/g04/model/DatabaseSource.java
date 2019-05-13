@@ -7,9 +7,10 @@ import java.io.Serializable;
 
 /**
  * Class DatabaseSource where all the sources are stored
+ *
  * @see SourceManager
  */
-@Document(collection = "sources", schemaVersion= "1.0")
+@Document(collection = "sources", schemaVersion = "1.0")
 public class DatabaseSource implements Serializable {
     @Id
     private String url;
@@ -19,18 +20,17 @@ public class DatabaseSource implements Serializable {
     private int lifeSpanDefault;
     private String tag;
 
-    public DatabaseSource() { }
+    public DatabaseSource() {
+    }
 
     /**
      * Constructor of a source
-     * @param _sourceName
-     *                  name of the source
-     * @param _url
-     *                  url of the source
-     * @param _tag
-     *                  tag of the source
+     *
+     * @param _sourceName name of the source
+     * @param _url        url of the source
+     * @param _tag        tag of the source
      */
-    public DatabaseSource(String _sourceName, String _url, String _tag){
+    public DatabaseSource(String _sourceName, String _url, String _tag) {
 
         sourceName = _sourceName;
         url = _url;
@@ -41,9 +41,9 @@ public class DatabaseSource implements Serializable {
     }
 
     /**
-     *Same constructor as above, except if there's no precise tag: set as "Default"
+     * Same constructor as above, except if there's no precise tag: set as "Default"
      */
-    public DatabaseSource(String _sourceName, String _url){
+    public DatabaseSource(String _sourceName, String _url) {
         this(_sourceName, _url, "Default");
     }
 
@@ -53,16 +53,51 @@ public class DatabaseSource implements Serializable {
         this.enabled = _item.enabled;
     }
 
-    public String getUrl() { return url; }
-    public void setUrl(String _url) { this.url = _url; }
-    public String getSourceName() { return sourceName; }
-    public void setSourceName(String _sourceName) { this.sourceName = _sourceName;}
-    public boolean isEnabled() { return enabled; }
-    public void setEnabled(boolean enabled) { this.enabled = enabled; }
-    public int getLifeSpanDefault() {return lifeSpanDefault; }
-    public void setLifeSpanDefault(int lifeSpanDefault) { this.lifeSpanDefault = lifeSpanDefault; }
-    public String getTag() { return tag; }
-    public void setTag(String tag) { this.tag = tag; }
-    public int getNumberToDownload() { return numberToDownload; }
-    public void setNumberToDownload(int numberToDownload) { this.numberToDownload = numberToDownload; }
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String _url) {
+        this.url = _url;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String _sourceName) {
+        this.sourceName = _sourceName;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getLifeSpanDefault() {
+        return lifeSpanDefault;
+    }
+
+    public void setLifeSpanDefault(int lifeSpanDefault) {
+        this.lifeSpanDefault = lifeSpanDefault;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public int getNumberToDownload() {
+        return numberToDownload;
+    }
+
+    public void setNumberToDownload(int numberToDownload) {
+        this.numberToDownload = numberToDownload;
+    }
 }

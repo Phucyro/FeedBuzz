@@ -6,27 +6,31 @@ import io.jsondb.JsonDBTemplate;
 import io.jsondb.crypto.CryptoUtil;
 import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
+
 import java.util.ArrayList;
 
 /**
  * Class DatabaseArticle Manager, used to handle the display of all the articles
+ *
  * @see DatabaseArticle
  * @see DatabaseSource
  * @see DatabaseTag
  */
 
-public class ArticleManager{
+public class ArticleManager {
 
     public static final int DISLIKED = -1;
     public static final int LIKED = 1;
     public static final int NEUTRAL = 0;
-    private JsonDBTemplate jsonDBTemplate;
     private final TagManager tagManager;
     private final SourceManager sourceManager;
+    private JsonDBTemplate jsonDBTemplate;
+
     /**
      * Constructor with the path to the database and the _password
+     *
      * @param _databasePath path to the database
-     * @param _password _password of the database
+     * @param _password     _password of the database
      */
     public ArticleManager(String _databasePath, String _password) {
         tagManager = new TagManager(_databasePath, _password);
@@ -38,7 +42,7 @@ public class ArticleManager{
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
@@ -51,6 +55,7 @@ public class ArticleManager{
 
     /**
      * Constructor with only the path to the database
+     *
      * @param _database_path path to the database
      */
     public ArticleManager(String _database_path) {
@@ -68,6 +73,7 @@ public class ArticleManager{
     /**
      * Delete an _article. For every deleted _article, we keep the url (will be used as a primary key)
      * so they won't be loaded again by the database
+     *
      * @param _article _article to delete
      * @return inform if the _article has been deleted
      */
@@ -75,12 +81,13 @@ public class ArticleManager{
         DatabaseArticle to_replace = new DatabaseArticle();
         to_replace.setLink(_article.getLink());
         to_replace.setDeleted(true);
-        return replaceArticle(_article,to_replace);
+        return replaceArticle(_article, to_replace);
     }
 
     /**
      * replace an _article by another one
-     * @param _article _article that will be removed
+     *
+     * @param _article  _article that will be removed
      * @param _article2 _article that will replaced the first
      * @return inform if the _article has been replaced
      */
@@ -89,24 +96,26 @@ public class ArticleManager{
             this.jsonDBTemplate.remove(_article, DatabaseArticle.class);
             this.jsonDBTemplate.insert(_article2);
             return true;
-        } catch (InvalidJsonDbApiUsageException e){
+        } catch (InvalidJsonDbApiUsageException e) {
             return false;
         }
     }
 
     /**
      * upsert an article in the database
+     *
      * @param _article article to upsert
      */
-    public void upsertArticle(DatabaseArticle _article){
+    public void upsertArticle(DatabaseArticle _article) {
         try {
             this.jsonDBTemplate.upsert(_article);
-        } catch (InvalidJsonDbApiUsageException e){
+        } catch (InvalidJsonDbApiUsageException e) {
         }
     }
 
     /**
      * Add an _article from the database
+     *
      * @param _article the article that will be added
      */
     public void addArticle(DatabaseArticle _article) {
@@ -119,10 +128,11 @@ public class ArticleManager{
 
     /**
      * search an article in the database
+     *
      * @param _link the _link of the article
      * @return found article
      */
-    DatabaseArticle findArticle(String _link){
+    DatabaseArticle findArticle(String _link) {
         try {
             return jsonDBTemplate.findById(_link, DatabaseArticle.class);
         } catch (Exception e) {
@@ -139,6 +149,7 @@ public class ArticleManager{
 
     /**
      * search an article by its title
+     *
      * @param _titleContains title of the article
      * @return list containing all the articles with a specific title
      */
@@ -156,6 +167,7 @@ public class ArticleManager{
 
     /**
      * Get the source of an article
+     *
      * @param article the article of which we want the source
      * @return source of the article
      */
@@ -179,9 +191,10 @@ public class ArticleManager{
 
     /**
      * called when the dislike button is clicked
+     *
      * @param _article article to dislike
      */
-    public void dislikeArticle(DatabaseArticle _article){
+    public void dislikeArticle(DatabaseArticle _article) {
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
         }
@@ -192,9 +205,10 @@ public class ArticleManager{
 
     /**
      * called when the like button is clicked
+     *
      * @param _article article to like
      */
-    public void likeArticle(DatabaseArticle _article){
+    public void likeArticle(DatabaseArticle _article) {
         if (_article.getLikeState() == DISLIKED) {
             tagManager.removeDislike(_article.getTags());
         }
@@ -205,9 +219,10 @@ public class ArticleManager{
 
     /**
      * called when an article is neither liked and disliked
+     *
      * @param _article article to set to neutral
      */
-    public void setNeutralLike(DatabaseArticle _article){
+    public void setNeutralLike(DatabaseArticle _article) {
         if (_article.getLikeState() == LIKED) {
             tagManager.removeLike(_article.getTags());
         } else if (_article.getLikeState() == DISLIKED) {
@@ -219,13 +234,14 @@ public class ArticleManager{
 
     /**
      * get all the suggested articles
+     *
      * @param _tag tag to get the suggestion from
      * @return array containing all the suggested articles
      */
-    public ArrayList<DatabaseArticle> getSuggestion(String _tag){
+    public ArrayList<DatabaseArticle> getSuggestion(String _tag) {
         ArrayList<DatabaseArticle> suggestedArticles = new ArrayList<>();
-        for (DatabaseArticle article: loadArticles()) {
-            if(article.getTags().equals(_tag) && !article.getViewed()){
+        for (DatabaseArticle article : loadArticles()) {
+            if (article.getTags().equals(_tag) && !article.getViewed()) {
                 suggestedArticles.add(article);
             }
         }
@@ -234,15 +250,17 @@ public class ArticleManager{
 
     /**
      * set the number of time passed on the article
+     *
      * @param _article article the user was looking at
-     * @param _sec time passed on the article
+     * @param _sec     time passed on the article
      */
-    public void addTimeWatched(DatabaseArticle _article, int _sec){
+    public void addTimeWatched(DatabaseArticle _article, int _sec) {
         tagManager.addTime(_article.getTags(), _sec);
     }
 
     /**
      * open a specific article
+     *
      * @param _article article to open
      */
     public void openArticle(DatabaseArticle _article) {

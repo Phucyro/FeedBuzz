@@ -10,26 +10,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Class SourceMenuController where all the sources are displayed
+ *
  * @see SourceManager
  */
 
 
 public class SourceMenuController extends Application {
     private final SourceManager sourceManager;
+    private final String dbPath;
+    private final String dbPassword;
     @FXML
     private Button cancelButton;
     @FXML
     private Button confirmButton;
     @FXML
     private ListView listViewSources;
-
-    private final String dbPath;
-    private final String dbPassword;
 
     public SourceMenuController(String _dbPath, String _password) {
         dbPath = _dbPath;
@@ -46,7 +45,8 @@ public class SourceMenuController extends Application {
         displaySources(sourceManager.loadSources());
     }
 
-    public void start(Stage _primaryStage) {}
+    public void start(Stage _primaryStage) {
+    }
 
     /**
      * cancel button of the menu
@@ -61,7 +61,7 @@ public class SourceMenuController extends Application {
      * confirm button on the menu when adding sources
      */
     @FXML
-    public void confirm(){
+    public void confirm() {
         ObservableList<DatabaseSource> itemsList = listViewSources.getItems();
         for (DatabaseSource anItemsList : itemsList) {
             sourceManager.updateSource(anItemsList);
