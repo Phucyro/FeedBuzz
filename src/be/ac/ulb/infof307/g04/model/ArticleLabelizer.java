@@ -38,7 +38,7 @@ public class ArticleLabelizer {
         String res;
         try {
             res = labelize(_HTMLContent);
-        } catch (de.l3s.boilerpipe.BoilerpipeProcessingException ignore) {
+        } catch (de.l3s.boilerpipe.BoilerpipeProcessingException | RuntimeException ignore) {
             //Si une erreur est causee par Boilerpipe, le tag est laisse a "Default"
             res = "Default";
         }
@@ -47,12 +47,12 @@ public class ArticleLabelizer {
 
     /**
      * Method called once that open the json "wordlists.json" file and parse it into the word arrays
-     * @param parser is the JSON parser that is used to read the json file
+     * @param _parser is the JSON parser that is used to read the json file
      */
-    private static void parseJson(JSONParser parser) {
+    private static void parseJson(JSONParser _parser) {
         wordCountsEachCategory = new ArrayList<>();
         try{
-            Object objectParser = parser.parse(new FileReader(WORDLISTS_FILENAME));
+            Object objectParser = _parser.parse(new FileReader(WORDLISTS_FILENAME));
             JSONObject object = (JSONObject) objectParser;
             // iterate through the keys of the JSONObject
             for (Object o : object.keySet()) {
@@ -97,6 +97,9 @@ public class ArticleLabelizer {
      * to assign a score for each category (the most probable category based on the article content), then it tags the article with that category
      */
     private static String labelize(String _HTMLContent) throws de.l3s.boilerpipe.BoilerpipeProcessingException {
+        if (_HTMLContent.isEmpty()){
+            throw new RuntimeException("String to labelize is empty");
+        }
         int index;
         int wordsCount = 0;
         int mostProbableLabelIndex=0;
@@ -111,41 +114,40 @@ public class ArticleLabelizer {
         }
         doCalculations(wordsCount);
         mostProbableLabelIndex = findMostProbableLabel(mostProbableLabelIndex, scores);
-        System.out.println("Most probable category : "+ tags.get(mostProbableLabelIndex));
         return tags.get(mostProbableLabelIndex);
     }
 
     /**
      * Method that does the calculations related to finding the right label for the text
-     * @param wordsCount Is a variable that counts the relevant words
+     * @param _wordsCount Is a variable that counts the relevant words
      */
-    private static void doCalculations(int wordsCount) {
+    private static void doCalculations(int _wordsCount) {
         // sum up the square of each terms to normalize the vector sqrt(d1^2 + d2^2 + .. + dn^2)
         // the score is calculated with the cosine similarity for each category ( score = A1*B1 + A2*B2 + .. + An*Bn )
         for(int i = 0; i< bagOfWord.size(); i++){
-            wordsCount += Math.pow(histogramArticle[i], 2);
+            _wordsCount += Math.pow(histogramArticle[i], 2);
         }
         // apply the square root of the sum
         for(int i = 0; i< bagOfWord.size(); i++){
-            histogramArticle[i] = histogramArticle[i]/Math.sqrt(wordsCount);
+            histogramArticle[i] = histogramArticle[i]/Math.sqrt(_wordsCount);
         }
     }
 
     /**
-     * @param mostProbableLabelIndex is the index of the most probable label for a given text
-     * @param scores is the score of a given label
+     * @param _mostProbableLabelIndex is the index of the most probable label for a given text
+     * @param _scores is the score of a given label
      * @return the index of the label that is most probable for a given text
      */
-    private static int findMostProbableLabel(int mostProbableLabelIndex, double[] scores) {
+    private static int findMostProbableLabel(int _mostProbableLabelIndex, double[] _scores) {
         // the highest score is the most probable category
         for(int i = 0; i< tags.size(); i++){
             for(int j = 0; j< bagOfWord.size(); j++){
-                scores[i] += histogramArticle[j]* histogramTopics[i][j];
+                _scores[i] += histogramArticle[j]* histogramTopics[i][j];
             }
-            if(scores[i]>scores[mostProbableLabelIndex]){
-                mostProbableLabelIndex = i;
+            if(_scores[i]>_scores[_mostProbableLabelIndex]){
+                _mostProbableLabelIndex = i;
             }
         }
-        return mostProbableLabelIndex;
+        return _mostProbableLabelIndex;
     }
 }

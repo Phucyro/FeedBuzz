@@ -131,8 +131,7 @@ public class ViewSingleArticleController extends Application{
         primaryStage.setTitle(article.getTitle());
         tagsLabel.setText("Tags: " + article.getTags());
         if (Integer.toString(article.hashCode()).equals(article.getIntegrityHash())) {
-            integrityLabel.setText("Untampered article");
-            integrityCircle.setFill(Color.GREEN);
+            setIntegrityColorText("Untampered article", Color.LIGHTGREEN);
         } else {
             if (InternetTester.testInternet()){
                 if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")){
@@ -148,16 +147,24 @@ public class ViewSingleArticleController extends Application{
                         }
                     }
                 } else {
-                    integrityLabel.setText("Article should be redownloaded");
-                    integrityCircle.setFill(Color.ORANGE);
+                    setIntegrityColorText("Article should be redownloaded", Color.ORANGE);
                 }
             } else {
                 MessageBoxes.showErrorBox("The article has been tampered with. You are currently offline, it cannot be redownloaded :'<");
-                integrityLabel.setText("Tampered article");
-                integrityCircle.setFill(Color.RED);
+                setIntegrityColorText("Tampered article", Color.RED);
             }
         }
         updateLikeDislikeButton();
+    }
+
+    /**
+     * Change the text and color of the integrity label
+     * @param s is the string to set the integrity label to
+     * @param color is the color to set the integrity label to
+     */
+    private void setIntegrityColorText(String s, Color color) {
+        integrityLabel.setText(s);
+        integrityCircle.setFill(color);
     }
 
 
