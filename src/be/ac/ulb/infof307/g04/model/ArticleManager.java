@@ -119,8 +119,7 @@ public class ArticleManager{
 
     /**
      * search an article in the database
-     * @param _link
-     *          the _link of the article
+     * @param _link the _link of the article
      * @return found article
      */
     DatabaseArticle findArticle(String _link){
@@ -155,6 +154,11 @@ public class ArticleManager{
         return (result);
     }
 
+    /**
+     * Get the source of an article
+     * @param article the article of which we want the source
+     * @return source of the article
+     */
     public DatabaseSource getArticleSource(DatabaseArticle article) {
         return sourceManager.findSource(article.getSourceUrl());
     }
