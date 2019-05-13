@@ -40,7 +40,6 @@ import java.util.ArrayList;
 public class ArticleListController extends Application {
 
 
-    private static final String DEFAULT_ICON = "/be/ac/ulb/infof307/g04/pictures/Background_Presentation.jpg";
     private static ArticleManager articleManager;
     private static SourceManager source;
     private final String dbPath;
