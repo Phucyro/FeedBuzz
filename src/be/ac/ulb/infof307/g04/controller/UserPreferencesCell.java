@@ -2,15 +2,10 @@ package be.ac.ulb.infof307.g04.controller;
 
 import be.ac.ulb.infof307.g04.model.DatabaseSource;
 import be.ac.ulb.infof307.g04.model.DatabaseTag;
-import be.ac.ulb.infof307.g04.model.TagManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
 /**
  * Class SourceCell where a source cell is created
@@ -19,6 +14,7 @@ import javafx.stage.Stage;
 
 public class UserPreferencesCell extends ListCell<DatabaseTag>{
 
+    public static final int GAP_LENGTH = 6;
     private DatabaseTag item;
     private final GridPane gridPane = new GridPane();
     private final Label tagLabel = new Label();
@@ -60,13 +56,15 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
         if (!_empty && item != null) {
             tagLabel.setText(item.getName());
             initLabel();
-
             setText(null);
             setGraphic(content);
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }
 
+    /**
+     * initialize the label
+     */
     private void initLabel(){
         SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getUserPreference());
         tagImportance.setValueFactory(valueFactoryNumber);
@@ -79,17 +77,16 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
         initGridPaneConstraints();
         initGridPaneColumnConstraints();
         gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        setGridPaneHAndV(6);
+        setGridPaneHAndV();
         gridPane.getChildren().setAll(tagLabel, tagImportance);
     }
 
     /**
      * used to set the length of a vertical and horizontal gridPane
-     * @param length length of the vertical and horizontal gridPane
      */
-    private void setGridPaneHAndV(int length) {
-        gridPane.setVgap(length);
-        gridPane.setHgap(length);
+    private void setGridPaneHAndV() {
+        gridPane.setVgap(GAP_LENGTH);
+        gridPane.setHgap(GAP_LENGTH);
     }
 
     /**
@@ -132,6 +129,10 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
                 updateTag(newValue));
     }
 
+    /**
+     * update a tag
+     * @param _newValue new value of the tag
+     */
     private void updateTag(int _newValue){
         item.setUserPreference(_newValue);
 //        tagManager.

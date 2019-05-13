@@ -101,7 +101,7 @@ public class TagMenuController extends Application {
      * alert message when encoding problem
      */
     private void alertDialog() {
-        displayErrorWindow("Error!", "New tag name empty", "Please enter a name for the new tag");
+        MessageBoxes.showErrorBox("Please enter a name for the new tag");
     }
 
 
@@ -111,7 +111,7 @@ public class TagMenuController extends Application {
     @FXML
     public void modify() {
         if (tagsListview.getSelectionModel().getSelectedItem() == null) {
-            displayErrorWindow("Error!", "Selection error!", "No tag selected!");
+            MessageBoxes.showErrorBox("No tag selected!");
         } else {
             DatabaseTag oldTag = new DatabaseTag();
             DatabaseTag newTag = new DatabaseTag();
@@ -122,7 +122,7 @@ public class TagMenuController extends Application {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 newTag.setName(result.get());
-                tagManager.modifyTag(oldTag, newTag);
+                tagManager.modifyTag(newTag);
             } else {
                 alertDialog();
             }
@@ -136,7 +136,7 @@ public class TagMenuController extends Application {
     @FXML
     public void delete() {
         if (tagsListview.getSelectionModel().getSelectedItem() == null) {
-            displayErrorWindow("Error!", "Selection error!", "No tag selected!");
+            MessageBoxes.showErrorBox("No tag selected!");
         } else {
             try {
                 DatabaseTag tag = new DatabaseTag();
@@ -144,22 +144,9 @@ public class TagMenuController extends Application {
                 tagManager.deleteTag(tag);
                 initList();
             } catch (InvalidJsonDbApiUsageException e) {
-                displayErrorWindow("Error!", "Tag removal error!", "An error happened while deleting tag, please try again");
+                MessageBoxes.showErrorBox( "An error happened while deleting a tag, please try again");
             }
         }
     }
 
-    /**
-     * Cases where there might be an error
-     *
-     * @see Alert
-     */
-    private void displayErrorWindow(String _title, String _header, String _content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(_title);
-        alert.setHeaderText(_header);
-        alert.setContentText(
-                _content);
-        alert.showAndWait();
-    }
 }

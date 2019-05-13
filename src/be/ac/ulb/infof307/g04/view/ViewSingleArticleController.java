@@ -60,14 +60,14 @@ public class ViewSingleArticleController extends Application {
      * @param _article article to view
      *                 article that has to be viewed
      */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) {
+    ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) {
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
         timer = new Timer();
     }
 
-    public void setArticlesWindows(ArticleListController _articlesWindows) {
+    void setArticlesWindows(ArticleListController _articlesWindows) {
         articlesWindow = _articlesWindows;
     }
 
@@ -131,19 +131,7 @@ public class ViewSingleArticleController extends Application {
             setIntegrityColorText("Untampered article", Color.LIGHTGREEN);
         } else {
             if (InternetTester.testInternet()) {
-                if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")) {
-                    try {
-                        article = SourceManager.redownloadArticle(article, articleManager.getArticleSource(article));
-                        articleManager.upsertArticle(article);
-                        setFields();
-                    } catch (Exception e) {
-                        if (MessageBoxes.showConfirmationBox("Unable to redownload article, would you like to delete it?")) {
-                            deleteArticle();
-                        }
-                    }
-                } else {
-                    setIntegrityColorText("Article should be redownloaded", Color.ORANGE);
-                }
+                manageInternetConnection();
             } else {
                 MessageBoxes.showErrorBox("The article has been tampered with. You are currently offline, it cannot be redownloaded :'<");
                 setIntegrityColorText("Tampered article", Color.RED);
@@ -153,8 +141,33 @@ public class ViewSingleArticleController extends Application {
     }
 
     /**
+     * manage the case when there is no internet while setting the fields
+     */
+    private void manageInternetConnection() {
+        if (MessageBoxes.showConfirmationBox("Article is tampered with, do you want to redownload it?")) {
+            manageTamperedArticle();
+        } else {
+            setIntegrityColorText("Article should be redownloaded", Color.ORANGE);
+        }
+    }
+
+    /**
+     * manage the case when the article is tampered
+     */
+    private void manageTamperedArticle() {
+        try {
+            article = SourceManager.redownloadArticle(article, articleManager.getArticleSource(article));
+            articleManager.upsertArticle(article);
+            setFields();
+        } catch (Exception e) {
+            if (MessageBoxes.showConfirmationBox("Unable to redownload article, would you like to delete it?")) {
+                deleteArticle();
+            }
+        }
+    }
+
+    /**
      * Change the text and color of the integrity label
-     *
      * @param s     is the string to set the integrity label to
      * @param color is the color to set the integrity label to
      */
@@ -172,6 +185,9 @@ public class ViewSingleArticleController extends Application {
         deleteArticle();
     }
 
+    /**
+     * delete an article
+     */
     private void deleteArticle() {
         articleManager.deleteArticle(article);
         articlesWindow.displayArticles(articleManager.loadArticles());
@@ -180,6 +196,9 @@ public class ViewSingleArticleController extends Application {
         stage.close();
     }
 
+    /**
+     * update the button design
+     */
     @FXML
     private void updateLikeDislikeButton() {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
@@ -194,6 +213,9 @@ public class ViewSingleArticleController extends Application {
         }
     }
 
+    /**
+     * method called when the dislike button is pressed
+     */
     @FXML
     public void dislikeButtonPressed() {
         if (article.getLikeState() == ArticleManager.DISLIKED) {
@@ -204,6 +226,9 @@ public class ViewSingleArticleController extends Application {
         updateLikeDislikeButton();
     }
 
+    /**
+     * method called when the like button is pressed
+     */
     @FXML
     public void likeButtonPressed() {
         if (article.getLikeState() == ArticleManager.LIKED) {

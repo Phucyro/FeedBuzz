@@ -41,21 +41,6 @@ public class UserManager {
         jsonDBTemplate.createCollection(DatabaseUser.class);
     }
 
-    /**
-     * @param _username username of the user that will be deleted
-     * @return inform if the user has been deleted
-     */
-    public boolean deleteUser(String _username) {
-        DatabaseUser user = findUserByUsername(_username);
-
-        try {
-            this.jsonDBTemplate.remove(user, DatabaseUser.class);
-            return true;
-        } catch (InvalidJsonDbApiUsageException e) {
-            return false;
-        }
-    }
-
 
     /**
      * @param _username username to add

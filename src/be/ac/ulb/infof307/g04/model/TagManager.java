@@ -31,7 +31,6 @@ public class TagManager {
     public TagManager(String _databasePath, String _password) {
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
-
         try {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
@@ -39,7 +38,6 @@ public class TagManager {
         } catch (Exception e) {
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
-
         if (!this.jsonDBTemplate.collectionExists(DatabaseTag.class)) {
             createCollection();
         }
@@ -80,22 +78,14 @@ public class TagManager {
     /**
      * Modify a _tag from the database with an other
      *
-     * @param _tag    the _tag that will be modified
      * @param _newTag the _tag that will replace the original _tag
      */
-    public void modifyTag(DatabaseTag _tag, DatabaseTag _newTag) {
+    public void modifyTag(Object _newTag) {
         try {
             this.jsonDBTemplate.upsert(_newTag);
         } catch (InvalidJsonDbApiUsageException ignored) {
         }
-        /*try {
-            update("name", _tag.getName(), _newTag.getName(), DatabaseTag.class);
-            update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
-            update("category", _tag.getName(), _newTag.getName(), DatabaseArticle.class);
-            deleteTag(_tag);
-        } catch (InvalidJsonDbApiUsageException e) {
-            deleteTag(_tag);
-        }*/
+
     }
 
     /**
@@ -129,7 +119,7 @@ public class TagManager {
     /**
      * Edit score if the last actualisation date was longer than 1 day
      */
-    public void actualizeScore() {
+    private void actualizeScore() {
         Date current_date = new Date();
         ArrayList<DatabaseTag> tags_list = getAll();
         for (DatabaseTag checkedTag : tags_list) {

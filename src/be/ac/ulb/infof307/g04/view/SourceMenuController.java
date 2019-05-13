@@ -35,12 +35,10 @@ public class SourceMenuController extends Application {
         dbPassword = _password;
         sourceManager = new SourceManager(_dbPath, _password);
     }
-
+    /**
+     * Constructor of the Menu
+     */
     public void initialize() {
-        /*
-          Constructor of the Menu
-          @throws IOException : if there's no source
-         */
         listViewSources.setCellFactory(lv -> new SourceCell(dbPath, dbPassword));
         displaySources(sourceManager.loadSources());
     }
@@ -73,7 +71,7 @@ public class SourceMenuController extends Application {
     /**
      * @param _sources list of all the sources
      */
-    public void displaySources(ArrayList<DatabaseSource> _sources) {
+    private void displaySources(ArrayList<DatabaseSource> _sources) {
         /*
         show all the _sources
          */

@@ -45,12 +45,7 @@ public class ParserRss {
 
         if (InternetTester.testInternet()) {
             atom = false;
-
-            URL url;
-
-            url = new URL(_urlName);
-
-
+            URL url = new URL(_urlName);
             getXmlFile(url);
             checkAtom();
             return parseArticles();
@@ -113,7 +108,6 @@ public class ParserRss {
 
         NodeList entryList;
         ArrayList<DatabaseArticle> articles = new ArrayList<>();
-
         if (atom) {
             entryList = getNodeList("feed", "entry");
         } else {

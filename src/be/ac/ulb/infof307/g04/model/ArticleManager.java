@@ -36,7 +36,6 @@ public class ArticleManager {
         sourceManager = new SourceManager(_databasePath, _password);
         String baseScanPackage = "be.ac.ulb.infof307.g04.model";
         this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
-
         try {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);

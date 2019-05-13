@@ -55,6 +55,14 @@ public class LoginRegisterController extends Application {
         Stage userAgreementView = new Stage();
         userAgreementView.setTitle("User agreement and services terms");
 
+        Scene scene = initScene();
+
+        userAgreementView.setScene(scene);
+        userAgreementLink.setOnAction(e -> userAgreementView.show());
+
+    }
+
+    private Scene initScene() {
         VBox labelContainer = new VBox();
         Label pageTitle = new Label("Here are the conditions the user have to comply to in order to use our software:");
         Label pageText = new Label("-Do not modify any data of the app or the app folder\n" +
@@ -67,12 +75,7 @@ public class LoginRegisterController extends Application {
         labelContainer.setSpacing(30);
         labelContainer.getChildren().addAll(pageTitle, pageText);
         labelContainer.setAlignment(Pos.TOP_CENTER);
-
-        Scene scene = new Scene(labelContainer, 500, 200);
-
-        userAgreementView.setScene(scene);
-        userAgreementLink.setOnAction(e -> userAgreementView.show());
-
+        return new Scene(labelContainer, 500, 200);
     }
 
     /**
@@ -122,11 +125,7 @@ public class LoginRegisterController extends Application {
     public boolean loginInputsValid(String _usernameStr, String _passwordStr) {
         if (_usernameStr.length() != 14 || !_passwordStr.isEmpty()) {
             return true;
-        }
-        /*if (!_usernameStr.isEmpty() && !_passwordStr.isEmpty()) {
-            return true;
-        }*/
-        else {
+        } else {
             setWarningAndDisplay(loginWarning, "Les champs ne peuvent etre vides");
             return false;
         }
@@ -141,7 +140,6 @@ public class LoginRegisterController extends Application {
      * @param _confirmPasswordStr the confirmation password
      */
     public boolean registerInputsValid(String _usernameStr, String _passwordStr, String _confirmPasswordStr) {
-        // on peut se connecter directement en cliquant sur connecter apres avoir register un user, temporaire pour faciliter la tache
         if (_usernameStr.length() >= MIN_CHARACTERS && _usernameStr.length() <= MAX_CHARACTERS) {
             if (_passwordStr.length() >= MIN_CHARACTERS && _passwordStr.length() <= MAX_CHARACTERS) {
                 if (_passwordStr.equals(_confirmPasswordStr)) {
@@ -155,9 +153,7 @@ public class LoginRegisterController extends Application {
         } else {
             setWarningAndDisplay(registerWarning, "Le nom d'utilisateur doit etre compris entre 5-17 caractères et seuls ces caracteres speciaux sont autorisés : '-_$/'");
         }
-
         return false;
-
     }
 
 
@@ -168,13 +164,13 @@ public class LoginRegisterController extends Application {
             setWarningAndDisplay(registerWarning, "Vous devez accepter les termes d'utilisation pour vous inscrire");
             return false;
         }
-
     }
 
 
     /**
      * Try to connect the user
      */
+    @FXML
     public void connectButtonPressed() throws java.io.IOException {
         loginWarning.setVisible(false);
         String username = loginUsername.getText();
@@ -194,6 +190,7 @@ public class LoginRegisterController extends Application {
     /**
      * Try to register the user
      */
+    @FXML
     public void registerButtonPressed() throws IOException {
         registerWarning.setVisible(false);
         String username = registerUsername.getText();

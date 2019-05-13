@@ -58,7 +58,7 @@ class TagManagerTest {
         tagManager.addTag(tag);
         DatabaseTag modify_tag = new DatabaseTag();
         modify_tag.setName(TAG_2);
-        tagManager.modifyTag(tag, modify_tag);
+        tagManager.modifyTag(modify_tag);
         assertEquals(1, tagManager.getAll().size() );
         assertEquals(modify_tag.getName(), tagManager.getAll().get(0).getName());
     }
