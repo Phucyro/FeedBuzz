@@ -208,6 +208,10 @@ public class HTMLArticleDownloader {
 
     /**
      * overload of downloader
+     * @param _url url of the article
+     * @param _folderName name of the folder of the article
+     * @return html content
+     * @throws IOException exception to handle the opening of files
      */
     private static String downloader(String _url, String _folderName) throws IOException {
         return downloader(_url, _folderName, null);

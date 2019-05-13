@@ -29,6 +29,9 @@ public class ParserRss {
     private boolean atom;
     private String updated;
 
+    /**
+     * Constructor of Parser Rss
+     */
     public ParserRss() {}
 
     /**
