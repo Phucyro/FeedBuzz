@@ -292,7 +292,6 @@ public class ArticleListController extends Application {
     private void initButtonSuggested(ArrayList<DatabaseArticle> _suggestedArticlesList, ArrayList<Button> _buttonList) {
         for (int j = 0; j < _buttonList.size(); j++) {
             DatabaseArticle articleToButton = _suggestedArticlesList.get(j);
-            System.out.println(_suggestedArticlesList.get(j).getTitle());
             _buttonList.get(j).setOnAction(event -> {
                 openArticleWindow(articleToButton);
             });

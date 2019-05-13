@@ -62,9 +62,8 @@ public class SourceManager {
     }
 
     private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
-        _articleToSave.setDaysToSave(_source.getLifeSpan());
+        _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
 
-        System.out.println("Downloading article");
         _articleToSave.setDownloadDate(new Date());
         _articleToSave.setSourceUrl(_source.getUrl());
         _articleToSave.setTags(_source.getTag());
@@ -72,7 +71,6 @@ public class SourceManager {
         _articleToSave.setTags(ArticleLabelizer.labelizeArticle(HTMLContent));
         _articleToSave.setHtmlContent(HTMLContent);
         _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
-        System.out.println("Downloaded");
     }
 
     private void createCollection() {
@@ -120,16 +118,13 @@ public class SourceManager {
         ArrayList<DatabaseSource> sources = loadSources();
         for (DatabaseSource source : sources) {
             if (source.isEnabled()) {
-                System.out.println(source.getSourceName());
-                int counter = source.getArticlesToDownload();
+                int counter = source.getNumberToDownload();
                 ArrayList<DatabaseArticle> articles = source_parser.parse(source.getUrl());
                 for (DatabaseArticle articleToSave : articles) {
                     if (counter-- > 0) {
                         if (_articleManager.findArticle(articleToSave.getLink()) == null) {
                             setArticleToSave(source, articleToSave);
                             _articleManager.addArticle(articleToSave);
-                        } else {
-                            System.out.println("Existing article");
                         }
                     }
                 }
