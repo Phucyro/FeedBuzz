@@ -77,7 +77,7 @@ public class ParserRss {
      * download the xml file of the rss feed
      *
      * @param _url _url of the feed
-     * @see <a href=" https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
+     * @see <a href="https://www.programcreek.com/java-api-examples/?class=javax.xml.parsers.DocumentBuilder&method=parse">source</a>
      */
     private void getXmlFile(URL _url) throws ParserConfigurationException, IOException, SAXException {
 

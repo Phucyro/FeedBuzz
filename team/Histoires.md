@@ -46,11 +46,21 @@ Un point correspond à une heure de travail par binôme (approximatif). Par ité
 - _Pas de question._
 
 **Choix d'implémentations:**
-- Les articles sont affichés les uns à la suite des autres.
-- Chaque "cellule" d'article est composée : d'une image/gif, du titre, d'un tag et de la source.
-- Avant de pouvoir ouvrir un article, il faut le sélectionner en cliquant dessus et ensuite on peut le lire.
-- De même pour copier le lien d'un article, il faut le sélectionner avant.
-- Affichage d'autres options dans la fenêtre principale (aide, configurations, etc...).
+<ul>
+<li>Les articles sont affichés les uns à la suite des autres.</li>
+<li>Chaque "cellule" d'article est composée : d'une image/gif, du titre, d'un tag et de la source.</li>
+<li>Avant de pouvoir ouvrir un article, il faut le sélectionner en cliquant dessus et ensuite on peut le lire.</li>
+<li>De même pour copier le lien d'un article, il faut le sélectionner avant.</li>
+<li>Affichage d'autres options dans la fenêtre principale (aide, configurations, etc...).</li>
+<li>Choix des recommandations 
+    <ul>
+        <li>100 points pour un like</li>
+        <li>Chaque seconde passée sur un article ajoute 1 points</li>
+        <li>20 points pour une vue</li>
+        <li>Chaque jour retire 5% des points à toutes les catégories (afin que les recommandations évoluent au cours du temps)</li>
+    </ul>
+</li>
+</ul>
 
 ### Récupération des articles à partir des sources extérieures
 

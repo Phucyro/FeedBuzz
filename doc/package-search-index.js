@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"be.ac.ulb.infof307.g04"},{"l":"be.ac.ulb.infof307.g04.controller"},{"l":"be.ac.ulb.infof307.g04.model"}];
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"be.ac.ulb.infof307.g04"},{"l":"be.ac.ulb.infof307.g04.controller"},{"l":"be.ac.ulb.infof307.g04.model"},{"l":"be.ac.ulb.infof307.g04.view"}]

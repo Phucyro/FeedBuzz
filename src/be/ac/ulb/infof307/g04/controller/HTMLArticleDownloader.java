@@ -47,7 +47,7 @@ public class HTMLArticleDownloader {
 
 
     /**
-     * <a href>https://stackoverflow.com/questions/4852531/find-files-in-a-folder-using-java</a>
+     * <a href="https://stackoverflow.com/questions/4852531/find-files-in-a-folder-using-java">source</a>
      *
      * @param _articleLink link of the article to get icon from
      * @return uri of the file that contains the icon
