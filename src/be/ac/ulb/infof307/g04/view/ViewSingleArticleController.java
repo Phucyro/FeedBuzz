@@ -1,6 +1,7 @@
 package be.ac.ulb.infof307.g04.view;
 
 import be.ac.ulb.infof307.g04.controller.InternetTester;
+import be.ac.ulb.infof307.g04.model.ArticleLabelizer;
 import be.ac.ulb.infof307.g04.model.ArticleManager;
 import be.ac.ulb.infof307.g04.model.DatabaseArticle;
 import be.ac.ulb.infof307.g04.model.SourceManager;
@@ -60,14 +61,11 @@ public class ViewSingleArticleController extends Application{
       *@param _article article to view
       *article that has to be viewed
       */
-    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword) throws de.l3s.boilerpipe.BoilerpipeProcessingException{
+    public ViewSingleArticleController(DatabaseArticle _article, String _dbPath, String _dbPassword){
         articleManager = new ArticleManager(_dbPath, _dbPassword);
         article = _article;
         articleManager.openArticle(_article);
-        ArticleLabelizer mk = new ArticleLabelizer(article);
-        mk.labelize();
         timer = new Timer();
-        setFields();
     }
 
     public void setArticlesWindows(ArticleListController _articlesWindows) {
@@ -81,8 +79,12 @@ public class ViewSingleArticleController extends Application{
     @Override
     public void start(Stage _primaryStage) {
         primaryStage = _primaryStage;
-        _primaryStage.setOnHidden(e -> stop());
-        _primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> windowActive = newValue);
+        primaryStage.setOnHidden(e -> stop());
+        primaryStage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            windowActive = newValue;
+        });
+        setFields();
+        startTimer();
     }
 
     @Override
@@ -105,8 +107,6 @@ public class ViewSingleArticleController extends Application{
             htmlFile = article.getHtmlContent();
         }
         articleView.getEngine().loadContent(htmlFile);
-
-        startTimer();
     }
 
     private void startTimer() {
@@ -117,6 +117,7 @@ public class ViewSingleArticleController extends Application{
                 if (windowActive) {
                     articleManager.addTimeWatched(article, 1);
                 }
+                System.out.println("After if");
             }
         };
         timer.schedule(task,0,1000);

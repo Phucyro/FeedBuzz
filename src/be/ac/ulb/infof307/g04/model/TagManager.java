@@ -7,7 +7,11 @@ import io.jsondb.crypto.DefaultAESCBCCipher;
 import io.jsondb.crypto.ICipher;
 import io.jsondb.query.Update;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class TagManger to handle all the tags stored in the database (or even create new ones)
@@ -18,7 +22,9 @@ public class TagManager {
     private static final int LIKEWEIGHT = 1;
     private static final int SECWEIGHT = 1;
     private static final int VIEWWEIGHT = 1;
+    private static final int DAYWEIGHT = 1;
     private JsonDBTemplate jsonDBTemplate;
+
 
     /**
      * @param _databasePath
@@ -55,6 +61,7 @@ public class TagManager {
      */
     public void addTag(DatabaseTag _tag){
         try {
+            _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
         } catch (InvalidJsonDbApiUsageException e){
         }
@@ -119,6 +126,31 @@ public class TagManager {
             jsonDBTemplate.upsert(toEdit);
         }
     }
+    
+    /**
+     * edit score if the last actualisation date was longer than 
+     */
+    public void actualizeScore() {
+        Date current_date = new Date();
+        DatabaseTag checkTime = getTag("Health"); //TODO utiliser un autre mecanisme pour avoir la derniere valeur
+        Date verifyDate = checkTime.getLastActualisationDate();
+
+        long diff = current_date.getTime() - verifyDate.getTime();
+        int diffDays =  (int) (diff/(24 * 60 * 60 * 1000));
+        if (diffDays >= 1 ) {
+            ArrayList<DatabaseTag> tags_list = getAll();
+            for ( DatabaseTag toEdit : tags_list){
+                if (toEdit != null){
+                    float current_score = toEdit.getScore();
+                    current_score -= (current_score/100)*(DAYWEIGHT*diff);
+                    toEdit.setScore(current_score);
+                    jsonDBTemplate.upsert(toEdit);
+                }
+
+                toEdit.setLastActualisationDate(current_date);
+            }
+        }
+    }
 
     /**
      * get a tag of the database from his name
@@ -154,7 +186,7 @@ public class TagManager {
      */
     public String getBest(){
         String best = "";
-        int maxValue = -1;
+        float maxValue = -1;
         for(DatabaseTag tag: getAll()){
             if (tag.getScore() > maxValue){
                 maxValue = tag.getScore();

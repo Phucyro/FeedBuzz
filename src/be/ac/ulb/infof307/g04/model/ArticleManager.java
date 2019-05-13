@@ -46,6 +46,7 @@ public class ArticleManager{
             createCollection();
         }
         deleteExpired();
+        tagManager.actualizeScore();
 
     }
 
@@ -98,7 +99,7 @@ public class ArticleManager{
      * upsert an article in the database
      * @param _article article to upsert
      */
-    private void upsertArticle(DatabaseArticle _article){
+    public void upsertArticle(DatabaseArticle _article){
         try {
             this.jsonDBTemplate.upsert(_article);
         } catch (InvalidJsonDbApiUsageException e){
@@ -107,8 +108,7 @@ public class ArticleManager{
 
     /**
      * Add an _article from the database
-     * @param _article
-     *              _article the will be added
+     * @param _article the article that will be added
      */
     public void addArticle(DatabaseArticle _article) {
         DatabaseArticle dbArticle = _article;

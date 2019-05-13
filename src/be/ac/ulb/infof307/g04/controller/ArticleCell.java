@@ -40,13 +40,15 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      * @see AnchorPane
      */
     public ArticleCell() {
-
         initIcon();
         initLabels();
         setAnchorPane();
         content.getChildren().add(gridPane);
     }
 
+    /**
+     * Set the display of the icon of the article
+     */
     private void initIcon() {
         articleIcon.setFitWidth(75);
         articleIcon.setPreserveRatio(true);
@@ -54,6 +56,9 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         GridPane.setValignment(articleIcon, VPos.TOP);
     }
 
+    /**
+     * Set the display for the title, the icon, tags and the link of the article
+     */
     private void initLabels() {
         titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 1em;");
         GridPane.setConstraints(titleLabel, 1, 0);
@@ -65,9 +70,10 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         gridPane.getChildren().setAll(articleIcon, titleLabel, tagLabel, linkLabel);
     }
 
-
     /**
      * Function called when an item is modified
+     * @param item represents an article
+     * @param _empty verify if there's something to update or not
      */
     @Override
     protected void updateItem(DatabaseArticle item, boolean _empty){
@@ -86,18 +92,30 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         }
     }
 
+    /**
+     * Set the title, tags and link for an article
+     * @param _item represents an article in the database
+     */
     private void setLabels(DatabaseArticle _item) {
         titleLabel.setText(_item.getTitle());
         tagLabel.setText("Tags: "+ _item.getTags()); // show tags
         linkLabel.setText(_item.getLink());
     }
 
+    /**
+     * Set the icon
+     * @param _item represents an article in the database
+     */
     private void setImage(DatabaseArticle _item) {
         Image icon;
         icon = new Image(HTMLArticleDownloader.getIconUrl(_item.getLink()));
         articleIcon.setImage(icon);
     }
 
+    /**
+     * Allows us to click on the article that we want
+     * @param _item represents an article
+     */
     private void initActionLabel(DatabaseArticle _item) {
         linkLabel.setOnAction(e -> {
             if (java.awt.Desktop.isDesktopSupported()) {
@@ -113,10 +131,9 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
 
     /**
      * Function called to create a popup that only shows when the mouse is over
-     * @param _item item to show
+     * @param _item represents an article
      */
     private void popupOverArticle(DatabaseArticle _item) {
-
         String summaryText = "";
         if (_item.getDescription() != null) {
             summaryText = htmlToPlain(_item.getDescription());
@@ -134,7 +151,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         StackPane previewPane = makeSummaryPane();
         Popup popup = makePreviewPopup(_summary, previewPane);
         showsWhenMouseOver(_articlePane, previewPane, popup);
-
     }
 
     /**
@@ -165,7 +181,6 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      * @return Popup
      */
     private Popup makePreviewPopup(String _summary, StackPane _previewPane) {
-
         TextArea resume = new TextArea(_summary);
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -183,20 +198,16 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         return popup;
     }
 
-
     /**
      * Function called to create the previewPane
      * @return Stackpane
      */
     private StackPane makeSummaryPane() {
-
         StackPane previewPane = new StackPane();
         previewPane.setPrefSize(200, 200);
         previewPane.setStyle("-fx-font-style: italic");
         return previewPane;
     }
-
-
 
     /**
      * get the plain text of a html string
@@ -215,11 +226,19 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
         setGridPaneColumnConstraints();
         setGridPaneColumnConstraints();
         setGridPaneColumnConstraints();
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
-        gridPane.setHgap(6);
-        gridPane.setVgap(6);
+        setGridPaneRowConstraints();
+        setGridPaneRowConstraints();
+        setGridPaneHAndV(6);
 
+    }
+
+    /**
+     * used to set the length of a vertical and horizontal gridPane
+     * @param length length of the vertical and horizontal gridPane
+     */
+    private void setGridPaneHAndV(int length) {
+        gridPane.setVgap(length);
+        gridPane.setHgap(length);
     }
 
     /**
@@ -227,6 +246,14 @@ public class ArticleCell extends ListCell<DatabaseArticle> {
      */
     private void setGridPaneColumnConstraints() {
         gridPane.getColumnConstraints().add(new ColumnConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, HPos.LEFT, true));
+    }
+
+
+    /**
+     * Initialize Gridpane row constraints
+     */
+    private void setGridPaneRowConstraints(){
+        gridPane.getRowConstraints().add(new RowConstraints(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE, Priority.NEVER, VPos.CENTER, true));
     }
 
     /**

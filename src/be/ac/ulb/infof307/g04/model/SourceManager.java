@@ -95,12 +95,14 @@ public class SourceManager {
 
     private static void setArticleToSave(DatabaseSource _source, DatabaseArticle _articleToSave) throws IOException {
         _articleToSave.setDaysToSave(_source.getLifeSpanDefault());
-        _articleToSave.setCategory(_source.getTag()); //TODO change with article labelizer
+
+        System.out.println("Downloading article");
         _articleToSave.setDownloadDate(new Date());
         _articleToSave.setSourceUrl(_source.getUrl());
         _articleToSave.setTags(_source.getTag());
-        System.out.println("Downloading article");
-        _articleToSave.setHtmlContent(HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription()));
+        String HTMLContent = HTMLArticleDownloader.ArticleLocalifier(_articleToSave.getLink(), _articleToSave.getDescription());
+        _articleToSave.setTags(ArticleLabelizer.labeLizeArticle(HTMLContent));
+        _articleToSave.setHtmlContent(HTMLContent);
         _articleToSave.setIntegrityHash(Integer.toString(_articleToSave.hashCode()));
         System.out.println("Downloaded");
     }
