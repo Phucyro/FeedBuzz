@@ -16,11 +16,11 @@ import java.util.Date;
  * @see DatabaseTag
  */
 public class TagManager {
-    private static final int DISLIKEWEIGHT = -1;
-    private static final int LIKEWEIGHT = 1;
-    private static final int SECWEIGHT = 1;
-    private static final int VIEWWEIGHT = 1;
-    private static final int DAYWEIGHT = 1;
+    private static final int DISLIKE_WEIGHT = -100;
+    private static final int LIKE_WEIGHT = 100;
+    private static final int SEC_WEIGHT = 1;
+    private static final int VIEW_WEIGHT = 20;
+    private static final int DAY_WEIGHT = 5;
     private JsonDBTemplate jsonDBTemplate;
 
 
@@ -127,7 +127,7 @@ public class TagManager {
             int diffDays = (int) (diff / (24 * 60 * 60 * 1000));
             if (diffDays >= 1) {
                 float current_score = checkedTag.getScore();
-                current_score = Math.max(current_score - ((current_score / 100) * (DAYWEIGHT * diffDays)), 0);
+                current_score = Math.max(current_score - ((current_score / 100) * (DAY_WEIGHT * diffDays)), 0);
                 checkedTag.setScore(current_score);
                 checkedTag.setLastActualisationDate(current_date);
                 jsonDBTemplate.upsert(checkedTag);
@@ -189,7 +189,7 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void removeDislike(String _tag) {
-        editScore(_tag, -DISLIKEWEIGHT);
+        editScore(_tag, -DISLIKE_WEIGHT);
     }
 
     /**
@@ -198,7 +198,7 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void addDislike(String _tag) {
-        editScore(_tag, DISLIKEWEIGHT);
+        editScore(_tag, DISLIKE_WEIGHT);
     }
 
     /**
@@ -207,7 +207,7 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void removeLike(String _tag) {
-        editScore(_tag, -LIKEWEIGHT);
+        editScore(_tag, -LIKE_WEIGHT);
     }
 
     /**
@@ -216,7 +216,7 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void addLike(String _tag) {
-        editScore(_tag, LIKEWEIGHT);
+        editScore(_tag, LIKE_WEIGHT);
     }
 
     /**
@@ -225,7 +225,7 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void addTime(String _tag, int sec) {
-        editScore(_tag, sec * SECWEIGHT);
+        editScore(_tag, sec * SEC_WEIGHT);
     }
 
     /**
@@ -234,6 +234,6 @@ public class TagManager {
      * @param _tag tag to apply the action to
      */
     void addView(String _tag) {
-        editScore(_tag, VIEWWEIGHT);
+        editScore(_tag, VIEW_WEIGHT);
     }
 }
