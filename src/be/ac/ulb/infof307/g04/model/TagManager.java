@@ -36,7 +36,7 @@ public class TagManager {
             String base64EncodedKey = CryptoUtil.generate128BitKey(_password, _password);
             ICipher newCipher = new DefaultAESCBCCipher(base64EncodedKey);
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage, newCipher);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.jsonDBTemplate = new JsonDBTemplate(_databasePath, baseScanPackage);
         }
 
@@ -56,11 +56,11 @@ public class TagManager {
      * @param _tag _tag that will be added to the database
      * @return boolean to inform if the _tag has been added
      */
-    public void addTag(DatabaseTag _tag){
+    public void addTag(DatabaseTag _tag) {
         try {
             _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
-        } catch (InvalidJsonDbApiUsageException ignored){
+        } catch (InvalidJsonDbApiUsageException ignored) {
         }
     }
 
@@ -88,7 +88,7 @@ public class TagManager {
             update("_tag", _tag.getName(), _newTag.getName(), DatabaseSource.class);
             update("category", _tag.getName(), _newTag.getName(), DatabaseArticle.class);
             deleteTag(_tag);
-        } catch(InvalidJsonDbApiUsageException e){
+        } catch (InvalidJsonDbApiUsageException e) {
             deleteTag(_tag);
         }
     }

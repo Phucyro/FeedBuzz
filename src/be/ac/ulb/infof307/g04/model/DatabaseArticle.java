@@ -42,12 +42,14 @@ public class DatabaseArticle implements Serializable {
     private String integrityHash;
 
     /**
-     *Constructor of Database Article
+     * Constructor of Database Article
      */
-    public DatabaseArticle() {}
+    public DatabaseArticle() {
+    }
 
     /**
-     *Constructor of Database Article
+     * Constructor of Database Article
+     *
      * @param _item article in the database
      */
     public DatabaseArticle(DatabaseArticle _item) {
@@ -199,6 +201,7 @@ public class DatabaseArticle implements Serializable {
 
     /**
      * Tests if an article is outdated (based on his download date and the days to save the article)
+     *
      * @return boolean if an article has to be deleted
      * @see Date
      */
@@ -232,8 +235,7 @@ public class DatabaseArticle implements Serializable {
     }
 
     /**
-     *
-     * @param hash hash of an article
+     * @param hash      hash of an article
      * @param attribute an element that will be added to the hash
      * @return the hash of an article
      */
