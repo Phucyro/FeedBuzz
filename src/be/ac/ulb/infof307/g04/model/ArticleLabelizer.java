@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Class ArticleLabeliseur, used to associate a label to an article to use a recommandation system
  */
 
-public class ArticleLabelizer {
+class ArticleLabelizer {
     private static final String WORDLISTS_FILENAME = "src/be/ac/ulb/infof307/g04/model/wordlists.json";
     private static ArrayList<String> bagOfWord = new ArrayList<String>();
     private static ArrayList<String> tags = new ArrayList<>();

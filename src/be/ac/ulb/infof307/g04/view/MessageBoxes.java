@@ -10,7 +10,7 @@ public class MessageBoxes {
      *
      * @param _errorMessage the error message to print
      */
-    public static void showErrorBox(String _errorMessage) {
+    static void showErrorBox(String _errorMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);

@@ -52,9 +52,8 @@ public class TagManager {
      * Add a _tag to the database
      *
      * @param _tag _tag that will be added to the database
-     * @return boolean to inform if the _tag has been added
      */
-    public void addTag(DatabaseTag _tag) {
+    void addTag(DatabaseTag _tag) {
         try {
             _tag.setLastActualisationDate(new Date());
             jsonDBTemplate.insert(_tag);
@@ -66,9 +65,8 @@ public class TagManager {
      * Delete a _tag from the database
      *
      * @param _tag _tag that will be removed from the database
-     * @return boolean to inform if the _tag has been deleted
      */
-    public void deleteTag(DatabaseTag _tag) throws InvalidJsonDbApiUsageException {
+    void deleteTag(DatabaseTag _tag) throws InvalidJsonDbApiUsageException {
         jsonDBTemplate.remove(_tag, DatabaseTag.class);
         update("_tag", _tag.getName(), "Default", DatabaseSource.class);
         update("category", _tag.getName(), "Default", DatabaseArticle.class);
