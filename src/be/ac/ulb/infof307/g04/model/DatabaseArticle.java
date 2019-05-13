@@ -19,7 +19,7 @@ public class DatabaseArticle implements Serializable {
     private String link;
     private Date publishedDate;
     private Date updatedDate;
-
+    @Secret
     private String title;
     @Secret
     private String description;
