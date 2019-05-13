@@ -23,7 +23,8 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
     private final GridPane gridPane = new GridPane();
     private final Label tagLabel = new Label();
     private final AnchorPane content = new AnchorPane();
-    private final Spinner<Integer> tagImportance = new Spinner<>();
+    //private final Spinner<Integer> tagImportance = new Spinner<>();
+    private final Slider tagImportance = new Slider();
     private final String dbPath;
     private final String dbPassword;
 
@@ -68,8 +69,17 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
     }
 
     private void initLabel(){
-        SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getUserPreference());
-        tagImportance.setValueFactory(valueFactoryNumber);
+        //SpinnerValueFactory<Integer> valueFactoryNumber = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, item.getUserPreference());
+        //tagImportance.setValueFactory(valueFactoryNumber);
+        tagImportance.setMin(0);
+        tagImportance.setMax(99);
+        tagImportance.setValue(item.getUserPreference());
+        tagImportance.setShowTickLabels(true);
+        tagImportance.setShowTickMarks(true);
+        tagImportance.setMajorTickUnit(50);
+        tagImportance.setMinorTickCount(5);
+        tagImportance.setMajorTickUnit(10);
+        tagImportance.setBlockIncrement(10);
     }
 
     /**
@@ -129,11 +139,10 @@ public class UserPreferencesCell extends ListCell<DatabaseTag>{
     private void tagListener(){
         //listener that reacts when the left spinner value (number of articles to load) is modified
         tagImportance.valueProperty().addListener((obs, oldValue, newValue) ->
-                updateTag(newValue));
+                updateTag(newValue.intValue()+1));
     }
 
     private void updateTag(int _newValue){
         item.setUserPreference(_newValue);
-//        tagManager.
     }
 }
